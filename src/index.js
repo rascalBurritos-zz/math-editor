@@ -9,6 +9,13 @@ import "./styles/fonts.css";
 var mathList = [
         { type: "Ordinary", unicode: "70" },
         {
+            type: "Binary",
+            extension: "Extended",
+            desiredSize: 500,
+            direction: "vertical",
+            unicode: "8747"
+        },
+        {
             type: "Script",
             nucleus: {
                 type: "Ordinary",
@@ -20,8 +27,8 @@ var mathList = [
                     unicode: "72"
                 },
                 {
-                    type:'Binary',
-                    unicode: '43'
+                    type: "Binary",
+                    unicode: "43"
                 },
                 {
                     type: "Ordinary",
@@ -39,7 +46,7 @@ var mathList = [
         { type: "Ordinary", unicode: "65" },
         { type: "Relation", unicode: "66" },
         { type: "Ordinary", unicode: "67" },
-        { type: "Binary", unicode: "68" },
+        { type: "Binary", unicode: "68" }
     ],
     fontData = fontFactory(AsanaFontTables),
     baseStyle = new MathStyle("D", 30, false);

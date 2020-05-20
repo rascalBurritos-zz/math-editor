@@ -13,7 +13,7 @@ export class GlyphComponentData {
         );
         this.css = GlyphComponentData.getCSS(glyphMetric, pxpfu);
         this.height = glyphMetric.bbox.y2 * pxpfu;
-        this.depth = glyphMetric.bbox.y1 * pxpfu;
+        this.depth = -glyphMetric.bbox.y1 * pxpfu;
         this.width = (glyphMetric.bbox.x2 - glyphMetric.bbox.x1) * pxpfu;
         this.component = Glyph;
     }
@@ -32,7 +32,7 @@ export class GlyphComponentData {
         innerStyle.lineHeight = "1";
         innerStyle.fontFamily = fontFamily;
         innerStyle.fontSize = size + "px";
-        innerStyle.height = `${Math.floor((asc + des) * pxpfu)}px`;
+        innerStyle.height = Math.floor((asc + des) * pxpfu)+ 'px';
         innerStyle.width = `${glyphMetric.advanceWidth * pxpfu}px`;
         innerStyle.position = "relative";
         innerStyle.top = `${(glyphMetric.bbox.y2 - asc) * pxpfu}px`;

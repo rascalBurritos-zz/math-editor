@@ -2,6 +2,9 @@
   font-family: Asana;
   src: url(/Asana-Math.2120c974.otf);
 }
+div {
+    -webkit-font-smoothing: none;
+}
 
 
 /*# sourceMappingURL=/src.a2b27638.css.map */

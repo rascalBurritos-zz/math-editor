@@ -10,7 +10,7 @@ beforeEach(() => {
 
 test("Constructs Glyph with proper amount of glyphs", () => {
     var unicode = 40;
-    var desiredSize = 100;
+    var desiredSize = 99;
     var fontSize = 30;
     var direction = "vertical";
     var minConnectorOverlap = parseInt(
@@ -29,6 +29,6 @@ test("Constructs Glyph with proper amount of glyphs", () => {
             fontData.glyphNameToUnicode,
             minConnectorOverlap
         )
-    ).toEqual([]);
+    ).toEqual({"overlapArray": [0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996], "unicodeArray": ["9117", "9116", "9116", "9116", "9116", "9116", "9115"]});
     //dont forget italic correction
 });

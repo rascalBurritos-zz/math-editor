@@ -28434,7 +28434,7 @@ var GlyphComponentData = /*#__PURE__*/function () {
     this.innerStyle = GlyphComponentData.getInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric);
     this.css = GlyphComponentData.getCSS(glyphMetric, pxpfu);
     this.height = glyphMetric.bbox.y2 * pxpfu;
-    this.depth = glyphMetric.bbox.y1 * pxpfu;
+    this.depth = -glyphMetric.bbox.y1 * pxpfu;
     this.width = (glyphMetric.bbox.x2 - glyphMetric.bbox.x1) * pxpfu;
     this.component = _Glyph.Glyph;
   }
@@ -28456,7 +28456,7 @@ var GlyphComponentData = /*#__PURE__*/function () {
       innerStyle.lineHeight = "1";
       innerStyle.fontFamily = fontFamily;
       innerStyle.fontSize = size + "px";
-      innerStyle.height = "".concat(Math.floor((asc + des) * pxpfu), "px");
+      innerStyle.height = Math.floor((asc + des) * pxpfu) + 'px';
       innerStyle.width = "".concat(glyphMetric.advanceWidth * pxpfu, "px");
       innerStyle.position = "relative";
       innerStyle.top = "".concat((glyphMetric.bbox.y2 - asc) * pxpfu, "px");
@@ -28874,7 +28874,336 @@ var ScriptsComponentData = /*#__PURE__*/function () {
 }();
 
 exports.ScriptsComponentData = ScriptsComponentData;
-},{"./Scripts.js":"src/Scripts.js","./FormulaComponentData.js":"src/FormulaComponentData.js"}],"src/FormulaComponentData.js":[function(require,module,exports) {
+},{"./Scripts.js":"src/Scripts.js","./FormulaComponentData.js":"src/FormulaComponentData.js"}],"src/constructExtendedGlyph.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.constructExtendedGlyph = constructExtendedGlyph;
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontDataVariants, upm, glyphNameToUnicode, minConnectorOverlap) {
+  var variantMap,
+      pxpfu = fontSize / upm;
+
+  if (direction === "vertical") {
+    variantMap = fontDataVariants.vertical;
+  } else if (direction === "horizontal") {
+    variantMap = fontDataVariants.horizontal;
+  }
+
+  var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
+  var currentPartRecords = partRecords.filter(function (ele) {
+    return ele.PartFlags.value === "0";
+  });
+  var extenderIteration = 0;
+
+  while (true) {
+    var totalHeight = 0;
+    currentPartRecords.forEach(function (ele) {
+      totalHeight += parseInt(ele.FullAdvance.value);
+    });
+    var minTotalHeight,
+        maxTotalHeight,
+        maxOverlapArray = [],
+        minOverlapArray = [],
+        desiredSizeFU = desiredSize / pxpfu;
+    minTotalHeight = maxTotalHeight = totalHeight;
+
+    for (var i = 1; i < currentPartRecords.length; i++) {
+      var startConnector = parseInt(currentPartRecords[i].StartConnectorLength.value, 10);
+      var endConnector = parseInt(currentPartRecords[i - 1].EndConnectorLength.value, 10);
+      var maxOverlap = Math.min(startConnector, endConnector);
+      maxOverlapArray.push(maxOverlap);
+      var minOverlap = minConnectorOverlap > maxOverlap ? maxOverlap : minConnectorOverlap;
+      minOverlapArray.push(minOverlap);
+      minTotalHeight -= maxOverlap;
+      maxTotalHeight -= minOverlap;
+    }
+
+    if (minTotalHeight > desiredSizeFU) {
+      var _ret = function () {
+        var unicodeArray = partRecordsToUnicode(currentPartRecords, glyphNameToUnicode);
+        var overlapArray = [];
+        maxOverlapArray.forEach(function (ele) {
+          overlapArray.push(ele * pxpfu);
+        });
+        return {
+          v: {
+            unicodeArray: unicodeArray,
+            overlapArray: overlapArray
+          }
+        };
+      }();
+
+      if (_typeof(_ret) === "object") return _ret.v;
+    }
+
+    if (maxTotalHeight > desiredSizeFU) {
+      var _ret2 = function () {
+        var unicodeArray = partRecordsToUnicode(currentPartRecords, glyphNameToUnicode);
+        var numberOfAdjacentPairs = maxOverlapArray.length;
+        var totalShrink = maxTotalHeight - desiredSizeFU;
+        var overlapArray = [];
+        var totalOverlap = maxOverlapArray.reduce(function (acc, curr) {
+          return acc += curr;
+        });
+        maxOverlapArray.forEach(function (ele) {
+          var shrinkAmount = totalShrink * ele / totalOverlap;
+          return overlapArray.push((ele - shrinkAmount) * pxpfu);
+        });
+        return {
+          v: {
+            unicodeArray: unicodeArray,
+            overlapArray: overlapArray
+          }
+        };
+      }();
+
+      if (_typeof(_ret2) === "object") return _ret2.v;
+    }
+
+    var intermediatePartRecords = [],
+        hasExtender = false;
+    extenderIteration++;
+    partRecords.forEach(function (ele) {
+      if (ele.PartFlags.value === "1") {
+        for (var j = 0; j < extenderIteration; j++) {
+          intermediatePartRecords.push(ele);
+        } //adding one of every extender
+
+      } else {
+        intermediatePartRecords.push(ele);
+      }
+    });
+    currentPartRecords = intermediatePartRecords.slice();
+  }
+}
+
+function partRecordsToUnicode(currentPartRecords, glyphNameToUnicode) {
+  var unicodeArray = [];
+  currentPartRecords.forEach(function (ele) {
+    var unicode = glyphNameToUnicode[ele.glyph.value];
+    unicodeArray.push(unicode);
+  });
+  return unicodeArray;
+}
+},{}],"src/bestVariant.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bestVariant = bestVariant;
+
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function bestVariant(unicode, desiredSize, fontSize, direction, fontDataVariants, upm, glyphNameToUnicode) {
+  var variantMap,
+      pxpfu = fontSize / upm;
+
+  if (direction === "vertical") {
+    variantMap = fontDataVariants.vertical;
+  } else if (direction === "horizontal") {
+    variantMap = fontDataVariants.horizontal;
+  }
+
+  var _iterator = _createForOfIteratorHelper(variantMap[unicode].MathGlyphVariantRecord),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var variant = _step.value;
+      var candidateAdvance = parseInt(variant.AdvanceMeasurement.value, 10) * pxpfu;
+
+      if (candidateAdvance > desiredSize) {
+        return parseInt(glyphNameToUnicode[variant.VariantGlyph.value], 10);
+      }
+    } //did not find variant big enough for desired size , 
+    //returns an object that contains the largest available
+
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  return {
+    largestAvailable: parseInt(glyphNameToUnicode[variant.VariantGlyph.value], 10)
+  };
+}
+},{}],"src/ExtendedGlyph.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ExtendedGlyph = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
+  _inherits(ExtendedGlyph, _React$Component);
+
+  var _super = _createSuper(ExtendedGlyph);
+
+  function ExtendedGlyph() {
+    _classCallCheck(this, ExtendedGlyph);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(ExtendedGlyph, [{
+    key: "render",
+    value: function render() {
+      console.log(this.props);
+      var components = this.props.data.elements.map(function (ele, index) {
+        ele.outer.backgroundColor = 'white';
+        ele.inner.backgroundColor = 'white';
+        ele.outer.mixBlendMode = 'darken';
+        return /*#__PURE__*/_react.default.createElement("div", {
+          key: index,
+          style: ele.outer
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          style: ele.inner
+        }, ele.symbol));
+      });
+      return /*#__PURE__*/_react.default.createElement("extended", null, components);
+    }
+  }]);
+
+  return ExtendedGlyph;
+}(_react.default.Component);
+
+exports.ExtendedGlyph = ExtendedGlyph;
+},{"react":"node_modules/react/index.js"}],"src/ExtendedGlyphComponentData.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ExtendedGlyphComponentData = void 0;
+
+var _GlyphComponentData = require("./GlyphComponentData.js");
+
+var _constructExtendedGlyph = require("./constructExtendedGlyph.js");
+
+var _bestVariant = require("./bestVariant.js");
+
+var _ExtendedGlyph = require("./ExtendedGlyph.js");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var ExtendedGlyphComponentData = /*#__PURE__*/function () {
+  function ExtendedGlyphComponentData(baseUnicode, currentFontSize, desiredSize, direction, fontData) {
+    var _this = this;
+
+    _classCallCheck(this, ExtendedGlyphComponentData);
+
+    this.component = _ExtendedGlyph.ExtendedGlyph;
+    var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10);
+    var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
+    var topDownUnicode = extendedGlyphMetrics.unicodeArray.reverse();
+    var topDownOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
+    this.elements = [];
+    var pxpfu = currentFontSize / fontData.upm;
+    topDownUnicode.forEach(function (ele) {
+      var component = {};
+      component.inner = ExtendedGlyphComponentData.getExtendedInnerStyle(fontData.fontFamily, currentFontSize, fontData.asc, fontData.des, pxpfu, fontData.glyphMetrics[ele]);
+      component.outer = ExtendedGlyphComponentData.getExtendedOuterStyle(fontData.glyphMetrics[ele], pxpfu);
+      component.outer.outline = "";
+
+      _this.elements.push(component);
+
+      component.symbol = String.fromCodePoint(ele);
+    });
+
+    for (var i = 1; i < topDownUnicode.length; i++) {
+      this.elements[i].outer.marginTop = -topDownOverlapArray[i - 1] + "px";
+    }
+  }
+
+  _createClass(ExtendedGlyphComponentData, null, [{
+    key: "getExtendedInnerStyle",
+    value: function getExtendedInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric) {
+      var innerStyle = _GlyphComponentData.GlyphComponentData.getInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric);
+
+      innerStyle.left = "0px";
+      return innerStyle;
+    }
+  }, {
+    key: "getExtendedOuterStyle",
+    value: function getExtendedOuterStyle(glyphMetric, pxpfu) {
+      var css = _GlyphComponentData.GlyphComponentData.getCSS(glyphMetric, pxpfu);
+
+      css.width = glyphMetric.advanceWidth * pxpfu + "px";
+      return css;
+    }
+  }]);
+
+  return ExtendedGlyphComponentData;
+}();
+
+exports.ExtendedGlyphComponentData = ExtendedGlyphComponentData;
+},{"./GlyphComponentData.js":"src/GlyphComponentData.js","./constructExtendedGlyph.js":"src/constructExtendedGlyph.js","./bestVariant.js":"src/bestVariant.js","./ExtendedGlyph.js":"src/ExtendedGlyph.js"}],"src/determineTypeOfVariant.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.determineTypeOfVariant = determineTypeOfVariant;
+
+var _bestVariant = require("./bestVariant.js");
+
+var _GlyphComponentData = require("./GlyphComponentData.js");
+
+var _ExtendedGlyphComponentData = require("./ExtendedGlyphComponentData.js");
+
+function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direction, fontData) {
+  var foundVariant = (0, _bestVariant.bestVariant)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode);
+  console.log(foundVariant);
+
+  if (typeof foundVariant === "number") {
+    return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
+  }
+
+  return new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(baseUnicode, currentFontSize, desiredSize, direction, fontData);
+}
+},{"./bestVariant.js":"src/bestVariant.js","./GlyphComponentData.js":"src/GlyphComponentData.js","./ExtendedGlyphComponentData.js":"src/ExtendedGlyphComponentData.js"}],"src/FormulaComponentData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28891,6 +29220,10 @@ var _Formula = require("./Formula.js");
 var _MathStyle = require("./MathStyle.js");
 
 var _ScriptsComponentData = require("./ScriptsComponentData.js");
+
+var _ExtendedGlyphComponentData = require("./ExtendedGlyphComponentData");
+
+var _determineTypeOfVariant = require("./determineTypeOfVariant.js");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -28971,6 +29304,8 @@ var FormulaComponentData = /*#__PURE__*/function () {
     value: function componentFactory(element, style, fontData) {
       if (element.type === "Script") {
         return new _ScriptsComponentData.ScriptsComponentData(element, style, fontData);
+      } else if (element.extension === "Extended") {
+        return (0, _determineTypeOfVariant.determineTypeOfVariant)(element.unicode, element.desiredSize, style.fontSize, element.direction, fontData);
       } else {
         return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(element.unicode), style.fontSize, fontData.glyphMetrics[element.unicode], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
       }
@@ -29039,7 +29374,7 @@ var FormulaComponentData = /*#__PURE__*/function () {
 }();
 
 exports.FormulaComponentData = FormulaComponentData;
-},{"./GlyphComponentData.js":"src/GlyphComponentData.js","./leftRightTable.js":"src/leftRightTable.js","./Formula.js":"src/Formula.js","./MathStyle.js":"src/MathStyle.js","./ScriptsComponentData.js":"src/ScriptsComponentData.js"}],"src/Font/FontData.js":[function(require,module,exports) {
+},{"./GlyphComponentData.js":"src/GlyphComponentData.js","./leftRightTable.js":"src/leftRightTable.js","./Formula.js":"src/Formula.js","./MathStyle.js":"src/MathStyle.js","./ScriptsComponentData.js":"src/ScriptsComponentData.js","./ExtendedGlyphComponentData":"src/ExtendedGlyphComponentData.js","./determineTypeOfVariant.js":"src/determineTypeOfVariant.js"}],"src/Font/FontData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -88767,6 +89102,12 @@ var mathList = [{
   type: "Ordinary",
   unicode: "70"
 }, {
+  type: "Binary",
+  extension: "Extended",
+  desiredSize: 500,
+  direction: "vertical",
+  unicode: "8747"
+}, {
   type: "Script",
   nucleus: {
     type: "Ordinary",
@@ -88776,8 +89117,8 @@ var mathList = [{
     type: "Ordinary",
     unicode: "72"
   }, {
-    type: 'Binary',
-    unicode: '43'
+    type: "Binary",
+    unicode: "43"
   }, {
     type: "Ordinary",
     unicode: "73"
@@ -88845,7 +89186,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "32873" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38615" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

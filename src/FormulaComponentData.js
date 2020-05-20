@@ -3,6 +3,8 @@ import { interElementSpacingTable } from "./leftRightTable.js";
 import { Formula } from "./Formula.js";
 import { MathStyle } from "./MathStyle.js";
 import { ScriptsComponentData } from "./ScriptsComponentData.js";
+import { ExtendedGlyphComponentData } from "./ExtendedGlyphComponentData";
+import {determineTypeOfVariant} from './determineTypeOfVariant.js'
 
 export class FormulaComponentData {
     constructor(mathList, fontData, style) {
@@ -85,6 +87,14 @@ export class FormulaComponentData {
     static componentFactory(element, style, fontData) {
         if (element.type === "Script") {
             return new ScriptsComponentData(element, style, fontData);
+        } else if (element.extension === "Extended") {
+            return determineTypeOfVariant(
+                element.unicode,
+                element.desiredSize,
+                style.fontSize,
+                element.direction,
+                fontData
+            );
         } else {
             return new GlyphComponentData(
                 String.fromCodePoint(element.unicode),

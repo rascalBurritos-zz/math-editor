@@ -7,7 +7,6 @@ export function bestVariant(
     upm,
     glyphNameToUnicode
 ) {
-
     var variantMap,
         pxpfu = fontSize / upm;
     if (direction === "vertical") {
@@ -20,8 +19,15 @@ export function bestVariant(
             parseInt(variant.AdvanceMeasurement.value, 10) * pxpfu;
 
         if (candidateAdvance > desiredSize) {
-            return parseInt(glyphNameToUnicode[variant.VariantGlyph.value],10);
+            return parseInt(glyphNameToUnicode[variant.VariantGlyph.value], 10);
         }
     }
-    return false;
+    //did not find variant big enough for desired size , 
+    //returns an object that contains the largest available
+    return {
+        largestAvailable: parseInt(
+            glyphNameToUnicode[variant.VariantGlyph.value],
+            10
+        )
+    };
 }

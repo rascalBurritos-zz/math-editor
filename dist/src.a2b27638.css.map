@@ -1,1 +1,1 @@
-{"version":3,"sources":["fonts.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,+CAAoC;AACtC","file":"src.a2b27638.css","sourceRoot":"..","sourcesContent":["@font-face {\n  font-family: Asana;\n  src: url(../../fonts/Asana-Math.otf);\n}\n"]}
+{"version":3,"sources":["fonts.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,+CAAoC;AACtC;AACA;IACI,4BAA4B;AAChC","file":"src.a2b27638.css","sourceRoot":"..","sourcesContent":["@font-face {\n  font-family: Asana;\n  src: url(../../fonts/Asana-Math.otf);\n}\ndiv {\n    -webkit-font-smoothing: none;\n}\n"]}

@@ -58,7 +58,7 @@ test("returns false for too large", () => {
             fontData.upm,
             fontData.glyphNameToUnicode
         )
-    ).toBe(false);
+    ).toEqual({largestAvailable:1114102});
 });
 test("works on horizontal glyphs", () => {
     var unicode = 770;
