@@ -18,7 +18,7 @@ var mathList = [
         {
             type: "Ordinary",
             extension: "Extended",
-            desiredSize: 40,
+            desiredSize: 300,
             direction: "horizontal",
             unicode: "8594"
         },

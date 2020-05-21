@@ -29137,7 +29137,7 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
 
     this.component = _ExtendedGlyph.ExtendedGlyph;
     this.css = {
-      outline: '1px solid darkred'
+      outline: "1px solid darkred"
     }; //sets default css properties for different direction
 
     if (direction === "vertical") {
@@ -29153,6 +29153,7 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
 
     var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
     var pxpfu = currentFontSize / fontData.upm;
+    var dimensions;
 
     if (direction === "vertical") {
       var componentOrderUnicode = extendedGlyphMetrics.unicodeArray.reverse();
@@ -29160,16 +29161,17 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
       var mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value, 10); //dimensions does not depend on componnentOrderunicode but this
       //was a convenient place to put it (if vertical)
 
-      var dimensions = ExtendedGlyphComponentData.getDimensionsVertical(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, mathAxis, pxpfu);
+      dimensions = ExtendedGlyphComponentData.getDimensionsVertical(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, mathAxis, pxpfu);
       this.height = dimensions.height;
       this.depth = dimensions.depth;
       this.width = dimensions.width;
     } else if (direction === "horizontal") {
       componentOrderUnicode = extendedGlyphMetrics.unicodeArray;
       componentOrderOverlapArray = extendedGlyphMetrics.overlapArray;
-      this.height = 0;
-      this.width = 0;
-      this.depth = 0;
+      dimensions = ExtendedGlyphComponentData.getDimensionsHorizontal(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, pxpfu);
+      this.height = dimensions.height;
+      this.width = dimensions.width;
+      this.depth = dimensions.depth;
     }
 
     this.elements = []; //gets inner and outer styles for the divs needed to make the extended Component
@@ -29188,22 +29190,55 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
       if (direction === "vertical") {
         this.elements[i].outer.marginTop = -componentOrderOverlapArray[i - 1] + "px";
       } else if (direction === "horizontal") {
-        this.elements[i].outer.marginRight = -componentOrderOverlapArray[i - 1] + "px";
+        this.elements[i].outer.marginLeft = -componentOrderOverlapArray[i - 1] + "px";
       }
     }
+
+    if (direction === "horizontal") {
+      ExtendedGlyphComponentData.adjustElementTopMargins(this.elements, dimensions.heightArray, dimensions.height);
+    }
+
+    this.css.height = dimensions.height + dimensions.depth;
+    this.css.width = dimensions.width;
   }
 
   _createClass(ExtendedGlyphComponentData, null, [{
     key: "getDimensionsHorizontal",
     value: function getDimensionsHorizontal(unicodeArray, overlapArray, glyphMetricMap, pxpfu) {
-      var totalGlyphWidth = unicodeArray.reduce(function (acc, curr) {
-        var glyphWidth = parseInt(glyphMetricMap[curr].advanceWidth, 10) * pxpfu;
-        return acc + glyphWidth;
-      }, 0);
-      var totalOverlapAmount = overlapArray.reduce(function (acc, curr) {
+      var heightArray = [];
+      var depthArray = [];
+      var widthArray = [];
+      unicodeArray.forEach(function (ele) {
+        var bbox = glyphMetricMap[ele].bbox;
+        heightArray.push(parseInt(bbox.y2, 10) * pxpfu);
+        depthArray.push(-parseInt(bbox.y1, 10) * pxpfu);
+        widthArray.push(parseInt(glyphMetricMap[ele].advanceWidth, 10) * pxpfu);
+      });
+      var height = Math.max.apply(Math, heightArray);
+      var depth = Math.max.apply(Math, depthArray);
+      var glyphWidths = widthArray.reduce(function (acc, curr) {
         return acc + curr;
       });
-      var totalWidth = totalGlyphWidth - totalOverlapAmount;
+      var totalOvelap = overlapArray.reduce(function (acc, curr) {
+        return acc + curr;
+      });
+      var width = glyphWidths - totalOvelap;
+      return {
+        heightArray: heightArray,
+        depthArray: depthArray,
+        widthArray: widthArray,
+        height: height,
+        depth: depth,
+        width: width
+      }; //determine total width, then in the next function, adjust the
+      //top margins of the horizontal glyphs to align to baseline
+    }
+  }, {
+    key: "adjustElementTopMargins",
+    value: function adjustElementTopMargins(elements, heightArray, heightMax) {
+      heightArray.forEach(function (ele, index) {
+        elements[index].outer.marginTop = heightMax - heightArray[index];
+      });
     }
   }, {
     key: "getDimensionsVertical",
@@ -89186,7 +89221,7 @@ var mathList = [{
 }, {
   type: "Ordinary",
   extension: "Extended",
-  desiredSize: 40,
+  desiredSize: 300,
   direction: "horizontal",
   unicode: "8594"
 }, {
@@ -89268,7 +89303,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38615" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36011" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

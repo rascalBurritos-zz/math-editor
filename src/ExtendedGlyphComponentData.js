@@ -12,7 +12,7 @@ export class ExtendedGlyphComponentData {
         fontData
     ) {
         this.component = ExtendedGlyph;
-        this.css = {outline:'1px solid darkred'};
+        this.css = { outline: "1px solid darkred" };
         //sets default css properties for different direction
         if (direction === "vertical") {
             this.css.display = "flex";
@@ -40,6 +40,7 @@ export class ExtendedGlyphComponentData {
         );
 
         var pxpfu = currentFontSize / fontData.upm;
+        var dimensions;
         if (direction === "vertical") {
             var componentOrderUnicode = extendedGlyphMetrics.unicodeArray.reverse();
             var componentOrderOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
@@ -49,7 +50,7 @@ export class ExtendedGlyphComponentData {
             );
             //dimensions does not depend on componnentOrderunicode but this
             //was a convenient place to put it (if vertical)
-            var dimensions = ExtendedGlyphComponentData.getDimensionsVertical(
+            dimensions = ExtendedGlyphComponentData.getDimensionsVertical(
                 componentOrderUnicode,
                 componentOrderOverlapArray,
                 fontData.glyphMetrics,
@@ -62,9 +63,16 @@ export class ExtendedGlyphComponentData {
         } else if (direction === "horizontal") {
             componentOrderUnicode = extendedGlyphMetrics.unicodeArray;
             componentOrderOverlapArray = extendedGlyphMetrics.overlapArray;
-            this.height = 0;
-            this.width = 0;
-            this.depth = 0;
+            dimensions = ExtendedGlyphComponentData.getDimensionsHorizontal(
+                componentOrderUnicode,
+                componentOrderOverlapArray,
+                fontData.glyphMetrics,
+                pxpfu
+            );
+
+            this.height = dimensions.height;
+            this.width = dimensions.width;
+            this.depth = dimensions.depth;
         }
         this.elements = [];
 
@@ -93,44 +101,57 @@ export class ExtendedGlyphComponentData {
                 this.elements[i].outer.marginTop =
                     -componentOrderOverlapArray[i - 1] + "px";
             } else if (direction === "horizontal") {
-                this.elements[i].outer.marginRight =
+                this.elements[i].outer.marginLeft =
                     -componentOrderOverlapArray[i - 1] + "px";
             }
         }
+        if (direction === "horizontal") {
+            ExtendedGlyphComponentData.adjustElementTopMargins(
+                this.elements,
+                dimensions.heightArray,
+                dimensions.height
+            );
+        }
+        this.css.height = dimensions.height + dimensions.depth;
+        this.css.width = dimensions.width;
     }
 
-    static getDimensionsHorizontal(unicodeArray,glyphMetricMap,pxpfu){
+    static getDimensionsHorizontal(unicodeArray,overlapArray, glyphMetricMap, pxpfu) {
         var heightArray = [];
         var depthArray = [];
         var widthArray = [];
-        unicodeArray.forEach((ele)=>{
-            let bbox =glyphMetricMap[ele];
-            heightArray.push(parseInt(bbox.y2)*pxpfu);
-            depthArray.push(parseInt(bbox.y1,10)*pxpfu)
-            widthArray.push(parseInt(glyphMetricMap[ele].advanceWidth,10));
-        })
-        var heightMax = Math.max(...heightArray);
-        var depthMax = Math.max(...depthArray)
-        var totalWidth = 
-//determine total width, then in the next function, adjust the 
-            //top margins of the horizontal glyphs to align to baseline
-    }
-    static getDimensionsHorizontal(
-        unicodeArray,
-        overlapArray,
-        glyphMetricMap,
-        pxpfu
-    ) {
-        var totalGlyphWidth = unicodeArray.reduce((acc, curr) => {
-            let glyphWidth =
-                parseInt(glyphMetricMap[curr].advanceWidth, 10) * pxpfu;
-            return acc + glyphWidth;
-        }, 0);
-        var totalOverlapAmount = overlapArray.reduce((acc, curr) => {
+        unicodeArray.forEach(ele => {
+            let bbox = glyphMetricMap[ele].bbox;
+            heightArray.push(parseInt(bbox.y2, 10) * pxpfu);
+            depthArray.push(-parseInt(bbox.y1, 10) * pxpfu);
+            widthArray.push(
+                parseInt(glyphMetricMap[ele].advanceWidth, 10) * pxpfu
+            );
+        });
+        var height = Math.max(...heightArray);
+        var depth = Math.max(...depthArray);
+        var glyphWidths  = widthArray.reduce((acc, curr) => {
             return acc + curr;
         });
-        var totalWidth = totalGlyphWidth - totalOverlapAmount;
-
+        var totalOvelap =  overlapArray.reduce((acc,curr)=>{
+            return acc + curr;
+        })
+        var width = glyphWidths -totalOvelap;
+        return {
+            heightArray,
+            depthArray,
+            widthArray,
+            height,
+            depth,
+            width
+        };
+        //determine total width, then in the next function, adjust the
+        //top margins of the horizontal glyphs to align to baseline
+    }
+    static adjustElementTopMargins(elements, heightArray, heightMax) {
+        heightArray.forEach((ele, index) => {
+            elements[index].outer.marginTop = heightMax - heightArray[index];
+        });
     }
     static getDimensionsVertical(
         unicodeArray,
