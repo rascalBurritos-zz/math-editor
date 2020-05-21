@@ -2,7 +2,6 @@ import React from "react";
 
 export class ExtendedGlyph extends React.Component {
     render() {
-        console.log(this.props);
         var components = this.props.data.elements.map((ele, index) => {
             ele.outer.backgroundColor = 'white'
             ele.inner.backgroundColor = 'white'
@@ -15,6 +14,6 @@ export class ExtendedGlyph extends React.Component {
                 </div>
             );
         });
-        return <extended>{components}</extended>;
+        return <extended style={this.props.data.css}>{components}</extended>;
     }
 }

@@ -42,13 +42,23 @@ export function fontFactory(fontMetric) {
         mathVariants.VertGlyphCoverage,
         mathVariants.VertGlyphConstruction,
         options.glyphNameToUnicode,
-        ele => ele
+        ele => {
+            if(!Array.isArray(ele.MathGlyphVariantRecord )){
+                ele.MathGlyphVariantRecord = [ele.MathGlyphVariantRecord];
+            }
+            return ele
+        }
     );
     options.variants.horizontal = createUnicodeMap(
         mathVariants.HorizGlyphCoverage,
         mathVariants.HorizGlyphConstruction,
         options.glyphNameToUnicode,
-        ele => ele
+        ele => {
+            if(!Array.isArray(ele.MathGlyphVariantRecord )){
+                ele.MathGlyphVariantRecord = [ele.MathGlyphVariantRecord];
+            }
+            return ele
+        }
     );
     return new FontData(options);
 }

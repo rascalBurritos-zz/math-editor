@@ -9,11 +9,18 @@ import "./styles/fonts.css";
 var mathList = [
         { type: "Ordinary", unicode: "70" },
         {
-            type: "Binary",
+            type: "Ordinary",
             extension: "Extended",
             desiredSize: 500,
             direction: "vertical",
             unicode: "8747"
+        },
+        {
+            type: "Ordinary",
+            extension: "Extended",
+            desiredSize: 40,
+            direction: "horizontal",
+            unicode: "8594"
         },
         {
             type: "Script",

@@ -28921,7 +28921,8 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
       minOverlapArray.push(minOverlap);
       minTotalHeight -= maxOverlap;
       maxTotalHeight -= minOverlap;
-    }
+    } // console.log(minTotalHeight + " " + maxTotalHeight)
+
 
     if (minTotalHeight > desiredSizeFU) {
       var _ret = function () {
@@ -28965,8 +28966,7 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
       if (_typeof(_ret2) === "object") return _ret2.v;
     }
 
-    var intermediatePartRecords = [],
-        hasExtender = false;
+    var intermediatePartRecords = [];
     extenderIteration++;
     partRecords.forEach(function (ele) {
       if (ele.PartFlags.value === "1") {
@@ -29086,7 +29086,6 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
   _createClass(ExtendedGlyph, [{
     key: "render",
     value: function render() {
-      console.log(this.props);
       var components = this.props.data.elements.map(function (ele, index) {
         ele.outer.backgroundColor = 'white';
         ele.inner.backgroundColor = 'white';
@@ -29098,7 +29097,9 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
           style: ele.inner
         }, ele.symbol));
       });
-      return /*#__PURE__*/_react.default.createElement("extended", null, components);
+      return /*#__PURE__*/_react.default.createElement("extended", {
+        style: this.props.data.css
+      }, components);
     }
   }]);
 
@@ -29135,29 +29136,97 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
     _classCallCheck(this, ExtendedGlyphComponentData);
 
     this.component = _ExtendedGlyph.ExtendedGlyph;
-    var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10);
+    this.css = {
+      outline: '1px solid darkred'
+    }; //sets default css properties for different direction
+
+    if (direction === "vertical") {
+      this.css.display = "flex";
+      this.css.flexDirection = "column";
+    } else if (direction === "horizontal") {
+      this.css.display = "flex";
+      this.css.flexDirection = "row";
+    }
+
+    var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10); //gets the an object containing the overlap array and the array of unicode points
+    //in decimal
+
     var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
-    var topDownUnicode = extendedGlyphMetrics.unicodeArray.reverse();
-    var topDownOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
-    this.elements = [];
     var pxpfu = currentFontSize / fontData.upm;
-    topDownUnicode.forEach(function (ele) {
+
+    if (direction === "vertical") {
+      var componentOrderUnicode = extendedGlyphMetrics.unicodeArray.reverse();
+      var componentOrderOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
+      var mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value, 10); //dimensions does not depend on componnentOrderunicode but this
+      //was a convenient place to put it (if vertical)
+
+      var dimensions = ExtendedGlyphComponentData.getDimensionsVertical(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, mathAxis, pxpfu);
+      this.height = dimensions.height;
+      this.depth = dimensions.depth;
+      this.width = dimensions.width;
+    } else if (direction === "horizontal") {
+      componentOrderUnicode = extendedGlyphMetrics.unicodeArray;
+      componentOrderOverlapArray = extendedGlyphMetrics.overlapArray;
+      this.height = 0;
+      this.width = 0;
+      this.depth = 0;
+    }
+
+    this.elements = []; //gets inner and outer styles for the divs needed to make the extended Component
+
+    componentOrderUnicode.forEach(function (ele) {
       var component = {};
       component.inner = ExtendedGlyphComponentData.getExtendedInnerStyle(fontData.fontFamily, currentFontSize, fontData.asc, fontData.des, pxpfu, fontData.glyphMetrics[ele]);
       component.outer = ExtendedGlyphComponentData.getExtendedOuterStyle(fontData.glyphMetrics[ele], pxpfu);
       component.outer.outline = "";
+      component.symbol = String.fromCodePoint(ele);
 
       _this.elements.push(component);
+    }); //adjusts marigns for overlap
 
-      component.symbol = String.fromCodePoint(ele);
-    });
-
-    for (var i = 1; i < topDownUnicode.length; i++) {
-      this.elements[i].outer.marginTop = -topDownOverlapArray[i - 1] + "px";
+    for (var i = 1; i < componentOrderUnicode.length; i++) {
+      if (direction === "vertical") {
+        this.elements[i].outer.marginTop = -componentOrderOverlapArray[i - 1] + "px";
+      } else if (direction === "horizontal") {
+        this.elements[i].outer.marginRight = -componentOrderOverlapArray[i - 1] + "px";
+      }
     }
   }
 
   _createClass(ExtendedGlyphComponentData, null, [{
+    key: "getDimensionsHorizontal",
+    value: function getDimensionsHorizontal(unicodeArray, overlapArray, glyphMetricMap, pxpfu) {
+      var totalGlyphWidth = unicodeArray.reduce(function (acc, curr) {
+        var glyphWidth = parseInt(glyphMetricMap[curr].advanceWidth, 10) * pxpfu;
+        return acc + glyphWidth;
+      }, 0);
+      var totalOverlapAmount = overlapArray.reduce(function (acc, curr) {
+        return acc + curr;
+      });
+      var totalWidth = totalGlyphWidth - totalOverlapAmount;
+    }
+  }, {
+    key: "getDimensionsVertical",
+    value: function getDimensionsVertical(unicodeArray, overlapArray, glyphMetricMap, mathAxisHeight, pxpfu) {
+      var totalGlyphHeight = unicodeArray.reduce(function (acc, curr) {
+        var bbox = glyphMetricMap[curr].bbox;
+        var glyphHeight = (parseInt(bbox.y2, 10) - parseInt(bbox.y1, 10)) * pxpfu;
+        return acc + glyphHeight;
+      }, 0);
+      var totalOverlapAmount = overlapArray.reduce(function (acc, curr) {
+        return acc + curr;
+      });
+      var totalHeight = totalGlyphHeight - totalOverlapAmount;
+      var adjustedHeight = totalHeight / 2 + mathAxisHeight * pxpfu;
+      var adjustedDepth = totalHeight / 2 - mathAxisHeight * pxpfu;
+      var width = parseInt(glyphMetricMap[unicodeArray[0]].advanceWidth, 10) * pxpfu;
+      return {
+        height: adjustedHeight,
+        depth: adjustedDepth,
+        width: width
+      };
+    }
+  }, {
     key: "getExtendedInnerStyle",
     value: function getExtendedInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric) {
       var innerStyle = _GlyphComponentData.GlyphComponentData.getInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric);
@@ -29195,7 +29264,6 @@ var _ExtendedGlyphComponentData = require("./ExtendedGlyphComponentData.js");
 
 function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direction, fontData) {
   var foundVariant = (0, _bestVariant.bestVariant)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode);
-  console.log(foundVariant);
 
   if (typeof foundVariant === "number") {
     return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
@@ -29461,9 +29529,17 @@ function fontFactory(fontMetric) {
     horizontal: {}
   };
   options.variants.vertical = createUnicodeMap(mathVariants.VertGlyphCoverage, mathVariants.VertGlyphConstruction, options.glyphNameToUnicode, function (ele) {
+    if (!Array.isArray(ele.MathGlyphVariantRecord)) {
+      ele.MathGlyphVariantRecord = [ele.MathGlyphVariantRecord];
+    }
+
     return ele;
   });
   options.variants.horizontal = createUnicodeMap(mathVariants.HorizGlyphCoverage, mathVariants.HorizGlyphConstruction, options.glyphNameToUnicode, function (ele) {
+    if (!Array.isArray(ele.MathGlyphVariantRecord)) {
+      ele.MathGlyphVariantRecord = [ele.MathGlyphVariantRecord];
+    }
+
     return ele;
   });
   return new _FontData.FontData(options);
@@ -89102,11 +89178,17 @@ var mathList = [{
   type: "Ordinary",
   unicode: "70"
 }, {
-  type: "Binary",
+  type: "Ordinary",
   extension: "Extended",
   desiredSize: 500,
   direction: "vertical",
   unicode: "8747"
+}, {
+  type: "Ordinary",
+  extension: "Extended",
+  desiredSize: 40,
+  direction: "horizontal",
+  unicode: "8594"
 }, {
   type: "Script",
   nucleus: {

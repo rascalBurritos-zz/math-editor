@@ -18,7 +18,6 @@ export function determineTypeOfVariant(
         fontData.upm,
         fontData.glyphNameToUnicode
     );
-    console.log(foundVariant);
     if (typeof foundVariant === "number") {
         return new GlyphComponentData(
             String.fromCodePoint(foundVariant),

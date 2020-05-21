@@ -52,6 +52,7 @@ export function constructExtendedGlyph(
             minTotalHeight -= maxOverlap;
             maxTotalHeight -= minOverlap;
         }
+        // console.log(minTotalHeight + " " + maxTotalHeight)
         if (minTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
                 currentPartRecords,
@@ -80,8 +81,7 @@ export function constructExtendedGlyph(
             });
             return { unicodeArray, overlapArray };
         }
-        var intermediatePartRecords = [],
-            hasExtender = false;
+        var intermediatePartRecords = [];
         extenderIteration++;
         partRecords.forEach(ele => {
             if (ele.PartFlags.value === "1") {
