@@ -85,20 +85,21 @@ export class FormulaComponentData {
         return dimensionArray;
     }
     static componentFactory(element, style, fontData) {
+        var currentFontSize = style.getStylizedSize(fontData.MATH.MathConstants)
         if (element.type === "Script") {
             return new ScriptsComponentData(element, style, fontData);
         } else if (element.extension === "Extended") {
             return determineTypeOfVariant(
                 element.unicode,
                 element.desiredSize,
-                style.fontSize,
+                currentFontSize,
                 element.direction,
                 fontData
             );
         } else {
             return new GlyphComponentData(
                 String.fromCodePoint(element.unicode),
-                style.fontSize,
+                currentFontSize,
                 fontData.glyphMetrics[element.unicode],
                 fontData.upm,
                 fontData.fontFamily,

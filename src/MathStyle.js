@@ -1,4 +1,4 @@
-export  class MathStyle {
+export class MathStyle {
     /**
      *
      * @param {string} type "D" | "T" | "S" | "SS"
@@ -19,10 +19,23 @@ export  class MathStyle {
         this.cramped = cramped;
     }
 
-    changeType(type, cramped) {
-        return new MathStyle(type, this.fontSize, cramped)
+    static getScriptFactor(scriptStyleType, MathConstants) {
+        var scriptFactorMap = {
+            D: 1,
+            T: 1,
+            S: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100,
+            SS: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100
+        };
+        return scriptFactorMap[scriptStyleType];
     }
-    changeFontSizeByFactor(factor){
-        return new MathStyle(this.type,this.fontSize*factor,this.cramped)
+    getStylizedSize(mathConstants) {
+        let factor = MathStyle.getScriptFactor(this.type, mathConstants);
+        return this.fontSize * factor;
+    }
+    changeType(type, cramped) {
+        return new MathStyle(type, this.fontSize, cramped);
+    }
+    changeFontSizeByFactor(factor) {
+        return new MathStyle(this.type, this.fontSize * factor, this.cramped);
     }
 }

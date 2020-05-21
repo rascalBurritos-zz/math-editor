@@ -1,7 +1,9 @@
+import { MathStyle } from "./MathStyle.js";
 import { Scripts } from "./Scripts.js";
 import { FormulaComponentData } from "./FormulaComponentData.js";
 export class ScriptsComponentData {
     constructor(element, style, fontData) {
+        this.component = Scripts;
         var superscriptMathList = element.superscript,
             subscriptMathList = element.subscript;
         if (
@@ -10,16 +12,100 @@ export class ScriptsComponentData {
         ) {
             return;
         }
-        this.css = {
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between"
-        };
-        this.component = Scripts;
+        //returns script metrics (from math constants table) scaled to
+        //proper font size
         var scriptMetrics = ScriptsComponentData.getScriptMetric(
             fontData,
             style.fontSize
         );
+
+        // u represents height above baseline of the super baseline
+        // v represents depth below baseline of the subscript baseline
+        // delta is the italice correction(used for superscript)
+        var u, v, delta;
+        //constructs the nucleus component of the script
+        this.nucleus = FormulaComponentData.componentFactory(
+            element.nucleus,
+            style,
+            fontData
+        );
+
+        //get the styles for the corresponding scripts based on super/sub
+        var superscriptStyle = ScriptsComponentData.getScriptStyle(
+            style,
+            "Super"
+        );
+        var subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub");
+
+        //determine u,v and delta based nucleus type
+        var { u, v, delta } = ScriptsComponentData.determineScriptIntialValues(
+            element.nucleus,
+            this.nucleus,
+            style.fontSize,
+            fontData,
+            scriptMetrics,
+            superscriptStyle,
+            subscriptStyle
+        );
+        //main script logic
+        //determine the h,w,d,css of scripts container
+        var {
+            scriptsHeight,
+            scriptsWidth,
+            scriptsDepth,
+            scriptsCSS,
+            superscript,
+            subscript
+        } = ScriptsComponentData.determineScripts(
+            scriptMetrics,
+            subscriptMathList,
+            superscriptMathList,
+            subscriptStyle,
+            superscriptStyle,
+            fontData,
+            u,
+            v,
+            delta,
+            style
+        );
+
+        this.superscript = superscript;
+        this.subscript = subscript;
+        this.scriptsCSS = scriptsCSS;
+        this.height = Math.max(this.nucleus.height, scriptsHeight);
+        this.depth = Math.max(this.nucleus.depth, scriptsDepth);
+        this.width = this.nucleus.width + scriptsWidth;
+
+        this.nucleus.css.marginTop = this.height - this.nucleus.height + "px";
+        this.scriptsCSS.marginTop = this.height - scriptsHeight + "px";
+
+        this.scriptsCSS.display = "flex";
+        this.scriptsCSS.flexDirection = "column";
+        this.scriptsCSS.justifyContent = "space-between";
+
+        //starting css for scripts container and script element within scripts container
+        this.css = {
+            display: "flex",
+            flexDirection: "row",
+            height: this.height + this.depth + "px",
+            width: this.width + "px"
+        };
+        //subscript only
+
+        // this.scriptsCSS.width = this.width;
+    }
+
+    static determineScriptIntialValues(
+        nucleusSpec,
+        nucleusComponent,
+        fontSize,
+        fontData,
+        scriptMetrics,
+        superscriptStyle,
+        subscriptStyle
+    ) {
+        //needed to determine initial script placement
+        //and delta (italics correction)
         var atomTypes = [
             "Ordinary",
             "Binary",
@@ -28,45 +114,55 @@ export class ScriptsComponentData {
             "Punctuation"
         ];
 
+        var pxpfu = fontSize / fontData.upm;
         var u, v, delta;
-        this.nucleus = FormulaComponentData.componentFactory(
-            element.nucleus,
-            style,
-            fontData
-        );
-
-        var superscriptStyle = ScriptsComponentData.getScriptStyle(
-            style,
-            "Super"
-        );
-        var subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub");
-        if (atomTypes.includes(element.nucleus.type)) {
+        if (
+            atomTypes.includes(nucleusSpec.type) &&
+            nucleusSpec.extension !== "Extended"
+        ) {
             u = v = 0;
-            var pxpfu = style.fontSize / fontData.upm;
-            delta = fontData.italicCorrectionMap[element.nucleus.unicode] * pxpfu;
+            delta = fontData.italicCorrectionMap[nucleusSpec.unicode] * pxpfu;
         } else {
             u =
-                this.nucleus.height -
+                nucleusComponent.height -
                 scriptMetrics.baselineDropMax *
-                    ScriptsComponentData.getScriptFactor(
+                    MathStyle.getScriptFactor(
                         superscriptStyle.type,
                         fontData.MATH.MathConstants
                     );
             v =
-                this.nucleus.depth -
+                nucleusComponent.depth +
                 scriptMetrics.baselineDropMin *
-                    ScriptsComponentData.getScriptFactor(
+                    MathStyle.getScriptFactor(
                         subscriptStyle.type,
                         fontData.MATH.MathConstants
                     );
+            if (nucleusSpec.extension === "Extended") {
+                delta = nucleusComponent.italicsCorrection
+                    ? nucleusComponent.italicsCorrection * pxpfu
+                    : 0;
+            } else {
+                delta = 0;
+            }
         }
+        return { u, v, delta };
+    }
+
+    static determineScripts(
+        scriptMetrics,
+        subscriptMathList,
+        superscriptMathList,
+        subscriptStyle,
+        superscriptStyle,
+        fontData,
+        u,
+        v,
+        delta,
+        currentStyle
+    ) {
         const ss = scriptMetrics.spaceAfterScript;
-        //main script logic
-
-        //subscript only
-
         if (superscriptMathList === undefined) {
-            this.setSoleSubscript(
+            return ScriptsComponentData.setSoleSubscript(
                 subscriptMathList,
                 fontData,
                 subscriptStyle,
@@ -76,7 +172,7 @@ export class ScriptsComponentData {
             );
         } //both sub and super  or  just sub
         else {
-            this.setSuperscript(
+            var superscript = ScriptsComponentData.setSuperscript(
                 superscriptMathList,
                 fontData,
                 superscriptStyle,
@@ -85,56 +181,90 @@ export class ScriptsComponentData {
             );
             u = Math.max(
                 u,
-                style.cramped
+                currentStyle.cramped
                     ? scriptMetrics.shiftUpCramped
                     : scriptMetrics.shiftUp,
-                this.superscript.depth + Math.abs(scriptMetrics.bottomMin)
+                superscript.depth + Math.abs(scriptMetrics.bottomMin)
             );
             //sole super script
             if (subscriptMathList === undefined) {
-                this.adjustSoleSuperScript(delta, ss, u);
+                return ScriptsComponentData.setSoleSuperScript(
+                    delta,
+                    ss,
+                    u,
+                    superscript
+                );
             } //combo scripts
             else {
-                this.subscript = new FormulaComponentData(
+                return ScriptsComponentData.setComboScripts(
                     subscriptMathList,
                     fontData,
-                    subscriptStyle
+                    subscriptStyle,
+                    ss,
+                    scriptMetrics,
+                    v,
+                    u,
+                    superscript,
+                    delta
                 );
-                this.subscript.css.alignSelf = "flex-start";
-                this.subscript.css.marginRight = ss;
-                v = Math.max(v, scriptMetrics.shiftDown);
-                //If there is !!not!! enough space between scripts,FIX IT
-                if (
-                    u - this.subscript.depth - (this.superscript.height - v) <
-                    scriptMetrics.gapMin
-                ) {
-                    v =
-                        this.subscript.height -
-                        u +
-                        this.superscript.depth +
-                        scriptMetrics.gapMin;
-                    let psi =
-                        scriptMetrics.bottomMaxWithSub -
-                        (u - this.superscript.depth);
-                    if (psi > 0) {
-                        u += psi;
-                        v -= psi;
-                    }
-                }
-                delta = delta ? delta : 0;
-
-                this.width = Math.max(
-                    this.superscript.width + delta + ss,
-                    this.subscript.width + ss
-                );
-                this.height = u + this.superscript.height;
-                this.css.height =
-                    this.superscript.height + u + v + this.subscript.depth;
-                this.depth = this.css.height - this.height;
-                this.nucleus.css.marginTop = this.height - this.nucleus.height;
             }
         }
-        this.css.width = this.width;
+    }
+    static setComboScripts(
+        subscriptMathList,
+        fontData,
+        subscriptStyle,
+        ss,
+        scriptMetrics,
+        currentV,
+        currentU,
+        superscript,
+        currentDelta
+    ) {
+        var subscript = new FormulaComponentData(
+            subscriptMathList,
+            fontData,
+            subscriptStyle
+        );
+        subscript.css.alignSelf = "flex-start";
+        subscript.css.marginRight = ss;
+        var v = Math.max(currentV, scriptMetrics.shiftDown);
+        var u = currentU;
+        //If there is !!not!! enough space between scripts,FIX IT
+        if (
+            currentU - subscript.depth - (superscript.height - v) <
+            scriptMetrics.gapMin
+        ) {
+            v =
+                subscript.height -
+                currentU +
+                superscript.depth +
+                scriptMetrics.gapMin;
+            let psi = scriptMetrics.bottomMaxWithSub - (u - superscript.depth);
+            if (psi > 0) {
+                u += psi;
+                v -= psi;
+            }
+        }
+        var delta = currentDelta ? currentDelta : 0;
+        var height = u + superscript.height;
+        var depth = v + subscript.depth;
+        var width = Math.max(
+            superscript.width + delta + ss,
+            subscript.width + ss
+        );
+        var css = {};
+        css.height = height + depth + "px";
+        css.width = width + "px";
+        return {
+            scriptsHeight: height,
+            scriptsWidth: width,
+            scriptsDepth: depth,
+            scriptsCSS: css,
+            subscript: subscript,
+            superscript: superscript
+        };
+        // nucleus.css.marginTop = height - this.nucleus.height;
     }
     static getScriptMetric(fontData, size) {
         var mc = fontData.MATH.MathConstants;
@@ -166,7 +296,7 @@ export class ScriptsComponentData {
     static getScriptStyle(currentStyle, superOrSub) {
         var scriptStyle;
         var styleMap = {
-            D: "T",
+            D: "S",
             T: "S",
             S: "SS",
             SS: "SS"
@@ -184,16 +314,7 @@ export class ScriptsComponentData {
         }
         return scriptStyle;
     }
-    static getScriptFactor(scriptStyleType, MathConstants) {
-        var scriptFactorMap = {
-            D: 1,
-            T: 1,
-            S: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100,
-            SS: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100
-        };
-        return scriptFactorMap[scriptStyleType];
-    }
-    setSoleSubscript(
+    static setSoleSubscript(
         subscriptMathList,
         fontData,
         subscriptStyle,
@@ -201,41 +322,67 @@ export class ScriptsComponentData {
         v,
         scriptMetrics
     ) {
-        this.subscript = new FormulaComponentData(
+        var subscript = new FormulaComponentData(
             subscriptMathList,
             fontData,
             subscriptStyle
         );
-        this.width = this.subscript.width + ss;
+
         //anything as longs as its not stretch
-        this.subscript.css.alignSelf = "flex-end";
-        this.subscript.css.marginRight = ss;
-        this.css.height = this.subscript.height + this.subscript.depth;
-        this.height =
-            this.subscript.height -
-            Math.max(
-                v,
-                scriptMetrics.shiftDown,
-                this.subscript.height - Math.abs(scriptMetrics.topMax)
-            );
-        this.depth = this.css.height - this.height;
-        this.nucleus.css.marginTop = this.height - this.nucleus.height;
+        subscript.css.alignSelf = "flex-end";
+        subscript.css.marginRight = ss;
+
+        var css = {};
+        css.height = subscript.height + subscript.depth;
+        var subscriptBaselineDepth = Math.max(
+            v,
+            scriptMetrics.shiftDown,
+            subscript.height - Math.abs(scriptMetrics.topMax)
+        );
+        var height = subscript.height - subscriptBaselineDepth;
+        var width = subscript.width + ss;
+        var depth = subscript.depth + subscriptBaselineDepth;
+        return {
+            scriptsHeight: height,
+            scriptsWidth: width,
+            scriptsDepth: depth,
+            scriptsCSS: css,
+            subscript: subscript
+        };
     }
-    setSuperscript(superscriptMathList, fontData, superscriptStyle, delta, ss) {
-        this.superscript = new FormulaComponentData(
+    static setSuperscript(
+        superscriptMathList,
+        fontData,
+        superscriptStyle,
+        delta,
+        ss
+    ) {
+        var superscript = new FormulaComponentData(
             superscriptMathList,
             fontData,
             superscriptStyle
         );
-        this.superscript.css.marginLeft = delta;
-        this.superscript.css.marginRight = ss;
-        this.superscript.css.alignSelf = "flex-start";
+        superscript.css.marginLeft = delta;
+        superscript.css.marginRight = ss;
+        superscript.css.alignSelf = "flex-start";
+        return superscript;
     }
-    adjustSoleSuperScript(delta, ss, u) {
-        this.width = delta + this.superscript.width + ss;
-        this.css.height = this.superscript.height + this.superscript.depth;
-        this.height = this.superscript.height + u;
-        this.depth = this.css.height - this.height;
-        this.nucleus.css.marginTop = this.height - this.nucleus.height;
+    static setSoleSuperScript(delta, ss, u, superscript) {
+        var width = delta + superscript.width + ss;
+        var height = superscript.height + u;
+        var depth = css.height - height;
+
+        var css = {};
+        css.height = superscript.height + superscript.depth;
+        css.width = width;
+
+        return {
+            scriptsHeight: height,
+            scriptsWidth: width,
+            scriptsDepth: depth,
+            scriptsCSS: css,
+            superscript: superscript
+        };
+        // nucleus.css.marginTop = height - nucleus.height;
     }
 }

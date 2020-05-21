@@ -28339,7 +28339,7 @@ var Formula = /*#__PURE__*/function (_React$Component) {
           data: ele
         });
       });
-      return /*#__PURE__*/_react.default.createElement("formula", {
+      return /*#__PURE__*/_react.default.createElement("m-formula", {
         style: this.props.data.css
       }, formulaElements);
     }
@@ -28397,7 +28397,7 @@ var Glyph = /*#__PURE__*/function (_React$Component) {
   _createClass(Glyph, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/_react.default.createElement("div", {
+      return /*#__PURE__*/_react.default.createElement("m-glyph", {
         style: this.props.data.css
       }, /*#__PURE__*/_react.default.createElement("div", {
         style: this.props.data.innerStyle
@@ -28594,6 +28594,12 @@ var MathStyle = /*#__PURE__*/function () {
   }
 
   _createClass(MathStyle, [{
+    key: "getStylizedSize",
+    value: function getStylizedSize(mathConstants) {
+      var factor = MathStyle.getScriptFactor(this.type, mathConstants);
+      return this.fontSize * factor;
+    }
+  }, {
     key: "changeType",
     value: function changeType(type, cramped) {
       return new MathStyle(type, this.fontSize, cramped);
@@ -28602,6 +28608,17 @@ var MathStyle = /*#__PURE__*/function () {
     key: "changeFontSizeByFactor",
     value: function changeFontSizeByFactor(factor) {
       return new MathStyle(this.type, this.fontSize * factor, this.cramped);
+    }
+  }], [{
+    key: "getScriptFactor",
+    value: function getScriptFactor(scriptStyleType, MathConstants) {
+      var scriptFactorMap = {
+        D: 1,
+        T: 1,
+        S: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100,
+        SS: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100
+      };
+      return scriptFactorMap[scriptStyleType];
     }
   }]);
 
@@ -28676,10 +28693,12 @@ var Scripts = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return [nucleus, /*#__PURE__*/_react.default.createElement("scripts", {
-        key: "scripts",
+      return /*#__PURE__*/_react.default.createElement("m-scripts-container", {
         style: this.props.data.css
-      }, superscript, subscript)];
+      }, nucleus, /*#__PURE__*/_react.default.createElement("m-scripts", {
+        key: "scripts",
+        style: this.props.data.scriptsCSS
+      }, superscript, subscript));
     }
   }]);
 
@@ -28695,6 +28714,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ScriptsComponentData = void 0;
 
+var _MathStyle = require("./MathStyle.js");
+
 var _Scripts = require("./Scripts.js");
 
 var _FormulaComponentData = require("./FormulaComponentData.js");
@@ -28709,107 +28730,148 @@ var ScriptsComponentData = /*#__PURE__*/function () {
   function ScriptsComponentData(element, style, fontData) {
     _classCallCheck(this, ScriptsComponentData);
 
+    this.component = _Scripts.Scripts;
     var superscriptMathList = element.superscript,
         subscriptMathList = element.subscript;
 
     if (superscriptMathList === undefined && subscriptMathList === undefined) {
       return;
-    }
+    } //returns script metrics (from math constants table) scaled to
+    //proper font size
+
+
+    var scriptMetrics = ScriptsComponentData.getScriptMetric(fontData, style.fontSize); // u represents height above baseline of the super baseline
+    // v represents depth below baseline of the subscript baseline
+    // delta is the italice correction(used for superscript)
+
+    var u, v, delta; //constructs the nucleus component of the script
+
+    this.nucleus = _FormulaComponentData.FormulaComponentData.componentFactory(element.nucleus, style, fontData); //get the styles for the corresponding scripts based on super/sub
+
+    var superscriptStyle = ScriptsComponentData.getScriptStyle(style, "Super");
+    var subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub"); //determine u,v and delta based nucleus type
+
+    var _ScriptsComponentData = ScriptsComponentData.determineScriptIntialValues(element.nucleus, this.nucleus, style.fontSize, fontData, scriptMetrics, superscriptStyle, subscriptStyle),
+        u = _ScriptsComponentData.u,
+        v = _ScriptsComponentData.v,
+        delta = _ScriptsComponentData.delta; //main script logic
+    //determine the h,w,d,css of scripts container
+
+
+    var _ScriptsComponentData2 = ScriptsComponentData.determineScripts(scriptMetrics, subscriptMathList, superscriptMathList, subscriptStyle, superscriptStyle, fontData, u, v, delta, style),
+        scriptsHeight = _ScriptsComponentData2.scriptsHeight,
+        scriptsWidth = _ScriptsComponentData2.scriptsWidth,
+        scriptsDepth = _ScriptsComponentData2.scriptsDepth,
+        scriptsCSS = _ScriptsComponentData2.scriptsCSS,
+        superscript = _ScriptsComponentData2.superscript,
+        subscript = _ScriptsComponentData2.subscript;
+
+    this.superscript = superscript;
+    this.subscript = subscript;
+    this.scriptsCSS = scriptsCSS;
+    this.height = Math.max(this.nucleus.height, scriptsHeight);
+    this.depth = Math.max(this.nucleus.depth, scriptsDepth);
+    this.width = this.nucleus.width + scriptsWidth;
+    this.nucleus.css.marginTop = this.height - this.nucleus.height + "px";
+    this.scriptsCSS.marginTop = this.height - scriptsHeight + "px";
+    this.scriptsCSS.display = "flex";
+    this.scriptsCSS.flexDirection = "column";
+    this.scriptsCSS.justifyContent = "space-between"; //starting css for scripts container and script element within scripts container
 
     this.css = {
       display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between"
-    };
-    this.component = _Scripts.Scripts;
-    var scriptMetrics = ScriptsComponentData.getScriptMetric(fontData, style.fontSize);
-    var atomTypes = ["Ordinary", "Binary", "Relation", "Operator", "Punctuation"];
-    var u, v, delta;
-    this.nucleus = _FormulaComponentData.FormulaComponentData.componentFactory(element.nucleus, style, fontData);
-    var superscriptStyle = ScriptsComponentData.getScriptStyle(style, "Super");
-    var subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub");
-
-    if (atomTypes.includes(element.nucleus.type)) {
-      u = v = 0;
-      var pxpfu = style.fontSize / fontData.upm;
-      delta = fontData.italicCorrectionMap[element.nucleus.unicode] * pxpfu;
-    } else {
-      u = this.nucleus.height - scriptMetrics.baselineDropMax * ScriptsComponentData.getScriptFactor(superscriptStyle.type, fontData.MATH.MathConstants);
-      v = this.nucleus.depth - scriptMetrics.baselineDropMin * ScriptsComponentData.getScriptFactor(subscriptStyle.type, fontData.MATH.MathConstants);
-    }
-
-    var ss = scriptMetrics.spaceAfterScript; //main script logic
-    //subscript only
-
-    if (superscriptMathList === undefined) {
-      this.setSoleSubscript(subscriptMathList, fontData, subscriptStyle, ss, v, scriptMetrics);
-    } //both sub and super  or  just sub
-    else {
-        this.setSuperscript(superscriptMathList, fontData, superscriptStyle, delta, ss);
-        u = Math.max(u, style.cramped ? scriptMetrics.shiftUpCramped : scriptMetrics.shiftUp, this.superscript.depth + Math.abs(scriptMetrics.bottomMin)); //sole super script
-
-        if (subscriptMathList === undefined) {
-          this.adjustSoleSuperScript(delta, ss, u);
-        } //combo scripts
-        else {
-            this.subscript = new _FormulaComponentData.FormulaComponentData(subscriptMathList, fontData, subscriptStyle);
-            this.subscript.css.alignSelf = "flex-start";
-            this.subscript.css.marginRight = ss;
-            v = Math.max(v, scriptMetrics.shiftDown); //If there is !!not!! enough space between scripts,FIX IT
-
-            if (u - this.subscript.depth - (this.superscript.height - v) < scriptMetrics.gapMin) {
-              v = this.subscript.height - u + this.superscript.depth + scriptMetrics.gapMin;
-              var psi = scriptMetrics.bottomMaxWithSub - (u - this.superscript.depth);
-
-              if (psi > 0) {
-                u += psi;
-                v -= psi;
-              }
-            }
-
-            delta = delta ? delta : 0;
-            this.width = Math.max(this.superscript.width + delta + ss, this.subscript.width + ss);
-            this.height = u + this.superscript.height;
-            this.css.height = this.superscript.height + u + v + this.subscript.depth;
-            this.depth = this.css.height - this.height;
-            this.nucleus.css.marginTop = this.height - this.nucleus.height;
-          }
-      }
-
-    this.css.width = this.width;
+      flexDirection: "row",
+      height: this.height + this.depth + "px",
+      width: this.width + "px"
+    }; //subscript only
+    // this.scriptsCSS.width = this.width;
   }
 
-  _createClass(ScriptsComponentData, [{
-    key: "setSoleSubscript",
-    value: function setSoleSubscript(subscriptMathList, fontData, subscriptStyle, ss, v, scriptMetrics) {
-      this.subscript = new _FormulaComponentData.FormulaComponentData(subscriptMathList, fontData, subscriptStyle);
-      this.width = this.subscript.width + ss; //anything as longs as its not stretch
+  _createClass(ScriptsComponentData, null, [{
+    key: "determineScriptIntialValues",
+    value: function determineScriptIntialValues(nucleusSpec, nucleusComponent, fontSize, fontData, scriptMetrics, superscriptStyle, subscriptStyle) {
+      //needed to determine initial script placement
+      //and delta (italics correction)
+      var atomTypes = ["Ordinary", "Binary", "Relation", "Operator", "Punctuation"];
+      var pxpfu = fontSize / fontData.upm;
+      var u, v, delta;
 
-      this.subscript.css.alignSelf = "flex-end";
-      this.subscript.css.marginRight = ss;
-      this.css.height = this.subscript.height + this.subscript.depth;
-      this.height = this.subscript.height - Math.max(v, scriptMetrics.shiftDown, this.subscript.height - Math.abs(scriptMetrics.topMax));
-      this.depth = this.css.height - this.height;
-      this.nucleus.css.marginTop = this.height - this.nucleus.height;
+      if (atomTypes.includes(nucleusSpec.type) && nucleusSpec.extension !== "Extended") {
+        u = v = 0;
+        delta = fontData.italicCorrectionMap[nucleusSpec.unicode] * pxpfu;
+      } else {
+        u = nucleusComponent.height - scriptMetrics.baselineDropMax * _MathStyle.MathStyle.getScriptFactor(superscriptStyle.type, fontData.MATH.MathConstants);
+        v = nucleusComponent.depth + scriptMetrics.baselineDropMin * _MathStyle.MathStyle.getScriptFactor(subscriptStyle.type, fontData.MATH.MathConstants);
+
+        if (nucleusSpec.extension === "Extended") {
+          delta = nucleusComponent.italicsCorrection ? nucleusComponent.italicsCorrection * pxpfu : 0;
+        } else {
+          delta = 0;
+        }
+      }
+
+      return {
+        u: u,
+        v: v,
+        delta: delta
+      };
     }
   }, {
-    key: "setSuperscript",
-    value: function setSuperscript(superscriptMathList, fontData, superscriptStyle, delta, ss) {
-      this.superscript = new _FormulaComponentData.FormulaComponentData(superscriptMathList, fontData, superscriptStyle);
-      this.superscript.css.marginLeft = delta;
-      this.superscript.css.marginRight = ss;
-      this.superscript.css.alignSelf = "flex-start";
+    key: "determineScripts",
+    value: function determineScripts(scriptMetrics, subscriptMathList, superscriptMathList, subscriptStyle, superscriptStyle, fontData, u, v, delta, currentStyle) {
+      var ss = scriptMetrics.spaceAfterScript;
+
+      if (superscriptMathList === undefined) {
+        return ScriptsComponentData.setSoleSubscript(subscriptMathList, fontData, subscriptStyle, ss, v, scriptMetrics);
+      } //both sub and super  or  just sub
+      else {
+          var superscript = ScriptsComponentData.setSuperscript(superscriptMathList, fontData, superscriptStyle, delta, ss);
+          u = Math.max(u, currentStyle.cramped ? scriptMetrics.shiftUpCramped : scriptMetrics.shiftUp, superscript.depth + Math.abs(scriptMetrics.bottomMin)); //sole super script
+
+          if (subscriptMathList === undefined) {
+            return ScriptsComponentData.setSoleSuperScript(delta, ss, u, superscript);
+          } //combo scripts
+          else {
+              return ScriptsComponentData.setComboScripts(subscriptMathList, fontData, subscriptStyle, ss, scriptMetrics, v, u, superscript, delta);
+            }
+        }
     }
   }, {
-    key: "adjustSoleSuperScript",
-    value: function adjustSoleSuperScript(delta, ss, u) {
-      this.width = delta + this.superscript.width + ss;
-      this.css.height = this.superscript.height + this.superscript.depth;
-      this.height = this.superscript.height + u;
-      this.depth = this.css.height - this.height;
-      this.nucleus.css.marginTop = this.height - this.nucleus.height;
+    key: "setComboScripts",
+    value: function setComboScripts(subscriptMathList, fontData, subscriptStyle, ss, scriptMetrics, currentV, currentU, superscript, currentDelta) {
+      var subscript = new _FormulaComponentData.FormulaComponentData(subscriptMathList, fontData, subscriptStyle);
+      subscript.css.alignSelf = "flex-start";
+      subscript.css.marginRight = ss;
+      var v = Math.max(currentV, scriptMetrics.shiftDown);
+      var u = currentU; //If there is !!not!! enough space between scripts,FIX IT
+
+      if (currentU - subscript.depth - (superscript.height - v) < scriptMetrics.gapMin) {
+        v = subscript.height - currentU + superscript.depth + scriptMetrics.gapMin;
+        var psi = scriptMetrics.bottomMaxWithSub - (u - superscript.depth);
+
+        if (psi > 0) {
+          u += psi;
+          v -= psi;
+        }
+      }
+
+      var delta = currentDelta ? currentDelta : 0;
+      var height = u + superscript.height;
+      var depth = v + subscript.depth;
+      var width = Math.max(superscript.width + delta + ss, subscript.width + ss);
+      var css = {};
+      css.height = height + depth + "px";
+      css.width = width + "px";
+      return {
+        scriptsHeight: height,
+        scriptsWidth: width,
+        scriptsDepth: depth,
+        scriptsCSS: css,
+        subscript: subscript,
+        superscript: superscript
+      }; // nucleus.css.marginTop = height - this.nucleus.height;
     }
-  }], [{
+  }, {
     key: "getScriptMetric",
     value: function getScriptMetric(fontData, size) {
       var mc = fontData.MATH.MathConstants; //script values
@@ -28843,7 +28905,7 @@ var ScriptsComponentData = /*#__PURE__*/function () {
     value: function getScriptStyle(currentStyle, superOrSub) {
       var scriptStyle;
       var styleMap = {
-        D: "T",
+        D: "S",
         T: "S",
         S: "SS",
         SS: "SS"
@@ -28858,15 +28920,51 @@ var ScriptsComponentData = /*#__PURE__*/function () {
       return scriptStyle;
     }
   }, {
-    key: "getScriptFactor",
-    value: function getScriptFactor(scriptStyleType, MathConstants) {
-      var scriptFactorMap = {
-        D: 1,
-        T: 1,
-        S: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100,
-        SS: parseInt(MathConstants.ScriptPercentScaleDown.value, 10) / 100
+    key: "setSoleSubscript",
+    value: function setSoleSubscript(subscriptMathList, fontData, subscriptStyle, ss, v, scriptMetrics) {
+      var subscript = new _FormulaComponentData.FormulaComponentData(subscriptMathList, fontData, subscriptStyle); //anything as longs as its not stretch
+
+      subscript.css.alignSelf = "flex-end";
+      subscript.css.marginRight = ss;
+      var css = {};
+      css.height = subscript.height + subscript.depth;
+      var subscriptBaselineDepth = Math.max(v, scriptMetrics.shiftDown, subscript.height - Math.abs(scriptMetrics.topMax));
+      var height = subscript.height - subscriptBaselineDepth;
+      var width = subscript.width + ss;
+      var depth = subscript.depth + subscriptBaselineDepth;
+      return {
+        scriptsHeight: height,
+        scriptsWidth: width,
+        scriptsDepth: depth,
+        scriptsCSS: css,
+        subscript: subscript
       };
-      return scriptFactorMap[scriptStyleType];
+    }
+  }, {
+    key: "setSuperscript",
+    value: function setSuperscript(superscriptMathList, fontData, superscriptStyle, delta, ss) {
+      var superscript = new _FormulaComponentData.FormulaComponentData(superscriptMathList, fontData, superscriptStyle);
+      superscript.css.marginLeft = delta;
+      superscript.css.marginRight = ss;
+      superscript.css.alignSelf = "flex-start";
+      return superscript;
+    }
+  }, {
+    key: "setSoleSuperScript",
+    value: function setSoleSuperScript(delta, ss, u, superscript) {
+      var width = delta + superscript.width + ss;
+      var height = superscript.height + u;
+      var depth = css.height - height;
+      var css = {};
+      css.height = superscript.height + superscript.depth;
+      css.width = width;
+      return {
+        scriptsHeight: height,
+        scriptsWidth: width,
+        scriptsDepth: depth,
+        scriptsCSS: css,
+        superscript: superscript
+      }; // nucleus.css.marginTop = height - nucleus.height;
     }
   }]);
 
@@ -28874,7 +28972,7 @@ var ScriptsComponentData = /*#__PURE__*/function () {
 }();
 
 exports.ScriptsComponentData = ScriptsComponentData;
-},{"./Scripts.js":"src/Scripts.js","./FormulaComponentData.js":"src/FormulaComponentData.js"}],"src/constructExtendedGlyph.js":[function(require,module,exports) {
+},{"./MathStyle.js":"src/MathStyle.js","./Scripts.js":"src/Scripts.js","./FormulaComponentData.js":"src/FormulaComponentData.js"}],"src/constructExtendedGlyph.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28894,6 +28992,7 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
     variantMap = fontDataVariants.horizontal;
   }
 
+  var italicsCorrection = parseInt(variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value, 10);
   var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
   var currentPartRecords = partRecords.filter(function (ele) {
     return ele.PartFlags.value === "0";
@@ -28934,7 +29033,8 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
         return {
           v: {
             unicodeArray: unicodeArray,
-            overlapArray: overlapArray
+            overlapArray: overlapArray,
+            italicsCorrection: italicsCorrection
           }
         };
       }();
@@ -28958,7 +29058,8 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
         return {
           v: {
             unicodeArray: unicodeArray,
-            overlapArray: overlapArray
+            overlapArray: overlapArray,
+            italicsCorrection: italicsCorrection
           }
         };
       }();
@@ -29097,7 +29198,7 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
           style: ele.inner
         }, ele.symbol));
       });
-      return /*#__PURE__*/_react.default.createElement("extended", {
+      return /*#__PURE__*/_react.default.createElement("m-extended", {
         style: this.props.data.css
       }, components);
     }
@@ -29152,6 +29253,7 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
     //in decimal
 
     var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
+    this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
     var pxpfu = currentFontSize / fontData.upm;
     var dimensions;
 
@@ -29405,12 +29507,14 @@ var FormulaComponentData = /*#__PURE__*/function () {
   }, {
     key: "componentFactory",
     value: function componentFactory(element, style, fontData) {
+      var currentFontSize = style.getStylizedSize(fontData.MATH.MathConstants);
+
       if (element.type === "Script") {
         return new _ScriptsComponentData.ScriptsComponentData(element, style, fontData);
       } else if (element.extension === "Extended") {
-        return (0, _determineTypeOfVariant.determineTypeOfVariant)(element.unicode, element.desiredSize, style.fontSize, element.direction, fontData);
+        return (0, _determineTypeOfVariant.determineTypeOfVariant)(element.unicode, element.desiredSize, currentFontSize, element.direction, fontData);
       } else {
-        return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(element.unicode), style.fontSize, fontData.glyphMetrics[element.unicode], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
+        return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(element.unicode), currentFontSize, fontData.glyphMetrics[element.unicode], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
       }
     }
   }, {
@@ -89116,6 +89220,106 @@ var _default = {
   }
 };
 exports.default = _default;
+},{}],"src/customElements.js":[function(require,module,exports) {
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var mextended = /*#__PURE__*/function (_HTMLElement) {
+  _inherits(mextended, _HTMLElement);
+
+  var _super = _createSuper(mextended);
+
+  function mextended() {
+    _classCallCheck(this, mextended);
+
+    return _super.apply(this, arguments);
+  }
+
+  return mextended;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+var mformula = /*#__PURE__*/function (_HTMLElement2) {
+  _inherits(mformula, _HTMLElement2);
+
+  var _super2 = _createSuper(mformula);
+
+  function mformula() {
+    _classCallCheck(this, mformula);
+
+    return _super2.apply(this, arguments);
+  }
+
+  return mformula;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+var mscript = /*#__PURE__*/function (_HTMLElement3) {
+  _inherits(mscript, _HTMLElement3);
+
+  var _super3 = _createSuper(mscript);
+
+  function mscript() {
+    _classCallCheck(this, mscript);
+
+    return _super3.apply(this, arguments);
+  }
+
+  return mscript;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+var mscriptcontainer = /*#__PURE__*/function (_HTMLElement4) {
+  _inherits(mscriptcontainer, _HTMLElement4);
+
+  var _super4 = _createSuper(mscriptcontainer);
+
+  function mscriptcontainer() {
+    _classCallCheck(this, mscriptcontainer);
+
+    return _super4.apply(this, arguments);
+  }
+
+  return mscriptcontainer;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+var mglyph = /*#__PURE__*/function (_HTMLElement5) {
+  _inherits(mglyph, _HTMLElement5);
+
+  var _super5 = _createSuper(mglyph);
+
+  function mglyph() {
+    _classCallCheck(this, mglyph);
+
+    return _super5.apply(this, arguments);
+  }
+
+  return mglyph;
+}( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
+
+customElements.define("m-extended", mextended);
+customElements.define("m-formula", mformula);
+customElements.define("m-script", mscript);
+customElements.define("m-script-container", mscriptcontainer);
+customElements.define("m-glyph", mglyph);
 },{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
@@ -89205,6 +89409,8 @@ var _AsanaFontData = _interopRequireDefault(require("../fonts/AsanaFontData.js")
 
 var _MathStyle = require("./MathStyle.js");
 
+require("./customElements.js");
+
 require("./styles/fonts.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -89215,20 +89421,31 @@ var mathList = [{
 }, {
   type: "Ordinary",
   extension: "Extended",
-  desiredSize: 500,
-  direction: "vertical",
-  unicode: "8747"
-}, {
-  type: "Ordinary",
-  extension: "Extended",
   desiredSize: 300,
   direction: "horizontal",
-  unicode: "8594"
+  unicode: "10503"
 }, {
   type: "Script",
   nucleus: {
     type: "Ordinary",
-    unicode: "8752"
+    extension: "Extended",
+    desiredSize: 200,
+    direction: "vertical",
+    unicode: "8747"
+  },
+  superscript: [{
+    type: "Ordinary",
+    unicode: "72"
+  }],
+  subscript: [{
+    type: "Ordinary",
+    unicode: "73"
+  }]
+}, {
+  type: "Script",
+  nucleus: {
+    type: "Ordinary",
+    unicode: "8706"
   },
   superscript: [{
     type: "Ordinary",
@@ -89275,7 +89492,7 @@ var myApp = /*#__PURE__*/_react.default.createElement("div", {
 }));
 
 _reactDom.default.render(myApp, document.getElementById("app"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

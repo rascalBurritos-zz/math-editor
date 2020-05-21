@@ -25,12 +25,14 @@ export class Scripts extends React.Component {
             );
         }
 
-        return [
-            nucleus,
-            <scripts key="scripts" style={this.props.data.css}>
-                {superscript}
-                {subscript}
-            </scripts>
-        ];
+        return (
+            <m-scripts-container style={this.props.data.css}>
+                {nucleus}
+                <m-scripts key="scripts" style={this.props.data.scriptsCSS}>
+                    {superscript}
+                    {subscript}
+                </m-scripts>
+            </m-scripts-container>
+        );
     }
 }

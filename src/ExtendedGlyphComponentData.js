@@ -39,6 +39,7 @@ export class ExtendedGlyphComponentData {
             minConnectorOverlap
         );
 
+        this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
         var pxpfu = currentFontSize / fontData.upm;
         var dimensions;
         if (direction === "vertical") {

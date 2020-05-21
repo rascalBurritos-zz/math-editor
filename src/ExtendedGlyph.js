@@ -14,6 +14,6 @@ export class ExtendedGlyph extends React.Component {
                 </div>
             );
         });
-        return <extended style={this.props.data.css}>{components}</extended>;
+        return <m-extended style={this.props.data.css}>{components}</m-extended>;
     }
 }

@@ -6,7 +6,7 @@ export class Formula extends React.Component {
             return <ele.component key={index} data={ele} />;
         });
 
-        return <formula  style={this.props.data.css}>{formulaElements}</formula>;
+        return <m-formula  style={this.props.data.css}>{formulaElements}</m-formula>;
     }
 }
 

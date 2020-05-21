@@ -16,6 +16,7 @@ export function constructExtendedGlyph(
         variantMap = fontDataVariants.horizontal;
     }
 
+    var italicsCorrection = parseInt(variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value,10)
     var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
     var currentPartRecords = partRecords.filter(ele => {
         return ele.PartFlags.value === "0";
@@ -62,7 +63,7 @@ export function constructExtendedGlyph(
             maxOverlapArray.forEach(ele => {
                 overlapArray.push(ele * pxpfu);
             });
-            return { unicodeArray, overlapArray };
+            return { unicodeArray, overlapArray ,italicsCorrection};
         }
         if (maxTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
@@ -79,7 +80,7 @@ export function constructExtendedGlyph(
                 let shrinkAmount = totalShrink *ele/totalOverlap
                 return overlapArray.push((ele - shrinkAmount) * pxpfu);
             });
-            return { unicodeArray, overlapArray };
+            return { unicodeArray, overlapArray, italicsCorrection };
         }
         var intermediatePartRecords = [];
         extenderIteration++;

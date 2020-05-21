@@ -5,28 +5,45 @@ import { FormulaComponentData } from "./FormulaComponentData.js";
 import { fontFactory } from "./Font/FontFactory.js";
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 import { MathStyle } from "./MathStyle.js";
+import "./customElements.js"
 import "./styles/fonts.css";
 var mathList = [
         { type: "Ordinary", unicode: "70" },
         {
             type: "Ordinary",
             extension: "Extended",
-            desiredSize: 500,
-            direction: "vertical",
-            unicode: "8747"
-        },
-        {
-            type: "Ordinary",
-            extension: "Extended",
             desiredSize: 300,
             direction: "horizontal",
-            unicode: "8594"
+            unicode: "10503"
         },
         {
             type: "Script",
             nucleus: {
                 type: "Ordinary",
-                unicode: "8752"
+                extension: "Extended",
+                desiredSize: 200,
+                direction: "vertical",
+                unicode: "8747"
+            },
+            superscript: [
+                {
+                    type: "Ordinary",
+                    unicode: "72"
+                }
+            ],
+
+            subscript: [
+                {
+                    type: "Ordinary",
+                    unicode: "73"
+                }
+            ]
+        },
+        {
+            type: "Script",
+            nucleus: {
+                type: "Ordinary",
+                unicode: "8706"
             },
             superscript: [
                 {
