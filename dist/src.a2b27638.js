@@ -28456,7 +28456,8 @@ var GlyphComponentData = /*#__PURE__*/function () {
       innerStyle.lineHeight = "1";
       innerStyle.fontFamily = fontFamily;
       innerStyle.fontSize = size + "px";
-      innerStyle.height = Math.floor((asc + des) * pxpfu) + 'px';
+      innerStyle.height = Math.floor((asc + des) * pxpfu) + 'px'; //(asc+des)*pxpfu +"px";M
+
       innerStyle.width = "".concat(glyphMetric.advanceWidth * pxpfu, "px");
       innerStyle.position = "relative";
       innerStyle.top = "".concat((glyphMetric.bbox.y2 - asc) * pxpfu, "px");
@@ -29188,8 +29189,8 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var components = this.props.data.elements.map(function (ele, index) {
-        ele.outer.backgroundColor = 'white';
-        ele.inner.backgroundColor = 'white';
+        ele.outer.backgroundColor = 'white'; // ele.inner.backgroundColor = 'white'
+
         ele.outer.mixBlendMode = 'darken';
         return /*#__PURE__*/_react.default.createElement("div", {
           key: index,
@@ -29403,12 +29404,266 @@ function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direc
   var foundVariant = (0, _bestVariant.bestVariant)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode);
 
   if (typeof foundVariant === "number") {
-    return new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
+    var glyphComponent = new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
+    var pxpfu = currentFontSize / fontData.upm;
+    glyphComponent.width = parseInt(fontData.glyphMetrics[foundVariant].advanceWidth, 10) * pxpfu;
+    glyphComponent.css.width = glyphComponent.width + "px";
+    glyphComponent.innerStyle.left = '0px';
+    console.log(glyphComponent);
+    console.log(pxpfu);
+    glyphComponent.css.outline = "";
+    return glyphComponent;
   }
 
   return new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(baseUnicode, currentFontSize, desiredSize, direction, fontData);
 }
-},{"./bestVariant.js":"src/bestVariant.js","./GlyphComponentData.js":"src/GlyphComponentData.js","./ExtendedGlyphComponentData.js":"src/ExtendedGlyphComponentData.js"}],"src/FormulaComponentData.js":[function(require,module,exports) {
+},{"./bestVariant.js":"src/bestVariant.js","./GlyphComponentData.js":"src/GlyphComponentData.js","./ExtendedGlyphComponentData.js":"src/ExtendedGlyphComponentData.js"}],"src/Radical.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Radical = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var Radical = /*#__PURE__*/function (_React$Component) {
+  _inherits(Radical, _React$Component);
+
+  var _super = _createSuper(Radical);
+
+  function Radical() {
+    _classCallCheck(this, Radical);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Radical, [{
+    key: "render",
+    value: function render() {
+      var d = this.props.data;
+      return /*#__PURE__*/_react.default.createElement("m-radical", {
+        style: d.css
+      }, /*#__PURE__*/_react.default.createElement(d.degree.component, {
+        key: d.degree.component,
+        data: d.degree
+      }), /*#__PURE__*/_react.default.createElement(d.delimiter.component, {
+        key: d.delimiter.component,
+        data: d.delimiter
+      }), /*#__PURE__*/_react.default.createElement("m-radicand-container", {
+        style: d.radicandContainerCSS
+      }, /*#__PURE__*/_react.default.createElement("m-rule", {
+        style: d.rule
+      }), /*#__PURE__*/_react.default.createElement(d.radicand.component, {
+        key: d.radicand.component,
+        data: d.radicand
+      })));
+    }
+  }]);
+
+  return Radical;
+}(_react.default.Component);
+
+exports.Radical = Radical;
+},{"react":"node_modules/react/index.js"}],"src/RadicalComponentData.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.RadicalComponentData = void 0;
+
+var _Radical = require("./Radical.js");
+
+var _FormulaComponentData = require("./FormulaComponentData.js");
+
+var _determineTypeOfVariant = require("./determineTypeOfVariant.js");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var RadicalComponentData = /*#__PURE__*/function () {
+  function RadicalComponentData(mathSpec) {
+    _classCallCheck(this, RadicalComponentData);
+
+    this.mathSpec = mathSpec;
+    this.setMathList(mathSpec);
+  }
+
+  _createClass(RadicalComponentData, [{
+    key: "setMathList",
+    value: function setMathList(mathSpec) {
+      this.component = _Radical.Radical;
+      this.css = this.getDefaultCSS();
+      this.radicalConstants = this.getConstants();
+      this.degree = this.generateDegree();
+      this.radicand = this.generateRadicand();
+      this.delimiter = this.generateDelimiter();
+      console.log(this.delimiter.height);
+      this.rule = this.generateRule();
+      this.positionRadicand();
+      this.positionDegree();
+      this.radicandContainerCSS = this.getRadicandContainerCSS();
+      this.addExtraAscenderToMargins();
+      this.setDimensions();
+    }
+  }, {
+    key: "setDimensions",
+    value: function setDimensions() {
+      this.height = 30;
+      this.width = 40;
+    }
+  }, {
+    key: "getRadicandContainerCSS",
+    value: function getRadicandContainerCSS() {
+      var radicandHeight = this.radicandClearance + 2 * this.radicandDelta + this.radicalConstants.ruleThickness * this.mathSpec.pxpfu;
+      return {
+        display: "flex",
+        flexDirection: "column",
+        height: radicandHeight
+      };
+    }
+  }, {
+    key: "addExtraAscenderToMargins",
+    value: function addExtraAscenderToMargins() {
+      this.delimiter.css.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
+      this.radicandContainerCSS.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
+    }
+  }, {
+    key: "positionDegree",
+    value: function positionDegree() {
+      this.degree.css.marginLeft = this.radicalConstants.kernBeforeDegree * this.mathSpec.pxpfu;
+      this.degree.css.marginRight = this.radicalConstants.kernAfterDegree * this.mathSpec.pxpfu;
+      this.degree.css.marginTop = this.getDegreeMarginTop();
+    }
+  }, {
+    key: "getDegreeMarginTop",
+    value: function getDegreeMarginTop() {
+      var delimiterTotalHeight = this.delimiter.height + this.delimiter.depth;
+      var pxDownFromTopOfDelimiter = 100 - this.radicalConstants.degreeBottomRaisePercent * delimiterTotalHeight;
+      var extraAscender = this.radicalConstants.extraAscender;
+      return extraAscender + pxDownFromTopOfDelimiter;
+    }
+  }, {
+    key: "positionRadicand",
+    value: function positionRadicand() {
+      var delimiterDescender = this.delimiter.height + this.delimiter.depth - this.radicalConstants.ruleThickness * this.mathSpec.pxpfu;
+      var delta = 1 / 2 * (delimiterDescender - this.radicandClearance);
+      this.radicandDelta = delta;
+      var verticalGap = this.determineRadicandVerticalGap();
+      var marginTop = verticalGap + delta;
+      this.radicand.css.marginTop = marginTop;
+    }
+  }, {
+    key: "getConstants",
+    value: function getConstants() {
+      var mathConstants = this.mathSpec.fontData.MATH.MathConstants;
+      var preParseConstants = {
+        verticalGap: mathConstants.RadicalVerticalGap,
+        displayVerticalGap: mathConstants.RadicalDisplayStyleVerticalGap,
+        ruleThickness: mathConstants.RadicalRuleThickness,
+        extraAscender: mathConstants.RadicalExtraAscender,
+        kernBeforeDegree: mathConstants.RadicalKernBeforeDegree,
+        kernAfterDegree: mathConstants.RadicalKernAfterDegree,
+        degreeBottomRaisePercent: mathConstants.RadicalDegreeBottomRaisePercent
+      };
+      var radicalConstants = {};
+
+      for (var constant in preParseConstants) {
+        if (preParseConstants[constant].Value) {
+          radicalConstants[constant] = parseInt(preParseConstants[constant].Value.value, 10);
+        } else {
+          radicalConstants[constant] = parseInt(preParseConstants[constant].value, 10);
+        }
+      }
+
+      return radicalConstants;
+    }
+  }, {
+    key: "getDefaultCSS",
+    value: function getDefaultCSS() {
+      return {
+        display: "flex",
+        flexDirection: "row"
+      };
+    }
+  }, {
+    key: "generateDegree",
+    value: function generateDegree() {
+      return new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.degree, this.mathSpec.fontData, this.mathSpec.style);
+    }
+  }, {
+    key: "generateRule",
+    value: function generateRule() {
+      return {
+        alignSelf: "stretch",
+        backgroundColor: "black",
+        height: this.radicalConstants.ruleThickness * this.mathSpec.pxpfu
+      };
+    }
+  }, {
+    key: "generateRadicand",
+    value: function generateRadicand() {
+      var radicand = new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.radicand, this.mathSpec.fontData, this.mathSpec.style);
+      this.radicandClearance = this.calculateRadicandClearance(radicand);
+      return radicand;
+    }
+  }, {
+    key: "calculateRadicandClearance",
+    value: function calculateRadicandClearance(radicand) {
+      var subClearance = radicand.height + radicand.depth;
+      return subClearance + this.determineRadicandVerticalGap();
+    }
+  }, {
+    key: "determineRadicandVerticalGap",
+    value: function determineRadicandVerticalGap() {
+      var verticalGap = this.mathSpec.style.type === "D" ? this.radicalConstants.displayVerticalGap : this.radicalConstants.verticalGap;
+      return verticalGap * this.mathSpec.pxpfu;
+    }
+  }, {
+    key: "generateDelimiter",
+    value: function generateDelimiter() {
+      var unicode = "8730";
+      var desiredSize = this.radicandClearance;
+      var fontSize = this.mathSpec.style.fontSize;
+      var direction = "vertical";
+      var fontData = this.mathSpec.fontData;
+      return (0, _determineTypeOfVariant.determineTypeOfVariant)(unicode, desiredSize, fontSize, direction, fontData);
+    }
+  }]);
+
+  return RadicalComponentData;
+}();
+
+exports.RadicalComponentData = RadicalComponentData;
+},{"./Radical.js":"src/Radical.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./determineTypeOfVariant.js":"src/determineTypeOfVariant.js"}],"src/FormulaComponentData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29429,6 +29684,8 @@ var _ScriptsComponentData = require("./ScriptsComponentData.js");
 var _ExtendedGlyphComponentData = require("./ExtendedGlyphComponentData");
 
 var _determineTypeOfVariant = require("./determineTypeOfVariant.js");
+
+var _RadicalComponentData = require("./RadicalComponentData.js");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -29511,6 +29768,15 @@ var FormulaComponentData = /*#__PURE__*/function () {
 
       if (element.type === "Script") {
         return new _ScriptsComponentData.ScriptsComponentData(element, style, fontData);
+      } else if (element.type === "Radical") {
+        var pxpfu = currentFontSize / fontData.upm;
+        var mathSpec = {
+          fontData: fontData,
+          mathList: element,
+          pxpfu: pxpfu,
+          style: style
+        };
+        return new _RadicalComponentData.RadicalComponentData(mathSpec);
       } else if (element.extension === "Extended") {
         return (0, _determineTypeOfVariant.determineTypeOfVariant)(element.unicode, element.desiredSize, currentFontSize, element.direction, fontData);
       } else {
@@ -29545,12 +29811,16 @@ var FormulaComponentData = /*#__PURE__*/function () {
 
       for (var i = 1; i < mathList.length; i++) {
         var atomTypes = ["Ordinary", "Binary", "Relation", "Punctuation"];
-        var right = atomTypes.includes(mathList[i].type) ? mathList[i].type : mathList[i].nucleus.type;
-        var left = atomTypes.includes(mathList[i - 1].type) ? mathList[i - 1].type : mathList[i - 1].nucleus.type;
+        var right = atomTypes.includes(mathList[i].type) ? mathList[i].type : 0;
+        var left = atomTypes.includes(mathList[i - 1].type) ? mathList[i - 1].type : 0;
         {
           //make fix the orientation :/
-          var code = _leftRightTable.interElementSpacingTable[right][left];
-          spacingArray.push(muMap[code.charAt(0)]);
+          if (atomTypes.includes(left) && atomTypes.includes(right)) {
+            var code = _leftRightTable.interElementSpacingTable[right][left];
+            spacingArray.push(muMap[code.charAt(0)]);
+          } else {
+            spacingArray.push('0');
+          }
         }
       }
 
@@ -29581,7 +29851,7 @@ var FormulaComponentData = /*#__PURE__*/function () {
 }();
 
 exports.FormulaComponentData = FormulaComponentData;
-},{"./GlyphComponentData.js":"src/GlyphComponentData.js","./leftRightTable.js":"src/leftRightTable.js","./Formula.js":"src/Formula.js","./MathStyle.js":"src/MathStyle.js","./ScriptsComponentData.js":"src/ScriptsComponentData.js","./ExtendedGlyphComponentData":"src/ExtendedGlyphComponentData.js","./determineTypeOfVariant.js":"src/determineTypeOfVariant.js"}],"src/Font/FontData.js":[function(require,module,exports) {
+},{"./GlyphComponentData.js":"src/GlyphComponentData.js","./leftRightTable.js":"src/leftRightTable.js","./Formula.js":"src/Formula.js","./MathStyle.js":"src/MathStyle.js","./ScriptsComponentData.js":"src/ScriptsComponentData.js","./ExtendedGlyphComponentData":"src/ExtendedGlyphComponentData.js","./determineTypeOfVariant.js":"src/determineTypeOfVariant.js","./RadicalComponentData.js":"src/RadicalComponentData.js"}],"src/Font/FontData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -89419,6 +89689,16 @@ var mathList = [{
   type: "Ordinary",
   unicode: "70"
 }, {
+  type: "Radical",
+  degree: [{
+    type: "Ordinary",
+    unicode: "70"
+  }],
+  radicand: [{
+    type: "Ordinary",
+    unicode: "70"
+  }]
+}, {
   type: "Ordinary",
   extension: "Extended",
   desiredSize: 300,
@@ -89520,7 +89800,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36011" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46379" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

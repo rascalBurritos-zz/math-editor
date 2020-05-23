@@ -2,6 +2,9 @@
   font-family: Asana;
   src: url(/Asana-Math.2120c974.otf);
 }
+m-formula{
+    overflow:auto;
+}
 div {
     -webkit-font-smoothing: none;
 }

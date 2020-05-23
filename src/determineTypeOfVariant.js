@@ -19,7 +19,7 @@ export function determineTypeOfVariant(
         fontData.glyphNameToUnicode
     );
     if (typeof foundVariant === "number") {
-        return new GlyphComponentData(
+        let glyphComponent = new GlyphComponentData(
             String.fromCodePoint(foundVariant),
             currentFontSize,
             fontData.glyphMetrics[foundVariant],
@@ -28,6 +28,16 @@ export function determineTypeOfVariant(
             fontData.asc,
             fontData.des
         );
+        let pxpfu = currentFontSize / fontData.upm;
+        glyphComponent.width =
+            parseInt(fontData.glyphMetrics[foundVariant].advanceWidth, 10) *
+            pxpfu;
+        glyphComponent.css.width = glyphComponent.width + "px";
+        glyphComponent.innerStyle.left = '0px'
+        console.log(glyphComponent)
+        console.log(pxpfu)
+        glyphComponent.css.outline = ""
+        return glyphComponent;
     }
     return new ExtendedGlyphComponentData(
         baseUnicode,

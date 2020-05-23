@@ -4,7 +4,8 @@ import { Formula } from "./Formula.js";
 import { MathStyle } from "./MathStyle.js";
 import { ScriptsComponentData } from "./ScriptsComponentData.js";
 import { ExtendedGlyphComponentData } from "./ExtendedGlyphComponentData";
-import {determineTypeOfVariant} from './determineTypeOfVariant.js'
+import { determineTypeOfVariant } from "./determineTypeOfVariant.js";
+import { RadicalComponentData } from "./RadicalComponentData.js";
 
 export class FormulaComponentData {
     constructor(mathList, fontData, style) {
@@ -85,9 +86,20 @@ export class FormulaComponentData {
         return dimensionArray;
     }
     static componentFactory(element, style, fontData) {
-        var currentFontSize = style.getStylizedSize(fontData.MATH.MathConstants)
+        var currentFontSize = style.getStylizedSize(
+            fontData.MATH.MathConstants
+        );
         if (element.type === "Script") {
             return new ScriptsComponentData(element, style, fontData);
+        } else if (element.type === "Radical") {
+            let pxpfu = currentFontSize / fontData.upm;
+            let mathSpec = {
+                fontData: fontData,
+                mathList: element,
+                pxpfu: pxpfu,
+                style: style
+            };
+            return new RadicalComponentData(mathSpec);
         } else if (element.extension === "Extended") {
             return determineTypeOfVariant(
                 element.unicode,
@@ -128,14 +140,20 @@ export class FormulaComponentData {
             var atomTypes = ["Ordinary", "Binary", "Relation", "Punctuation"];
             var right = atomTypes.includes(mathList[i].type)
                 ? mathList[i].type
-                : mathList[i].nucleus.type;
+                : 0;
             var left = atomTypes.includes(mathList[i - 1].type)
                 ? mathList[i - 1].type
-                : mathList[i - 1].nucleus.type;
+                : 0;
             {
                 //make fix the orientation :/
-                var code = interElementSpacingTable[right][left];
-                spacingArray.push(muMap[code.charAt(0)]);
+                if (atomTypes.includes(left) && atomTypes.includes(right)) {
+                    var code = interElementSpacingTable[right][left];
+
+                    spacingArray.push(muMap[code.charAt(0)]);
+                }else{
+                    spacingArray.push('0')
+                }
+                
             }
         }
         return spacingArray;

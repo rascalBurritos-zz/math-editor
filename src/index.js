@@ -5,10 +5,15 @@ import { FormulaComponentData } from "./FormulaComponentData.js";
 import { fontFactory } from "./Font/FontFactory.js";
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 import { MathStyle } from "./MathStyle.js";
-import "./customElements.js"
+import "./customElements.js";
 import "./styles/fonts.css";
 var mathList = [
         { type: "Ordinary", unicode: "70" },
+        {
+            type: "Radical",
+            degree: [{ type: "Ordinary", unicode: "70" }],
+            radicand: [{ type: "Ordinary", unicode: "70" }]
+        },
         {
             type: "Ordinary",
             extension: "Extended",

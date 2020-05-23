@@ -32,7 +32,7 @@ export class GlyphComponentData {
         innerStyle.lineHeight = "1";
         innerStyle.fontFamily = fontFamily;
         innerStyle.fontSize = size + "px";
-        innerStyle.height = Math.floor((asc + des) * pxpfu)+ 'px';
+        innerStyle.height = Math.floor((asc + des) * pxpfu)+ 'px';//(asc+des)*pxpfu +"px";M
         innerStyle.width = `${glyphMetric.advanceWidth * pxpfu}px`;
         innerStyle.position = "relative";
         innerStyle.top = `${(glyphMetric.bbox.y2 - asc) * pxpfu}px`;
