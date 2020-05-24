@@ -21,10 +21,13 @@ export function fontFactory(fontMetric) {
 
     options.upm = parseInt(head.unitsPerEm.value, 10);
     var hexMetrics = fontMetric.FontMetric.GlyphMetrics;
+    var hexSVGPaths = fontMetric.FontMetric.SVGPaths;
     options.glyphMetrics = {};
+    options.svgPaths = {};
     for (var m in hexMetrics) {
         options.glyphMetrics[parseInt(m.slice(1), 16).toString(10)] =
             hexMetrics[m];
+        options.svgPaths[parseInt(m.slice(1),16).toString(10)] = hexSVGPaths[m]
     }
     options.MATH = fontMetric.FontMetric.MATH;
 

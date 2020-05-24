@@ -7,6 +7,7 @@ export class FontData {
         this.des = options.des;
         this.upm = options.upm;
         this.glyphMetrics = options.glyphMetrics;
+        this.svgPaths = options.svgPaths;
         this.italicCorrectionMap = options.italicCorrectionMap;
         this.variants = options.variants;
         this.MATH = options.MATH;

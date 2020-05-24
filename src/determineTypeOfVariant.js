@@ -34,8 +34,6 @@ export function determineTypeOfVariant(
             pxpfu;
         glyphComponent.css.width = glyphComponent.width + "px";
         glyphComponent.innerStyle.left = '0px'
-        console.log(glyphComponent)
-        console.log(pxpfu)
         glyphComponent.css.outline = ""
         return glyphComponent;
     }

@@ -16,8 +16,12 @@ export function constructExtendedGlyph(
         variantMap = fontDataVariants.horizontal;
     }
 
-    var italicsCorrection = parseInt(variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value,10)
+    var italicsCorrection = parseInt(
+        variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value,
+        10
+    );
     var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
+    // console.log(partRecords)
     var currentPartRecords = partRecords.filter(ele => {
         return ele.PartFlags.value === "0";
     });
@@ -43,6 +47,12 @@ export function constructExtendedGlyph(
                 currentPartRecords[i - 1].EndConnectorLength.value,
                 10
             );
+            if (startConnector === 0) {
+                startConnector = parseInt(
+                    currentPartRecords[i].EndConnectorLength.value,
+                    10
+                );
+            }
             let maxOverlap = Math.min(startConnector, endConnector);
             maxOverlapArray.push(maxOverlap);
             let minOverlap =
@@ -63,7 +73,7 @@ export function constructExtendedGlyph(
             maxOverlapArray.forEach(ele => {
                 overlapArray.push(ele * pxpfu);
             });
-            return { unicodeArray, overlapArray ,italicsCorrection};
+            return { unicodeArray, overlapArray, italicsCorrection };
         }
         if (maxTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
@@ -73,11 +83,12 @@ export function constructExtendedGlyph(
             let numberOfAdjacentPairs = maxOverlapArray.length;
             let totalShrink = maxTotalHeight - desiredSizeFU;
             let overlapArray = [];
-            let totalOverlap = maxOverlapArray.reduce((acc,curr)=>{
-                return acc+=curr
-            })
+            let totalOverlap = maxOverlapArray.reduce((acc, curr) => {
+                return (acc += curr);
+            });
+
             maxOverlapArray.forEach(ele => {
-                let shrinkAmount = totalShrink *ele/totalOverlap
+                let shrinkAmount = (totalShrink * ele) / totalOverlap;
                 return overlapArray.push((ele - shrinkAmount) * pxpfu);
             });
             return { unicodeArray, overlapArray, italicsCorrection };

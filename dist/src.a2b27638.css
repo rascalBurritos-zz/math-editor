@@ -1,9 +1,13 @@
 @font-face {
-  font-family: Asana;
-  src: url(/Asana-Math.2120c974.otf);
+    font-family: Asana;
+    src: url(/Asana-Math.2120c974.otf);
 }
-m-formula{
-    overflow:auto;
+m-formula {
+    overflow: auto;
+}
+svg {
+    /* background-color: white; */
+    /* shape-rendering: crispedges; */
 }
 div {
     -webkit-font-smoothing: none;

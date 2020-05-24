@@ -12,7 +12,13 @@ var mathList = [
         {
             type: "Radical",
             degree: [{ type: "Ordinary", unicode: "70" }],
-            radicand: [{ type: "Ordinary", unicode: "70" }]
+            radicand: [{
+                type: "Ordinary",
+                extension: "Extended",
+                desiredSize: 200,
+                direction: "vertical",
+                unicode: "8747"
+            }]
         },
         {
             type: "Ordinary",

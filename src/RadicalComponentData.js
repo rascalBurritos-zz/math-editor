@@ -128,6 +128,7 @@ export class RadicalComponentData {
         );
         this.radicandClearance = this.calculateRadicandClearance(radicand);
 
+
         return radicand;
     }
 

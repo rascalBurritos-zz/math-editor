@@ -78,8 +78,13 @@ export class ExtendedGlyphComponentData {
         this.elements = [];
 
         //gets inner and outer styles for the divs needed to make the extended Component
-        componentOrderUnicode.forEach(ele => {
+        componentOrderUnicode.forEach((ele, index) => {
             let component = {};
+            //for svg expiriment
+            component.width = dimensions.widthArray[index];
+            component.depth = dimensions.depthArray[index];
+            component.height = dimensions.heightArray[index];
+            component.textHeight = dimensions.heightArray[index];
             component.inner = ExtendedGlyphComponentData.getExtendedInnerStyle(
                 fontData.fontFamily,
                 currentFontSize,
@@ -94,6 +99,7 @@ export class ExtendedGlyphComponentData {
             );
             component.outer.outline = "";
             component.symbol = String.fromCodePoint(ele);
+            component.path = fontData.svgPaths[ele].commands;
             this.elements.push(component);
         });
         //adjusts marigns for overlap
@@ -110,34 +116,40 @@ export class ExtendedGlyphComponentData {
             ExtendedGlyphComponentData.adjustElementTopMargins(
                 this.elements,
                 dimensions.heightArray,
-                dimensions.height
+                dimensions.height,
+                pxpfu
             );
         }
         this.css.height = dimensions.height + dimensions.depth;
         this.css.width = dimensions.width;
     }
 
-    static getDimensionsHorizontal(unicodeArray,overlapArray, glyphMetricMap, pxpfu) {
+    static getDimensionsHorizontal(
+        unicodeArray,
+        overlapArray,
+        glyphMetricMap,
+        pxpfu
+    ) {
         var heightArray = [];
         var depthArray = [];
         var widthArray = [];
         unicodeArray.forEach(ele => {
-            let bbox = glyphMetricMap[ele].bbox;
-            heightArray.push(parseInt(bbox.y2, 10) * pxpfu);
-            depthArray.push(-parseInt(bbox.y1, 10) * pxpfu);
-            widthArray.push(
-                parseInt(glyphMetricMap[ele].advanceWidth, 10) * pxpfu
-            );
+            let height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
+            let depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
+            let width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
+            widthArray.push(width);
+            heightArray.push(height);
+            depthArray.push(depth);
         });
-        var height = Math.max(...heightArray);
-        var depth = Math.max(...depthArray);
-        var glyphWidths  = widthArray.reduce((acc, curr) => {
+        var height = Math.max(...heightArray) * pxpfu;
+        var depth = Math.max(...depthArray) * pxpfu;
+        var glyphWidths = widthArray.reduce((acc, curr) => {
+            return acc + curr ;
+        });
+        var totalOvelap = overlapArray.reduce((acc, curr) => {
             return acc + curr;
         });
-        var totalOvelap =  overlapArray.reduce((acc,curr)=>{
-            return acc + curr;
-        })
-        var width = glyphWidths -totalOvelap;
+        var width = glyphWidths *pxpfu- totalOvelap;
         return {
             heightArray,
             depthArray,
@@ -149,9 +161,9 @@ export class ExtendedGlyphComponentData {
         //determine total width, then in the next function, adjust the
         //top margins of the horizontal glyphs to align to baseline
     }
-    static adjustElementTopMargins(elements, heightArray, heightMax) {
+    static adjustElementTopMargins(elements, heightArray, heightMax,pxpfu) {
         heightArray.forEach((ele, index) => {
-            elements[index].outer.marginTop = heightMax - heightArray[index];
+            elements[index].outer.marginTop = heightMax - heightArray[index]*pxpfu;
         });
     }
     static getDimensionsVertical(
@@ -161,6 +173,17 @@ export class ExtendedGlyphComponentData {
         mathAxisHeight,
         pxpfu
     ) {
+        var heightArray = [];
+        var depthArray = [];
+        var widthArray = [];
+        unicodeArray.forEach(ele => {
+            let height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
+            let depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
+            let width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
+            widthArray.push(width);
+            heightArray.push(height);
+            depthArray.push(depth);
+        });
         var totalGlyphHeight = unicodeArray.reduce((acc, curr) => {
             let bbox = glyphMetricMap[curr].bbox;
             let glyphHeight =
@@ -176,7 +199,14 @@ export class ExtendedGlyphComponentData {
         var adjustedDepth = totalHeight / 2 - mathAxisHeight * pxpfu;
         var width =
             parseInt(glyphMetricMap[unicodeArray[0]].advanceWidth, 10) * pxpfu;
-        return { height: adjustedHeight, depth: adjustedDepth, width: width };
+        return {
+            widthArray: widthArray,
+            depthArray: depthArray,
+            heightArray: heightArray,
+            height: adjustedHeight,
+            depth: adjustedDepth,
+            width: width
+        };
     }
     static getExtendedInnerStyle(
         fontFamily,
