@@ -21,12 +21,13 @@ export function constructExtendedGlyph(
         10
     );
     var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
-    // console.log(partRecords)
     var currentPartRecords = partRecords.filter(ele => {
         return ele.PartFlags.value === "0";
     });
     var extenderIteration = 0;
-    while (true) {
+    var i = 0;
+    while (i < 30) {
+        i++;
         var totalHeight = 0;
         currentPartRecords.forEach(ele => {
             totalHeight += parseInt(ele.FullAdvance.value);
@@ -63,7 +64,7 @@ export function constructExtendedGlyph(
             minTotalHeight -= maxOverlap;
             maxTotalHeight -= minOverlap;
         }
-        // console.log(minTotalHeight + " " + maxTotalHeight)
+
         if (minTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
                 currentPartRecords,
@@ -71,7 +72,7 @@ export function constructExtendedGlyph(
             );
             let overlapArray = [];
             maxOverlapArray.forEach(ele => {
-                overlapArray.push(ele * pxpfu);
+                overlapArray.push(ele);
             });
             return { unicodeArray, overlapArray, italicsCorrection };
         }
@@ -89,7 +90,7 @@ export function constructExtendedGlyph(
 
             maxOverlapArray.forEach(ele => {
                 let shrinkAmount = (totalShrink * ele) / totalOverlap;
-                return overlapArray.push((ele - shrinkAmount) * pxpfu);
+                return overlapArray.push(ele - shrinkAmount);
             });
             return { unicodeArray, overlapArray, italicsCorrection };
         }

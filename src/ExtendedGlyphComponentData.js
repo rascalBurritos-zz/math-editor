@@ -3,31 +3,31 @@ import { constructExtendedGlyph } from "./constructExtendedGlyph.js";
 import { bestVariant } from "./bestVariant.js";
 import { ExtendedGlyph } from "./ExtendedGlyph.js";
 
-export class ExtendedGlyphComponentData {
-    constructor(
-        baseUnicode,
-        currentFontSize,
-        desiredSize,
-        direction,
-        fontData
-    ) {
-        this.component = ExtendedGlyph;
-        this.css = { outline: "1px solid darkred" };
-        //sets default css properties for different direction
-        if (direction === "vertical") {
-            this.css.display = "flex";
-            this.css.flexDirection = "column";
-        } else if (direction === "horizontal") {
-            this.css.display = "flex";
-            this.css.flexDirection = "row";
-        }
+//baseUnicode,
+// currentFontSize,
+//desiredSize,
+//direction,
+//fontData
+//pxpfu
+class GlyphConstruction {
+    constructor(glyphSpec) {
+        this.setDirection(glyphSpec.direction);
+        this.determineGlyphsAndOverlap(glyphSpec);
+    }
+    setDirection(direction) {
+        this.direction = direction;
+    }
 
+    determineGlyphsAndOverlap(glyphSpec) {
+        let fontData = glyphSpec.fontData;
+        let baseUnicode = glyphSpec.baseUnicode;
+        let currentFontSize = glyphSpec.currentFontSize;
+        let desiredSize = glyphSpec.desiredSize;
+        let direction = this.direction;
         var minConnectorOverlap = parseInt(
             fontData.MATH.MathVariants.MinConnectorOverlap.value,
             10
         );
-        //gets the an object containing the overlap array and the array of unicode points
-        //in decimal
         var extendedGlyphMetrics = constructExtendedGlyph(
             baseUnicode,
             desiredSize,
@@ -38,198 +38,234 @@ export class ExtendedGlyphComponentData {
             fontData.glyphNameToUnicode,
             minConnectorOverlap
         );
-
+        this.unicodeArray = extendedGlyphMetrics.unicodeArray;
+        this.overlapArray = extendedGlyphMetrics.overlapArray;
         this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
-        var pxpfu = currentFontSize / fontData.upm;
-        var dimensions;
-        if (direction === "vertical") {
-            var componentOrderUnicode = extendedGlyphMetrics.unicodeArray.reverse();
-            var componentOrderOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
-            var mathAxis = parseInt(
-                fontData.MATH.MathConstants.AxisHeight.Value.value,
+    }
+}
+export class ExtendedGlyphComponentData {
+    constructor(glyphSpec) {
+        this.generateData(glyphSpec);
+    }
+
+    generateData(glyphSpec) {
+        this.component = ExtendedGlyph;
+        this.svgConstruction = this.getSVGConstruction(glyphSpec); //each element
+        //has path, fu height, fu depth, fu width, transform string
+        this.viewBox = this.getViewbox(this.svgConstruction); //set the viewbox of svg
+        this.setDimensions(glyphSpec); //set this.height,width,depth,
+        // used for formula and such
+        this.css = this.getCSS(glyphSpec);
+    }
+
+    getSVGConstruction(glyphSpec) {
+        var glyphConstruction = new GlyphConstruction(glyphSpec);
+        var svgConstruction = new SVGConstruction(
+            glyphConstruction,
+            glyphSpec.fontData
+        );
+        return svgConstruction;
+    }
+
+    getViewbox(svgConstruction) {
+        let dimension = svgConstruction.dimension;
+        let baseString = "0, ";
+        let ymin = dimension.ymin;
+        let totalWidth = dimension.totalWidth;
+        let totalHeight = dimension.totalHeight;
+        return baseString + ymin + ", " + totalWidth + ", " + totalHeight;
+    }
+
+    setDimensions(glyphSpec) {
+        let pxpfu = glyphSpec.pxpfu;
+        this.height = this.svgConstruction.dimension.height * pxpfu;
+        this.depth = this.svgConstruction.dimension.depth * pxpfu;
+        this.width = this.svgConstruction.dimension.totalWidth * pxpfu;
+    }
+
+    getCSS(glyphSpec) {
+        let height =
+            this.svgConstruction.dimension.totalHeight * glyphSpec.pxpfu + "px";
+        let width =
+            this.svgConstruction.dimension.totalWidth * glyphSpec.pxpfu + "px";
+        return { height: height, width: width, outline: "1px solid darkred" };
+    }
+}
+
+class PartialSVGGlyph {
+    constructor(unicodeAndFontData) {
+        this.unicode = unicodeAndFontData.unicode;
+        this.fontData = unicodeAndFontData.fontData;
+        this.path = this.getPath();
+        this.setFUDimensions();
+        this.transform = "";
+    }
+
+    getPath() {
+        let svgPaths = this.fontData.svgPaths;
+        return svgPaths[this.unicode].commands;
+    }
+
+    setFUDimensions() {
+        let glyphMetric = this.fontData.glyphMetrics[this.unicode];
+        this.height = parseInt(glyphMetric.bbox.y2, 10);
+        this.depth = -parseInt(glyphMetric.bbox.y1, 10);
+        this.width = parseInt(glyphMetric.advanceWidth, 10);
+    }
+}
+
+class SVGConstruction {
+    constructor(glyphConstruction, fontData) {
+        this.fontData = fontData;
+        this.direction = glyphConstruction.direction;
+        this.overlapArray = glyphConstruction.overlapArray;
+        this.directionDimension = this.getProperDirectionDimension();
+        this.partialSVGGlyphArray = this.generatePartialSVGGlyphArray(
+            glyphConstruction
+        );
+        this.dimension = new SVGConstructionDimension(this);
+        this.transform = this.generateTransform();
+    }
+
+    generateTransform(){
+        let midX = this.dimension.totalWidth/2;
+        let midY = this.dimension.totalHeight/2;
+        let firstTranslate = `translate(${midX},${midY}) `;
+        let scale = 'scale(1,-1) ';
+        let secondTranslate = `translate(${-midX},${-midY})`;
+        return firstTranslate + scale + secondTranslate;
+    }
+
+    isVertical() {
+        if (this.direction === "vertical") {
+            return true;
+        } else if (this.direction === "horizontal") {
+            return false;
+        } else {
+            throw new Error("wrong Extension");
+        }
+    }
+    generatePartialSVGGlyphArray(glyphConstruction) {
+        var partialSVGGlyphArray = [];
+        glyphConstruction.unicodeArray.forEach(ele => {
+            let options = { unicode: ele, fontData: this.fontData };
+            partialSVGGlyphArray.push(new PartialSVGGlyph(options));
+        });
+        this.injectTransforms(partialSVGGlyphArray, this.overlapArray);
+        return partialSVGGlyphArray;
+    }
+
+    injectTransforms(partialSVGGlyphArray, overlapArray) {
+        this.offsets = this.calculateOffsets(
+            partialSVGGlyphArray,
+            overlapArray
+        );
+        partialSVGGlyphArray.forEach((partialSVGGlyph, index) => {
+            let offset = this.offsets[index];
+            partialSVGGlyph.transform = this.getTransformString(offset);
+        });
+    }
+    getTransformString(offset) {
+        let prefix = "translate(";
+        let suffix = ")";
+        let fix = this.isVertical() ? "0, " + offset : offset + ", 0";
+        return prefix + fix + suffix;
+    }
+
+    getProperDirectionDimension() {
+        let directionDimension = this.isVertical() ? "height" : "width";
+        return directionDimension;
+    }
+
+    calculateOffsets(partialSVGGlyphArray, overlapArray) {
+        let currentOffset = 0;
+        let offsetArray = [];
+
+        partialSVGGlyphArray.forEach((partialGlyph, index) => {
+            offsetArray.push(currentOffset);
+            let overlap = overlapArray[index] ? overlapArray[index] : 0;
+            currentOffset += partialGlyph[this.directionDimension] - overlap;
+        });
+        return offsetArray;
+    }
+}
+
+class SVGConstructionDimension {
+    constructor(svgConstruction) {
+        this.ymin = this.calculateYMin(svgConstruction.partialSVGGlyphArray);
+        this.totalWidth = this.calculateTotalWidth(svgConstruction);
+        this.totalHeight = this.calculateTotalHeight(svgConstruction);
+        this.setHeightandDepth(svgConstruction);
+    }
+
+    setHeightandDepth(svgConstruction) {
+        if (svgConstruction.isVertical()) {
+            let mathAxis = parseInt(
+                svgConstruction.fontData.MATH.MathConstants.AxisHeight.Value
+                    .value,
                 10
             );
-            //dimensions does not depend on componnentOrderunicode but this
-            //was a convenient place to put it (if vertical)
-            dimensions = ExtendedGlyphComponentData.getDimensionsVertical(
-                componentOrderUnicode,
-                componentOrderOverlapArray,
-                fontData.glyphMetrics,
-                mathAxis,
-                pxpfu
+            this.height = this.totalHeight / 2 + mathAxis;
+            this.depth = this.totalHeight / 2 - mathAxis;
+        } else {
+            this.height = this.getMaxOfDimension(
+                svgConstruction.partialSVGGlyphArray,
+                "height"
             );
-            this.height = dimensions.height;
-            this.depth = dimensions.depth;
-            this.width = dimensions.width;
-        } else if (direction === "horizontal") {
-            componentOrderUnicode = extendedGlyphMetrics.unicodeArray;
-            componentOrderOverlapArray = extendedGlyphMetrics.overlapArray;
-            dimensions = ExtendedGlyphComponentData.getDimensionsHorizontal(
-                componentOrderUnicode,
-                componentOrderOverlapArray,
-                fontData.glyphMetrics,
-                pxpfu
-            );
-
-            this.height = dimensions.height;
-            this.width = dimensions.width;
-            this.depth = dimensions.depth;
+            this.depth = this.ymin;
         }
-        this.elements = [];
-
-        //gets inner and outer styles for the divs needed to make the extended Component
-        componentOrderUnicode.forEach((ele, index) => {
-            let component = {};
-            //for svg expiriment
-            component.width = dimensions.widthArray[index];
-            component.depth = dimensions.depthArray[index];
-            component.height = dimensions.heightArray[index];
-            component.textHeight = dimensions.heightArray[index];
-            component.inner = ExtendedGlyphComponentData.getExtendedInnerStyle(
-                fontData.fontFamily,
-                currentFontSize,
-                fontData.asc,
-                fontData.des,
-                pxpfu,
-                fontData.glyphMetrics[ele]
-            );
-            component.outer = ExtendedGlyphComponentData.getExtendedOuterStyle(
-                fontData.glyphMetrics[ele],
-                pxpfu
-            );
-            component.outer.outline = "";
-            component.symbol = String.fromCodePoint(ele);
-            component.path = fontData.svgPaths[ele].commands;
-            this.elements.push(component);
-        });
-        //adjusts marigns for overlap
-        for (var i = 1; i < componentOrderUnicode.length; i++) {
-            if (direction === "vertical") {
-                this.elements[i].outer.marginTop =
-                    -componentOrderOverlapArray[i - 1] + "px";
-            } else if (direction === "horizontal") {
-                this.elements[i].outer.marginLeft =
-                    -componentOrderOverlapArray[i - 1] + "px";
-            }
-        }
-        if (direction === "horizontal") {
-            ExtendedGlyphComponentData.adjustElementTopMargins(
-                this.elements,
-                dimensions.heightArray,
-                dimensions.height,
-                pxpfu
-            );
-        }
-        this.css.height = dimensions.height + dimensions.depth;
-        this.css.width = dimensions.width;
     }
 
-    static getDimensionsHorizontal(
-        unicodeArray,
-        overlapArray,
-        glyphMetricMap,
-        pxpfu
-    ) {
-        var heightArray = [];
-        var depthArray = [];
-        var widthArray = [];
-        unicodeArray.forEach(ele => {
-            let height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
-            let depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
-            let width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
-            widthArray.push(width);
-            heightArray.push(height);
-            depthArray.push(depth);
+    calculateYMin(partialSVGGlyphArray) {
+        let depthArray = [];
+        partialSVGGlyphArray.forEach(partialSVGGlyph => {
+            depthArray.push(partialSVGGlyph.depth);
         });
-        var height = Math.max(...heightArray) * pxpfu;
-        var depth = Math.max(...depthArray) * pxpfu;
-        var glyphWidths = widthArray.reduce((acc, curr) => {
-            return acc + curr ;
-        });
-        var totalOvelap = overlapArray.reduce((acc, curr) => {
-            return acc + curr;
-        });
-        var width = glyphWidths *pxpfu- totalOvelap;
-        return {
-            heightArray,
-            depthArray,
-            widthArray,
-            height,
-            depth,
-            width
-        };
-        //determine total width, then in the next function, adjust the
-        //top margins of the horizontal glyphs to align to baseline
+        return -Math.min(...depthArray);
     }
-    static adjustElementTopMargins(elements, heightArray, heightMax,pxpfu) {
-        heightArray.forEach((ele, index) => {
-            elements[index].outer.marginTop = heightMax - heightArray[index]*pxpfu;
-        });
-    }
-    static getDimensionsVertical(
-        unicodeArray,
-        overlapArray,
-        glyphMetricMap,
-        mathAxisHeight,
-        pxpfu
-    ) {
-        var heightArray = [];
-        var depthArray = [];
-        var widthArray = [];
-        unicodeArray.forEach(ele => {
-            let height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
-            let depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
-            let width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
-            widthArray.push(width);
-            heightArray.push(height);
-            depthArray.push(depth);
-        });
-        var totalGlyphHeight = unicodeArray.reduce((acc, curr) => {
-            let bbox = glyphMetricMap[curr].bbox;
-            let glyphHeight =
-                (parseInt(bbox.y2, 10) - parseInt(bbox.y1, 10)) * pxpfu;
-            return acc + glyphHeight;
-        }, 0);
 
-        var totalOverlapAmount = overlapArray.reduce((acc, curr) => {
-            return acc + curr;
-        });
-        var totalHeight = totalGlyphHeight - totalOverlapAmount;
-        var adjustedHeight = totalHeight / 2 + mathAxisHeight * pxpfu;
-        var adjustedDepth = totalHeight / 2 - mathAxisHeight * pxpfu;
-        var width =
-            parseInt(glyphMetricMap[unicodeArray[0]].advanceWidth, 10) * pxpfu;
-        return {
-            widthArray: widthArray,
-            depthArray: depthArray,
-            heightArray: heightArray,
-            height: adjustedHeight,
-            depth: adjustedDepth,
-            width: width
-        };
+    calculateTotalHeight(svgConstruction) {
+        return svgConstruction.isVertical()
+            ? this.getLengthOfMainAxis(svgConstruction)
+            : this.getLengthOfCrossAxis(svgConstruction);
     }
-    static getExtendedInnerStyle(
-        fontFamily,
-        size,
-        asc,
-        des,
-        pxpfu,
-        glyphMetric
-    ) {
-        var innerStyle = GlyphComponentData.getInnerStyle(
-            fontFamily,
-            size,
-            asc,
-            des,
-            pxpfu,
-            glyphMetric
+
+    calculateTotalWidth(svgConstruction) {
+        return svgConstruction.isVertical()
+            ? this.getLengthOfCrossAxis(svgConstruction)
+            : this.getLengthOfMainAxis(svgConstruction);
+    }
+
+    getLengthOfCrossAxis(svgConstruction) {
+        let glyphArray = svgConstruction.partialSVGGlyphArray;
+        let result = svgConstruction.isVertical()
+            ? glyphArray[0].width
+            : this.getMaxOfDimension(glyphArray, "height") +
+              this.getMaxOfDimension(glyphArray, "depth");
+        return result;
+    }
+
+    getMaxOfDimension(partialSVGGlyphArray, dimension) {
+        let dimensionArray = [];
+        partialSVGGlyphArray.forEach(partialSVGGlyph => {
+            dimensionArray.push(partialSVGGlyph[dimension]);
+        });
+        return Math.max(...dimensionArray);
+    }
+
+    getLengthOfMainAxis(svgConstruction) {
+        let result = svgConstruction.partialSVGGlyphArray.reduce(
+            (acc, partialSVGGlyph, index) => {
+                let partialLength = svgConstruction.isVertical()
+                    ? partialSVGGlyph.height - partialSVGGlyph.depth
+                    : partialSVGGlyph.width;
+                let overlap = svgConstruction.overlapArray[index]
+                    ? svgConstruction.overlapArray[index]
+                    : 0;
+                return acc + partialLength - overlap;
+            },
+            0
         );
-        innerStyle.left = "0px";
-        return innerStyle;
-    }
-    static getExtendedOuterStyle(glyphMetric, pxpfu) {
-        var css = GlyphComponentData.getCSS(glyphMetric, pxpfu);
-        css.width = glyphMetric.advanceWidth * pxpfu + "px";
-        return css;
+        return result;
     }
 }

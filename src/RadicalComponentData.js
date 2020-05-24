@@ -16,7 +16,6 @@ export class RadicalComponentData {
         this.degree = this.generateDegree();
         this.radicand = this.generateRadicand();
         this.delimiter = this.generateDelimiter();
-        console.log(this.delimiter.height)
         this.rule = this.generateRule();
         this.positionRadicand();
         this.positionDegree();
@@ -134,7 +133,8 @@ export class RadicalComponentData {
 
     calculateRadicandClearance(radicand) {
         let subClearance = radicand.height + radicand.depth;
-        return subClearance + this.determineRadicandVerticalGap();
+        let totalClearance = subClearance + this.determineRadicandVerticalGap();
+        return totalClearance 
     }
     determineRadicandVerticalGap() {
         let verticalGap =

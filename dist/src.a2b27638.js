@@ -29012,14 +29012,15 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
   }
 
   var italicsCorrection = parseInt(variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value, 10);
-  var partRecords = variantMap[unicode].GlyphAssembly.PartRecords; // console.log(partRecords)
-
+  var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
   var currentPartRecords = partRecords.filter(function (ele) {
     return ele.PartFlags.value === "0";
   });
   var extenderIteration = 0;
+  var i = 0;
 
-  while (true) {
+  while (i < 30) {
+    i++;
     var totalHeight = 0;
     currentPartRecords.forEach(function (ele) {
       totalHeight += parseInt(ele.FullAdvance.value);
@@ -29045,15 +29046,14 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
       minOverlapArray.push(minOverlap);
       minTotalHeight -= maxOverlap;
       maxTotalHeight -= minOverlap;
-    } // console.log(minTotalHeight + " " + maxTotalHeight)
-
+    }
 
     if (minTotalHeight > desiredSizeFU) {
       var _ret = function () {
         var unicodeArray = partRecordsToUnicode(currentPartRecords, glyphNameToUnicode);
         var overlapArray = [];
         maxOverlapArray.forEach(function (ele) {
-          overlapArray.push(ele * pxpfu);
+          overlapArray.push(ele);
         });
         return {
           v: {
@@ -29078,7 +29078,7 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
         });
         maxOverlapArray.forEach(function (ele) {
           var shrinkAmount = totalShrink * ele / totalOverlap;
-          return overlapArray.push((ele - shrinkAmount) * pxpfu);
+          return overlapArray.push(ele - shrinkAmount);
         });
         return {
           v: {
@@ -29178,18 +29178,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -29224,66 +29212,21 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
   _createClass(ExtendedGlyph, [{
     key: "render",
     value: function render() {
-      var _this = this;
-
-      var viewBox = {
-        offset: 0,
-        heightArray: [],
-        depthArray: [],
-        widthArray: []
-      };
-      var components = this.props.data.elements.map(function (ele, index) {
-        // ele.outer.backgroundColor = 'white'
-        //// ele.inner.backgroundColor = 'white'
-        // ele.outer.mixBlendMode = 'darken'
-        var depth = ele.depth;
-        var height = ele.height + depth; //ele.outer.height.replace("px", "");
-
-        var width = ele.width; //ele.outer.width.replace("px", "");
-
-        var left = ele.inner.left.replace("px", "");
-        var textHeight = ele.textHeight;
-        var symbol = ele.symbol;
-        var style = ele.outer;
-        style.fontFamily = ele.inner.fontFamily;
-        style.fontSize = ele.inner.fontSize;
-
-        if (index === 0 && index === _this.props.data.elements.length - 1) {
-          return /*#__PURE__*/_react.default.createElement("div", {
-            key: index,
-            style: ele.outer
-          }, /*#__PURE__*/_react.default.createElement("div", {
-            style: ele.inner
-          }, ele.symbol));
-        } else {
-          viewBox.heightArray.push(height);
-          viewBox.depthArray.push(depth);
-          viewBox.widthArray.push(width);
-          var transform = "translate(" + viewBox.offset + ', 0)'; //`translate(0,${height }) scale(1, -1)  `//translate(0, ${(0)}) `//scale(1,-1)`
-
-          viewBox.offset += width;
-          return (
-            /*#__PURE__*/
-            // <svg style={style} viewBox={`0 ${depth} ${width} ${height}`}>
-            _react.default.createElement("path", {
-              transform: transform,
-              d: ele.path
-            }) // </svg>
-
-          );
-        }
+      var partialGlyphArray = this.props.data.svgConstruction.partialSVGGlyphArray;
+      var paths = partialGlyphArray.map(function (partialSVGGlyph, index) {
+        return /*#__PURE__*/_react.default.createElement("path", {
+          key: index,
+          transform: partialSVGGlyph.transform,
+          d: partialSVGGlyph.path
+        });
       });
-      viewBox.depth = Math.max.apply(Math, _toConsumableArray(viewBox.depthArray));
-      viewBox.height = Math.max.apply(Math, _toConsumableArray(viewBox.heightArray));
-      viewBox.width = viewBox.widthArray.reduce(function (acc, curr) {
-        return acc + curr;
-      }, 0);
       return /*#__PURE__*/_react.default.createElement("m-extended", {
         style: this.props.data.css
       }, /*#__PURE__*/_react.default.createElement("svg", {
-        style: this.props.data.css,
-        viewBox: "0 " + viewBox.depth + " " + viewBox.width + " " + viewBox.height
-      }, components));
+        viewBox: this.props.data.viewBox
+      }, /*#__PURE__*/_react.default.createElement("g", {
+        transform: this.props.data.svgConstruction.transform
+      }, paths)));
     }
   }]);
 
@@ -29313,180 +29256,100 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var ExtendedGlyphComponentData = /*#__PURE__*/function () {
-  function ExtendedGlyphComponentData(baseUnicode, currentFontSize, desiredSize, direction, fontData) {
-    var _this = this;
+//baseUnicode,
+// currentFontSize,
+//desiredSize,
+//direction,
+//fontData
+//pxpfu
+var GlyphConstruction = /*#__PURE__*/function () {
+  function GlyphConstruction(glyphSpec) {
+    _classCallCheck(this, GlyphConstruction);
 
-    _classCallCheck(this, ExtendedGlyphComponentData);
-
-    this.component = _ExtendedGlyph.ExtendedGlyph;
-    this.css = {
-      outline: "1px solid darkred"
-    }; //sets default css properties for different direction
-
-    if (direction === "vertical") {
-      this.css.display = "flex";
-      this.css.flexDirection = "column";
-    } else if (direction === "horizontal") {
-      this.css.display = "flex";
-      this.css.flexDirection = "row";
-    }
-
-    var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10); //gets the an object containing the overlap array and the array of unicode points
-    //in decimal
-
-    var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
-    this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
-    var pxpfu = currentFontSize / fontData.upm;
-    var dimensions;
-
-    if (direction === "vertical") {
-      var componentOrderUnicode = extendedGlyphMetrics.unicodeArray.reverse();
-      var componentOrderOverlapArray = extendedGlyphMetrics.overlapArray.reverse();
-      var mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value, 10); //dimensions does not depend on componnentOrderunicode but this
-      //was a convenient place to put it (if vertical)
-
-      dimensions = ExtendedGlyphComponentData.getDimensionsVertical(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, mathAxis, pxpfu);
-      this.height = dimensions.height;
-      this.depth = dimensions.depth;
-      this.width = dimensions.width;
-    } else if (direction === "horizontal") {
-      componentOrderUnicode = extendedGlyphMetrics.unicodeArray;
-      componentOrderOverlapArray = extendedGlyphMetrics.overlapArray;
-      dimensions = ExtendedGlyphComponentData.getDimensionsHorizontal(componentOrderUnicode, componentOrderOverlapArray, fontData.glyphMetrics, pxpfu);
-      this.height = dimensions.height;
-      this.width = dimensions.width;
-      this.depth = dimensions.depth;
-    }
-
-    this.elements = []; //gets inner and outer styles for the divs needed to make the extended Component
-
-    componentOrderUnicode.forEach(function (ele, index) {
-      var component = {}; //for svg expiriment
-
-      component.width = dimensions.widthArray[index];
-      component.depth = dimensions.depthArray[index];
-      component.height = dimensions.heightArray[index];
-      component.textHeight = dimensions.heightArray[index];
-      component.inner = ExtendedGlyphComponentData.getExtendedInnerStyle(fontData.fontFamily, currentFontSize, fontData.asc, fontData.des, pxpfu, fontData.glyphMetrics[ele]);
-      component.outer = ExtendedGlyphComponentData.getExtendedOuterStyle(fontData.glyphMetrics[ele], pxpfu);
-      component.outer.outline = "";
-      component.symbol = String.fromCodePoint(ele);
-      component.path = fontData.svgPaths[ele].commands;
-
-      _this.elements.push(component);
-    }); //adjusts marigns for overlap
-
-    for (var i = 1; i < componentOrderUnicode.length; i++) {
-      if (direction === "vertical") {
-        this.elements[i].outer.marginTop = -componentOrderOverlapArray[i - 1] + "px";
-      } else if (direction === "horizontal") {
-        this.elements[i].outer.marginLeft = -componentOrderOverlapArray[i - 1] + "px";
-      }
-    }
-
-    if (direction === "horizontal") {
-      ExtendedGlyphComponentData.adjustElementTopMargins(this.elements, dimensions.heightArray, dimensions.height, pxpfu);
-    }
-
-    this.css.height = dimensions.height + dimensions.depth;
-    this.css.width = dimensions.width;
+    this.setDirection(glyphSpec.direction);
+    this.determineGlyphsAndOverlap(glyphSpec);
   }
 
-  _createClass(ExtendedGlyphComponentData, null, [{
-    key: "getDimensionsHorizontal",
-    value: function getDimensionsHorizontal(unicodeArray, overlapArray, glyphMetricMap, pxpfu) {
-      var heightArray = [];
-      var depthArray = [];
-      var widthArray = [];
-      unicodeArray.forEach(function (ele) {
-        var height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
+  _createClass(GlyphConstruction, [{
+    key: "setDirection",
+    value: function setDirection(direction) {
+      this.direction = direction;
+    }
+  }, {
+    key: "determineGlyphsAndOverlap",
+    value: function determineGlyphsAndOverlap(glyphSpec) {
+      var fontData = glyphSpec.fontData;
+      var baseUnicode = glyphSpec.baseUnicode;
+      var currentFontSize = glyphSpec.currentFontSize;
+      var desiredSize = glyphSpec.desiredSize;
+      var direction = this.direction;
+      var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10);
+      var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
+      this.unicodeArray = extendedGlyphMetrics.unicodeArray;
+      this.overlapArray = extendedGlyphMetrics.overlapArray;
+      this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
+    }
+  }]);
 
-        var depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
+  return GlyphConstruction;
+}();
 
-        var width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
-        widthArray.push(width);
-        heightArray.push(height);
-        depthArray.push(depth);
-      });
-      var height = Math.max.apply(Math, heightArray) * pxpfu;
-      var depth = Math.max.apply(Math, depthArray) * pxpfu;
-      var glyphWidths = widthArray.reduce(function (acc, curr) {
-        return acc + curr;
-      });
-      var totalOvelap = overlapArray.reduce(function (acc, curr) {
-        return acc + curr;
-      });
-      var width = glyphWidths * pxpfu - totalOvelap;
+var ExtendedGlyphComponentData = /*#__PURE__*/function () {
+  function ExtendedGlyphComponentData(glyphSpec) {
+    _classCallCheck(this, ExtendedGlyphComponentData);
+
+    this.generateData(glyphSpec);
+  }
+
+  _createClass(ExtendedGlyphComponentData, [{
+    key: "generateData",
+    value: function generateData(glyphSpec) {
+      this.component = _ExtendedGlyph.ExtendedGlyph;
+      this.svgConstruction = this.getSVGConstruction(glyphSpec); //each element
+      //has path, fu height, fu depth, fu width, transform string
+
+      this.viewBox = this.getViewbox(this.svgConstruction); //set the viewbox of svg
+
+      this.setDimensions(glyphSpec); //set this.height,width,depth,
+      // used for formula and such
+
+      this.css = this.getCSS(glyphSpec);
+    }
+  }, {
+    key: "getSVGConstruction",
+    value: function getSVGConstruction(glyphSpec) {
+      var glyphConstruction = new GlyphConstruction(glyphSpec);
+      var svgConstruction = new SVGConstruction(glyphConstruction, glyphSpec.fontData);
+      return svgConstruction;
+    }
+  }, {
+    key: "getViewbox",
+    value: function getViewbox(svgConstruction) {
+      var dimension = svgConstruction.dimension;
+      var baseString = "0, ";
+      var ymin = dimension.ymin;
+      var totalWidth = dimension.totalWidth;
+      var totalHeight = dimension.totalHeight;
+      return baseString + ymin + ", " + totalWidth + ", " + totalHeight;
+    }
+  }, {
+    key: "setDimensions",
+    value: function setDimensions(glyphSpec) {
+      var pxpfu = glyphSpec.pxpfu;
+      this.height = this.svgConstruction.dimension.height * pxpfu;
+      this.depth = this.svgConstruction.dimension.depth * pxpfu;
+      this.width = this.svgConstruction.dimension.totalWidth * pxpfu;
+    }
+  }, {
+    key: "getCSS",
+    value: function getCSS(glyphSpec) {
+      var height = this.svgConstruction.dimension.totalHeight * glyphSpec.pxpfu + "px";
+      var width = this.svgConstruction.dimension.totalWidth * glyphSpec.pxpfu + "px";
       return {
-        heightArray: heightArray,
-        depthArray: depthArray,
-        widthArray: widthArray,
         height: height,
-        depth: depth,
-        width: width
-      }; //determine total width, then in the next function, adjust the
-      //top margins of the horizontal glyphs to align to baseline
-    }
-  }, {
-    key: "adjustElementTopMargins",
-    value: function adjustElementTopMargins(elements, heightArray, heightMax, pxpfu) {
-      heightArray.forEach(function (ele, index) {
-        elements[index].outer.marginTop = heightMax - heightArray[index] * pxpfu;
-      });
-    }
-  }, {
-    key: "getDimensionsVertical",
-    value: function getDimensionsVertical(unicodeArray, overlapArray, glyphMetricMap, mathAxisHeight, pxpfu) {
-      var heightArray = [];
-      var depthArray = [];
-      var widthArray = [];
-      unicodeArray.forEach(function (ele) {
-        var height = parseInt(glyphMetricMap[ele].bbox.y2, 10); //* pxpfu;
-
-        var depth = -parseInt(glyphMetricMap[ele].bbox.y1, 10); //* pxpfu;
-
-        var width = parseInt(glyphMetricMap[ele].advanceWidth, 10);
-        widthArray.push(width);
-        heightArray.push(height);
-        depthArray.push(depth);
-      });
-      var totalGlyphHeight = unicodeArray.reduce(function (acc, curr) {
-        var bbox = glyphMetricMap[curr].bbox;
-        var glyphHeight = (parseInt(bbox.y2, 10) - parseInt(bbox.y1, 10)) * pxpfu;
-        return acc + glyphHeight;
-      }, 0);
-      var totalOverlapAmount = overlapArray.reduce(function (acc, curr) {
-        return acc + curr;
-      });
-      var totalHeight = totalGlyphHeight - totalOverlapAmount;
-      var adjustedHeight = totalHeight / 2 + mathAxisHeight * pxpfu;
-      var adjustedDepth = totalHeight / 2 - mathAxisHeight * pxpfu;
-      var width = parseInt(glyphMetricMap[unicodeArray[0]].advanceWidth, 10) * pxpfu;
-      return {
-        widthArray: widthArray,
-        depthArray: depthArray,
-        heightArray: heightArray,
-        height: adjustedHeight,
-        depth: adjustedDepth,
-        width: width
+        width: width,
+        outline: "1px solid darkred"
       };
-    }
-  }, {
-    key: "getExtendedInnerStyle",
-    value: function getExtendedInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric) {
-      var innerStyle = _GlyphComponentData.GlyphComponentData.getInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric);
-
-      innerStyle.left = "0px";
-      return innerStyle;
-    }
-  }, {
-    key: "getExtendedOuterStyle",
-    value: function getExtendedOuterStyle(glyphMetric, pxpfu) {
-      var css = _GlyphComponentData.GlyphComponentData.getCSS(glyphMetric, pxpfu);
-
-      css.width = glyphMetric.advanceWidth * pxpfu + "px";
-      return css;
     }
   }]);
 
@@ -29494,6 +29357,202 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
 }();
 
 exports.ExtendedGlyphComponentData = ExtendedGlyphComponentData;
+
+var PartialSVGGlyph = /*#__PURE__*/function () {
+  function PartialSVGGlyph(unicodeAndFontData) {
+    _classCallCheck(this, PartialSVGGlyph);
+
+    this.unicode = unicodeAndFontData.unicode;
+    this.fontData = unicodeAndFontData.fontData;
+    this.path = this.getPath();
+    this.setFUDimensions();
+    this.transform = "";
+  }
+
+  _createClass(PartialSVGGlyph, [{
+    key: "getPath",
+    value: function getPath() {
+      var svgPaths = this.fontData.svgPaths;
+      return svgPaths[this.unicode].commands;
+    }
+  }, {
+    key: "setFUDimensions",
+    value: function setFUDimensions() {
+      var glyphMetric = this.fontData.glyphMetrics[this.unicode];
+      this.height = parseInt(glyphMetric.bbox.y2, 10);
+      this.depth = -parseInt(glyphMetric.bbox.y1, 10);
+      this.width = parseInt(glyphMetric.advanceWidth, 10);
+    }
+  }]);
+
+  return PartialSVGGlyph;
+}();
+
+var SVGConstruction = /*#__PURE__*/function () {
+  function SVGConstruction(glyphConstruction, fontData) {
+    _classCallCheck(this, SVGConstruction);
+
+    this.fontData = fontData;
+    this.direction = glyphConstruction.direction;
+    this.overlapArray = glyphConstruction.overlapArray;
+    this.directionDimension = this.getProperDirectionDimension();
+    this.partialSVGGlyphArray = this.generatePartialSVGGlyphArray(glyphConstruction);
+    this.dimension = new SVGConstructionDimension(this);
+    this.transform = this.generateTransform();
+  }
+
+  _createClass(SVGConstruction, [{
+    key: "generateTransform",
+    value: function generateTransform() {
+      var midX = this.dimension.totalWidth / 2;
+      var midY = this.dimension.totalHeight / 2;
+      var firstTranslate = "translate(".concat(midX, ",").concat(midY, ") ");
+      var scale = 'scale(1,-1) ';
+      var secondTranslate = "translate(".concat(-midX, ",").concat(-midY, ")");
+      return firstTranslate + scale + secondTranslate;
+    }
+  }, {
+    key: "isVertical",
+    value: function isVertical() {
+      if (this.direction === "vertical") {
+        return true;
+      } else if (this.direction === "horizontal") {
+        return false;
+      } else {
+        throw new Error("wrong Extension");
+      }
+    }
+  }, {
+    key: "generatePartialSVGGlyphArray",
+    value: function generatePartialSVGGlyphArray(glyphConstruction) {
+      var _this = this;
+
+      var partialSVGGlyphArray = [];
+      glyphConstruction.unicodeArray.forEach(function (ele) {
+        var options = {
+          unicode: ele,
+          fontData: _this.fontData
+        };
+        partialSVGGlyphArray.push(new PartialSVGGlyph(options));
+      });
+      this.injectTransforms(partialSVGGlyphArray, this.overlapArray);
+      return partialSVGGlyphArray;
+    }
+  }, {
+    key: "injectTransforms",
+    value: function injectTransforms(partialSVGGlyphArray, overlapArray) {
+      var _this2 = this;
+
+      this.offsets = this.calculateOffsets(partialSVGGlyphArray, overlapArray);
+      partialSVGGlyphArray.forEach(function (partialSVGGlyph, index) {
+        var offset = _this2.offsets[index];
+        partialSVGGlyph.transform = _this2.getTransformString(offset);
+      });
+    }
+  }, {
+    key: "getTransformString",
+    value: function getTransformString(offset) {
+      var prefix = "translate(";
+      var suffix = ")";
+      var fix = this.isVertical() ? "0, " + offset : offset + ", 0";
+      return prefix + fix + suffix;
+    }
+  }, {
+    key: "getProperDirectionDimension",
+    value: function getProperDirectionDimension() {
+      var directionDimension = this.isVertical() ? "height" : "width";
+      return directionDimension;
+    }
+  }, {
+    key: "calculateOffsets",
+    value: function calculateOffsets(partialSVGGlyphArray, overlapArray) {
+      var _this3 = this;
+
+      var currentOffset = 0;
+      var offsetArray = [];
+      partialSVGGlyphArray.forEach(function (partialGlyph, index) {
+        offsetArray.push(currentOffset);
+        var overlap = overlapArray[index] ? overlapArray[index] : 0;
+        currentOffset += partialGlyph[_this3.directionDimension] - overlap;
+      });
+      return offsetArray;
+    }
+  }]);
+
+  return SVGConstruction;
+}();
+
+var SVGConstructionDimension = /*#__PURE__*/function () {
+  function SVGConstructionDimension(svgConstruction) {
+    _classCallCheck(this, SVGConstructionDimension);
+
+    this.ymin = this.calculateYMin(svgConstruction.partialSVGGlyphArray);
+    this.totalWidth = this.calculateTotalWidth(svgConstruction);
+    this.totalHeight = this.calculateTotalHeight(svgConstruction);
+    this.setHeightandDepth(svgConstruction);
+  }
+
+  _createClass(SVGConstructionDimension, [{
+    key: "setHeightandDepth",
+    value: function setHeightandDepth(svgConstruction) {
+      if (svgConstruction.isVertical()) {
+        var mathAxis = parseInt(svgConstruction.fontData.MATH.MathConstants.AxisHeight.Value.value, 10);
+        this.height = this.totalHeight / 2 + mathAxis;
+        this.depth = this.totalHeight / 2 - mathAxis;
+      } else {
+        this.height = this.getMaxOfDimension(svgConstruction.partialSVGGlyphArray, "height");
+        this.depth = this.ymin;
+      }
+    }
+  }, {
+    key: "calculateYMin",
+    value: function calculateYMin(partialSVGGlyphArray) {
+      var depthArray = [];
+      partialSVGGlyphArray.forEach(function (partialSVGGlyph) {
+        depthArray.push(partialSVGGlyph.depth);
+      });
+      return -Math.min.apply(Math, depthArray);
+    }
+  }, {
+    key: "calculateTotalHeight",
+    value: function calculateTotalHeight(svgConstruction) {
+      return svgConstruction.isVertical() ? this.getLengthOfMainAxis(svgConstruction) : this.getLengthOfCrossAxis(svgConstruction);
+    }
+  }, {
+    key: "calculateTotalWidth",
+    value: function calculateTotalWidth(svgConstruction) {
+      return svgConstruction.isVertical() ? this.getLengthOfCrossAxis(svgConstruction) : this.getLengthOfMainAxis(svgConstruction);
+    }
+  }, {
+    key: "getLengthOfCrossAxis",
+    value: function getLengthOfCrossAxis(svgConstruction) {
+      var glyphArray = svgConstruction.partialSVGGlyphArray;
+      var result = svgConstruction.isVertical() ? glyphArray[0].width : this.getMaxOfDimension(glyphArray, "height") + this.getMaxOfDimension(glyphArray, "depth");
+      return result;
+    }
+  }, {
+    key: "getMaxOfDimension",
+    value: function getMaxOfDimension(partialSVGGlyphArray, dimension) {
+      var dimensionArray = [];
+      partialSVGGlyphArray.forEach(function (partialSVGGlyph) {
+        dimensionArray.push(partialSVGGlyph[dimension]);
+      });
+      return Math.max.apply(Math, dimensionArray);
+    }
+  }, {
+    key: "getLengthOfMainAxis",
+    value: function getLengthOfMainAxis(svgConstruction) {
+      var result = svgConstruction.partialSVGGlyphArray.reduce(function (acc, partialSVGGlyph, index) {
+        var partialLength = svgConstruction.isVertical() ? partialSVGGlyph.height - partialSVGGlyph.depth : partialSVGGlyph.width;
+        var overlap = svgConstruction.overlapArray[index] ? svgConstruction.overlapArray[index] : 0;
+        return acc + partialLength - overlap;
+      }, 0);
+      return result;
+    }
+  }]);
+
+  return SVGConstructionDimension;
+}();
 },{"./GlyphComponentData.js":"src/GlyphComponentData.js","./constructExtendedGlyph.js":"src/constructExtendedGlyph.js","./bestVariant.js":"src/bestVariant.js","./ExtendedGlyph.js":"src/ExtendedGlyph.js"}],"src/determineTypeOfVariant.js":[function(require,module,exports) {
 "use strict";
 
@@ -29521,7 +29580,15 @@ function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direc
     return glyphComponent;
   }
 
-  return new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(baseUnicode, currentFontSize, desiredSize, direction, fontData);
+  var glyphSpec = {
+    baseUnicode: baseUnicode,
+    currentFontSize: currentFontSize,
+    desiredSize: desiredSize,
+    direction: direction,
+    fontData: fontData,
+    pxpfu: currentFontSize / fontData.upm
+  };
+  return new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(glyphSpec);
 }
 },{"./bestVariant.js":"src/bestVariant.js","./GlyphComponentData.js":"src/GlyphComponentData.js","./ExtendedGlyphComponentData.js":"src/ExtendedGlyphComponentData.js"}],"src/Radical.js":[function(require,module,exports) {
 "use strict";
@@ -29632,7 +29699,6 @@ var RadicalComponentData = /*#__PURE__*/function () {
       this.degree = this.generateDegree();
       this.radicand = this.generateRadicand();
       this.delimiter = this.generateDelimiter();
-      console.log(this.delimiter.height);
       this.rule = this.generateRule();
       this.positionRadicand();
       this.positionDegree();
@@ -29745,7 +29811,8 @@ var RadicalComponentData = /*#__PURE__*/function () {
     key: "calculateRadicandClearance",
     value: function calculateRadicandClearance(radicand) {
       var subClearance = radicand.height + radicand.depth;
-      return subClearance + this.determineRadicandVerticalGap();
+      var totalClearance = subClearance + this.determineRadicandVerticalGap();
+      return totalClearance;
     }
   }, {
     key: "determineRadicandVerticalGap",
@@ -100040,7 +100107,7 @@ customElements.define("m-formula", mformula);
 customElements.define("m-script", mscript);
 customElements.define("m-script-container", mscriptcontainer);
 customElements.define("m-glyph", mglyph);
-},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -100072,7 +100139,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -100107,12 +100174,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
+},{"./bundle-url":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
+},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -100225,7 +100292,7 @@ var myApp = /*#__PURE__*/_react.default.createElement("div", {
 }));
 
 _reactDom.default.render(myApp, document.getElementById("app"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -100253,7 +100320,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39181" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39007" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -100429,5 +100496,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.js"], null)
+},{}]},{},["../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js","src/index.js"], null)
 //# sourceMappingURL=/src.a2b27638.js.map

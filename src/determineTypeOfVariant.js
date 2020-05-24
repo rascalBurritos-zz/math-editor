@@ -37,11 +37,15 @@ export function determineTypeOfVariant(
         glyphComponent.css.outline = ""
         return glyphComponent;
     }
-    return new ExtendedGlyphComponentData(
+    let glyphSpec = {
         baseUnicode,
         currentFontSize,
         desiredSize,
         direction,
-        fontData
+        fontData,
+        pxpfu : currentFontSize/fontData.upm
+
+    }
+    return new ExtendedGlyphComponentData(glyphSpec
     );
 }
