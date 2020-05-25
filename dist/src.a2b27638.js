@@ -29013,9 +29013,15 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
 
   var italicsCorrection = parseInt(variantMap[unicode].GlyphAssembly.ItalicsCorrection.Value.value, 10);
   var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
+  var extenderPartRecords = [];
   var currentPartRecords = partRecords.filter(function (ele) {
+    if (ele.PartFlags.value === '1') {
+      extenderPartRecords.push(ele);
+    }
+
     return ele.PartFlags.value === "0";
   });
+  var extenderUnicodeArray = partRecordsToUnicode(extenderPartRecords, glyphNameToUnicode);
   var extenderIteration = 0;
   var i = 0;
 
@@ -29057,6 +29063,7 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
         });
         return {
           v: {
+            extenderUnicodeArray: extenderUnicodeArray,
             unicodeArray: unicodeArray,
             overlapArray: overlapArray,
             italicsCorrection: italicsCorrection
@@ -29078,10 +29085,11 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
         });
         maxOverlapArray.forEach(function (ele) {
           var shrinkAmount = totalShrink * ele / totalOverlap;
-          return overlapArray.push(ele - shrinkAmount);
+          overlapArray.push(shrinkAmount);
         });
         return {
           v: {
+            extenderUnicodeArray: extenderUnicodeArray,
             unicodeArray: unicodeArray,
             overlapArray: overlapArray,
             italicsCorrection: italicsCorrection
@@ -29106,6 +29114,8 @@ function constructExtendedGlyph(unicode, desiredSize, fontSize, direction, fontD
     });
     currentPartRecords = intermediatePartRecords.slice();
   }
+
+  throw new Error('Extended Glyph While loop');
 }
 
 function partRecordsToUnicode(currentPartRecords, glyphNameToUnicode) {
@@ -29216,6 +29226,7 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
       var paths = partialGlyphArray.map(function (partialSVGGlyph, index) {
         return /*#__PURE__*/_react.default.createElement("path", {
           key: index,
+          shapeRendering: partialSVGGlyph.shapeRendering,
           transform: partialSVGGlyph.transform,
           d: partialSVGGlyph.path
         });
@@ -29285,6 +29296,7 @@ var GlyphConstruction = /*#__PURE__*/function () {
       var direction = this.direction;
       var minConnectorOverlap = parseInt(fontData.MATH.MathVariants.MinConnectorOverlap.value, 10);
       var extendedGlyphMetrics = (0, _constructExtendedGlyph.constructExtendedGlyph)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode, minConnectorOverlap);
+      this.extenderUnicodeArray = extendedGlyphMetrics.extenderUnicodeArray;
       this.unicodeArray = extendedGlyphMetrics.unicodeArray;
       this.overlapArray = extendedGlyphMetrics.overlapArray;
       this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
@@ -29326,19 +29338,21 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
     key: "getViewbox",
     value: function getViewbox(svgConstruction) {
       var dimension = svgConstruction.dimension;
-      var baseString = "0, ";
+      var xmin = dimension.xmin;
       var ymin = dimension.ymin;
       var totalWidth = dimension.totalWidth;
       var totalHeight = dimension.totalHeight;
-      return baseString + ymin + ", " + totalWidth + ", " + totalHeight;
+      return xmin + ', ' + ymin + ", " + totalWidth + ", " + totalHeight;
     }
   }, {
     key: "setDimensions",
     value: function setDimensions(glyphSpec) {
+      console.log(this);
       var pxpfu = glyphSpec.pxpfu;
       this.height = this.svgConstruction.dimension.height * pxpfu;
       this.depth = this.svgConstruction.dimension.depth * pxpfu;
       this.width = this.svgConstruction.dimension.totalWidth * pxpfu;
+      this.italicsCorrection = this.svgConstruction.italicsCorrection;
     }
   }, {
     key: "getCSS",
@@ -29365,22 +29379,46 @@ var PartialSVGGlyph = /*#__PURE__*/function () {
     this.unicode = unicodeAndFontData.unicode;
     this.fontData = unicodeAndFontData.fontData;
     this.path = this.getPath();
+    this.bbox = this.getBBox();
     this.setFUDimensions();
+    this.shapeRendering = this.setShapeRendering(unicodeAndFontData.isExtender);
     this.transform = "";
   }
 
   _createClass(PartialSVGGlyph, [{
+    key: "setShapeRendering",
+    value: function setShapeRendering(isExtender) {
+      if (this.unicode === "1113965") {
+        return 'crispedges';
+      }
+
+      return isExtender ? "crispedges" : "geometricprecision";
+    }
+  }, {
     key: "getPath",
     value: function getPath() {
       var svgPaths = this.fontData.svgPaths;
       return svgPaths[this.unicode].commands;
     }
   }, {
+    key: "getBBox",
+    value: function getBBox() {
+      var glyphMetric = this.fontData.glyphMetrics[this.unicode];
+      var unParsedBBox = glyphMetric.bbox;
+      var bbox = {};
+
+      for (var val in unParsedBBox) {
+        bbox[val] = parseInt(unParsedBBox[val], 10);
+      }
+
+      return bbox;
+    }
+  }, {
     key: "setFUDimensions",
     value: function setFUDimensions() {
       var glyphMetric = this.fontData.glyphMetrics[this.unicode];
-      this.height = parseInt(glyphMetric.bbox.y2, 10);
-      this.depth = -parseInt(glyphMetric.bbox.y1, 10);
+      this.height = this.bbox.y2;
+      this.depth = -this.bbox.y1;
       this.width = parseInt(glyphMetric.advanceWidth, 10);
     }
   }]);
@@ -29397,6 +29435,7 @@ var SVGConstruction = /*#__PURE__*/function () {
     this.overlapArray = glyphConstruction.overlapArray;
     this.directionDimension = this.getProperDirectionDimension();
     this.partialSVGGlyphArray = this.generatePartialSVGGlyphArray(glyphConstruction);
+    this.italicsCorrection = glyphConstruction.italicsCorrection;
     this.dimension = new SVGConstructionDimension(this);
     this.transform = this.generateTransform();
   }
@@ -29407,7 +29446,7 @@ var SVGConstruction = /*#__PURE__*/function () {
       var midX = this.dimension.totalWidth / 2;
       var midY = this.dimension.totalHeight / 2;
       var firstTranslate = "translate(".concat(midX, ",").concat(midY, ") ");
-      var scale = 'scale(1,-1) ';
+      var scale = "scale(1,-1) ";
       var secondTranslate = "translate(".concat(-midX, ",").concat(-midY, ")");
       return firstTranslate + scale + secondTranslate;
     }
@@ -29429,9 +29468,11 @@ var SVGConstruction = /*#__PURE__*/function () {
 
       var partialSVGGlyphArray = [];
       glyphConstruction.unicodeArray.forEach(function (ele) {
+        var isExtender = glyphConstruction.extenderUnicodeArray.includes(ele);
         var options = {
           unicode: ele,
-          fontData: _this.fontData
+          fontData: _this.fontData,
+          isExtender: isExtender
         };
         partialSVGGlyphArray.push(new PartialSVGGlyph(options));
       });
@@ -29486,6 +29527,7 @@ var SVGConstructionDimension = /*#__PURE__*/function () {
   function SVGConstructionDimension(svgConstruction) {
     _classCallCheck(this, SVGConstructionDimension);
 
+    this.xmin = this.calculateXMin(svgConstruction.partialSVGGlyphArray);
     this.ymin = this.calculateYMin(svgConstruction.partialSVGGlyphArray);
     this.totalWidth = this.calculateTotalWidth(svgConstruction);
     this.totalHeight = this.calculateTotalHeight(svgConstruction);
@@ -29505,13 +29547,21 @@ var SVGConstructionDimension = /*#__PURE__*/function () {
       }
     }
   }, {
+    key: "calculateXMin",
+    value: function calculateXMin(partialSVGGlyphArray) {
+      var x1Array = [];
+      partialSVGGlyphArray.forEach(function (partialSVGGlyph) {
+        x1Array.push(partialSVGGlyph.bbox.x1);
+      });
+      console.log(x1Array);
+      var xmin = Math.min.apply(Math, x1Array);
+      return xmin;
+    }
+  }, {
     key: "calculateYMin",
     value: function calculateYMin(partialSVGGlyphArray) {
-      var depthArray = [];
-      partialSVGGlyphArray.forEach(function (partialSVGGlyph) {
-        depthArray.push(partialSVGGlyph.depth);
-      });
-      return -Math.min.apply(Math, depthArray);
+      var ymin = -this.getMaxOfDimension(partialSVGGlyphArray, 'depth');
+      return ymin;
     }
   }, {
     key: "calculateTotalHeight",
@@ -29527,7 +29577,8 @@ var SVGConstructionDimension = /*#__PURE__*/function () {
     key: "getLengthOfCrossAxis",
     value: function getLengthOfCrossAxis(svgConstruction) {
       var glyphArray = svgConstruction.partialSVGGlyphArray;
-      var result = svgConstruction.isVertical() ? glyphArray[0].width : this.getMaxOfDimension(glyphArray, "height") + this.getMaxOfDimension(glyphArray, "depth");
+      var result = svgConstruction.isVertical() ? glyphArray[0].width - this.xmin : this.getMaxOfDimension(glyphArray, "height") + this.getMaxOfDimension(glyphArray, "depth");
+      console.log(result);
       return result;
     }
   }, {
@@ -29575,7 +29626,7 @@ function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direc
     var pxpfu = currentFontSize / fontData.upm;
     glyphComponent.width = parseInt(fontData.glyphMetrics[foundVariant].advanceWidth, 10) * pxpfu;
     glyphComponent.css.width = glyphComponent.width + "px";
-    glyphComponent.innerStyle.left = '0px';
+    glyphComponent.innerStyle.left = "0px";
     glyphComponent.css.outline = "";
     return glyphComponent;
   }
@@ -29588,7 +29639,8 @@ function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direc
     fontData: fontData,
     pxpfu: currentFontSize / fontData.upm
   };
-  return new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(glyphSpec);
+  var result = new _ExtendedGlyphComponentData.ExtendedGlyphComponentData(glyphSpec);
+  return result;
 }
 },{"./bestVariant.js":"src/bestVariant.js","./GlyphComponentData.js":"src/GlyphComponentData.js","./ExtendedGlyphComponentData.js":"src/ExtendedGlyphComponentData.js"}],"src/Radical.js":[function(require,module,exports) {
 "use strict";
@@ -29709,8 +29761,10 @@ var RadicalComponentData = /*#__PURE__*/function () {
   }, {
     key: "setDimensions",
     value: function setDimensions() {
-      this.height = 30;
-      this.width = 40;
+      this.height = Math.max(this.delimiter.height, this.radicand.height);
+      this.depth = Math.max(this.delimiter.depth, this.radicand.depth); //TODO factor in degree?
+
+      this.width = this.delimiter.width + this.radicand.width;
     }
   }, {
     key: "getRadicandContainerCSS",
@@ -100107,7 +100161,7 @@ customElements.define("m-formula", mformula);
 customElements.define("m-script", mscript);
 customElements.define("m-script-container", mscriptcontainer);
 customElements.define("m-glyph", mglyph);
-},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -100139,7 +100193,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -100174,12 +100228,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
+},{"./bundle-url":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
+},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -100292,7 +100346,7 @@ var myApp = /*#__PURE__*/_react.default.createElement("div", {
 }));
 
 _reactDom.default.render(myApp, document.getElementById("app"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -100320,7 +100374,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39007" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "46711" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -100496,5 +100550,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js","src/index.js"], null)
+},{}]},{},["../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.js"], null)
 //# sourceMappingURL=/src.a2b27638.js.map

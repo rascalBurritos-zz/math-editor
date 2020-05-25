@@ -33,19 +33,19 @@ export function determineTypeOfVariant(
             parseInt(fontData.glyphMetrics[foundVariant].advanceWidth, 10) *
             pxpfu;
         glyphComponent.css.width = glyphComponent.width + "px";
-        glyphComponent.innerStyle.left = '0px'
-        glyphComponent.css.outline = ""
+        glyphComponent.innerStyle.left = "0px";
+        glyphComponent.css.outline = "";
         return glyphComponent;
     }
+
     let glyphSpec = {
         baseUnicode,
         currentFontSize,
         desiredSize,
         direction,
         fontData,
-        pxpfu : currentFontSize/fontData.upm
-
-    }
-    return new ExtendedGlyphComponentData(glyphSpec
-    );
+        pxpfu: currentFontSize / fontData.upm
+    };
+    let result = new ExtendedGlyphComponentData(glyphSpec);
+    return result;
 }

@@ -38,6 +38,7 @@ class GlyphConstruction {
             fontData.glyphNameToUnicode,
             minConnectorOverlap
         );
+        this.extenderUnicodeArray = extendedGlyphMetrics.extenderUnicodeArray;
         this.unicodeArray = extendedGlyphMetrics.unicodeArray;
         this.overlapArray = extendedGlyphMetrics.overlapArray;
         this.italicsCorrection = extendedGlyphMetrics.italicsCorrection;
@@ -69,18 +70,20 @@ export class ExtendedGlyphComponentData {
 
     getViewbox(svgConstruction) {
         let dimension = svgConstruction.dimension;
-        let baseString = "0, ";
+        let xmin = dimension.xmin;
         let ymin = dimension.ymin;
         let totalWidth = dimension.totalWidth;
         let totalHeight = dimension.totalHeight;
-        return baseString + ymin + ", " + totalWidth + ", " + totalHeight;
+        return xmin + ', '+ ymin + ", " + totalWidth + ", " + totalHeight;
     }
 
     setDimensions(glyphSpec) {
+        console.log(this)
         let pxpfu = glyphSpec.pxpfu;
         this.height = this.svgConstruction.dimension.height * pxpfu;
         this.depth = this.svgConstruction.dimension.depth * pxpfu;
         this.width = this.svgConstruction.dimension.totalWidth * pxpfu;
+        this.italicsCorrection = this.svgConstruction.italicsCorrection;
     }
 
     getCSS(glyphSpec) {
@@ -97,19 +100,36 @@ class PartialSVGGlyph {
         this.unicode = unicodeAndFontData.unicode;
         this.fontData = unicodeAndFontData.fontData;
         this.path = this.getPath();
+        this.bbox = this.getBBox();
         this.setFUDimensions();
+        this.shapeRendering = this.setShapeRendering(unicodeAndFontData.isExtender);
         this.transform = "";
     }
 
+    setShapeRendering(isExtender) {
+        if(this.unicode === "1113965"){
+            return 'crispedges'
+        }
+        return isExtender ? "crispedges" : "geometricprecision";
+    }
     getPath() {
         let svgPaths = this.fontData.svgPaths;
         return svgPaths[this.unicode].commands;
     }
 
+    getBBox(){
+        let glyphMetric = this.fontData.glyphMetrics[this.unicode];
+        let unParsedBBox = glyphMetric.bbox
+        let bbox = {};
+        for(let val in unParsedBBox){
+            bbox[val]  = parseInt(unParsedBBox[val], 10);
+        }
+        return bbox;
+    }
     setFUDimensions() {
         let glyphMetric = this.fontData.glyphMetrics[this.unicode];
-        this.height = parseInt(glyphMetric.bbox.y2, 10);
-        this.depth = -parseInt(glyphMetric.bbox.y1, 10);
+        this.height = this.bbox.y2;
+        this.depth = -this.bbox.y1;
         this.width = parseInt(glyphMetric.advanceWidth, 10);
     }
 }
@@ -123,15 +143,16 @@ class SVGConstruction {
         this.partialSVGGlyphArray = this.generatePartialSVGGlyphArray(
             glyphConstruction
         );
+        this.italicsCorrection = glyphConstruction.italicsCorrection;
         this.dimension = new SVGConstructionDimension(this);
         this.transform = this.generateTransform();
     }
 
-    generateTransform(){
-        let midX = this.dimension.totalWidth/2;
-        let midY = this.dimension.totalHeight/2;
+    generateTransform() {
+        let midX = this.dimension.totalWidth / 2;
+        let midY = this.dimension.totalHeight / 2;
         let firstTranslate = `translate(${midX},${midY}) `;
-        let scale = 'scale(1,-1) ';
+        let scale = "scale(1,-1) ";
         let secondTranslate = `translate(${-midX},${-midY})`;
         return firstTranslate + scale + secondTranslate;
     }
@@ -148,7 +169,10 @@ class SVGConstruction {
     generatePartialSVGGlyphArray(glyphConstruction) {
         var partialSVGGlyphArray = [];
         glyphConstruction.unicodeArray.forEach(ele => {
-            let options = { unicode: ele, fontData: this.fontData };
+            let isExtender = glyphConstruction.extenderUnicodeArray.includes(
+                ele
+            );
+            let options = { unicode: ele, fontData: this.fontData, isExtender };
             partialSVGGlyphArray.push(new PartialSVGGlyph(options));
         });
         this.injectTransforms(partialSVGGlyphArray, this.overlapArray);
@@ -192,6 +216,7 @@ class SVGConstruction {
 
 class SVGConstructionDimension {
     constructor(svgConstruction) {
+        this.xmin = this.calculateXMin(svgConstruction.partialSVGGlyphArray)
         this.ymin = this.calculateYMin(svgConstruction.partialSVGGlyphArray);
         this.totalWidth = this.calculateTotalWidth(svgConstruction);
         this.totalHeight = this.calculateTotalHeight(svgConstruction);
@@ -216,12 +241,18 @@ class SVGConstructionDimension {
         }
     }
 
+    calculateXMin(partialSVGGlyphArray){
+        let x1Array = [];
+        partialSVGGlyphArray.forEach((partialSVGGlyph)=>{
+            x1Array.push(partialSVGGlyph.bbox.x1) 
+        })
+        console.log(x1Array)
+        let xmin = Math.min(...x1Array)
+        return xmin;
+    }
     calculateYMin(partialSVGGlyphArray) {
-        let depthArray = [];
-        partialSVGGlyphArray.forEach(partialSVGGlyph => {
-            depthArray.push(partialSVGGlyph.depth);
-        });
-        return -Math.min(...depthArray);
+        let ymin =  -this.getMaxOfDimension(partialSVGGlyphArray,'depth')
+        return ymin;
     }
 
     calculateTotalHeight(svgConstruction) {
@@ -239,9 +270,10 @@ class SVGConstructionDimension {
     getLengthOfCrossAxis(svgConstruction) {
         let glyphArray = svgConstruction.partialSVGGlyphArray;
         let result = svgConstruction.isVertical()
-            ? glyphArray[0].width
+            ? glyphArray[0].width -this.xmin
             : this.getMaxOfDimension(glyphArray, "height") +
               this.getMaxOfDimension(glyphArray, "depth");
+        console.log(result)
         return result;
     }
 

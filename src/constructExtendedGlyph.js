@@ -21,9 +21,14 @@ export function constructExtendedGlyph(
         10
     );
     var partRecords = variantMap[unicode].GlyphAssembly.PartRecords;
+    var extenderPartRecords = [];
     var currentPartRecords = partRecords.filter(ele => {
+        if(ele.PartFlags.value === '1'){
+            extenderPartRecords.push(ele)  
+        }
         return ele.PartFlags.value === "0";
     });
+    let extenderUnicodeArray = partRecordsToUnicode(extenderPartRecords, glyphNameToUnicode);
     var extenderIteration = 0;
     var i = 0;
     while (i < 30) {
@@ -65,6 +70,7 @@ export function constructExtendedGlyph(
             maxTotalHeight -= minOverlap;
         }
 
+        
         if (minTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
                 currentPartRecords,
@@ -74,7 +80,7 @@ export function constructExtendedGlyph(
             maxOverlapArray.forEach(ele => {
                 overlapArray.push(ele);
             });
-            return { unicodeArray, overlapArray, italicsCorrection };
+            return { extenderUnicodeArray, unicodeArray, overlapArray, italicsCorrection };
         }
         if (maxTotalHeight > desiredSizeFU) {
             let unicodeArray = partRecordsToUnicode(
@@ -87,12 +93,11 @@ export function constructExtendedGlyph(
             let totalOverlap = maxOverlapArray.reduce((acc, curr) => {
                 return (acc += curr);
             });
-
             maxOverlapArray.forEach(ele => {
                 let shrinkAmount = (totalShrink * ele) / totalOverlap;
-                return overlapArray.push(ele - shrinkAmount);
+                overlapArray.push(shrinkAmount)
             });
-            return { unicodeArray, overlapArray, italicsCorrection };
+            return { extenderUnicodeArray, unicodeArray, overlapArray, italicsCorrection };
         }
         var intermediatePartRecords = [];
         extenderIteration++;
@@ -108,6 +113,7 @@ export function constructExtendedGlyph(
         });
         currentPartRecords = intermediatePartRecords.slice();
     }
+    throw new Error('Extended Glyph While loop')
 }
 function partRecordsToUnicode(currentPartRecords, glyphNameToUnicode) {
     var unicodeArray = [];

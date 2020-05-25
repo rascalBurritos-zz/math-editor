@@ -25,8 +25,10 @@ export class RadicalComponentData {
     }
 
     setDimensions(){
-        this.height = 30; 
-        this.width = 40;
+        this.height = Math.max(this.delimiter.height,this.radicand.height); 
+        this.depth = Math.max(this.delimiter.depth,this.radicand.depth);
+        //TODO factor in degree?
+        this.width = this.delimiter.width + this.radicand.width;
     }
     getRadicandContainerCSS() {
         let radicandHeight = this.radicandClearance + 2*this.radicandDelta + this.radicalConstants.ruleThickness*this.mathSpec.pxpfu
