@@ -29212,13 +29212,27 @@ var ExtendedGlyph = /*#__PURE__*/function (_React$Component) {
   _createClass(ExtendedGlyph, [{
     key: "render",
     value: function render() {
+      var _this = this;
+
       var partialGlyphArray = this.props.data.svgConstruction.partialSVGGlyphArray;
       var paths = partialGlyphArray.map(function (partialSVGGlyph, index) {
-        return /*#__PURE__*/_react.default.createElement("path", {
+        var clipRects = _this.props.data.svgConstruction.clipRects;
+        var identifier = Math.random() * 10000;
+        return /*#__PURE__*/_react.default.createElement("g", {
           key: index,
-          transform: partialSVGGlyph.transform,
+          transform: partialSVGGlyph.transform
+        }, /*#__PURE__*/_react.default.createElement("clipPath", {
+          id: "A" + String.fromCharCode(identifier)
+        }, /*#__PURE__*/_react.default.createElement("rect", {
+          width: clipRects[index].width,
+          height: clipRects[index].height
+        })), /*#__PURE__*/_react.default.createElement("path", {
+          clipPath: "url(#" + "A" + String.fromCharCode(identifier) + ")",
+          style: {
+            opacity: 1
+          },
           d: partialSVGGlyph.path
-        });
+        }));
       });
       return /*#__PURE__*/_react.default.createElement("m-extended", {
         style: this.props.data.css
@@ -29399,9 +29413,34 @@ var SVGConstruction = /*#__PURE__*/function () {
     this.partialSVGGlyphArray = this.generatePartialSVGGlyphArray(glyphConstruction);
     this.dimension = new SVGConstructionDimension(this);
     this.transform = this.generateTransform();
+    this.clipRects = this.generateClipRects();
   }
 
   _createClass(SVGConstruction, [{
+    key: "generateClipRects",
+    value: function generateClipRects() {
+      var _this = this;
+
+      var clipRects = [];
+      var totalWidth = this.dimension.totalWidth;
+      var crossAxisDimension = this.isVertical() ? 'totalWidth' : 'totalHeight';
+      var clipRectCrossAxisDimension = this.isVertical() ? 'width' : 'height';
+      this.partialSVGGlyphArray.forEach(function (partialGlyph) {
+        var clipRect = {};
+        clipRect[clipRectCrossAxisDimension] = _this.dimension[crossAxisDimension];
+        clipRects.push(clipRect);
+      });
+      var clipRectMainAxisDimension = this.directionDimension;
+
+      for (var i = 1; i < this.offsets.length; i++) {
+        var mainAxisLength = this.offsets[i] - this.offsets[i - 1] + 5;
+        clipRects[i - 1][clipRectMainAxisDimension] = mainAxisLength;
+      }
+
+      clipRects[clipRects.length - 1][clipRectMainAxisDimension] = 10000;
+      return clipRects;
+    }
+  }, {
     key: "generateTransform",
     value: function generateTransform() {
       var midX = this.dimension.totalWidth / 2;
@@ -29425,13 +29464,13 @@ var SVGConstruction = /*#__PURE__*/function () {
   }, {
     key: "generatePartialSVGGlyphArray",
     value: function generatePartialSVGGlyphArray(glyphConstruction) {
-      var _this = this;
+      var _this2 = this;
 
       var partialSVGGlyphArray = [];
       glyphConstruction.unicodeArray.forEach(function (ele) {
         var options = {
           unicode: ele,
-          fontData: _this.fontData
+          fontData: _this2.fontData
         };
         partialSVGGlyphArray.push(new PartialSVGGlyph(options));
       });
@@ -29441,12 +29480,12 @@ var SVGConstruction = /*#__PURE__*/function () {
   }, {
     key: "injectTransforms",
     value: function injectTransforms(partialSVGGlyphArray, overlapArray) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.offsets = this.calculateOffsets(partialSVGGlyphArray, overlapArray);
       partialSVGGlyphArray.forEach(function (partialSVGGlyph, index) {
-        var offset = _this2.offsets[index];
-        partialSVGGlyph.transform = _this2.getTransformString(offset);
+        var offset = _this3.offsets[index];
+        partialSVGGlyph.transform = _this3.getTransformString(offset);
       });
     }
   }, {
@@ -29466,15 +29505,16 @@ var SVGConstruction = /*#__PURE__*/function () {
   }, {
     key: "calculateOffsets",
     value: function calculateOffsets(partialSVGGlyphArray, overlapArray) {
-      var _this3 = this;
+      var _this4 = this;
 
       var currentOffset = 0;
       var offsetArray = [];
       partialSVGGlyphArray.forEach(function (partialGlyph, index) {
         offsetArray.push(currentOffset);
         var overlap = overlapArray[index] ? overlapArray[index] : 0;
-        currentOffset += partialGlyph[_this3.directionDimension] - overlap;
+        currentOffset += partialGlyph[_this4.directionDimension] - overlap;
       });
+      console.log(offsetArray);
       return offsetArray;
     }
   }]);
@@ -100107,7 +100147,7 @@ customElements.define("m-formula", mformula);
 customElements.define("m-script", mscript);
 customElements.define("m-script-container", mscriptcontainer);
 customElements.define("m-glyph", mglyph);
-},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -100139,7 +100179,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -100174,12 +100214,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
+},{"./bundle-url":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/styles/fonts.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
+},{"./../../fonts/Asana-Math.otf":[["Asana-Math.2120c974.otf","fonts/Asana-Math.otf"],"fonts/Asana-Math.otf"],"_css_loader":"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -100292,7 +100332,7 @@ var myApp = /*#__PURE__*/_react.default.createElement("div", {
 }));
 
 _reactDom.default.render(myApp, document.getElementById("app"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./Formula.js":"src/Formula.js","./FormulaComponentData.js":"src/FormulaComponentData.js","./Font/FontFactory.js":"src/Font/FontFactory.js","../fonts/AsanaFontData.js":"fonts/AsanaFontData.js","./MathStyle.js":"src/MathStyle.js","./customElements.js":"src/customElements.js","./styles/fonts.css":"src/styles/fonts.css"}],"../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -100320,7 +100360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39007" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36141" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -100496,5 +100536,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../.nvm/versions/node/v14.3.0/lib/node_modules/parcel/src/builtins/hmr-runtime.js","src/index.js"], null)
+},{}]},{},["../../../.nvm/versions/node/v14.2.0/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","src/index.js"], null)
 //# sourceMappingURL=/src.a2b27638.js.map

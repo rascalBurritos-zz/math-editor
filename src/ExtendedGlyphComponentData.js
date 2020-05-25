@@ -125,6 +125,26 @@ class SVGConstruction {
         );
         this.dimension = new SVGConstructionDimension(this);
         this.transform = this.generateTransform();
+        this.clipRects = this.generateClipRects();
+    }
+
+    generateClipRects(){
+        var clipRects = []
+        let totalWidth = this.dimension.totalWidth;
+        let crossAxisDimension = this.isVertical() ? 'totalWidth' : 'totalHeight'
+        let clipRectCrossAxisDimension = this.isVertical() ? 'width' : 'height'
+        this.partialSVGGlyphArray.forEach((partialGlyph)=>{
+            let clipRect = {};
+            clipRect[clipRectCrossAxisDimension] = this.dimension[crossAxisDimension]
+            clipRects.push(clipRect)
+        })
+        let clipRectMainAxisDimension = this.directionDimension;
+        for(var i = 1; i<this.offsets.length;i++){
+            let mainAxisLength = this.offsets[i] - this.offsets[i-1] +5;
+            clipRects[i-1][clipRectMainAxisDimension] = mainAxisLength ;
+        }
+            clipRects[clipRects.length-1][clipRectMainAxisDimension] = 10000;
+        return clipRects;
     }
 
     generateTransform(){
@@ -186,6 +206,7 @@ class SVGConstruction {
             let overlap = overlapArray[index] ? overlapArray[index] : 0;
             currentOffset += partialGlyph[this.directionDimension] - overlap;
         });
+        console.log(offsetArray)
         return offsetArray;
     }
 }
