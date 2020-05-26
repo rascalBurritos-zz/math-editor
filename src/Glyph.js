@@ -12,20 +12,20 @@ export class Glyph extends React.Component {
         css.fontFamily = this.props.data.innerStyle.fontFamily
         let left = this.props.data.innerStyle.left.replace('px','')
         return (
-            <m-glyph style={css}>
-                <svg viewBox={`0 0 ${width} ${height}`} >
-                <text x={`${left}`} y={`${textHeight}`}>
-                    {symbol}
-                </text>
-            </svg>
+            <m-glyph style={this.props.data.css}>
+                <div style={this.props.data.innerStyle}>
+                    {this.props.data.symbol}
+                </div>
             </m-glyph>
         );
-        // return (
-        //     <m-glyph style={this.props.data.css}>
-        //         <div style={this.props.data.innerStyle}>
-        //             {this.props.data.symbol}
-        //         </div>
-        //     </m-glyph>
-        // );
     }
 }
+        // return (
+            // {/* <m-glyph style={css}> */}
+            // {/*     <svg viewBox={`0 0 ${width} ${height}`} > */}
+            // {/*     <text x={`${left}`} y={`${textHeight}`}> */}
+            // {/*         {symbol} */}
+            // {/*     </text> */}
+            // {/* </svg> */}
+            // {/* </m-glyph> */}
+        // {/* ); */}

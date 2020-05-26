@@ -11,14 +11,84 @@ var mathList = [
         { type: "Ordinary", unicode: "70" },
         {
             type: "Radical",
-            degree: [{ type: "Ordinary", unicode: "70" }],
-            radicand: [{
-                type: "Ordinary",
-                extension: "Extended",
-                desiredSize: 200,
-                direction: "vertical",
-                unicode: "8747"
-            }]
+            degree: [{ type: "Ordinary", unicode: "51" }],
+            radicand: [
+                {
+                    type: "Radical",
+                    degree: [{ type: "Ordinary", unicode: "51" }],
+                    radicand: [
+                        {
+                            type: "Radical",
+                            degree: [{ type: "Ordinary", unicode: "51" }],
+                            radicand: [
+                                {
+                                    type: "Radical",
+                                    degree: [
+                                        { type: "Ordinary", unicode: "51" }
+                                    ],
+                                    radicand: [
+                                        {
+                                            type: "Radical",
+                                            degree: [
+                                                {
+                                                    type: "Ordinary",
+                                                    unicode: "51"
+                                                }
+                                            ],
+                                            radicand: [
+                                                {
+                                                    type: "Radical",
+                                                    degree: [
+                                                        {
+                                                            type: "Ordinary",
+                                                            unicode: "51"
+                                                        }
+                                                    ],
+                                                    radicand: [
+                                                        {
+                                                            type: "Radical",
+                                                            degree: [
+                                                                {
+                                                                    type:
+                                                                        "Ordinary",
+                                                                    unicode:
+                                                                        "51"
+                                                                }
+                                                            ],
+                                                            radicand: [
+                                                                {
+                                                                    type:
+                                                                        "Radical",
+                                                                    degree: [
+                                                                        {
+                                                                            type:
+                                                                                "Ordinary",
+                                                                            unicode:
+                                                                                "51"
+                                                                        }
+                                                                    ],
+                                                                    radicand: [
+                                                                        {
+                                                                            type:
+                                                                                "Ordinary",
+                                                                            unicode:
+                                                                                "51"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         },
         {
             type: "Ordinary",

@@ -11,32 +11,26 @@ export class RadicalComponentData {
 
     setMathList(mathSpec) {
         this.component = Radical;
-        this.css = this.getDefaultCSS();
         this.radicalConstants = this.getConstants();
         this.degree = this.generateDegree();
         this.radicand = this.generateRadicand();
         this.delimiter = this.generateDelimiter();
         this.rule = this.generateRule();
         this.positionRadicand();
-        this.positionDegree();
         this.radicandContainerCSS = this.getRadicandContainerCSS();
+        this.positionDegree();
+        this.setDimensions();
         this.addExtraAscenderToMargins();
-        this.setDimensions()
+        this.css = this.getCSS();
+        console.log(this.radicandDelta)
     }
 
-    setDimensions(){
-        this.height = Math.max(this.delimiter.height,this.radicand.height); 
-        this.depth = Math.max(this.delimiter.depth,this.radicand.depth);
-        //TODO factor in degree?
-        this.width = this.delimiter.width + this.radicand.width;
-    }
-    getRadicandContainerCSS() {
-        let radicandHeight = this.radicandClearance + 2*this.radicandDelta + this.radicalConstants.ruleThickness*this.mathSpec.pxpfu
-        return {
-            display: "flex",
-            flexDirection: "column",
-            height: radicandHeight
-        };
+    positionDegree() {
+        let kernLeft = this.radicalConstants.kernBeforeDegree * this.mathSpec.pxpfu;
+        let kernRight = this.radicalConstants.kernAfterDegree * this.mathSpec.pxpfu;
+        this.degree.css.marginLeft = kernLeft;
+        this.degree.css.marginRight = kernRight;
+        this.degreeAdjustment = this.degree.width + kernLeft + kernRight
     }
     addExtraAscenderToMargins() {
         this.delimiter.css.marginTop =
@@ -44,36 +38,60 @@ export class RadicalComponentData {
         this.radicandContainerCSS.marginTop =
             this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
     }
-    positionDegree() {
-        this.degree.css.marginLeft =
-            this.radicalConstants.kernBeforeDegree * this.mathSpec.pxpfu;
-        this.degree.css.marginRight =
-            this.radicalConstants.kernAfterDegree * this.mathSpec.pxpfu;
-        this.degree.css.marginTop = this.getDegreeMarginTop();
+    setDimensions() {
+        let extraAscender =
+            this.radicalConstants.extraAscender * this.mathSpec.pxpfu;
+        let mathAxis = this.radicalConstants.mathAxis * this.mathSpec.pxpfu
+        let delimiterHeight =  this.delimiter.height + extraAscender - mathAxis;
+        let radicandHeight =
+            this.radicand.height +
+            this.radicandDelta +
+            this.radicalConstants.ruleThickness * this.mathSpec.pxpfu +
+            this.verticalGap
+            + extraAscender;
+        let radicandDepth = this.radicand.depth + this.radicandDelta
+        this.degreeTop = this.getDegreeBaselineHeight() + this.degree.height;
+        this.height = Math.max(delimiterHeight, radicandHeight, this.degreeTop);
+        this.depth = Math.max(this.delimiter.depth, radicandDepth);
+        this.degree.css.marginTop = this.height - this.degreeTop;
+        this.width = this.delimiter.width + this.radicand.width + this.degreeAdjustment;
     }
-    getDegreeMarginTop() {
+    getRadicandContainerCSS() {
+        let radicandHeight =
+            this.radicandClearance +
+            2 * this.radicandDelta +
+            this.radicalConstants.ruleThickness * this.mathSpec.pxpfu;
+        return {
+            display: "flex",
+            flexDirection: "column",
+            height: radicandHeight
+        };
+    }
+    getDegreeBaselineHeight() {
         let delimiterTotalHeight = this.delimiter.height + this.delimiter.depth;
-        let pxDownFromTopOfDelimiter =
-            100 -
-            this.radicalConstants.degreeBottomRaisePercent *
-                delimiterTotalHeight;
-        let extraAscender = this.radicalConstants.extraAscender;
-        return extraAscender + pxDownFromTopOfDelimiter;
+        let pxUpFromBottomOfDelimiter =
+            (this.radicalConstants.degreeBottomRaisePercent / 100) *
+            delimiterTotalHeight;
+        //height relative to delimiter center
+        let mathAxis = this.radicalConstants.mathAxis * this.mathSpec.pxpfu
+        let height = pxUpFromBottomOfDelimiter - this.delimiter.depth + mathAxis;
+        return height;
     }
     positionRadicand() {
         let delimiterDescender =
             this.delimiter.height +
             this.delimiter.depth -
-            this.radicalConstants.ruleThickness *this.mathSpec.pxpfu;
+            this.radicalConstants.ruleThickness * this.mathSpec.pxpfu;
         let delta = (1 / 2) * (delimiterDescender - this.radicandClearance);
         this.radicandDelta = delta;
-        let verticalGap = this.determineRadicandVerticalGap();
-        let marginTop = verticalGap + delta;
+        this.verticalGap = this.determineRadicandVerticalGap();
+        let marginTop = this.verticalGap + delta;
         this.radicand.css.marginTop = marginTop;
     }
     getConstants() {
         let mathConstants = this.mathSpec.fontData.MATH.MathConstants;
         let preParseConstants = {
+            mathAxis: mathConstants.AxisHeight,
             verticalGap: mathConstants.RadicalVerticalGap,
             displayVerticalGap: mathConstants.RadicalDisplayStyleVerticalGap,
             ruleThickness: mathConstants.RadicalRuleThickness,
@@ -99,19 +117,23 @@ export class RadicalComponentData {
         }
         return radicalConstants;
     }
-    getDefaultCSS() {
+    getCSS() {
         return {
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
+            width: this.width,
+            height: this.height + this.depth,
         };
     }
 
     generateDegree() {
-        return new FormulaComponentData(
+        let degreeStyle = this.mathSpec.style.changeType('SS',false)
+        let degree =  new FormulaComponentData(
             this.mathSpec.mathList.degree,
             this.mathSpec.fontData,
-            this.mathSpec.style
+            degreeStyle
         );
+        return degree;
     }
 
     generateRule() {
@@ -122,13 +144,13 @@ export class RadicalComponentData {
         };
     }
     generateRadicand() {
+        let radicandStyle = this.mathSpec.style.changeType(this.mathSpec.style.type,true)
         let radicand = new FormulaComponentData(
             this.mathSpec.mathList.radicand,
             this.mathSpec.fontData,
-            this.mathSpec.style
+            radicandStyle
         );
         this.radicandClearance = this.calculateRadicandClearance(radicand);
-
 
         return radicand;
     }
@@ -136,13 +158,14 @@ export class RadicalComponentData {
     calculateRadicandClearance(radicand) {
         let subClearance = radicand.height + radicand.depth;
         let totalClearance = subClearance + this.determineRadicandVerticalGap();
-        return totalClearance 
+        return totalClearance;
     }
     determineRadicandVerticalGap() {
         let verticalGap =
             this.mathSpec.style.type === "D"
                 ? this.radicalConstants.displayVerticalGap
                 : this.radicalConstants.verticalGap;
+        console.log("Vertical Gap", verticalGap * this.mathSpec.pxpfu)
         return verticalGap * this.mathSpec.pxpfu;
     }
     generateDelimiter() {
@@ -151,7 +174,6 @@ export class RadicalComponentData {
         let fontSize = this.mathSpec.style.fontSize;
         let direction = "vertical";
         let fontData = this.mathSpec.fontData;
-
         return determineTypeOfVariant(
             unicode,
             desiredSize,

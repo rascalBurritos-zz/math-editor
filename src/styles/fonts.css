@@ -2,13 +2,6 @@
     font-family: Asana;
     src: url(../../fonts/Asana-Math.otf);
 }
-m-formula {
-    overflow: auto;
-}
-svg {
-    /* background-color: white; */
-    /* shape-rendering: crispedges; */
-}
-div {
-    -webkit-font-smoothing: none;
+m-glyph{
+    /* outline:1px solid red; */
 }

@@ -19,6 +19,7 @@ export function determineTypeOfVariant(
         fontData.glyphNameToUnicode
     );
     if (typeof foundVariant === "number") {
+        let mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value,10)
         let glyphComponent = new GlyphComponentData(
             String.fromCodePoint(foundVariant),
             currentFontSize,
@@ -26,7 +27,9 @@ export function determineTypeOfVariant(
             fontData.upm,
             fontData.fontFamily,
             fontData.asc,
-            fontData.des
+            fontData.des,
+            true,
+            mathAxis
         );
         let pxpfu = currentFontSize / fontData.upm;
         glyphComponent.width =

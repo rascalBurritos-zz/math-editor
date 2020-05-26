@@ -28407,24 +28407,24 @@ var Glyph = /*#__PURE__*/function (_React$Component) {
       css.fontFamily = this.props.data.innerStyle.fontFamily;
       var left = this.props.data.innerStyle.left.replace('px', '');
       return /*#__PURE__*/_react.default.createElement("m-glyph", {
-        style: css
-      }, /*#__PURE__*/_react.default.createElement("svg", {
-        viewBox: "0 0 ".concat(width, " ").concat(height)
-      }, /*#__PURE__*/_react.default.createElement("text", {
-        x: "".concat(left),
-        y: "".concat(textHeight)
-      }, symbol))); // return (
-      //     <m-glyph style={this.props.data.css}>
-      //         <div style={this.props.data.innerStyle}>
-      //             {this.props.data.symbol}
-      //         </div>
-      //     </m-glyph>
-      // );
+        style: this.props.data.css
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        style: this.props.data.innerStyle
+      }, this.props.data.symbol));
     }
   }]);
 
   return Glyph;
-}(_react.default.Component);
+}(_react.default.Component); // return (
+// {/* <m-glyph style={css}> */}
+// {/*     <svg viewBox={`0 0 ${width} ${height}`} > */}
+// {/*     <text x={`${left}`} y={`${textHeight}`}> */}
+// {/*         {symbol} */}
+// {/*     </text> */}
+// {/* </svg> */}
+// {/* </m-glyph> */}
+// {/* ); */}
+
 
 exports.Glyph = Glyph;
 },{"react":"node_modules/react/index.js"}],"src/GlyphComponentData.js":[function(require,module,exports) {
@@ -28445,25 +28445,45 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var GlyphComponentData = /*#__PURE__*/function () {
   function GlyphComponentData(glyphSymbol, size, glyphMetric, upm, fontFamily, asc, des) {
+    var centered = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
+    var mathAxis = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 0;
+
     _classCallCheck(this, GlyphComponentData);
 
     this.symbol = glyphSymbol;
     var pxpfu = size / upm;
     this.innerStyle = GlyphComponentData.getInnerStyle(fontFamily, size, asc, des, pxpfu, glyphMetric);
     this.css = GlyphComponentData.getCSS(glyphMetric, pxpfu);
-    this.height = glyphMetric.bbox.y2 * pxpfu;
-    this.depth = -glyphMetric.bbox.y1 * pxpfu;
+
+    if (centered) {
+      var totalHeight = this.getHeight(glyphMetric, pxpfu) + this.getDepth(glyphMetric, pxpfu);
+      this.height = totalHeight / 2 + mathAxis * pxpfu;
+      this.depth = totalHeight / 2 - mathAxis * pxpfu;
+    } else {
+      this.height = this.getHeight(glyphMetric, pxpfu);
+      this.depth = this.getDepth(glyphMetric, pxpfu);
+    }
+
     this.width = (glyphMetric.bbox.x2 - glyphMetric.bbox.x1) * pxpfu;
     this.component = _Glyph.Glyph;
   }
 
-  _createClass(GlyphComponentData, null, [{
+  _createClass(GlyphComponentData, [{
+    key: "getDepth",
+    value: function getDepth(glyphMetric, pxpfu) {
+      return -glyphMetric.bbox.y1 * pxpfu;
+    }
+  }, {
+    key: "getHeight",
+    value: function getHeight(glyphMetric, pxpfu) {
+      return glyphMetric.bbox.y2 * pxpfu;
+    }
+  }], [{
     key: "getCSS",
     value: function getCSS(glyphMetric, pxpfu) {
       var css = {};
       css.height = (glyphMetric.bbox.y2 - glyphMetric.bbox.y1) * pxpfu + "px";
       css.width = (glyphMetric.bbox.x2 - glyphMetric.bbox.x1) * pxpfu + "px";
-      css.outline = "1px solid black";
       css.boxSizing = "content-box";
       return css;
     }
@@ -28474,7 +28494,7 @@ var GlyphComponentData = /*#__PURE__*/function () {
       innerStyle.lineHeight = "1";
       innerStyle.fontFamily = fontFamily;
       innerStyle.fontSize = size + "px";
-      innerStyle.height = Math.floor((asc + des) * pxpfu) + 'px'; //(asc+des)*pxpfu +"px";M
+      innerStyle.height = Math.floor((asc + des) * pxpfu) + "px"; //(asc+des)*pxpfu +"px";M
 
       innerStyle.width = "".concat(glyphMetric.advanceWidth * pxpfu, "px");
       innerStyle.position = "relative";
@@ -29347,7 +29367,6 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
   }, {
     key: "setDimensions",
     value: function setDimensions(glyphSpec) {
-      console.log(this);
       var pxpfu = glyphSpec.pxpfu;
       this.height = this.svgConstruction.dimension.height * pxpfu;
       this.depth = this.svgConstruction.dimension.depth * pxpfu;
@@ -29362,7 +29381,7 @@ var ExtendedGlyphComponentData = /*#__PURE__*/function () {
       return {
         height: height,
         width: width,
-        outline: "1px solid darkred"
+        outline: ""
       };
     }
   }]);
@@ -29553,7 +29572,6 @@ var SVGConstructionDimension = /*#__PURE__*/function () {
       partialSVGGlyphArray.forEach(function (partialSVGGlyph) {
         x1Array.push(partialSVGGlyph.bbox.x1);
       });
-      console.log(x1Array);
       var xmin = Math.min.apply(Math, x1Array);
       return xmin;
     }
@@ -29578,7 +29596,6 @@ var SVGConstructionDimension = /*#__PURE__*/function () {
     value: function getLengthOfCrossAxis(svgConstruction) {
       var glyphArray = svgConstruction.partialSVGGlyphArray;
       var result = svgConstruction.isVertical() ? glyphArray[0].width - this.xmin : this.getMaxOfDimension(glyphArray, "height") + this.getMaxOfDimension(glyphArray, "depth");
-      console.log(result);
       return result;
     }
   }, {
@@ -29622,7 +29639,8 @@ function determineTypeOfVariant(baseUnicode, desiredSize, currentFontSize, direc
   var foundVariant = (0, _bestVariant.bestVariant)(baseUnicode, desiredSize, currentFontSize, direction, fontData.variants, fontData.upm, fontData.glyphNameToUnicode);
 
   if (typeof foundVariant === "number") {
-    var glyphComponent = new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des);
+    var mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value, 10);
+    var glyphComponent = new _GlyphComponentData.GlyphComponentData(String.fromCodePoint(foundVariant), currentFontSize, fontData.glyphMetrics[foundVariant], fontData.upm, fontData.fontFamily, fontData.asc, fontData.des, true, mathAxis);
     var pxpfu = currentFontSize / fontData.upm;
     glyphComponent.width = parseInt(fontData.glyphMetrics[foundVariant].advanceWidth, 10) * pxpfu;
     glyphComponent.css.width = glyphComponent.width + "px";
@@ -29746,25 +29764,47 @@ var RadicalComponentData = /*#__PURE__*/function () {
     key: "setMathList",
     value: function setMathList(mathSpec) {
       this.component = _Radical.Radical;
-      this.css = this.getDefaultCSS();
       this.radicalConstants = this.getConstants();
       this.degree = this.generateDegree();
       this.radicand = this.generateRadicand();
       this.delimiter = this.generateDelimiter();
       this.rule = this.generateRule();
       this.positionRadicand();
-      this.positionDegree();
       this.radicandContainerCSS = this.getRadicandContainerCSS();
-      this.addExtraAscenderToMargins();
+      this.positionDegree();
       this.setDimensions();
+      this.addExtraAscenderToMargins();
+      this.css = this.getCSS();
+      console.log(this.radicandDelta);
+    }
+  }, {
+    key: "positionDegree",
+    value: function positionDegree() {
+      var kernLeft = this.radicalConstants.kernBeforeDegree * this.mathSpec.pxpfu;
+      var kernRight = this.radicalConstants.kernAfterDegree * this.mathSpec.pxpfu;
+      this.degree.css.marginLeft = kernLeft;
+      this.degree.css.marginRight = kernRight;
+      this.degreeAdjustment = this.degree.width + kernLeft + kernRight;
+    }
+  }, {
+    key: "addExtraAscenderToMargins",
+    value: function addExtraAscenderToMargins() {
+      this.delimiter.css.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
+      this.radicandContainerCSS.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
     }
   }, {
     key: "setDimensions",
     value: function setDimensions() {
-      this.height = Math.max(this.delimiter.height, this.radicand.height);
-      this.depth = Math.max(this.delimiter.depth, this.radicand.depth); //TODO factor in degree?
-
-      this.width = this.delimiter.width + this.radicand.width;
+      var extraAscender = this.radicalConstants.extraAscender * this.mathSpec.pxpfu;
+      var mathAxis = this.radicalConstants.mathAxis * this.mathSpec.pxpfu;
+      var delimiterHeight = this.delimiter.height + extraAscender - mathAxis;
+      var radicandHeight = this.radicand.height + this.radicandDelta + this.radicalConstants.ruleThickness * this.mathSpec.pxpfu + this.verticalGap + extraAscender;
+      var radicandDepth = this.radicand.depth + this.radicandDelta;
+      this.degreeTop = this.getDegreeBaselineHeight() + this.degree.height;
+      this.height = Math.max(delimiterHeight, radicandHeight, this.degreeTop);
+      this.depth = Math.max(this.delimiter.depth, radicandDepth);
+      this.degree.css.marginTop = this.height - this.degreeTop;
+      this.width = this.delimiter.width + this.radicand.width + this.degreeAdjustment;
     }
   }, {
     key: "getRadicandContainerCSS",
@@ -29777,25 +29817,14 @@ var RadicalComponentData = /*#__PURE__*/function () {
       };
     }
   }, {
-    key: "addExtraAscenderToMargins",
-    value: function addExtraAscenderToMargins() {
-      this.delimiter.css.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
-      this.radicandContainerCSS.marginTop = this.radicalConstants.extraAscender * this.mathSpec.pxpfu + "px";
-    }
-  }, {
-    key: "positionDegree",
-    value: function positionDegree() {
-      this.degree.css.marginLeft = this.radicalConstants.kernBeforeDegree * this.mathSpec.pxpfu;
-      this.degree.css.marginRight = this.radicalConstants.kernAfterDegree * this.mathSpec.pxpfu;
-      this.degree.css.marginTop = this.getDegreeMarginTop();
-    }
-  }, {
-    key: "getDegreeMarginTop",
-    value: function getDegreeMarginTop() {
+    key: "getDegreeBaselineHeight",
+    value: function getDegreeBaselineHeight() {
       var delimiterTotalHeight = this.delimiter.height + this.delimiter.depth;
-      var pxDownFromTopOfDelimiter = 100 - this.radicalConstants.degreeBottomRaisePercent * delimiterTotalHeight;
-      var extraAscender = this.radicalConstants.extraAscender;
-      return extraAscender + pxDownFromTopOfDelimiter;
+      var pxUpFromBottomOfDelimiter = this.radicalConstants.degreeBottomRaisePercent / 100 * delimiterTotalHeight; //height relative to delimiter center
+
+      var mathAxis = this.radicalConstants.mathAxis * this.mathSpec.pxpfu;
+      var height = pxUpFromBottomOfDelimiter - this.delimiter.depth + mathAxis;
+      return height;
     }
   }, {
     key: "positionRadicand",
@@ -29803,8 +29832,8 @@ var RadicalComponentData = /*#__PURE__*/function () {
       var delimiterDescender = this.delimiter.height + this.delimiter.depth - this.radicalConstants.ruleThickness * this.mathSpec.pxpfu;
       var delta = 1 / 2 * (delimiterDescender - this.radicandClearance);
       this.radicandDelta = delta;
-      var verticalGap = this.determineRadicandVerticalGap();
-      var marginTop = verticalGap + delta;
+      this.verticalGap = this.determineRadicandVerticalGap();
+      var marginTop = this.verticalGap + delta;
       this.radicand.css.marginTop = marginTop;
     }
   }, {
@@ -29812,6 +29841,7 @@ var RadicalComponentData = /*#__PURE__*/function () {
     value: function getConstants() {
       var mathConstants = this.mathSpec.fontData.MATH.MathConstants;
       var preParseConstants = {
+        mathAxis: mathConstants.AxisHeight,
         verticalGap: mathConstants.RadicalVerticalGap,
         displayVerticalGap: mathConstants.RadicalDisplayStyleVerticalGap,
         ruleThickness: mathConstants.RadicalRuleThickness,
@@ -29833,17 +29863,21 @@ var RadicalComponentData = /*#__PURE__*/function () {
       return radicalConstants;
     }
   }, {
-    key: "getDefaultCSS",
-    value: function getDefaultCSS() {
+    key: "getCSS",
+    value: function getCSS() {
       return {
         display: "flex",
-        flexDirection: "row"
+        flexDirection: "row",
+        width: this.width,
+        height: this.height + this.depth
       };
     }
   }, {
     key: "generateDegree",
     value: function generateDegree() {
-      return new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.degree, this.mathSpec.fontData, this.mathSpec.style);
+      var degreeStyle = this.mathSpec.style.changeType('SS', false);
+      var degree = new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.degree, this.mathSpec.fontData, degreeStyle);
+      return degree;
     }
   }, {
     key: "generateRule",
@@ -29857,7 +29891,8 @@ var RadicalComponentData = /*#__PURE__*/function () {
   }, {
     key: "generateRadicand",
     value: function generateRadicand() {
-      var radicand = new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.radicand, this.mathSpec.fontData, this.mathSpec.style);
+      var radicandStyle = this.mathSpec.style.changeType(this.mathSpec.style.type, true);
+      var radicand = new _FormulaComponentData.FormulaComponentData(this.mathSpec.mathList.radicand, this.mathSpec.fontData, radicandStyle);
       this.radicandClearance = this.calculateRadicandClearance(radicand);
       return radicand;
     }
@@ -29872,6 +29907,7 @@ var RadicalComponentData = /*#__PURE__*/function () {
     key: "determineRadicandVerticalGap",
     value: function determineRadicandVerticalGap() {
       var verticalGap = this.mathSpec.style.type === "D" ? this.radicalConstants.displayVerticalGap : this.radicalConstants.verticalGap;
+      console.log("Vertical Gap", verticalGap * this.mathSpec.pxpfu);
       return verticalGap * this.mathSpec.pxpfu;
     }
   }, {
@@ -100263,14 +100299,60 @@ var mathList = [{
   type: "Radical",
   degree: [{
     type: "Ordinary",
-    unicode: "70"
+    unicode: "51"
   }],
   radicand: [{
-    type: "Ordinary",
-    extension: "Extended",
-    desiredSize: 200,
-    direction: "vertical",
-    unicode: "8747"
+    type: "Radical",
+    degree: [{
+      type: "Ordinary",
+      unicode: "51"
+    }],
+    radicand: [{
+      type: "Radical",
+      degree: [{
+        type: "Ordinary",
+        unicode: "51"
+      }],
+      radicand: [{
+        type: "Radical",
+        degree: [{
+          type: "Ordinary",
+          unicode: "51"
+        }],
+        radicand: [{
+          type: "Radical",
+          degree: [{
+            type: "Ordinary",
+            unicode: "51"
+          }],
+          radicand: [{
+            type: "Radical",
+            degree: [{
+              type: "Ordinary",
+              unicode: "51"
+            }],
+            radicand: [{
+              type: "Radical",
+              degree: [{
+                type: "Ordinary",
+                unicode: "51"
+              }],
+              radicand: [{
+                type: "Radical",
+                degree: [{
+                  type: "Ordinary",
+                  unicode: "51"
+                }],
+                radicand: [{
+                  type: "Ordinary",
+                  unicode: "51"
+                }]
+              }]
+            }]
+          }]
+        }]
+      }]
+    }]
   }]
 }, {
   type: "Ordinary",

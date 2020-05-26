@@ -78,7 +78,6 @@ export class ExtendedGlyphComponentData {
     }
 
     setDimensions(glyphSpec) {
-        console.log(this)
         let pxpfu = glyphSpec.pxpfu;
         this.height = this.svgConstruction.dimension.height * pxpfu;
         this.depth = this.svgConstruction.dimension.depth * pxpfu;
@@ -91,7 +90,7 @@ export class ExtendedGlyphComponentData {
             this.svgConstruction.dimension.totalHeight * glyphSpec.pxpfu + "px";
         let width =
             this.svgConstruction.dimension.totalWidth * glyphSpec.pxpfu + "px";
-        return { height: height, width: width, outline: "1px solid darkred" };
+        return { height: height, width: width, outline: "" };
     }
 }
 
@@ -246,7 +245,6 @@ class SVGConstructionDimension {
         partialSVGGlyphArray.forEach((partialSVGGlyph)=>{
             x1Array.push(partialSVGGlyph.bbox.x1) 
         })
-        console.log(x1Array)
         let xmin = Math.min(...x1Array)
         return xmin;
     }
@@ -273,7 +271,6 @@ class SVGConstructionDimension {
             ? glyphArray[0].width -this.xmin
             : this.getMaxOfDimension(glyphArray, "height") +
               this.getMaxOfDimension(glyphArray, "depth");
-        console.log(result)
         return result;
     }
 
