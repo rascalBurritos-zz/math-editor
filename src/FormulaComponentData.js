@@ -150,10 +150,10 @@ export class FormulaComponentData {
                     var code = interElementSpacingTable[right][left];
 
                     spacingArray.push(muMap[code.charAt(0)]);
-                }else{
+                } else {
                     spacingArray.push('0')
                 }
-                
+
             }
         }
         return spacingArray;
