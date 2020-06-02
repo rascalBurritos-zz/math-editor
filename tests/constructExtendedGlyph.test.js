@@ -1,7 +1,7 @@
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 import { fontFactory } from "../src/Font/FontFactory.js";
-import { GlyphComponentData } from "../src/GlyphComponentData.js";
-import { constructExtendedGlyph } from "../src/constructExtendedGlyph.js";
+import { GlyphComponentData } from "../src/ComponentData/GlyphComponentData.js";
+import { constructExtendedGlyph } from "../src/ComponentData/Variants/constructExtendedGlyph.js";
 
 var fontData;
 beforeEach(() => {
@@ -29,6 +29,6 @@ test("Constructs Glyph with proper amount of glyphs", () => {
             fontData.glyphNameToUnicode,
             minConnectorOverlap
         )
-    ).toEqual({"overlapArray": [0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996], "unicodeArray": ["9117", "9116", "9116", "9116", "9116", "9116", "9115"]});
+    ).toEqual({ "overlapArray": [0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996, 0.44999999999999996], "unicodeArray": ["9117", "9116", "9116", "9116", "9116", "9116", "9115"] });
     //dont forget italic correction
 });

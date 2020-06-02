@@ -1,7 +1,7 @@
-import { Radical } from "./Radical.js";
+import { Radical } from "../React-Components/Radical.js";
 //formula component for component Factory
-import { FormulaComponentData } from "./FormulaComponentData.js";
-import { determineTypeOfVariant } from "./determineTypeOfVariant.js";
+import { FormulaComponentData } from "./FormulaComponentData.js"
+import { determineTypeOfVariant } from "./Variants/determineTypeOfVariant.js";
 
 export class RadicalComponentData {
     constructor(mathSpec) {
@@ -42,7 +42,7 @@ export class RadicalComponentData {
         let extraAscender =
             this.radicalConstants.extraAscender * this.mathSpec.pxpfu;
         let mathAxis = this.radicalConstants.mathAxis * this.mathSpec.pxpfu
-        let delimiterHeight =  this.delimiter.height + extraAscender - mathAxis;
+        let delimiterHeight = this.delimiter.height + extraAscender - mathAxis;
         let radicandHeight =
             this.radicand.height +
             this.radicandDelta +
@@ -127,8 +127,8 @@ export class RadicalComponentData {
     }
 
     generateDegree() {
-        let degreeStyle = this.mathSpec.style.changeType('SS',false)
-        let degree =  new FormulaComponentData(
+        let degreeStyle = this.mathSpec.style.changeType('SS', false)
+        let degree = new FormulaComponentData(
             this.mathSpec.mathList.degree,
             this.mathSpec.fontData,
             degreeStyle
@@ -144,7 +144,7 @@ export class RadicalComponentData {
         };
     }
     generateRadicand() {
-        let radicandStyle = this.mathSpec.style.changeType(this.mathSpec.style.type,true)
+        let radicandStyle = this.mathSpec.style.changeType(this.mathSpec.style.type, true)
         let radicand = new FormulaComponentData(
             this.mathSpec.mathList.radicand,
             this.mathSpec.fontData,

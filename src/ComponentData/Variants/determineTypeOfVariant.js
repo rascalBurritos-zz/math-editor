@@ -1,6 +1,6 @@
 import { bestVariant } from "./bestVariant.js";
-import { GlyphComponentData } from "./GlyphComponentData.js";
-import { ExtendedGlyphComponentData } from "./ExtendedGlyphComponentData.js";
+import { GlyphComponentData } from "../GlyphComponentData.js";
+import { ExtendedGlyphComponentData } from "../ExtendedGlyphComponentData.js";
 
 export function determineTypeOfVariant(
     baseUnicode,
@@ -19,7 +19,7 @@ export function determineTypeOfVariant(
         fontData.glyphNameToUnicode
     );
     if (typeof foundVariant === "number") {
-        let mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value,10)
+        let mathAxis = parseInt(fontData.MATH.MathConstants.AxisHeight.Value.value, 10)
         let glyphComponent = new GlyphComponentData(
             String.fromCodePoint(foundVariant),
             currentFontSize,

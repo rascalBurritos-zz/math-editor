@@ -1,6 +1,6 @@
-import { FormulaComponentData } from "../src/FormulaComponentData.js";
-import { MathStyle } from "../src/MathStyle.js";
-import { GlyphComponentData } from "../src/GlyphComponentData.js";
+import { FormulaComponentData } from "../src/ComponentData/FormulaComponentData.js";
+import { MathStyle } from "../src/ComponentData/MathStyle.js";
+import { GlyphComponentData } from "../src/ComponentData/GlyphComponentData.js";
 import { fontFactory } from "../src/Font/FontFactory.js";
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 

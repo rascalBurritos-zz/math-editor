@@ -1,7 +1,7 @@
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 import { fontFactory } from "../src/Font/FontFactory.js";
-import { GlyphComponentData } from "../src/GlyphComponentData.js";
-import { bestVariant } from "../src/bestVariant.js";
+import { GlyphComponentData } from "../src/ComponentData/GlyphComponentData.js";
+import { bestVariant } from "../src/ComponentData/Variants/bestVariant.js";
 
 var fontData;
 beforeEach(() => {
@@ -58,7 +58,7 @@ test("returns false for too large", () => {
             fontData.upm,
             fontData.glyphNameToUnicode
         )
-    ).toEqual({largestAvailable:1114102});
+    ).toEqual({ largestAvailable: 1114102 });
 });
 test("works on horizontal glyphs", () => {
     var unicode = 770;

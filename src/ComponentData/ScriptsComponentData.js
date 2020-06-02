@@ -1,5 +1,5 @@
 import { MathStyle } from "./MathStyle.js";
-import { Scripts } from "./Scripts.js";
+import { Scripts } from "../React-Components/Scripts.js";
 import { FormulaComponentData } from "./FormulaComponentData.js";
 export class ScriptsComponentData {
     constructor(element, style, fontData) {
@@ -126,17 +126,17 @@ export class ScriptsComponentData {
             u =
                 nucleusComponent.height -
                 scriptMetrics.baselineDropMax *
-                    MathStyle.getScriptFactor(
-                        superscriptStyle.type,
-                        fontData.MATH.MathConstants
-                    );
+                MathStyle.getScriptFactor(
+                    superscriptStyle.type,
+                    fontData.MATH.MathConstants
+                );
             v =
                 nucleusComponent.depth +
                 scriptMetrics.baselineDropMin *
-                    MathStyle.getScriptFactor(
-                        subscriptStyle.type,
-                        fontData.MATH.MathConstants
-                    );
+                MathStyle.getScriptFactor(
+                    subscriptStyle.type,
+                    fontData.MATH.MathConstants
+                );
             if (nucleusSpec.extension === "Extended") {
                 delta = nucleusComponent.italicsCorrection
                     ? nucleusComponent.italicsCorrection * pxpfu

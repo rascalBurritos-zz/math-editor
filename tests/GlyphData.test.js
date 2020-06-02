@@ -1,7 +1,7 @@
 // n scope -- fontsize, font metric
 // import asanafontdata from '../fonts/asanafontdata.js';
 // var fontfamily = 'asana'
-import { GlyphComponentData } from "../src/GlyphComponentData.js";
+import { GlyphComponentData } from "../src/ComponentData/GlyphComponentData.js";
 // fontmetric = asanafontdata;
 var exGlyphMetric,
     gc,
@@ -51,7 +51,7 @@ test("returns proper inner style", () => {
         width: exGlyphMetric.advanceWidth * pxpfu + "px",
         position: "relative",
         top: (500 - 750) * pxpfu + "px",
-        left: (-exGlyphMetric.bbox.x1 *pxpfu) + 'px'
+        left: (-exGlyphMetric.bbox.x1 * pxpfu) + 'px'
     });
 });
 // test("glyph returns proper css", () => {

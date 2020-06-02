@@ -1,4 +1,4 @@
-import { Glyph } from "./Glyph.js";
+import { Glyph } from "../React-Components/Glyph.js";
 export class GlyphComponentData {
     constructor(
         glyphSymbol,
@@ -23,18 +23,18 @@ export class GlyphComponentData {
         );
         this.css = GlyphComponentData.getCSS(glyphMetric, pxpfu);
         if (centered) {
-            let totalHeight = this.getHeight(glyphMetric,pxpfu) + this.getDepth(glyphMetric,pxpfu)
-            this.height =  totalHeight/2 + mathAxis*pxpfu;
-            this.depth = totalHeight/2 - mathAxis*pxpfu;
+            let totalHeight = this.getHeight(glyphMetric, pxpfu) + this.getDepth(glyphMetric, pxpfu)
+            this.height = totalHeight / 2 + mathAxis * pxpfu;
+            this.depth = totalHeight / 2 - mathAxis * pxpfu;
         } else {
             this.height = this.getHeight(glyphMetric, pxpfu);
-            this.depth = this.getDepth(glyphMetric,pxpfu) 
+            this.depth = this.getDepth(glyphMetric, pxpfu)
         }
         this.width = (glyphMetric.bbox.x2 - glyphMetric.bbox.x1) * pxpfu;
         this.component = Glyph;
     }
-    getDepth(glyphMetric,pxpfu){
-        return -glyphMetric.bbox.y1 *pxpfu;
+    getDepth(glyphMetric, pxpfu) {
+        return -glyphMetric.bbox.y1 * pxpfu;
     }
 
     getHeight(glyphMetric, pxpfu) {

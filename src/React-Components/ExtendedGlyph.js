@@ -17,7 +17,7 @@ export class ExtendedGlyph extends React.Component {
         });
         return (
             <m-extended style={this.props.data.css}>
-                <svg  viewBox={this.props.data.viewBox}>
+                <svg viewBox={this.props.data.viewBox}>
                     <g transform={this.props.data.svgConstruction.transform}>
                         {paths}
                     </g>

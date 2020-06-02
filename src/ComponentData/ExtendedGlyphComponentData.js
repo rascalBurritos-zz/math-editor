@@ -1,7 +1,7 @@
 import { GlyphComponentData } from "./GlyphComponentData.js";
-import { constructExtendedGlyph } from "./constructExtendedGlyph.js";
-import { bestVariant } from "./bestVariant.js";
-import { ExtendedGlyph } from "./ExtendedGlyph.js";
+import { constructExtendedGlyph } from "./Variants/constructExtendedGlyph.js";
+import { bestVariant } from "./Variants/bestVariant.js";
+import { ExtendedGlyph } from "../React-Components/ExtendedGlyph.js";
 
 //baseUnicode,
 // currentFontSize,
@@ -74,7 +74,7 @@ export class ExtendedGlyphComponentData {
         let ymin = dimension.ymin;
         let totalWidth = dimension.totalWidth;
         let totalHeight = dimension.totalHeight;
-        return xmin + ', '+ ymin + ", " + totalWidth + ", " + totalHeight;
+        return xmin + ', ' + ymin + ", " + totalWidth + ", " + totalHeight;
     }
 
     setDimensions(glyphSpec) {
@@ -106,7 +106,7 @@ class PartialSVGGlyph {
     }
 
     setShapeRendering(isExtender) {
-        if(this.unicode === "1113965"){
+        if (this.unicode === "1113965") {
             return 'crispedges'
         }
         return isExtender ? "crispedges" : "geometricprecision";
@@ -116,12 +116,12 @@ class PartialSVGGlyph {
         return svgPaths[this.unicode].commands;
     }
 
-    getBBox(){
+    getBBox() {
         let glyphMetric = this.fontData.glyphMetrics[this.unicode];
         let unParsedBBox = glyphMetric.bbox
         let bbox = {};
-        for(let val in unParsedBBox){
-            bbox[val]  = parseInt(unParsedBBox[val], 10);
+        for (let val in unParsedBBox) {
+            bbox[val] = parseInt(unParsedBBox[val], 10);
         }
         return bbox;
     }
@@ -240,16 +240,16 @@ class SVGConstructionDimension {
         }
     }
 
-    calculateXMin(partialSVGGlyphArray){
+    calculateXMin(partialSVGGlyphArray) {
         let x1Array = [];
-        partialSVGGlyphArray.forEach((partialSVGGlyph)=>{
-            x1Array.push(partialSVGGlyph.bbox.x1) 
+        partialSVGGlyphArray.forEach((partialSVGGlyph) => {
+            x1Array.push(partialSVGGlyph.bbox.x1)
         })
         let xmin = Math.min(...x1Array)
         return xmin;
     }
     calculateYMin(partialSVGGlyphArray) {
-        let ymin =  -this.getMaxOfDimension(partialSVGGlyphArray,'depth')
+        let ymin = -this.getMaxOfDimension(partialSVGGlyphArray, 'depth')
         return ymin;
     }
 
@@ -268,9 +268,9 @@ class SVGConstructionDimension {
     getLengthOfCrossAxis(svgConstruction) {
         let glyphArray = svgConstruction.partialSVGGlyphArray;
         let result = svgConstruction.isVertical()
-            ? glyphArray[0].width -this.xmin
+            ? glyphArray[0].width - this.xmin
             : this.getMaxOfDimension(glyphArray, "height") +
-              this.getMaxOfDimension(glyphArray, "depth");
+            this.getMaxOfDimension(glyphArray, "depth");
         return result;
     }
 

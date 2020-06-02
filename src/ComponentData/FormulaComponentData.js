@@ -1,10 +1,10 @@
 import { GlyphComponentData } from "./GlyphComponentData.js";
 import { interElementSpacingTable } from "./leftRightTable.js";
-import { Formula } from "./Formula.js";
+import { Formula } from "../React-Components/Formula.js";
 import { MathStyle } from "./MathStyle.js";
 import { ScriptsComponentData } from "./ScriptsComponentData.js";
 import { ExtendedGlyphComponentData } from "./ExtendedGlyphComponentData";
-import { determineTypeOfVariant } from "./determineTypeOfVariant.js";
+import { determineTypeOfVariant } from "./Variants/determineTypeOfVariant.js";
 import { RadicalComponentData } from "./RadicalComponentData.js";
 
 export class FormulaComponentData {

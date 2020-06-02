@@ -1,4 +1,4 @@
-import { RadicalComponentData } from "../src/RadicalComponentData.js";
+import { RadicalComponentData } from "../src/ComponentData/RadicalComponentData.js";
 import { fontFactory } from "../src/Font/FontFactory.js";
 import AsanaFontTables from "../fonts/AsanaFontData.js";
 
