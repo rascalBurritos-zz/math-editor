@@ -1,10 +1,11 @@
+
 import { MathStyle } from "./MathStyle.js";
 import { Scripts } from "../React-Components/Scripts.js";
 import { FormulaComponentData } from "./FormulaComponentData.js";
 export class ScriptsComponentData {
     constructor(element, style, fontData) {
         this.component = Scripts;
-        var superscriptMathList = element.superscript,
+        let superscriptMathList = element.superscript,
             subscriptMathList = element.subscript;
         if (
             superscriptMathList === undefined &&
@@ -14,7 +15,7 @@ export class ScriptsComponentData {
         }
         //returns script metrics (from math constants table) scaled to
         //proper font size
-        var scriptMetrics = ScriptsComponentData.getScriptMetric(
+        let scriptMetrics = ScriptsComponentData.getScriptMetric(
             fontData,
             style.fontSize
         );
@@ -22,7 +23,6 @@ export class ScriptsComponentData {
         // u represents height above baseline of the super baseline
         // v represents depth below baseline of the subscript baseline
         // delta is the italice correction(used for superscript)
-        var u, v, delta;
         //constructs the nucleus component of the script
         this.nucleus = FormulaComponentData.componentFactory(
             element.nucleus,
@@ -31,14 +31,14 @@ export class ScriptsComponentData {
         );
 
         //get the styles for the corresponding scripts based on super/sub
-        var superscriptStyle = ScriptsComponentData.getScriptStyle(
+        let superscriptStyle = ScriptsComponentData.getScriptStyle(
             style,
             "Super"
         );
-        var subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub");
+        let subscriptStyle = ScriptsComponentData.getScriptStyle(style, "Sub");
 
         //determine u,v and delta based nucleus type
-        var { u, v, delta } = ScriptsComponentData.determineScriptIntialValues(
+        let nucleusMeasure = ScriptsComponentData.determineScriptIntialValues(
             element.nucleus,
             this.nucleus,
             style.fontSize,
@@ -47,9 +47,11 @@ export class ScriptsComponentData {
             superscriptStyle,
             subscriptStyle
         );
+
+        let u = nucleusMeasure.u, v = nucleusMeasure.v, delta = nucleusMeasure.delta;
         //main script logic
         //determine the h,w,d,css of scripts container
-        var {
+        let {
             scriptsHeight,
             scriptsWidth,
             scriptsDepth,
@@ -106,7 +108,7 @@ export class ScriptsComponentData {
     ) {
         //needed to determine initial script placement
         //and delta (italics correction)
-        var atomTypes = [
+        let atomTypes = [
             "Ordinary",
             "Binary",
             "Relation",
@@ -114,8 +116,8 @@ export class ScriptsComponentData {
             "Punctuation"
         ];
 
-        var pxpfu = fontSize / fontData.upm;
-        var u, v, delta;
+        let pxpfu = fontSize / fontData.upm;
+        let u, v, delta;
         if (
             atomTypes.includes(nucleusSpec.type) &&
             nucleusSpec.extension !== "Extended"
@@ -172,7 +174,7 @@ export class ScriptsComponentData {
             );
         } //both sub and super  or  just sub
         else {
-            var superscript = ScriptsComponentData.setSuperscript(
+            let superscript = ScriptsComponentData.setSuperscript(
                 superscriptMathList,
                 fontData,
                 superscriptStyle,
@@ -221,15 +223,15 @@ export class ScriptsComponentData {
         superscript,
         currentDelta
     ) {
-        var subscript = new FormulaComponentData(
+        let subscript = new FormulaComponentData(
             subscriptMathList,
             fontData,
             subscriptStyle
         );
         subscript.css.alignSelf = "flex-start";
         subscript.css.marginRight = ss;
-        var v = Math.max(currentV, scriptMetrics.shiftDown);
-        var u = currentU;
+        let v = Math.max(currentV, scriptMetrics.shiftDown);
+        let u = currentU;
         //If there is !!not!! enough space between scripts,FIX IT
         if (
             currentU - subscript.depth - (superscript.height - v) <
@@ -246,14 +248,14 @@ export class ScriptsComponentData {
                 v -= psi;
             }
         }
-        var delta = currentDelta ? currentDelta : 0;
-        var height = u + superscript.height;
-        var depth = v + subscript.depth;
-        var width = Math.max(
+        let delta = currentDelta ? currentDelta : 0;
+        let height = u + superscript.height;
+        let depth = v + subscript.depth;
+        let width = Math.max(
             superscript.width + delta + ss,
             subscript.width + ss
         );
-        var css = {};
+        let css = {};
         css.height = height + depth + "px";
         css.width = width + "px";
         return {
@@ -267,9 +269,9 @@ export class ScriptsComponentData {
         // nucleus.css.marginTop = height - this.nucleus.height;
     }
     static getScriptMetric(fontData, size) {
-        var mc = fontData.MATH.MathConstants;
+        let mc = fontData.MATH.MathConstants;
         //script values
-        var scriptMetrics = {
+        let scriptMetrics = {
             //for atoms
             shiftUp: mc.SuperscriptShiftUp.Value.value,
             shiftUpCramped: mc.SuperscriptShiftUpCramped.Value.value,
@@ -286,16 +288,16 @@ export class ScriptsComponentData {
             spaceAfterScript: mc.SpaceAfterScript.Value.value
         };
 
-        var pxpfu = size / fontData.upm;
+        let pxpfu = size / fontData.upm;
         //scale properly
-        for (var d in scriptMetrics) {
+        for (let d in scriptMetrics) {
             scriptMetrics[d] = parseInt(scriptMetrics[d], 10) * pxpfu;
         }
         return scriptMetrics;
     }
     static getScriptStyle(currentStyle, superOrSub) {
-        var scriptStyle;
-        var styleMap = {
+        let scriptStyle;
+        let styleMap = {
             D: "S",
             T: "S",
             S: "SS",
@@ -322,7 +324,7 @@ export class ScriptsComponentData {
         v,
         scriptMetrics
     ) {
-        var subscript = new FormulaComponentData(
+        let subscript = new FormulaComponentData(
             subscriptMathList,
             fontData,
             subscriptStyle
@@ -332,16 +334,16 @@ export class ScriptsComponentData {
         subscript.css.alignSelf = "flex-end";
         subscript.css.marginRight = ss;
 
-        var css = {};
+        let css = {};
         css.height = subscript.height + subscript.depth;
-        var subscriptBaselineDepth = Math.max(
+        let subscriptBaselineDepth = Math.max(
             v,
             scriptMetrics.shiftDown,
             subscript.height - Math.abs(scriptMetrics.topMax)
         );
-        var height = subscript.height - subscriptBaselineDepth;
-        var width = subscript.width + ss;
-        var depth = subscript.depth + subscriptBaselineDepth;
+        let height = subscript.height - subscriptBaselineDepth;
+        let width = subscript.width + ss;
+        let depth = subscript.depth + subscriptBaselineDepth;
         return {
             scriptsHeight: height,
             scriptsWidth: width,
@@ -357,7 +359,7 @@ export class ScriptsComponentData {
         delta,
         ss
     ) {
-        var superscript = new FormulaComponentData(
+        let superscript = new FormulaComponentData(
             superscriptMathList,
             fontData,
             superscriptStyle
@@ -368,13 +370,13 @@ export class ScriptsComponentData {
         return superscript;
     }
     static setSoleSuperScript(delta, ss, u, superscript) {
-        var width = delta + superscript.width + ss;
-        var height = superscript.height + u;
-        var depth = css.height - height;
-
-        var css = {};
+        let css = {};
         css.height = superscript.height + superscript.depth;
-        css.width = width;
+        css.width = delta + superscript.width + ss;
+
+        let width = css.width;
+        let height = superscript.height + u;
+        let depth = css.height - height;
 
         return {
             scriptsHeight: height,

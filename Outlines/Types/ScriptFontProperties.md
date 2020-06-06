@@ -1,0 +1,18 @@
+Script Font Properties
+
+
+Struct
+
+# Properties
+scriptPercentScaleDown
+scriptScriptPercentScaleDown
+subscriptShiftDown
+subscriptTopMax
+subscriptBaselineDropMin
+superscriptShiftUp
+superscriptShiftUpCramped
+superscriptBottomMin
+superscriptBaselineDropMax
+subSuperscriptGapMin
+superscriptBottomMaxWithSubscript
+spaceAfterScript

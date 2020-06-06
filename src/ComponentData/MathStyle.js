@@ -8,7 +8,6 @@ export class MathStyle {
     constructor(type, fontSize, cramped) {
         this.type = type;
         this.fontSize = fontSize;
-
         // emphasis?: "Regular" | "Bold" | "Italic" | "BoldItalic",
 
         // fontFamily?: "Math"| "Main" |

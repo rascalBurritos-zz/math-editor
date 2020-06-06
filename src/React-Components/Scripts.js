@@ -26,13 +26,13 @@ export class Scripts extends React.Component {
         }
 
         return (
-            <m-scripts-container style={this.props.data.css}>
+            <div className="m-scripts-container" style={this.props.data.css}>
                 {nucleus}
-                <m-scripts key="scripts" style={this.props.data.scriptsCSS}>
+                <div className="m-scripts" key="scripts" style={this.props.data.scriptsCSS}>
                     {superscript}
                     {subscript}
-                </m-scripts>
-            </m-scripts-container>
+                </div>
+            </div>
         );
     }
 }

@@ -16,24 +16,24 @@ export class FormulaComponentData {
                 FormulaComponentData.componentFactory(ele, style, fontData)
             );
         });
-        var spacingArray = FormulaComponentData.getInterElementSpacing(
+        let spacingArray = FormulaComponentData.getInterElementSpacing(
             mathList,
             this.style
         );
-        var heightArray = FormulaComponentData.getDimensionEachElement(
+        let heightArray = FormulaComponentData.getDimensionEachElement(
             "height",
             this.elements
         );
-        var depthArray = FormulaComponentData.getDimensionEachElement(
+        let depthArray = FormulaComponentData.getDimensionEachElement(
             "depth",
             this.elements
         );
-        var widthArray = FormulaComponentData.getDimensionEachElement(
+        let widthArray = FormulaComponentData.getDimensionEachElement(
             "width",
             this.elements
         );
 
-        var topMargins = FormulaComponentData.getTopMarginsForBaselineAlign(
+        let topMargins = FormulaComponentData.getTopMarginsForBaselineAlign(
             heightArray
         );
         this.elements = FormulaComponentData.adjustMarginsOfElements(
@@ -53,21 +53,20 @@ export class FormulaComponentData {
         this.css.display = "flex";
         this.css.flexDirection = "row";
         this.css.position = "relative";
-
         this.height = Math.max(...heightArray);
         this.depth = Math.max(...depthArray);
         this.width = this.css.width;
         this.component = Formula;
     }
     static adjustMarginsOfElements(elementArray, topMargins, rightMargins) {
-        var adjustedElementArray = [];
+        let adjustedElementArray = [];
         elementArray.forEach((ele, index) => {
             if (ele.css !== undefined) {
-                var topMargin = topMargins[index]
+                let topMargin = topMargins[index]
                     ? topMargins[index] + "px"
                     : "0";
                 ele.css.marginTop = topMargin;
-                var rightMargin = rightMargins[index]
+                let rightMargin = rightMargins[index]
                     ? rightMargins[index] + "px"
                     : "0px";
                 ele.css.marginRight = rightMargin;
@@ -77,7 +76,7 @@ export class FormulaComponentData {
         return adjustedElementArray;
     }
     static getDimensionEachElement(dimensionToGet, elementArray) {
-        var dimensionArray = [];
+        let dimensionArray = [];
         elementArray.forEach(ele => {
             if (ele[dimensionToGet] !== undefined) {
                 dimensionArray.push(ele[dimensionToGet]);
@@ -86,7 +85,7 @@ export class FormulaComponentData {
         return dimensionArray;
     }
     static componentFactory(element, style, fontData) {
-        var currentFontSize = style.getStylizedSize(
+        let currentFontSize = style.getStylizedSize(
             fontData.MATH.MathConstants
         );
         if (element.type === "Script") {
@@ -121,8 +120,8 @@ export class FormulaComponentData {
         }
     }
     static getTopMarginsForBaselineAlign(heightArray) {
-        var maxHeight = Math.max(...heightArray);
-        var topMargins = [];
+        let maxHeight = Math.max(...heightArray);
+        let topMargins = [];
         heightArray.forEach(ele => {
             topMargins.push(maxHeight - ele);
         });
@@ -130,24 +129,24 @@ export class FormulaComponentData {
     }
     static getInterElementSpacing(mathList, style) {
         //TODO incorporate style
-        var mu = (1 / 18) * style.fontSize;
-        var thinmu = 3 * mu,
+        let mu = (1 / 18) * style.fontSize;
+        let thinmu = 3 * mu,
             medmu = 4 * mu,
             thickmu = 5 * mu;
-        var spacingArray = [];
-        var muMap = { "0": 0, "1": thinmu, "2": medmu, "3": thickmu };
-        for (var i = 1; i < mathList.length; i++) {
-            var atomTypes = ["Ordinary", "Binary", "Relation", "Punctuation"];
-            var right = atomTypes.includes(mathList[i].type)
+        let spacingArray = [];
+        let muMap = { "0": 0, "1": thinmu, "2": medmu, "3": thickmu };
+        for (let i = 1; i < mathList.length; i++) {
+            let atomTypes = ["Ordinary", "Binary", "Relation", "Punctuation"];
+            let right = atomTypes.includes(mathList[i].type)
                 ? mathList[i].type
                 : 0;
-            var left = atomTypes.includes(mathList[i - 1].type)
+            let left = atomTypes.includes(mathList[i - 1].type)
                 ? mathList[i - 1].type
                 : 0;
             {
                 //make fix the orientation :/
                 if (atomTypes.includes(left) && atomTypes.includes(right)) {
-                    var code = interElementSpacingTable[right][left];
+                    let code = interElementSpacingTable[right][left];
 
                     spacingArray.push(muMap[code.charAt(0)]);
                 } else {
@@ -160,7 +159,7 @@ export class FormulaComponentData {
     }
 
     static getCSSWidth(widthArray, spacingArray) {
-        var width = 0;
+        let width = 0;
         widthArray.forEach(ele => {
             width += ele;
         });
@@ -170,8 +169,8 @@ export class FormulaComponentData {
         return width;
     }
     static getCSSHeight(heightArray, depthArray) {
-        var maxHeight = Math.max(...heightArray);
-        var maxDepth = Math.max(...depthArray);
+        let maxHeight = Math.max(...heightArray);
+        let maxDepth = Math.max(...depthArray);
         return maxHeight + maxDepth;
     }
 }

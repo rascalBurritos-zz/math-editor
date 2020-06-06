@@ -7,6 +7,7 @@ import AsanaFontTables from "../fonts/AsanaFontData.js";
 import { MathStyle } from "./ComponentData/MathStyle.js";
 import "./customElements.js";
 import "./styles/fonts.css";
+import "./styles/main.css"
 var mathList = [
     { type: "Ordinary", unicode: "70" },
     {
@@ -156,17 +157,7 @@ var mathList = [
     fontData = fontFactory(AsanaFontTables),
     baseStyle = new MathStyle("D", 30, false);
 var myApp = (
-    <div
-        style={{
-            marginTop: "100px",
-            outline: "1px solid rebeccapurple",
-            marginRight: "auto",
-            marginLeft: "auto",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center"
-        }}
-    >
+    <div className={"Editor"}>
         <Formula
             data={new FormulaComponentData(mathList, fontData, baseStyle)}
         />
