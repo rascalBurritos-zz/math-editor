@@ -36,6 +36,10 @@ export default class Behavior {
         // }
     }
 
+    updateComponentStyleDimensions(){
+        this.componentStyle.height = this.metrics.height + this.metrics.depth;
+        this.componentStyle.width = this.metrics.width; 
+    }
     get spacingStyle() {
         return this._spacingStyle;
     }

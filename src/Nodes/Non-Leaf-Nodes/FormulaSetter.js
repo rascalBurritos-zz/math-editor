@@ -1,17 +1,16 @@
 import Typesetter from "./Typesetter";
-
+import interElementSpacingTable from "TBD"
 export default class Formula_Setter extends Typesetter {
     constructor(setSpec) {
         super(setSpec)
     }
 
     /**
-     * @param {Document_Node[]} nodes nodes to be adjusted
-     */
-    setTopMargins(nodes) {
-        /**
-         * this._calculate
-         */
+    * @param {SpacingStyle[]} spacingStyleArray
+    **/
+    calculateInterElementSpacing(spacingStyleArray){
+        return spacingStyleArray.map((style)=>{
+            interElementSpacingTable[style]
+        })
     }
-    setRightMargins(nodes)
 }
