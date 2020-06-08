@@ -11,7 +11,7 @@ export class MathStyle {
         // emphasis?: "Regular" | "Bold" | "Italic" | "BoldItalic",
 
         // fontFamily?: "Math"| "Main" |
-        //     "Size1" | "Size2" | "Size3" | "Size4" |
+        //     "Size1" | "Size3" | "Size3" | "Size4" |
         //     "SansSerif" | "Caligraphic" | "AMS" | "Fraktur" | "Typewriter" | "Script",
 
         // cramped?: boolean

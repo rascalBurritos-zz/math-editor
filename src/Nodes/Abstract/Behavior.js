@@ -1,69 +1,89 @@
-import Metrics from './Metrics.js'
+import Metrics from '../Types/Metrics.js';
+/** @typedef {import('../Types/Math_Style.js').default} Math_Style */
+/** @typedef {import('../Types/Spacing_Style.js').default} Spacing_Style */
+/** @typedef {import('./Typesetter.js').default} Typesetter */
+
+/** @typedef {Object} behaviorSpec
+ *  @property {Typesetter} typesetter
+ *  @property {Spacing_Style} spacingStyle
+ */
+
+/**
+ * @class
+ * @classdesc Specifies the appreance of a node
+ */
 export default class Behavior {
-    _componentStyle = {};
-    _metrics = new Metrics(0, 0, 0);
-    _mathStyle;
-    _spacingStyle;
-    _pxpfu;
-    _typesetter;
-    _component;
-    // spec = typesetter, mathStyle, spacingStyle
-    constructor(spec) {
-        this._mathStyle = spec.mathStyle;
-        this._typesetter = spec.typesetter;
-        this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle)
-        this._spacingStyle = spec.spacingStyle;
-    }
+  _componentStyle;
+  _metrics; // r
+  _mathStyle; // rw
+  _spacingStyle; // r
+  _pxpfu; // none
+  _typesetter; // none
+  _component; // r
 
+  /**
+   *  @param {behaviorSpec} spec
+   *  */
+  constructor(spec) {
+    this._componentStyle = {};
+    this._metrics = new Metrics(0, 0, 0);
+    this._typesetter = spec.typesetter;
+    this._spacingStyle = spec.spacingStyle;
+  }
 
-    _updateMetrics() {
-        console.warn("IMPLEMENT METHOD ON SUBCLASS", this)
-        // let h = calculateHeight();
-        // let d = calculateDepth();
-        // let w = calculateWidth();
-        // return new Metrics(h, d, w)
-        // function calculateHeight() {
-        //     console.warn("IMPLMENT METHOD ON SUBCLASS", this)
-        //     return -1;
-        // }
-        // function calculateWidth() {
-        //     console.warn("IMPLMENT METHOD ON SUBCLASS", this)
-        //     return -1;
-        // }
-        // function calculateDepth() {
-        //     console.warn("IMPLMENT METHOD ON SUBCLASS", this)
-        //     return -1;
-        // }
-    }
+  /**
+   * @abstract
+   * updates h,w,d, and component style
+   */
+  _updateMetrics() {}
 
-    updateComponentStyleDimensions(){
-        this.componentStyle.height = this.metrics.height + this.metrics.depth;
-        this.componentStyle.width = this.metrics.width; 
-    }
-    get spacingStyle() {
-        return this._spacingStyle;
-    }
+  /**
+   * updates the css style based on the updated h,w,d _metrics
+   */
+  updateComponentStyleDimensions() {
+    this.componentStyle.height = this._metrics.height + this._metrics.depth;
+    this.componentStyle.width = this._metrics.width;
+  }
 
-    set mathStyle(style) {
-        this._mathStyle = style;
-    }
+  /**
+   * @return {Spacing_Style}
+   */
+  get spacingStyle() {
+    return this._spacingStyle;
+  }
+  /**
+   * @abstract
+   * @param {Math_Style} style
+   */
+  set mathStyle(style) {
+    this._mathStyle = style;
+    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
+  }
 
-    get metrics() {
-        return this._metrics;
-    }
+  /**
+   * @return {Metrics}
+   */
+  get metrics() {
+    return this._metrics;
+  }
 
-    get componentStyle() {
-        return this._componentStyle;
+  /**
+   * @return {Object} represents CSS of behavior
+   */
+  get componentStyle() {
+    return this._componentStyle;
+  }
+  /**
+   * @param {Object} addedStyles sets the current CSS excluding
+   * height and width
+   */
+  set componentStyle(addedStyles) {
+    for (const property in addedStyles) {
+      if (!['height', 'width', 'depth'].includes(property)) {
+        this._componentStyle[property] = addedStyles[property];
+      } else {
+        console.warn('SET DIMENSION IN SET', this);
+      }
     }
-    /**
-     * @param {Object} addedStyles takes current style as input
-     */
-    set componentStyle(addedStyles) {
-        for (let property in addedStyles) {
-            if (["height", "width", "depth"].includes(property)) {
-                console.warn("SET DIMENSION IN SET", this)
-            }
-            this._componentStyle[property] = addedStyles[property]
-        }
-    }
+  }
 }
