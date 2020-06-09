@@ -33,5 +33,6 @@ module.exports = {
       },
     ],
     camelcase: ['off', 'always'],
+    'react/prop-types': ['off', 'always'],
   },
 };

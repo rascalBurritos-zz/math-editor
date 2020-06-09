@@ -76,8 +76,9 @@ export default class Behavior {
   /**
    * @param {Object} addedStyles sets the current CSS excluding
    * height and width
+   * one key value pair
    */
-  set componentStyle(addedStyles) {
+  appendComponentStyle(addedStyles) {
     for (const property in addedStyles) {
       if (!['height', 'width', 'depth'].includes(property)) {
         this._componentStyle[property] = addedStyles[property];
@@ -85,5 +86,12 @@ export default class Behavior {
         console.warn('SET DIMENSION IN SET', this);
       }
     }
+  }
+
+  /**
+   * @return {React.Component}
+   */
+  get component() {
+    return this._component;
   }
 }

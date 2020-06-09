@@ -1,0 +1,5 @@
+.Glyph {
+  box-sizing: content-box;
+  display: block;
+  outline: 1px solid black;
+}

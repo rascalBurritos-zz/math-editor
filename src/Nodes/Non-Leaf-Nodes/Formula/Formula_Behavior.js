@@ -1,7 +1,8 @@
-import Behavior from '../Abstract/Behavior.js';
-/** @typedef {import('../Types/Math_Style.js').default} Math_Style  */
-/** @typedef {import('../Types/Spacing_Style').default} Spacing_Style  */
-/** @typedef {import('../Abstract/Behavior.js').behaviorSpec} behaviorSpec */
+import Behavior from '../../Abstract/Behavior.js';
+import { Formula } from '../../../React-Components/Formula.js';
+/** @typedef {import('../../Types/Math_Style.js').default} Math_Style  */
+/** @typedef {import('../../Types/Spacing_Style').default} Spacing_Style  */
+/** @typedef {import('../../Abstract/Behavior.js').behaviorSpec} behaviorSpec */
 
 /**
  * @class
@@ -26,7 +27,7 @@ export default class Formula_Behavior extends Behavior {
    */
   constructor(behaviorSpec) {
     super(behaviorSpec);
-    this._component = null;
+    this._component = Formula;
   }
 
   /**
@@ -40,6 +41,19 @@ export default class Formula_Behavior extends Behavior {
       updateElementMathStyles();
       updateInterElementSpacing();
       updateMetrics();
+      updateElementBehaviorTopMargins();
+    }
+    /**
+     * changes the top margins of each element
+     * behavior so that elements are aligned
+     * to baseline
+     */
+    function updateElementBehaviorTopMargins() {
+      for (const behavior of formulaBehavior._elementBehaviors) {
+        const marginTop =
+          formulaBehavior._metrics.height - behavior._metrics.height + 'px';
+        behavior.appendComponentStyle({ marginTop });
+      }
     }
     /**
      * changes the inter element spacing array property to
@@ -51,8 +65,22 @@ export default class Formula_Behavior extends Behavior {
       );
       const defactoSpacingTypes = calculateDefactoTypes(rawTypes);
       formulaBehavior._interElementSpacing = formulaBehavior._typesetter.calculateInterElementSpacing(
-        defactoSpacingTypes
+        defactoSpacingTypes,
+        formulaBehavior._pxpfu
       );
+      adjustElementBehaviorRightMargins();
+
+      /**
+       * changes the right margins of the element behaviors
+       */
+      function adjustElementBehaviorRightMargins() {
+        const behaviors = formulaBehavior._elementBehaviors;
+        for (let index = 0; index < behaviors.length - 1; index++) {
+          const marginRight =
+            formulaBehavior._interElementSpacing[index] + 'px';
+          behaviors[index].appendComponentStyle({ marginRight });
+        }
+      }
 
       /**
        * @param {Spacing_Style[]} rawTypes
@@ -147,5 +175,12 @@ export default class Formula_Behavior extends Behavior {
   set elementBehaviors(elementBehaviors) {
     this._elementBehaviors = elementBehaviors;
     this._update();
+  }
+  /**
+   * @return {Behavior[]} should only be
+   * used for generating react components
+   */
+  get elementBehaviors() {
+    return this._elementBehaviors;
   }
 }

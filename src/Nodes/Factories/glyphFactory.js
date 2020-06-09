@@ -10,13 +10,16 @@ import Glyph_Node from '../Leaf-Nodes/Glyph/Glyph_Node';
 export default function glyphFactory(mathList, fontData) {
   const spacingStyle = mathList.spacingStyle;
   const italicsCorrection = fontData.italicCorrectionMap[mathList.unicode];
+  const accentAttachment = fontData.accentAttachment[mathList.unicode];
   const typesetter = new Glyph_Setter({
     upm: fontData.upm,
     asc: fontData.asc,
     des: fontData.des,
+    unicode: mathList.unicode,
+    fontFamily: fontData.fontFamily,
     glyphMetric: fontData.glyphMetrics[mathList.unicode],
     italicsCorrection: italicsCorrection ? italicsCorrection : 0,
-    accentAttachmentPoint: 0,
+    accentAttachmentPoint: accentAttachment,
   });
   const glyphBehavior = new Glyph_Behavior({ typesetter, spacingStyle });
   const glyphNode = new Glyph_Node(glyphBehavior);

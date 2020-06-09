@@ -12,7 +12,7 @@ export default class Typesetter {
    * @param {setterSpec} spec
    */
   constructor(spec) {
-    this.upm = spec.upm;
+    this._upm = spec.upm;
   }
   /**
    *
@@ -20,6 +20,6 @@ export default class Typesetter {
    * @return {number} pixels per font unit
    */
   calculatePXPFU(mathStyle) {
-    return mathStyle.fontSize / this.upm;
+    return mathStyle.fontSize / this._upm;
   }
 }

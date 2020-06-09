@@ -1,5 +1,5 @@
-import Non_Leaf_Node from './Non_Leaf_Node.js';
-/** @typedef {import('../Abstract/Document_Node.js').default} Document_Node */
+import Non_Leaf_Node from '../Non_Leaf_Node.js';
+/** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node */
 /** @typedef {import('./Formula_Behavior').default} Formula_Behavior */
 /**
  * @class
