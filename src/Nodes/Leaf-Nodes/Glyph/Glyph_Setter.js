@@ -75,6 +75,22 @@ export default class Glyph_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
+   * @return {number} italics correction in pixels
+   */
+  calculateItalicsCorrection(pxpfu) {
+    return this._italicsCorrection * pxpfu;
+  }
+
+  /**
+   * @param {number} pxpfu
+   * @return {number} accent attachment in pixels
+   */
+  calculateAccentAttachmentPoint(pxpfu) {
+    return this._accentAttachmentPoint * pxpfu;
+  }
+
+  /**
+   * @param {number} pxpfu
    * @return {number} depth below baseline
    */
   calculateDepth(pxpfu) {
@@ -99,14 +115,14 @@ export default class Glyph_Setter extends Typesetter {
     function getStyle() {
       const style = {};
       style.fontFamily = glyphSetter._fontFamily;
-      style.fontSize = fontSize + 'px';
+      const currentFontSize = glyphSetter._upm * pxpfu;
+      style.fontSize = currentFontSize + 'px';
       style.height =
         Math.floor((glyphSetter._asc + glyphSetter._des) * pxpfu) + 'px';
-      style.width = `${glyphSetter._glyphMetric.advanceWidth * pxpfu}px`;
-      style.top = `${
-        (glyphSetter._glyphMetric.bbox.y2 - glyphSetter._asc) * pxpfu
-      }px`;
-      style.left = `${-glyphSetter._glyphMetric.bbox.x1 * pxpfu}px`;
+      style.width = glyphSetter._glyphMetric.advanceWidth * pxpfu + 'px';
+      style.top =
+        (glyphSetter._glyphMetric.bbox.y2 - glyphSetter._asc) * pxpfu + 'px';
+      style.left = -glyphSetter._glyphMetric.bbox.x1 * pxpfu + 'px';
       return style;
     }
   }

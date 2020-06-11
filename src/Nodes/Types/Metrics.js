@@ -13,4 +13,11 @@ export default class Metrics {
     this.depth = depth;
     this.width = width;
   }
+
+  /**
+   * @return {Metrics}
+   */
+  copy() {
+    return new Metrics(this.height, this.width, this.depth);
+  }
 }

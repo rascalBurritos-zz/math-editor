@@ -13,7 +13,12 @@ import nodeFactory from './nodeFactory.js';
  */
 export default function formulaFactory(mathList, fontData) {
   const spacingStyle = Spacing_Style.None;
-  const typesetter = new Formula_Setter({ upm: fontData.upm });
+  const mc = fontData.MATH.MathConstants;
+  const typesetter = new Formula_Setter({
+    upm: fontData.upm,
+    scriptFactor: mc.ScriptPercentScaleDown,
+    scriptscriptFactor: mc.ScriptScriptPercentScaleDown,
+  });
   const formulaBehavior = new Formula_Behavior({ typesetter, spacingStyle });
   const formulaNode = new Formula_Node(formulaBehavior);
   const elementNodes = [];

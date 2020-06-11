@@ -1,0 +1,15 @@
+.Scripts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.ScriptsContainer {
+  display: flex;
+  flex-direction: row;
+}
+.Superscript {
+  align-self: flex-end;
+}
+.Subscript {
+  align-self: flex-end;
+}

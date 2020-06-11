@@ -1,16 +1,20 @@
 import Behavior from '../../Abstract/Behavior.js';
 import { Glyph } from '../../../React-Components/Glyph.js';
+/** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('./Glyph_Setter').InternalCharacterBox} InternalCharacterBox  */
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
-export default class GlyphBehavior extends Behavior {
+export default class Glyph_Behavior extends Behavior {
   _internalCharacterBox;
+  _italicsCorrection;
+  _accentAttachmentPoint;
   /**
    * @param {behaviorSpec} spec
    */
   constructor(spec) {
     super(spec);
     this._component = Glyph;
+    this._type = 'Glyph';
   }
 
   /**
@@ -19,22 +23,26 @@ export default class GlyphBehavior extends Behavior {
   _update() {
     const glyphBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    updateMetrics();
+    this._updateMetrics();
     updateInternalCharacterBox();
+    updateItalicsCorrection();
+    updateAccentAttachmentPoint();
+
     /**
-     * updates h,w,d and corresponding css
+     * updates accent attachment to match current font size (pxpfu)
      */
-    function updateMetrics() {
-      glyphBehavior._metrics.height = glyphBehavior._typesetter.calculateHeight(
+    function updateAccentAttachmentPoint() {
+      glyphBehavior._accentAttachmentPoint = glyphBehavior._typesetter.calculateAccentAttachmentPoint(
         glyphBehavior._pxpfu
       );
-      glyphBehavior._metrics.depth = glyphBehavior._typesetter.calculateDepth(
+    }
+    /**
+     * updates italics correction to match current font size (pxpfu)
+     */
+    function updateItalicsCorrection() {
+      glyphBehavior._italicsCorrection = glyphBehavior._typesetter.calculateItalicsCorrection(
         glyphBehavior._pxpfu
       );
-      glyphBehavior._metrics.width = glyphBehavior._typesetter.calculateWidth(
-        glyphBehavior._pxpfu
-      );
-      glyphBehavior.updateComponentStyleDimensions();
     }
     /**
      * changes the internal character box to match current
@@ -49,17 +57,44 @@ export default class GlyphBehavior extends Behavior {
   }
 
   /**
+   * updates h,w,d and corresponding css
+   */
+  _updateMetrics() {
+    this._metrics.height = this._typesetter.calculateHeight(this._pxpfu);
+    this._metrics.depth = this._typesetter.calculateDepth(this._pxpfu);
+    this._metrics.width = this._typesetter.calculateWidth(this._pxpfu);
+    this.updateComponentStyleDimensions();
+  }
+  /**
    * @return {InternalCharacterBox}
    */
   get internalCharacterBox() {
     return this._internalCharacterBox;
   }
   /**
-   * @param {Object} mathStyle Alters the Math Style
+   * @param {Math_Style} mathStyle Alters the Math Style
    * and thus the font size of the glyph
    */
   set mathStyle(mathStyle) {
     this._mathStyle = mathStyle;
     this._update();
+  }
+  /**
+   * @return {Math_Style}
+   */
+  get mathStyle() {
+    return this._mathStyle;
+  }
+  /**
+   * @return {number}
+   */
+  get italicsCorrection() {
+    return this._italicsCorrection;
+  }
+  /**
+   * @return {number}
+   */
+  get accentAttachmentPoint() {
+    return this._accentAttachmentPoint;
   }
 }

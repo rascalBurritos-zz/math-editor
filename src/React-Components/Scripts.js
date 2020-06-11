@@ -1,38 +1,51 @@
-import React from "react";
+import React from 'react';
+import './Styles/Scripts.css';
 
 export class Scripts extends React.Component {
-    render() {
-        var nucleus = (
-            <this.props.data.nucleus.component
-                key="nucleus"
-                data={this.props.data.nucleus}
-            />
-        );
-        if (this.props.data.superscript) {
-            var superscript = (
-                <this.props.data.superscript.component
-                    key="superscript"
-                    data={this.props.data.superscript}
-                />
-            );
-        }
-        if (this.props.data.subscript) {
-            var subscript = (
-                <this.props.data.subscript.component
-                    key="subscript"
-                    data={this.props.data.subscript}
-                />
-            );
-        }
-
-        return (
-            <div className="m-scripts-container" style={this.props.data.css}>
-                {nucleus}
-                <div className="m-scripts" key="scripts" style={this.props.data.scriptsCSS}>
-                    {superscript}
-                    {subscript}
-                </div>
-            </div>
-        );
+  /**
+   * @return {JSX.Element}
+   */
+  render() {
+    const data = this.props.data;
+    let superscript;
+    let subscript;
+    const nucleusBehavior = data.nucleusBehavior;
+    const nucleus = (
+      <nucleusBehavior.component key="nucleus" data={data.nucleusBehavior} />
+    );
+    if (data.superBehavior) {
+      const superBehavior = data.superBehavior;
+      superscript = (
+        <superBehavior.component
+          className="Superscript"
+          key="superscript"
+          data={data.superBehavior}
+        />
+      );
     }
+    if (data.subBehavior) {
+      const subBehavior = data.subBehavior;
+      subscript = (
+        <subBehavior.component
+          className="Subscript"
+          key="subscript"
+          data={data.subBehavior}
+        />
+      );
+    }
+
+    return (
+      <div className="ScriptsContainer" style={data.componentStyle}>
+        {nucleus}
+        <div
+          className="Scripts"
+          key="scripts"
+          style={data.scriptsComponentStyle}
+        >
+          {superscript}
+          {subscript}
+        </div>
+      </div>
+    );
+  }
 }

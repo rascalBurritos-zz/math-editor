@@ -1,5 +1,6 @@
 import formulaFactory from './formulaFactory.js';
 import glyphFactory from './glyphFactory.js';
+import scriptsFactory from './scriptsFactory.js';
 /** @typedef {import('../../Font/FontData').default} FontData  */
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
@@ -34,6 +35,7 @@ export default function nodeFactory(mathList, fontData) {
   const nodeMap = {
     Formula: formulaFactory,
     Glyph: glyphFactory,
+    Scripts: scriptsFactory,
   };
   return nodeMap[mathList.type](mathList, fontData);
 }

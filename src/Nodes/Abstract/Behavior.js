@@ -13,7 +13,8 @@ import Metrics from '../Types/Metrics.js';
  * @classdesc Specifies the appreance of a node
  */
 export default class Behavior {
-  _componentStyle;
+  _type; // rw
+  _componentStyle; // rw
   _metrics; // r
   _mathStyle; // rw
   _spacingStyle; // r
@@ -30,12 +31,6 @@ export default class Behavior {
     this._typesetter = spec.typesetter;
     this._spacingStyle = spec.spacingStyle;
   }
-
-  /**
-   * @abstract
-   * updates h,w,d, and component style
-   */
-  _updateMetrics() {}
 
   /**
    * updates the css style based on the updated h,w,d _metrics
@@ -58,6 +53,12 @@ export default class Behavior {
   set mathStyle(style) {
     this._mathStyle = style;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
+  }
+  /**
+   * @return {Math_Style}
+   */
+  get mathStyle() {
+    return this._mathStyle;
   }
 
   /**
@@ -93,5 +94,18 @@ export default class Behavior {
    */
   get component() {
     return this._component;
+  }
+
+  /**
+   * @return {String}
+   */
+  get type() {
+    return this._type;
+  }
+  /**
+   * @param {String} string
+   */
+  set type(string) {
+    this._type = string;
   }
 }

@@ -28,6 +28,7 @@ export default class Formula_Behavior extends Behavior {
   constructor(behaviorSpec) {
     super(behaviorSpec);
     this._component = Formula;
+    this._type = 'Formula';
   }
 
   /**
@@ -167,6 +168,12 @@ export default class Formula_Behavior extends Behavior {
     this._mathStyle = style;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
     this._update();
+  }
+  /**
+   * @return {Math_Style} style
+   */
+  get mathStyle() {
+    return this._mathStyle;
   }
 
   /**

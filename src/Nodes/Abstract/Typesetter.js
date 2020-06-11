@@ -2,6 +2,8 @@
 /**
  * @typedef {Object} setterSpec
  * @property {number} upm
+ * @property {number} scriptFactor
+ * @property {number} scriptscriptFactor
  */
 
 /**
@@ -13,6 +15,8 @@ export default class Typesetter {
    */
   constructor(spec) {
     this._upm = spec.upm;
+    this._scriptFactor = spec.scriptFactor;
+    this._scriptscriptFactor = spec.scriptscriptFactor;
   }
   /**
    *
@@ -20,6 +24,13 @@ export default class Typesetter {
    * @return {number} pixels per font unit
    */
   calculatePXPFU(mathStyle) {
-    return mathStyle.fontSize / this._upm;
+    const scaleMap = {
+      D: 1,
+      T: 1,
+      S: this._scriptFactor / 100,
+      SS: this._scriptscriptFactor / 100,
+    };
+    const scaleFactor = scaleMap[mathStyle.type];
+    return (mathStyle.fontSize / this._upm) * scaleFactor;
   }
 }
