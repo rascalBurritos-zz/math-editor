@@ -1,6 +1,8 @@
 import formulaFactory from './formulaFactory.js';
 import glyphFactory from './glyphFactory.js';
 import scriptsFactory from './scriptsFactory.js';
+import variantGlyphFactory from './variantGlyphFactory.js';
+
 /** @typedef {import('../../Font/FontData').default} FontData  */
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
@@ -36,6 +38,7 @@ export default function nodeFactory(mathList, fontData) {
     Formula: formulaFactory,
     Glyph: glyphFactory,
     Scripts: scriptsFactory,
+    Variant_Glyph: variantGlyphFactory,
   };
   return nodeMap[mathList.type](mathList, fontData);
 }

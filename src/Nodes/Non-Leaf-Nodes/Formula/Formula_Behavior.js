@@ -40,9 +40,22 @@ export default class Formula_Behavior extends Behavior {
     const formulaBehavior = this;
     if (this._isMathStyleSet()) {
       updateElementMathStyles();
-      updateInterElementSpacing();
       updateMetrics();
+      updateVariantGlyphs();
+      updateMetrics();
+      updateInterElementSpacing();
       updateElementBehaviorTopMargins();
+    }
+
+    /**
+     * sets length of variant glyphs
+     */
+    function updateVariantGlyphs() {
+      for (const behavior of formulaBehavior._elementBehaviors) {
+        if (behavior.type === 'Variant_Glyph') {
+          behavior.desiredSize = 30;
+        }
+      }
     }
     /**
      * changes the top margins of each element
@@ -52,7 +65,7 @@ export default class Formula_Behavior extends Behavior {
     function updateElementBehaviorTopMargins() {
       for (const behavior of formulaBehavior._elementBehaviors) {
         const marginTop =
-          formulaBehavior._metrics.height - behavior._metrics.height + 'px';
+          formulaBehavior._metrics.height - behavior.metrics.height + 'px';
         behavior.appendComponentStyle({ marginTop });
       }
     }

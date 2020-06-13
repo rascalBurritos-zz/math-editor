@@ -1,13 +1,12 @@
 import Behavior from '../../Abstract/Behavior.js';
 import { Glyph } from '../../../React-Components/Glyph.js';
+import Leaf_Behavior from '../Leaf_Behavior.js';
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('./Glyph_Setter').InternalCharacterBox} InternalCharacterBox  */
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
-export default class Glyph_Behavior extends Behavior {
+export default class Glyph_Behavior extends Leaf_Behavior {
   _internalCharacterBox;
-  _italicsCorrection;
-  _accentAttachmentPoint;
   /**
    * @param {behaviorSpec} spec
    */
@@ -84,17 +83,5 @@ export default class Glyph_Behavior extends Behavior {
    */
   get mathStyle() {
     return this._mathStyle;
-  }
-  /**
-   * @return {number}
-   */
-  get italicsCorrection() {
-    return this._italicsCorrection;
-  }
-  /**
-   * @return {number}
-   */
-  get accentAttachmentPoint() {
-    return this._accentAttachmentPoint;
   }
 }

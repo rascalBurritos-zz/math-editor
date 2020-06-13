@@ -4,6 +4,21 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Variant_Glyph',
+      unicode: '40',
+      spacingStyle: Spacing_Style.Ordinary,
+    },
+    {
+      type: 'Variant_Glyph',
+      unicode: '8658',
+      spacingStyle: Spacing_Style.Binary,
+    },
+    {
+      type: 'Variant_Glyph',
+      unicode: '41',
+      spacingStyle: Spacing_Style.Ordinary,
+    },
+    {
       type: 'Scripts',
       nucleus: {
         type: 'Glyph',

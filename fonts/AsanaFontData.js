@@ -48524,6 +48524,3933 @@ export default {
     '1114010': 307,
     '1114011': 307,
   },
+  variants: {
+    vertical: {
+      '40': {
+        index: '0',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni239D' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni239C' },
+              StartConnectorLength: { value: '15' },
+              EndConnectorLength: { value: '15' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni239B' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'parenleft' },
+            AdvanceMeasurement: { value: '942' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'parenBigl' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'parenbiggl' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'parenBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '41': {
+        index: '1',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A0' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni239F' },
+              StartConnectorLength: { value: '15' },
+              EndConnectorLength: { value: '15' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni239E' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'parenright' },
+            AdvanceMeasurement: { value: '942' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'parenBigr' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'parenbiggr' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'parenBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '47': {
+        index: '2',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'slash' },
+            AdvanceMeasurement: { value: '884' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'fractionbig' },
+            AdvanceMeasurement: { value: '1206' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'fractionBig' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'fractionbigg' },
+            AdvanceMeasurement: { value: '1796' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'fractionBigg' },
+            AdvanceMeasurement: { value: '2190' },
+          },
+        ],
+      },
+      '91': {
+        index: '3',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A3' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A2' },
+              StartConnectorLength: { value: '15' },
+              EndConnectorLength: { value: '15' },
+              FullAdvance: { value: '324' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni23A1' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'bracketleft' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'bracketBigl' },
+            AdvanceMeasurement: { value: '1477' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bracketbiggl' },
+            AdvanceMeasurement: { value: '2046' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'bracketBiggl' },
+            AdvanceMeasurement: { value: '2557' },
+          },
+        ],
+      },
+      '93': {
+        index: '4',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A6' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A5' },
+              StartConnectorLength: { value: '15' },
+              EndConnectorLength: { value: '15' },
+              FullAdvance: { value: '324' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni23A4' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'bracketright' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'bracketBigr' },
+            AdvanceMeasurement: { value: '1477' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bracketbiggr' },
+            AdvanceMeasurement: { value: '2046' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'bracketBiggr' },
+            AdvanceMeasurement: { value: '2557' },
+          },
+        ],
+      },
+      '123': {
+        index: '5',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A9' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '715' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AA' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '10' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni23A8' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '757' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'uni23AA' },
+              StartConnectorLength: { value: '10' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'uni23A7' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '721' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'braceleft' },
+            AdvanceMeasurement: { value: '902' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'braceBigl' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bracebiggl' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'braceBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '124': {
+        index: '6',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'barBigg' },
+              StartConnectorLength: { value: '772' },
+              EndConnectorLength: { value: '772' },
+              FullAdvance: { value: '2315' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'barBigg' },
+              StartConnectorLength: { value: '772' },
+              EndConnectorLength: { value: '772' },
+              FullAdvance: { value: '2315' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'bar' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'barbig' },
+            AdvanceMeasurement: { value: '1276' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'barBig' },
+            AdvanceMeasurement: { value: '1556' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'barbigg' },
+            AdvanceMeasurement: { value: '1898' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'barBigg' },
+            AdvanceMeasurement: { value: '2316' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'barbiggg' },
+            AdvanceMeasurement: { value: '2713' },
+          },
+          {
+            index: '6',
+            VariantGlyph: { value: 'barBiggg' },
+            AdvanceMeasurement: { value: '3178' },
+          },
+        ],
+      },
+      '125': {
+        index: '7',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23AD' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '715' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AA' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '10' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni23AC' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '757' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'uni23AA' },
+              StartConnectorLength: { value: '10' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '326' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'uni23AB' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '721' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'braceright' },
+            AdvanceMeasurement: { value: '902' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'braceBigr' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bracebiggr' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'braceBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '8214': {
+        index: '8',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'midBigg' },
+              StartConnectorLength: { value: '772' },
+              EndConnectorLength: { value: '772' },
+              FullAdvance: { value: '2315' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'midBigg' },
+              StartConnectorLength: { value: '772' },
+              EndConnectorLength: { value: '772' },
+              FullAdvance: { value: '2315' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2016' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'midbig' },
+            AdvanceMeasurement: { value: '1276' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'midBig' },
+            AdvanceMeasurement: { value: '1556' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'midbigg' },
+            AdvanceMeasurement: { value: '1898' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'midBigg' },
+            AdvanceMeasurement: { value: '2316' },
+          },
+        ],
+      },
+      '8260': {
+        index: '9',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'fraction' },
+            AdvanceMeasurement: { value: '838' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'fractionbig' },
+            AdvanceMeasurement: { value: '1206' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'fractionBig' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'fractionbigg' },
+            AdvanceMeasurement: { value: '1796' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'fractionBigg' },
+            AdvanceMeasurement: { value: '2190' },
+          },
+        ],
+      },
+      '8261': {
+        index: '10',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4039' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '30' },
+              FullAdvance: { value: '284' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph4042' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '10' },
+              FullAdvance: { value: '600' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3939' },
+              StartConnectorLength: { value: '30' },
+              EndConnectorLength: { value: '30' },
+              FullAdvance: { value: '423' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'glyph4042' },
+              StartConnectorLength: { value: '10' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '600' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'glyph4038' },
+              StartConnectorLength: { value: '30' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '284' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2045' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph4043' },
+            AdvanceMeasurement: { value: '1345' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph4044' },
+            AdvanceMeasurement: { value: '1863' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph4045' },
+            AdvanceMeasurement: { value: '2329' },
+          },
+        ],
+      },
+      '8262': {
+        index: '11',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4041' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '30' },
+              FullAdvance: { value: '284' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3938' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '10' },
+              FullAdvance: { value: '600' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3940' },
+              StartConnectorLength: { value: '30' },
+              EndConnectorLength: { value: '30' },
+              FullAdvance: { value: '423' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'glyph3938' },
+              StartConnectorLength: { value: '10' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '600' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'glyph4040' },
+              StartConnectorLength: { value: '30' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '284' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2046' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph4046' },
+            AdvanceMeasurement: { value: '1345' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph4047' },
+            AdvanceMeasurement: { value: '1863' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph4048' },
+            AdvanceMeasurement: { value: '2329' },
+          },
+        ],
+      },
+      '8593': {
+        index: '12',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3798' },
+              StartConnectorLength: { value: '227' },
+              EndConnectorLength: { value: '227' },
+              FullAdvance: { value: '601' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'arrowup' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '886' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowup' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8595': {
+        index: '13',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'arrowdown' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '886' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3798' },
+              StartConnectorLength: { value: '227' },
+              EndConnectorLength: { value: '227' },
+              FullAdvance: { value: '601' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdown' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8657': {
+        index: '14',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3799' },
+              StartConnectorLength: { value: '227' },
+              EndConnectorLength: { value: '227' },
+              FullAdvance: { value: '601' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'arrowdblup' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '886' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdblup' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8659': {
+        index: '15',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'arrowdbldown' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '886' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3799' },
+              StartConnectorLength: { value: '227' },
+              EndConnectorLength: { value: '227' },
+              FullAdvance: { value: '601' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdbldown' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8719': {
+        index: '16',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'product' },
+            AdvanceMeasurement: { value: '938' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'productbig1' },
+            AdvanceMeasurement: { value: '1350' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'productbig2' },
+            AdvanceMeasurement: { value: '1943' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'productbig3' },
+            AdvanceMeasurement: { value: '2798' },
+          },
+        ],
+      },
+      '8720': {
+        index: '17',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2210' },
+            AdvanceMeasurement: { value: '938' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'coproductbig1' },
+            AdvanceMeasurement: { value: '1350' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'coproductbig2' },
+            AdvanceMeasurement: { value: '1943' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'coproductbig3' },
+            AdvanceMeasurement: { value: '2798' },
+          },
+        ],
+      },
+      '8721': {
+        index: '18',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'summation' },
+            AdvanceMeasurement: { value: '931' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'sumbig1' },
+            AdvanceMeasurement: { value: '1340' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'sumbig2' },
+            AdvanceMeasurement: { value: '1929' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'sumbig3' },
+            AdvanceMeasurement: { value: '2777' },
+          },
+        ],
+      },
+      '8730': {
+        index: '19',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23B7' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '1265' },
+              FullAdvance: { value: '1388' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni20D3' },
+              StartConnectorLength: { value: '965' },
+              EndConnectorLength: { value: '965' },
+              FullAdvance: { value: '1016' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph1113975' },
+              StartConnectorLength: { value: '165' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '494' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'radical' },
+            AdvanceMeasurement: { value: '1139' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'radicalbig' },
+            AdvanceMeasurement: { value: '1281' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'radicalBig' },
+            AdvanceMeasurement: { value: '1913' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'radicalbigg' },
+            AdvanceMeasurement: { value: '2544' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'radicalBigg' },
+            AdvanceMeasurement: { value: '3176' },
+          },
+        ],
+      },
+      '8739': {
+        index: '20',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni2223' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '885' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni2223' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '885' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2223' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8741': {
+        index: '21',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni2225' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '885' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni2225' },
+              StartConnectorLength: { value: '295' },
+              EndConnectorLength: { value: '295' },
+              FullAdvance: { value: '885' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2225' },
+            AdvanceMeasurement: { value: '886' },
+          },
+        ],
+      },
+      '8745': {
+        index: '22',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'intersection' },
+            AdvanceMeasurement: { value: '604' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'intersectionbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'intersectionbig1h' },
+            AdvanceMeasurement: { value: '2246' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'intersectionbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '8747': {
+        index: '23',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '407' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'integralbt' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '10' },
+              FullAdvance: { value: '1413' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AE' },
+              StartConnectorLength: { value: '500' },
+              EndConnectorLength: { value: '500' },
+              FullAdvance: { value: '1126' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'integraltp' },
+              StartConnectorLength: { value: '10' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '1413' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'integral' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'integralbig1' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'integralbig2' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'integralbig3' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8748': {
+        index: '24',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni222C' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'integraldblBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'integraldblbigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'integraldblBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8749': {
+        index: '25',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni222D' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'integraltripleBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'integraltriplebigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'integraltripleBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8750': {
+        index: '26',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni222E' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni222EBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni222Ebigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni222EBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8751': {
+        index: '27',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni222F' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni222FBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni222Fbigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni222FBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8752': {
+        index: '28',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2230' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni2230Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni2230bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni2230Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8753': {
+        index: '29',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2231' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni2231Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni2231bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni2231Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8754': {
+        index: '30',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2232' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni2232Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni2232bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni2232Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8755': {
+        index: '31',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2233' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'uni2233Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'uni2233bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'uni2233Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '8896': {
+        index: '32',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni22C0' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'bigand1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bigand2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '8897': {
+        index: '33',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni22C1' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'bigor1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bigor2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '8898': {
+        index: '34',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni22C2' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'intersectionbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'intersectionbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '8899': {
+        index: '35',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni22C3' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'unionbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'unionbig1h' },
+            AdvanceMeasurement: { value: '2246' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'unionbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '8968': {
+        index: '36',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A2' },
+              StartConnectorLength: { value: '377' },
+              EndConnectorLength: { value: '377' },
+              FullAdvance: { value: '1132' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A1' },
+              StartConnectorLength: { value: '296' },
+              EndConnectorLength: { value: '296' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2308' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'ceilingBigl' },
+            AdvanceMeasurement: { value: '1471' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'ceilingbiggl' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'ceilingBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '8969': {
+        index: '37',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A5' },
+              StartConnectorLength: { value: '377' },
+              EndConnectorLength: { value: '377' },
+              FullAdvance: { value: '1132' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A4' },
+              StartConnectorLength: { value: '296' },
+              EndConnectorLength: { value: '296' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2309' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'ceilingBigr' },
+            AdvanceMeasurement: { value: '1471' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'ceilingbiggr' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'ceilingBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '8970': {
+        index: '38',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A3' },
+              StartConnectorLength: { value: '296' },
+              EndConnectorLength: { value: '296' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A2' },
+              StartConnectorLength: { value: '377' },
+              EndConnectorLength: { value: '377' },
+              FullAdvance: { value: '1132' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni230A' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'floorBigl' },
+            AdvanceMeasurement: { value: '1471' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'floorbiggl' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'floorBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '8971': {
+        index: '39',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni23A6' },
+              StartConnectorLength: { value: '296' },
+              EndConnectorLength: { value: '296' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23A5' },
+              StartConnectorLength: { value: '377' },
+              EndConnectorLength: { value: '377' },
+              FullAdvance: { value: '1132' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni230B' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'floorBigr' },
+            AdvanceMeasurement: { value: '1471' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'floorbiggr' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'floorBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10181': {
+        index: '40',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27C5' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3587' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3589' },
+            AdvanceMeasurement: { value: '1532' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3591' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph3593' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'glyph3595' },
+            AdvanceMeasurement: { value: '3064' },
+          },
+        ],
+      },
+      '10182': {
+        index: '41',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27C6' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3588' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3590' },
+            AdvanceMeasurement: { value: '1532' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3592' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph3594' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'glyph3596' },
+            AdvanceMeasurement: { value: '3064' },
+          },
+        ],
+      },
+      '10214': {
+        index: '42',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27E6' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph1114074' },
+            AdvanceMeasurement: { value: '1026' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph1114075' },
+            AdvanceMeasurement: { value: '1536' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph1114076' },
+            AdvanceMeasurement: { value: '2046' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph1114077' },
+            AdvanceMeasurement: { value: '2557' },
+          },
+        ],
+      },
+      '10215': {
+        index: '43',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27E7' },
+            AdvanceMeasurement: { value: '911' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph1114078' },
+            AdvanceMeasurement: { value: '1026' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph1114079' },
+            AdvanceMeasurement: { value: '1536' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph1114080' },
+            AdvanceMeasurement: { value: '2046' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph1114081' },
+            AdvanceMeasurement: { value: '2557' },
+          },
+        ],
+      },
+      '10216': {
+        index: '44',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27E8' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'anglebracketBigl' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'anglebracketbiggl' },
+            AdvanceMeasurement: { value: '2043' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'anglebracketBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10217': {
+        index: '45',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27E9' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'anglebracketBigr' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'anglebracketbiggr' },
+            AdvanceMeasurement: { value: '2043' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'anglebracketBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10218': {
+        index: '46',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27EA' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'danglebracketBigl' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'danglebracketbiggl' },
+            AdvanceMeasurement: { value: '2043' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'danglebracketBiggl' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10219': {
+        index: '47',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni27EB' },
+            AdvanceMeasurement: { value: '886' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'danglebracketBigr' },
+            AdvanceMeasurement: { value: '1022' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'dangelbracketbiggr' },
+            AdvanceMeasurement: { value: '2043' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'danglebracketBiggr' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10748': {
+        index: '48',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni29FC' },
+            AdvanceMeasurement: { value: '954' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3800' },
+            AdvanceMeasurement: { value: '1373' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3801' },
+            AdvanceMeasurement: { value: '1894' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3802' },
+            AdvanceMeasurement: { value: '2367' },
+          },
+        ],
+      },
+      '10749': {
+        index: '49',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni29FD' },
+            AdvanceMeasurement: { value: '954' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3803' },
+            AdvanceMeasurement: { value: '1373' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3804' },
+            AdvanceMeasurement: { value: '1894' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3805' },
+            AdvanceMeasurement: { value: '2367' },
+          },
+        ],
+      },
+      '10752': {
+        index: '50',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A00' },
+            AdvanceMeasurement: { value: '1147' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'odotbig1' },
+            AdvanceMeasurement: { value: '1651' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'odotbig2' },
+            AdvanceMeasurement: { value: '2377' },
+          },
+        ],
+      },
+      '10753': {
+        index: '51',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A01' },
+            AdvanceMeasurement: { value: '1150' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'oplusbig1' },
+            AdvanceMeasurement: { value: '1651' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'oplusbig2' },
+            AdvanceMeasurement: { value: '2377' },
+          },
+        ],
+      },
+      '10754': {
+        index: '52',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A02' },
+            AdvanceMeasurement: { value: '1150' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'otimesbig1' },
+            AdvanceMeasurement: { value: '1651' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'otimesbig2' },
+            AdvanceMeasurement: { value: '2377' },
+          },
+        ],
+      },
+      '10755': {
+        index: '53',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A03' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'multisetmulbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'multisetmulbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '10756': {
+        index: '54',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A04' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'multisetsumbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'multisetsumbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '10757': {
+        index: '55',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A05' },
+            AdvanceMeasurement: { value: '927' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'scapbig1' },
+            AdvanceMeasurement: { value: '1538' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'scapbig2' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10758': {
+        index: '56',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A06' },
+            AdvanceMeasurement: { value: '927' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'scupbig1' },
+            AdvanceMeasurement: { value: '1538' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'scupbig2' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '10759': {
+        index: '57',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A07' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'twoandbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'twoandbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '10760': {
+        index: '58',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A08' },
+            AdvanceMeasurement: { value: '940' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'twoorbig1' },
+            AdvanceMeasurement: { value: '1560' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'twoorbig2' },
+            AdvanceMeasurement: { value: '2589' },
+          },
+        ],
+      },
+      '10761': {
+        index: '59',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A09' },
+            AdvanceMeasurement: { value: '927' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'bigtimes1' },
+            AdvanceMeasurement: { value: '1334' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'bigtimes2' },
+            AdvanceMeasurement: { value: '1921' },
+          },
+        ],
+      },
+      '10764': {
+        index: '60',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A0C' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A0CBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A0Cbigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A0CBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10765': {
+        index: '61',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A0D' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A0DBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A0Dbigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A0DBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10766': {
+        index: '62',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A0E' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A0EBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A0Ebigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A0EBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10767': {
+        index: '63',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A0F' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A0FBig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A0Fbigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A0FBigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10768': {
+        index: '64',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A10' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A10Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A10bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A10Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10769': {
+        index: '65',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A11' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A11Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A11bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A11Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10770': {
+        index: '66',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A12' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A12Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A12bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A12Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10771': {
+        index: '67',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A13' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A13Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A13bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A13Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10772': {
+        index: '68',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A14' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A14Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A14bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A14Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10773': {
+        index: '69',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A15' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A15Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A15bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A15Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10774': {
+        index: '70',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A16' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A16Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A16bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A16Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10775': {
+        index: '71',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A17' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A17Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A17bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A17Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10776': {
+        index: '72',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A18' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A18Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A18bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A18Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10777': {
+        index: '73',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A19' },
+            AdvanceMeasurement: { value: '1328' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A19Big' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A19bigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A19Bigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10778': {
+        index: '74',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'glyph2A1ABig' },
+            AdvanceMeasurement: { value: '1965' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A1Abigg' },
+            AdvanceMeasurement: { value: '2712' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A1ABigg' },
+            AdvanceMeasurement: { value: '3471' },
+          },
+        ],
+      },
+      '10779': {
+        index: '75',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A1B' },
+            AdvanceMeasurement: { value: '1437' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A1BBig' },
+            AdvanceMeasurement: { value: '2126' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A1Bbigg' },
+            AdvanceMeasurement: { value: '2934' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A1BBigg' },
+            AdvanceMeasurement: { value: '3755' },
+          },
+        ],
+      },
+      '10780': {
+        index: '76',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2A1C' },
+            AdvanceMeasurement: { value: '1437' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph2A1CBig' },
+            AdvanceMeasurement: { value: '2126' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph2A1Cbigg' },
+            AdvanceMeasurement: { value: '2934' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph2A1CBigg' },
+            AdvanceMeasurement: { value: '3755' },
+          },
+        ],
+      },
+    },
+    horizontal: {
+      '770': {
+        index: '0',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni0302' },
+            AdvanceMeasurement: { value: '313' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'hatwide1' },
+            AdvanceMeasurement: { value: '454' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'hatwide2' },
+            AdvanceMeasurement: { value: '634' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'hatwide3' },
+            AdvanceMeasurement: { value: '1056' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'hatwide4' },
+            AdvanceMeasurement: { value: '2018' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'glyph3599' },
+            AdvanceMeasurement: { value: '3027' },
+          },
+        ],
+      },
+      '771': {
+        index: '1',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'tildecomb' },
+            AdvanceMeasurement: { value: '431' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'tildewide1' },
+            AdvanceMeasurement: { value: '702' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'tildewide2' },
+            AdvanceMeasurement: { value: '1054' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'tildewide3' },
+            AdvanceMeasurement: { value: '1404' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'tildewide4' },
+            AdvanceMeasurement: { value: '1866' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'glyph3598' },
+            AdvanceMeasurement: { value: '2798' },
+          },
+        ],
+      },
+      '773': {
+        index: '2',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3886' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3886' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni0305' },
+            AdvanceMeasurement: { value: '434' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3886' },
+            AdvanceMeasurement: { value: '512' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3881' },
+            AdvanceMeasurement: { value: '676' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3877' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+        ],
+      },
+      '774': {
+        index: '3',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni0306' },
+            AdvanceMeasurement: { value: '283' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'widebreve1' },
+            AdvanceMeasurement: { value: '385' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'widebreve2' },
+            AdvanceMeasurement: { value: '543' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'widebreve3' },
+            AdvanceMeasurement: { value: '923' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'widebreve4' },
+            AdvanceMeasurement: { value: '1763' },
+          },
+        ],
+      },
+      '780': {
+        index: '4',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni030C' },
+            AdvanceMeasurement: { value: '313' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'caronwide1' },
+            AdvanceMeasurement: { value: '738' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'caronwide2' },
+            AdvanceMeasurement: { value: '1106' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'caronwide3' },
+            AdvanceMeasurement: { value: '1475' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'caronwide4' },
+            AdvanceMeasurement: { value: '1961' },
+          },
+          {
+            index: '5',
+            VariantGlyph: { value: 'glyph3597' },
+            AdvanceMeasurement: { value: '2941' },
+          },
+        ],
+      },
+      '818': {
+        index: '5',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3885' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3885' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni0332' },
+            AdvanceMeasurement: { value: '434' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3885' },
+            AdvanceMeasurement: { value: '512' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3880' },
+            AdvanceMeasurement: { value: '676' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3876' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+        ],
+      },
+      '819': {
+        index: '6',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3884' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3884' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni0333' },
+            AdvanceMeasurement: { value: '434' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3884' },
+            AdvanceMeasurement: { value: '512' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3879' },
+            AdvanceMeasurement: { value: '676' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3875' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+        ],
+      },
+      '831': {
+        index: '7',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3883' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3883' },
+              StartConnectorLength: { value: '170' },
+              EndConnectorLength: { value: '170' },
+              FullAdvance: { value: '511' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni033F' },
+            AdvanceMeasurement: { value: '434' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3883' },
+            AdvanceMeasurement: { value: '512' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3878' },
+            AdvanceMeasurement: { value: '676' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3874' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+        ],
+      },
+      '8400': {
+        index: '8',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni20D0' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3882' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20D0' },
+            AdvanceMeasurement: { value: '559' },
+          },
+        ],
+      },
+      '8401': {
+        index: '9',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3882' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni20D1' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20D1' },
+            AdvanceMeasurement: { value: '559' },
+          },
+        ],
+      },
+      '8406': {
+        index: '10',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni20D6' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3882' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20D6' },
+            AdvanceMeasurement: { value: '559' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3674' },
+            AdvanceMeasurement: { value: '808' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3675' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3676' },
+            AdvanceMeasurement: { value: '1879' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph3677' },
+            AdvanceMeasurement: { value: '3580' },
+          },
+        ],
+      },
+      '8407': {
+        index: '11',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3882' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni20D7' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20D7' },
+            AdvanceMeasurement: { value: '559' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3678' },
+            AdvanceMeasurement: { value: '808' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3679' },
+            AdvanceMeasurement: { value: '1128' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3680' },
+            AdvanceMeasurement: { value: '1879' },
+          },
+          {
+            index: '4',
+            VariantGlyph: { value: 'glyph3681' },
+            AdvanceMeasurement: { value: '3580' },
+          },
+        ],
+      },
+      '8417': {
+        index: '12',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni20D6' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3882' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'uni20D7' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '558' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20E1' },
+            AdvanceMeasurement: { value: '558' },
+          },
+        ],
+      },
+      '8425': {
+        index: '13',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3836' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '595' },
+              FullAdvance: { value: '889' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3835' },
+              StartConnectorLength: { value: '229' },
+              EndConnectorLength: { value: '229' },
+              FullAdvance: { value: '689' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3837' },
+              StartConnectorLength: { value: '595' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni20E9' },
+            AdvanceMeasurement: { value: '631' },
+          },
+        ],
+      },
+      '8430': {
+        index: '14',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'uni20EE' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '557' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3460' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [null],
+      },
+      '8431': {
+        index: '15',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3460' },
+              StartConnectorLength: { value: '162' },
+              EndConnectorLength: { value: '162' },
+              FullAdvance: { value: '485' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni20EF' },
+              StartConnectorLength: { value: '186' },
+              EndConnectorLength: { value: '186' },
+              FullAdvance: { value: '557' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [null],
+      },
+      '8592': {
+        index: '16',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3873' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3872' },
+              StartConnectorLength: { value: '655' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '770' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowleft' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8594': {
+        index: '17',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3870' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '655' },
+              FullAdvance: { value: '771' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '639' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3871' },
+              StartConnectorLength: { value: '695' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '885' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowright' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8596': {
+        index: '18',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3873' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3871' },
+              StartConnectorLength: { value: '695' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowboth' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8612': {
+        index: '19',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3873' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3864' },
+              StartConnectorLength: { value: '138' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '208' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni21A4' },
+            AdvanceMeasurement: { value: '943' },
+          },
+        ],
+      },
+      '8614': {
+        index: '20',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3863' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '138' },
+              FullAdvance: { value: '208' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3871' },
+              StartConnectorLength: { value: '695' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni21A6' },
+            AdvanceMeasurement: { value: '943' },
+          },
+        ],
+      },
+      '8617': {
+        index: '21',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3873' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3862' },
+              StartConnectorLength: { value: '208' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '311' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni21A9' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8618': {
+        index: '22',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3861' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '204' },
+              FullAdvance: { value: '311' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'uni23AF' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3871' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni21AA' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8656': {
+        index: '23',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3869' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3865' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3868' },
+              StartConnectorLength: { value: '655' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '770' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdblleft' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8658': {
+        index: '24',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3866' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '655' },
+              FullAdvance: { value: '770' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3865' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3867' },
+              StartConnectorLength: { value: '695' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdblright' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '8660': {
+        index: '25',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3869' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3865' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '638' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3867' },
+              StartConnectorLength: { value: '695' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'arrowdblboth' },
+            AdvanceMeasurement: { value: '896' },
+          },
+        ],
+      },
+      '9140': {
+        index: '26',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3836' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '595' },
+              FullAdvance: { value: '889' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3835' },
+              StartConnectorLength: { value: '229' },
+              EndConnectorLength: { value: '229' },
+              FullAdvance: { value: '689' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3837' },
+              StartConnectorLength: { value: '595' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '889' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23B4' },
+            AdvanceMeasurement: { value: '603' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3853' },
+            AdvanceMeasurement: { value: '979' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3854' },
+            AdvanceMeasurement: { value: '1354' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3855' },
+            AdvanceMeasurement: { value: '1691' },
+          },
+        ],
+      },
+      '9141': {
+        index: '27',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3838' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '595' },
+              FullAdvance: { value: '889' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3834' },
+              StartConnectorLength: { value: '229' },
+              EndConnectorLength: { value: '229' },
+              FullAdvance: { value: '689' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3839' },
+              StartConnectorLength: { value: '595' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '888' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23B5' },
+            AdvanceMeasurement: { value: '603' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3856' },
+            AdvanceMeasurement: { value: '979' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3857' },
+            AdvanceMeasurement: { value: '1354' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3858' },
+            AdvanceMeasurement: { value: '1691' },
+          },
+        ],
+      },
+      '9180': {
+        index: '28',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4055' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '482' },
+              FullAdvance: { value: '722' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph4058' },
+              StartConnectorLength: { value: '229' },
+              EndConnectorLength: { value: '229' },
+              FullAdvance: { value: '688' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph4057' },
+              StartConnectorLength: { value: '482' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '722' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23DC' },
+            AdvanceMeasurement: { value: '943' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3847' },
+            AdvanceMeasurement: { value: '974' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3848' },
+            AdvanceMeasurement: { value: '1350' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3849' },
+            AdvanceMeasurement: { value: '1687' },
+          },
+        ],
+      },
+      '9181': {
+        index: '29',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4059' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '482' },
+              FullAdvance: { value: '722' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3840' },
+              StartConnectorLength: { value: '229' },
+              EndConnectorLength: { value: '229' },
+              FullAdvance: { value: '688' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph4061' },
+              StartConnectorLength: { value: '482' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '722' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23DD' },
+            AdvanceMeasurement: { value: '943' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3850' },
+            AdvanceMeasurement: { value: '974' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3851' },
+            AdvanceMeasurement: { value: '1350' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3852' },
+            AdvanceMeasurement: { value: '1687' },
+          },
+        ],
+      },
+      '9182': {
+        index: '30',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4055' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '657' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph4058' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '20' },
+              FullAdvance: { value: '304' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph4056' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '751' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'glyph4058' },
+              StartConnectorLength: { value: '20' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '304' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'glyph4057' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '657' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23DE' },
+            AdvanceMeasurement: { value: '903' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph4049' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph4050' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph4051' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '9183': {
+        index: '31',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph4059' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '657' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3840' },
+              StartConnectorLength: { value: '25' },
+              EndConnectorLength: { value: '20' },
+              FullAdvance: { value: '304' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph4060' },
+              StartConnectorLength: { value: '35' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '751' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '3',
+              glyph: { value: 'glyph3840' },
+              StartConnectorLength: { value: '20' },
+              EndConnectorLength: { value: '25' },
+              FullAdvance: { value: '304' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '4',
+              glyph: { value: 'glyph4061' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '35' },
+              FullAdvance: { value: '722' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23DF' },
+            AdvanceMeasurement: { value: '903' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph4052' },
+            AdvanceMeasurement: { value: '1472' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph4053' },
+            AdvanceMeasurement: { value: '2042' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph4054' },
+            AdvanceMeasurement: { value: '2553' },
+          },
+        ],
+      },
+      '9184': {
+        index: '32',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23E0' },
+            AdvanceMeasurement: { value: '901' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3841' },
+            AdvanceMeasurement: { value: '1361' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3842' },
+            AdvanceMeasurement: { value: '2057' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3843' },
+            AdvanceMeasurement: { value: '3109' },
+          },
+        ],
+      },
+      '9185': {
+        index: '33',
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni23E1' },
+            AdvanceMeasurement: { value: '901' },
+          },
+          {
+            index: '1',
+            VariantGlyph: { value: 'glyph3844' },
+            AdvanceMeasurement: { value: '1361' },
+          },
+          {
+            index: '2',
+            VariantGlyph: { value: 'glyph3845' },
+            AdvanceMeasurement: { value: '2057' },
+          },
+          {
+            index: '3',
+            VariantGlyph: { value: 'glyph3846' },
+            AdvanceMeasurement: { value: '3109' },
+          },
+        ],
+      },
+      '10502': {
+        index: '34',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3869' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3865' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '639' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3860' },
+              StartConnectorLength: { value: '138' },
+              EndConnectorLength: { value: '0' },
+              FullAdvance: { value: '207' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2906' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+      '10503': {
+        index: '35',
+        GlyphAssembly: {
+          ItalicsCorrection: { Value: { value: '0' } },
+          PartRecords: [
+            {
+              index: '0',
+              glyph: { value: 'glyph3859' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '138' },
+              FullAdvance: { value: '207' },
+              PartFlags: { value: '0' },
+            },
+            {
+              index: '1',
+              glyph: { value: 'glyph3865' },
+              StartConnectorLength: { value: '213' },
+              EndConnectorLength: { value: '213' },
+              FullAdvance: { value: '639' },
+              PartFlags: { value: '1' },
+            },
+            {
+              index: '2',
+              glyph: { value: 'glyph3867' },
+              StartConnectorLength: { value: '0' },
+              EndConnectorLength: { value: '695' },
+              FullAdvance: { value: '884' },
+              PartFlags: { value: '0' },
+            },
+          ],
+        },
+        MathGlyphVariantRecord: [
+          {
+            index: '0',
+            VariantGlyph: { value: 'uni2907' },
+            AdvanceMeasurement: { value: '885' },
+          },
+        ],
+      },
+    },
+  },
   accentAttachment: {
     '768': -190,
     '769': -143,
