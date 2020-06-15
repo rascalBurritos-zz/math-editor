@@ -9,7 +9,7 @@ export default class Extended_Glyph_Behavior extends Leaf_Behavior {
   _viewBox;
   _desiredSize;
   /**
-   * @param {behaviorSpec} spec
+   * @param {behaviorSpec | Object} spec
    */
   constructor(spec) {
     super(spec);
@@ -20,21 +20,30 @@ export default class Extended_Glyph_Behavior extends Leaf_Behavior {
   /**
    * @return {boolean}
    */
-  isMathStyleValid() {
-    return this._mathStyle !== undefined;
-  }
+  isValid() {
+    const extendedGlyphBehavior = this;
+    const valid = isMathStyleValid() && isDesiredSizeValid();
+    return valid;
 
-  /**
-   * @return {boolean}
-   */
-  isDesiredSizeValid() {
-    return this._desiredSize !== undefined;
+    /**
+     * @return {boolean}
+     */
+    function isMathStyleValid() {
+      return extendedGlyphBehavior._mathStyle !== undefined;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    function isDesiredSizeValid() {
+      return extendedGlyphBehavior._desiredSize !== undefined;
+    }
   }
   /**
    * Should be called with the state changes
    */
   _update() {
-    if (!this.isMathStyleValid() || !this.isDesiredSizeValid()) return;
+    if (!this.isValid()) return;
     const extendedGlyphBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
     const adjustmentAmount = this._typesetter.calculateAdjustmentAmount(

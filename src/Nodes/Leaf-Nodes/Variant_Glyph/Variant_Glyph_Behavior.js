@@ -2,6 +2,7 @@ import Leaf_Behavior from '../Leaf_Behavior.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../Types/Metrics').default} Metrics  */
 
 /**
  * @class
@@ -12,7 +13,6 @@ import Leaf_Behavior from '../Leaf_Behavior.js';
 export default class Variant_Glyph_Behavior extends Leaf_Behavior {
   _desiredSize;
   _behavior;
-  _behaviorProperties = {};
   /**
    * @param {behaviorSpec} spec
    */
@@ -22,11 +22,36 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
   }
 
   /**
+   * checks if necessary values are set
    * @return {boolean}
    */
-  isDesiredSizeValid() {
-    return this._desiredSize !== undefined;
+  isValid() {
+    const variantGlyphBehavior = this;
+    return isMathStyleValid() && isdesiredSizeValid();
+    /**
+     * @return {boolean}
+     */
+    function isMathStyleValid() {
+      return variantGlyphBehavior._mathStyle !== undefined;
+    }
+    /**
+  /**
+   * @return {boolean}
+   */
+    function isdesiredSizeValid() {
+      return variantGlyphBehavior._desiredSize !== undefined;
+    }
   }
+
+  /**
+   * @param {Math_Style} mathStyle Alters the Math Style
+   * and thus the font size of the glyph
+   */
+  set mathStyle(mathStyle) {
+    this._mathStyle = mathStyle;
+    this._update();
+  }
+
   /**
    * @param {number} l
    */
@@ -39,12 +64,11 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
    * Should be called with the state changes
    */
   _update() {
-    if (!this.isMathStyleValid() || !this.isDesiredSizeValid()) return;
+    if (!this.isValid()) return;
     const variantGlyphBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
     updateBehavior();
     this._component = this._behavior.component;
-    updateMetrics();
 
     /**
      *changes behavior to match desired size
@@ -52,44 +76,37 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
     function updateBehavior() {
       variantGlyphBehavior._behavior = variantGlyphBehavior._typesetter.getBehavior(
         variantGlyphBehavior._desiredSize,
-        variantGlyphBehavior._pxpfu
+        variantGlyphBehavior._pxpfu,
+        variantGlyphBehavior._mathStyle
       );
-      variantGlyphBehavior._behavior.mathStyle =
-        variantGlyphBehavior._mathStyle;
-      variantGlyphBehavior._behavior.desiredSize =
-        variantGlyphBehavior._desiredSize;
-    }
-    /**
-     * updates h,w,d and corresponding css
-     */
-    function updateMetrics() {
-      variantGlyphBehavior._metrics.height =
-        variantGlyphBehavior._behavior.metrics.height;
-      variantGlyphBehavior._metrics.depth =
-        variantGlyphBehavior._behavior.metrics.depth;
-      variantGlyphBehavior._metrics.width =
-        variantGlyphBehavior._behavior.metrics.width;
     }
   }
 
   /**
-   * @return {boolean}
+   * @return {Metrics}
    */
-  isMathStyleValid() {
-    return this._mathStyle !== undefined;
+  get metrics() {
+    if (!this.isValid()) console.warn('invalid variant');
+    return this._behavior.metrics;
   }
   /**
-   * @param {Math_Style} mathStyle Alters the Math Style
-   * and thus the font size of the glyph
+   *
+   * @param {Object} styles
    */
-  set mathStyle(mathStyle) {
-    this._mathStyle = mathStyle;
-    this._update();
+  appendComponentStyle(styles) {
+    if (!this.isValid()) console.warn('invalid variant');
+    if (this._behavior) {
+      this._behavior.appendComponentStyle(styles);
+    } else {
+      console.warn('invalid variant behavior');
+    }
   }
+
   /**
    * @return {Math_Style}
    */
   get mathStyle() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._mathStyle;
   }
 
@@ -97,25 +114,25 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
    * @return {Object}
    */
   get componentStyle() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.componentStyle;
-  }
-  /**
-   * @param {Object} style
-   */
-  appendComponentStyle(style) {
-    this._behavior.appendComponentStyle(style);
   }
 
   /**
    * @return {Object} REACT COMPONENT
    */
   get component() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.component;
   }
+
+  // Extended Glyph Related
+
   /**
    * @return {String}
    */
   get viewBox() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.viewBox;
   }
 
@@ -123,12 +140,16 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
    * @return {String}
    */
   get path() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.path;
   }
+
+  // Glyph Related
   /**
    * @return {number}
    */
   get internalCharacterBox() {
+    if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.internalCharacterBox;
   }
 }

@@ -4,6 +4,11 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Radical',
+      unicode: '40',
+      spacingStyle: Spacing_Style.Ordinary,
+    },
+    {
       type: 'Variant_Glyph',
       unicode: '40',
       spacingStyle: Spacing_Style.Ordinary,

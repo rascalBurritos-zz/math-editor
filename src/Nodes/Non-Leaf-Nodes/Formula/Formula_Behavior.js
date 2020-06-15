@@ -39,11 +39,14 @@ export default class Formula_Behavior extends Behavior {
   _update() {
     const formulaBehavior = this;
     if (this._isMathStyleSet()) {
+      // no dependencies || validates nonvariant metrics
       updateElementMathStyles();
-      updateMetrics();
       updateVariantGlyphs();
-      updateMetrics();
+      updateRadicals();
+      // depends on all elements to have valid spacing
+      // styles and component styles:
       updateInterElementSpacing();
+      updateMetrics();
       updateElementBehaviorTopMargins();
     }
 
@@ -53,7 +56,18 @@ export default class Formula_Behavior extends Behavior {
     function updateVariantGlyphs() {
       for (const behavior of formulaBehavior._elementBehaviors) {
         if (behavior.type === 'Variant_Glyph') {
-          behavior.desiredSize = 30;
+          behavior.desiredSize = 100;
+        }
+      }
+    }
+    /**
+     * sets length and width of radicals
+     */
+    function updateRadicals() {
+      for (const behavior of formulaBehavior._elementBehaviors) {
+        if (behavior.type === 'Radical') {
+          behavior.desiredLength = 500;
+          behavior.desiredWidth = 50;
         }
       }
     }
@@ -142,7 +156,7 @@ export default class Formula_Behavior extends Behavior {
         const depthArray = formulaBehavior._elementBehaviors.map(
           (ele) => ele.metrics.depth
         );
-        return Math.min(...depthArray);
+        return Math.max(...depthArray);
       }
       /**
        * @return {number} width in pixels

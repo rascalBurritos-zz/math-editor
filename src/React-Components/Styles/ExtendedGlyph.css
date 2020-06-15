@@ -1,3 +1,4 @@
 .ExtendedGlyph {
   transform: scale(1, -1);
+  overflow: visible;
 }

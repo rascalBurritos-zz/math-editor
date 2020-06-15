@@ -7,6 +7,7 @@ import Spacing_Style from '../../Types/Spacing_Style.js';
 import Extended_Glyph_Behavior from '../Extended_Glyph/Extended_Glyph_Behavior.js';
 import Extended_Glyph_Setter from '../Extended_Glyph/Extended_Glyph_Setter.js';
 
+/** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../../Abstract/Behavior').default} Behavior */
 
 export default class Variant_Glyph_Setter extends Typesetter {
@@ -36,18 +37,26 @@ export default class Variant_Glyph_Setter extends Typesetter {
    *
    * @param {number} desiredSize
    * @param {number} pxpfu
+   * @param {Math_Style} mathStyle
    * @return {Behavior}
    */
-  getBehavior(desiredSize, pxpfu) {
+  getBehavior(desiredSize, pxpfu, mathStyle) {
     const variantGlyphSetter = this;
     const premadeVariant = findBestAvailableVariant();
     const isGlyphVariant = premadeVariant.isLargeEnough
       ? true
       : !doesExtensionExist();
 
-    return isGlyphVariant
+    const behavior = isGlyphVariant
       ? generateGlyphBehavior()
       : generateExtendedGlyphBehavior();
+
+    /**
+     * triggers update on behavior which sets
+     * all uninitialized values
+     */
+    behavior.mathStyle = mathStyle;
+    return behavior;
 
     /**
      * @return {Behavior}
@@ -66,7 +75,12 @@ export default class Variant_Glyph_Setter extends Typesetter {
         axisHeight: variantGlyphSetter._axisHeight,
       };
       const typesetter = new Extended_Glyph_Setter(setterSpec);
-      return new Extended_Glyph_Behavior({ typesetter, spacingStyle });
+      const behavior = new Extended_Glyph_Behavior({
+        typesetter,
+        spacingStyle,
+      });
+      behavior.desiredSize = desiredSize;
+      return behavior;
     }
 
     /**
@@ -142,15 +156,3 @@ export default class Variant_Glyph_Setter extends Typesetter {
     return this._mainAxisCoordinate === 'y';
   }
 }
-// this._asc = spec.asc;
-// this._des = spec.des;
-// this._unicode = spec.unicode;
-// this._fontFamily = spec.fontFamily;
-// this._glyphMetric = spec.glyphMetric;
-// this._italicsCorrection = spec.italicsCorrection;
-// this._accentAttachmentPoint = spec.accentAttachmentPoint;
-// calculateHeight
-// calculateWidth
-// calculateItalicsCorrection
-// calculateAccentAttachmentPoint
-// calculateDepth

@@ -51,8 +51,8 @@ export default class Behavior {
    * @param {Math_Style} style
    */
   set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
+    // this._mathStyle = style;
+    // this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
   }
   /**
    * @return {Math_Style}

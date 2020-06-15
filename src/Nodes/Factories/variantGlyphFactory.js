@@ -1,20 +1,20 @@
 import Variant_Glyph_Setter from '../Leaf-Nodes/Variant_Glyph/Variant_Glyph_Setter.js';
 import Variant_Glyph_Behavior from '../Leaf-Nodes/Variant_Glyph/Variant_Glyph_Behavior.js';
-import Variant_Glyph_Node from '../Leaf-Nodes/Variant_Glyph/Variant_Glyph_Node.js';
+import Document_Node from '../Abstract/Document_Node.js';
 
 /** @typedef {import('./nodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
- * @return {Variant_Glyph_Node}
+ * @return {Document_Node}
  */
 export default function variantGlyphFactory(mathList, fontData) {
   const spacingStyle = mathList.spacingStyle;
   const setterSpec = generateSetterSpec(mathList, fontData);
   const typesetter = new Variant_Glyph_Setter(setterSpec);
   const behavior = new Variant_Glyph_Behavior({ typesetter, spacingStyle });
-  const node = new Variant_Glyph_Node(behavior);
+  const node = new Document_Node(behavior);
   return node;
 }
 

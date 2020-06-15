@@ -12,7 +12,7 @@ export class Formula extends React.Component {
     );
 
     return (
-      <div className="Formula" style={this.props.data.css}>
+      <div className="Formula" style={this.props.data.componentStyle}>
         {formulaElements}
       </div>
     );

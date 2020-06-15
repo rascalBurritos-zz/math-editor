@@ -1,4 +1,5 @@
 import React from 'react';
+import './Styles/ExtendedGlyph.css';
 
 export class ExtendedGlyph extends React.Component {
   /**

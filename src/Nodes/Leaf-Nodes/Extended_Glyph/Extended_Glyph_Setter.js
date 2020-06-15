@@ -1,16 +1,30 @@
 import Typesetter from '../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
+/** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec */
+
+/**
+ * @typedef {Object} extendedGlyphSetterLike
+ * @property {Array} unAdjustedStringPathArray
+ * @property {Object} unAdjustedViewBox
+ * @property {number} axisHeight
+ * @property {number} italicsCorrection
+ * @property {boolean} forceCenter
+ * @typedef {setterSpec & extendedGlyphSetterLike} extendedGlyphSetterSpec
+ */
+
 export default class Extended_Glyph_Setter extends Typesetter {
   /**
    *
-   * @param {Object} spec
+   * @param {extendedGlyphSetterSpec} spec
    */
   constructor(spec) {
     super(spec);
     this._unAdjustedStringPathArray = spec.unAdjustedStringPathArray;
     this._unAdjustedViewBox = spec.unAdjustedViewBox;
     this._mathAxis = spec.axisHeight;
+    this._italicsCorrection = spec.italicsCorrection;
+    this._forceCenter = spec.forceCenter;
   }
   /**
    * @param {number} desiredSize
@@ -85,8 +99,10 @@ export default class Extended_Glyph_Setter extends Typesetter {
     const metricStrategyMap = {
       x: getHorizontalMetrics,
       y: getVerticalMetrics,
+      z: getHorizontalMetricsCentered,
     };
     // assumes desired size is met perfectly
+    if (this._forceCenter) return metricStrategyMap.z();
     return metricStrategyMap[this._unAdjustedViewBox.mainAxis]();
     /**
      * @return {Metrics}
@@ -107,6 +123,21 @@ export default class Extended_Glyph_Setter extends Typesetter {
           extendedGlyphSetter._unAdjustedViewBox.yMin) *
         pxpfu;
       const depth = -extendedGlyphSetter._unAdjustedViewBox.yMin * pxpfu;
+      const width = desiredSize;
+      return new Metrics(height, width, depth);
+    }
+    /**
+     * @return {Metrics}
+     */
+    function getHorizontalMetricsCentered() {
+      const height =
+        (extendedGlyphSetter._unAdjustedViewBox.yTotal / 2 +
+          extendedGlyphSetter._mathAxis) *
+        pxpfu;
+      const depth =
+        (extendedGlyphSetter._unAdjustedViewBox.yTotal / 2 -
+          extendedGlyphSetter._mathAxis) *
+        pxpfu;
       const width = desiredSize;
       return new Metrics(height, width, depth);
     }

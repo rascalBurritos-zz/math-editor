@@ -1,8 +1,8 @@
 import Glyph_Setter from '../Leaf-Nodes/Glyph/Glyph_Setter';
 import Glyph_Behavior from '../Leaf-Nodes/Glyph/Glyph_Behavior';
-import Glyph_Node from '../Leaf-Nodes/Glyph/Glyph_Node';
 import Centered_Glyph_Setter from '../Leaf-Nodes/Glyph/Centered_Glyph_Setter';
 import Centered_Glyph_Behavior from '../Leaf-Nodes/Glyph/Centered_Glyph_Behavior.js';
+import Document_Node from '../Abstract/Document_Node';
 /** @typedef {import('./nodeFactory').MathList} MathList  */
 /**
  * @param {MathList} mathList
@@ -37,6 +37,6 @@ export default function glyphFactory(mathList, fontData) {
     typesetter = new Glyph_Setter(setterSpec);
     glyphBehavior = new Glyph_Behavior({ typesetter, spacingStyle });
   }
-  const glyphNode = new Glyph_Node(glyphBehavior);
+  const glyphNode = new Document_Node(glyphBehavior);
   return glyphNode;
 }
