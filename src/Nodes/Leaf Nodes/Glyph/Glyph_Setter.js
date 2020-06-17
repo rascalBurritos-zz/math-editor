@@ -1,6 +1,6 @@
 import Typesetter from '../../Abstract/Typesetter.js';
 import InternalCharacterBoxComponent from '../../../React-Components/InternalCharacterBoxComponent.js';
-/** @typedef {typeof import('react').Component} Component */
+/** @typedef {typeof import('./react').Component} Component */
 
 /**
  * @typedef {Object} InternalCharacterBox

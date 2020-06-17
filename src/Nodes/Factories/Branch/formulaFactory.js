@@ -1,7 +1,7 @@
 import Spacing_Style from '../../Types/Spacing_Style.js';
-import Formula_Setter from '../../Non-Leaf-Nodes/Formula/Formula_Setter.js';
-import Formula_Behavior from '../../Non-Leaf-Nodes/Formula/Formula_Behavior.js';
-import Formula_Node from '../../Non-Leaf-Nodes/Formula/Formula_Node.js';
+import Formula_Setter from '../../Branch Nodes/Formula/Formula_Setter.js';
+import Formula_Behavior from '../../Branch Nodes/Formula/Formula_Behavior.js';
+import Formula_Node from '../../Branch Nodes/Formula/Formula_Node.js';
 import nodeFactory from '../nodeFactory.js';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */

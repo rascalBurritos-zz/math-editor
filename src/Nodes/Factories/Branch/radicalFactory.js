@@ -1,13 +1,13 @@
-import Radical_Glyph_Setter from '../../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Setter.js';
-import Radical_Glyph_Behavior from '../../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Behavior.js';
+import Radical_Glyph_Setter from '../../Leaf Nodes/Radical_Glyph/Radical_Glyph_Setter.js';
+import Radical_Glyph_Behavior from '../../Leaf Nodes/Radical_Glyph/Radical_Glyph_Behavior.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
-import Radical_Node from '../../Non-Leaf-Nodes/Radical/Radical_Node.js';
-import Radical_Behavior from '../../Non-Leaf-Nodes/Radical/Radical_Behavior.js';
-import Radical_Setter from '../../Non-Leaf-Nodes/Radical/Radical_Setter.js';
+import Radical_Node from '../../Branch Nodes/Radical/Radical_Node.js';
+import Radical_Behavior from '../../Branch Nodes/Radical/Radical_Behavior.js';
+import Radical_Setter from '../../Branch Nodes/Radical/Radical_Setter.js';
 import nodeFactory from '../nodeFactory.js';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
-/** @typedef {import('../../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Setter.js').radicalSetterSpec} radicalGlyphSetterSpec  */
+/** @typedef {import('../../Leaf Nodes/Radical_Glyph/Radical_Glyph_Setter.js').radicalSetterSpec} radicalGlyphSetterSpec  */
 
 /**
  * @param {MathList} mathList

@@ -1,6 +1,6 @@
-import Scripts_Setter from '../../Non-Leaf-Nodes/Scripts/Scripts_Setter';
-import Scripts_Behavior from '../../Non-Leaf-Nodes/Scripts/Scripts_Behavior.js';
-import Scripts_Node from '../../Non-Leaf-Nodes/Scripts/Scripts_Node';
+import Scripts_Setter from '../../Branch Nodes/Scripts/Scripts_Setter';
+import Scripts_Behavior from '../../Branch Nodes/Scripts/Scripts_Behavior.js';
+import Scripts_Node from '../../Branch Nodes/Scripts/Scripts_Node';
 import nodeFactory from '../nodeFactory';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */

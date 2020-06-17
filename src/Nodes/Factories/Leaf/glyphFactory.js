@@ -1,7 +1,7 @@
-import Glyph_Setter from '../../Leaf-Nodes/Glyph/Glyph_Setter';
-import Glyph_Behavior from '../../Leaf-Nodes/Glyph/Glyph_Behavior';
-import Centered_Glyph_Setter from '../../Leaf-Nodes/Glyph/Centered_Glyph_Setter';
-import Centered_Glyph_Behavior from '../../Leaf-Nodes/Glyph/Centered_Glyph_Behavior.js';
+import Glyph_Setter from '../../Leaf Nodes/Glyph/Glyph_Setter';
+import Glyph_Behavior from '../../Leaf Nodes/Glyph/Glyph_Behavior';
+import Centered_Glyph_Setter from '../../Leaf Nodes/Glyph/Centered_Glyph_Setter';
+import Centered_Glyph_Behavior from '../../Leaf Nodes/Glyph/Centered_Glyph_Behavior.js';
 import Document_Node from '../../Abstract/Document_Node';
 /** @typedef {import('../nodeFactory').MathList} MathList  */
 /**

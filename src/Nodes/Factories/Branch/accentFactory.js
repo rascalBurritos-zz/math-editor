@@ -1,7 +1,7 @@
 import nodeFactory from '../nodeFactory';
-import Accent_Setter from '../../Non-Leaf-Nodes/Accent/Accent_Setter';
-import Accent_Node from '../../Non-Leaf-Nodes/Accent/Accent_Node';
-import Accent_Behavior from '../../Non-Leaf-Nodes/Accent/Accent_Behavior';
+import Accent_Setter from '../../Branch Nodes/Accent/Accent_Setter';
+import Accent_Node from '../../Branch Nodes/Accent/Accent_Node';
+import Accent_Behavior from '../../Branch Nodes/Accent/Accent_Behavior';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
 

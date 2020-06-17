@@ -1,8 +1,8 @@
 import Typesetter from '../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
-/** @typedef {import('../../Leaf-Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
-/** @typedef {import('../../Leaf-Nodes/Leaf_Behavior').default} Leaf_Behavior */
+/** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
+/** @typedef {import('../../Leaf Nodes/Leaf_Behavior').default} Leaf_Behavior */
 /** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec  */
 /** @typedef {import('../../Abstract/Behavior').default} Behavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
