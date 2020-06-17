@@ -4,7 +4,7 @@ import Behavior from '../Abstract/Behavior.js';
 
 export default class Leaf_Behavior extends Behavior {
   _italicsCorrection;
-  _accentAttachmentPoint;
+  _accentAttachment;
 
   /**
    * @return {number}
@@ -13,9 +13,9 @@ export default class Leaf_Behavior extends Behavior {
     return this._italicsCorrection;
   }
   /**
-   * @return {number}
+   * @return {Object}
    */
-  get accentAttachmentPoint() {
-    return this._accentAttachmentPoint;
+  get accentAttachment() {
+    return this._accentAttachment;
   }
 }

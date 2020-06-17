@@ -4,6 +4,24 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Glyph',
+      unicode: '8721',
+      spacingStyle: Spacing_Style.Operator,
+    },
+    {
+      type: 'Accent',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '65',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+      accenter: {
+        type: 'Glyph',
+        unicode: '776',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+    },
+    {
       type: 'Radical',
       radicand: {
         type: 'Formula',

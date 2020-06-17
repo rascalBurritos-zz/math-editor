@@ -83,10 +83,15 @@ export default class Glyph_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
-   * @return {number} accent attachment in pixels
+   * @return {object} accent attachment in pixels and vertical accenter height
    */
-  calculateAccentAttachmentPoint(pxpfu) {
-    return this._accentAttachmentPoint * pxpfu;
+  calculateAccentAttachment(pxpfu) {
+    const bbox = this._glyphMetric.bbox;
+    const attachmentPoint = this._accentAttachmentPoint
+      ? Math.abs(bbox.x1 - this._accentAttachmentPoint) * pxpfu
+      : (Math.abs(bbox.x2 - bbox.x1) / 2) * pxpfu;
+    const accenterHeight = bbox.y2 * pxpfu;
+    return { attachmentPoint, accenterHeight };
   }
 
   /**

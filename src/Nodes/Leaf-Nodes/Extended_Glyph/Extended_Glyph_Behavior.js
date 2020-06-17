@@ -52,6 +52,16 @@ export default class Extended_Glyph_Behavior extends Leaf_Behavior {
     );
     calculateSVGProperties();
     updateMetrics();
+    updateAccentAttachment();
+
+    /**
+     * updates accent attachment to match current font size (pxpfu)
+     */
+    function updateAccentAttachment() {
+      extendedGlyphBehavior._accentAttachment = extendedGlyphBehavior._typesetter.calculateAccentAttachment(
+        extendedGlyphBehavior._metrics
+      );
+    }
     /**
      *
      */

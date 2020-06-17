@@ -152,4 +152,12 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
     if (!this.isValid()) console.warn('invalid variant');
     return this._behavior.internalCharacterBox;
   }
+
+  /**
+   * @return {Object} accentAttachment
+   */
+  get accentAttachment() {
+    if (!this.isValid()) console.warn('invalid variant');
+    return this._behavior.accentAttachment;
+  }
 }

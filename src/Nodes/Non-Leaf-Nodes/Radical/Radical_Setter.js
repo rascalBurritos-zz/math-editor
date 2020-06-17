@@ -121,8 +121,10 @@ export default class Radical_Setter extends Typesetter {
         const pxFromTopOfDelimiter =
           (1 - radicalSetter._degreeBottomRaisePercent / 100) *
           delimiterTotalHeight;
+        const degreeTotalHeight =
+          degreeBehavior.metrics.height + degreeBehavior.metrics.depth;
         const verticalAdjustment =
-          extraAscender + degreeBehavior.metrics.height - pxFromTopOfDelimiter;
+          degreeTotalHeight - pxFromTopOfDelimiter - extraAscender;
         return verticalAdjustment;
       }
     }

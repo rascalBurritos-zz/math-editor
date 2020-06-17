@@ -1,6 +1,5 @@
 import Typesetter from '../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
-import { declareInterface } from '../../../../../../../.cache/typescript/3.9/node_modules/@babel/types/lib/index';
 
 /** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec */
 

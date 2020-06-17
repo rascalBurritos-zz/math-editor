@@ -10,7 +10,6 @@ export class Radical extends React.Component {
     const degree = d.degreeBehavior ? (
       <d.degreeBehavior.component key={'degree'} data={d.degreeBehavior} />
     ) : undefined;
-    console.log(d);
     return (
       <div className="Radical" style={d.componentStyle}>
         <div style={d.containerDimensions} className="RadicalContainer">

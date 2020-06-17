@@ -1,4 +1,3 @@
-import Behavior from '../../Abstract/Behavior.js';
 import { Glyph } from '../../../React-Components/Glyph.js';
 import Leaf_Behavior from '../Leaf_Behavior.js';
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
@@ -25,13 +24,13 @@ export default class Glyph_Behavior extends Leaf_Behavior {
     this._updateMetrics();
     updateInternalCharacterBox();
     updateItalicsCorrection();
-    updateAccentAttachmentPoint();
+    updateAccentAttachment();
 
     /**
      * updates accent attachment to match current font size (pxpfu)
      */
-    function updateAccentAttachmentPoint() {
-      glyphBehavior._accentAttachmentPoint = glyphBehavior._typesetter.calculateAccentAttachmentPoint(
+    function updateAccentAttachment() {
+      glyphBehavior._accentAttachment = glyphBehavior._typesetter.calculateAccentAttachment(
         glyphBehavior._pxpfu
       );
     }

@@ -142,4 +142,16 @@ export default class Extended_Glyph_Setter extends Typesetter {
       return new Metrics(height, width, depth);
     }
   }
+  /**
+   * @param {Metrics} metrics
+   * @return {object} accent attachment in pixels and vertical accenter height
+   */
+  calculateAccentAttachment(metrics) {
+    const attachmentPoint = metrics.width / 2;
+    // accents should only be used with horizontal glyphs this
+    // parameter assumes that
+    const accenterHeight =
+      this._unAdjustedViewBox.yMin + this._unAdjustedViewBox.yTotal;
+    return { attachmentPoint, accenterHeight };
+  }
 }
