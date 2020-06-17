@@ -20,7 +20,7 @@ import Typesetter from '../../Abstract/Typesetter';
  * @typedef {setterSpec & radicalSetterLike} radicalSetterSpec
  */
 
-export default class Radical_Setter extends Typesetter {
+export default class Radical_Glyph_Setter extends Typesetter {
   /**
    *
    * @param {radicalSetterSpec} spec

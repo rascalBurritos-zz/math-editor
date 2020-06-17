@@ -4,7 +4,7 @@ import Behavior from '../../Abstract/Behavior';
 /** @typedef {import('../../Types/Math_Style').default} Math_Style */
 /** @typedef {import('../../Types/Metrics').default} Metrics */
 
-export default class Radical_Behavior extends Behavior {
+export default class Radical_Glyph_Behavior extends Behavior {
   _behavior;
   _desiredWidth;
   _desiredLength;
@@ -13,7 +13,7 @@ export default class Radical_Behavior extends Behavior {
    */
   constructor(spec) {
     super(spec);
-    this.type = 'Radical';
+    this.type = 'Radical_Glyph';
   }
   /**
    * checks if necessary values are set

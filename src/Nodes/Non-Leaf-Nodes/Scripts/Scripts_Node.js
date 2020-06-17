@@ -1,7 +1,6 @@
-import Non_Leaf_Node from '../Non_Leaf_Node';
-/** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node */
+import Document_Node from '../../Abstract/Document_Node';
 
-export default class Scripts_Node extends Non_Leaf_Node {
+export default class Scripts_Node extends Document_Node {
   _superscript;
   _nucleus;
   _subscript;

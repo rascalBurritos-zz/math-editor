@@ -52,7 +52,6 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
    */
   _update() {
     if (!this.isValid()) return;
-    console.log(this);
     const extendedRadicalBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
     const verticalAdjustmentAmount = this._typesetter.calculateAdjustmentAmount(

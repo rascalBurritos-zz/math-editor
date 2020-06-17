@@ -1,10 +1,9 @@
-import Non_Leaf_Node from '../Non_Leaf_Node.js';
-/** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node */
+import Document_Node from '../../Abstract/Document_Node.js';
 /** @typedef {import('./Formula_Behavior').default} Formula_Behavior */
 /**
  * @class
  */
-export default class Formula_Node extends Non_Leaf_Node {
+export default class Formula_Node extends Document_Node {
   /**
    * @param {Formula_Behavior} formulaBehavior
    */

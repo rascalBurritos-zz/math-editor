@@ -1,0 +1,10 @@
+.Radical {
+  display: block;
+  position: relative;
+}
+.RadicalContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

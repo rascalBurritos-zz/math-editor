@@ -1,23 +1,30 @@
-import React from "react";
+import React from 'react';
+import './Styles/Radical.css';
 
 export class Radical extends React.Component {
-    render() {
-        var d = this.props.data;
-        return (
-            <m-radical style={d.css}>
-                <d.degree.component key={d.degree.component} data={d.degree} />
-                <d.delimiter.component
-                    key={d.delimiter.component}
-                    data={d.delimiter}
-                />
-                <m-radicand-container style={d.radicandContainerCSS}>
-                    <m-rule style={d.rule} />
-                    <d.radicand.component
-                        key={d.radicand.component}
-                        data={d.radicand}
-                    />
-                </m-radicand-container>
-            </m-radical>
-        );
-    }
+  /**
+   * @return {JSX.Element}
+   */
+  render() {
+    const d = this.props.data;
+    const degree = d.degreeBehavior ? (
+      <d.degreeBehavior.component key={'degree'} data={d.degreeBehavior} />
+    ) : undefined;
+    console.log(d);
+    return (
+      <div className="Radical" style={d.componentStyle}>
+        <div style={d.containerDimensions} className="RadicalContainer">
+          {degree}
+          <d.radicandBehavior.component
+            key={'radicand'}
+            data={d.radicandBehavior}
+          />
+        </div>
+        <d.radicalGlyphBehavior.component
+          key={'radicand glyph'}
+          data={d.radicalGlyphBehavior}
+        />
+      </div>
+    );
+  }
 }

@@ -56,7 +56,7 @@ export default class Formula_Behavior extends Behavior {
     function updateVariantGlyphs() {
       for (const behavior of formulaBehavior._elementBehaviors) {
         if (behavior.type === 'Variant_Glyph') {
-          behavior.desiredSize = 100;
+          behavior.desiredSize = 300;
         }
       }
     }
@@ -65,7 +65,7 @@ export default class Formula_Behavior extends Behavior {
      */
     function updateRadicals() {
       for (const behavior of formulaBehavior._elementBehaviors) {
-        if (behavior.type === 'Radical') {
+        if (behavior.type === 'Radical_Glyph') {
           behavior.desiredLength = 500;
           behavior.desiredWidth = 50;
         }

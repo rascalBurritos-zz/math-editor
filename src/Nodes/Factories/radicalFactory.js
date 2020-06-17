@@ -1,24 +1,67 @@
-import Document_Node from '../Abstract/Document_Node.js';
-import Radical_Setter from '../Leaf-Nodes/Radical_Glyph/Radical_Setter.js';
-import Radical_Behavior from '../Leaf-Nodes/Radical_Glyph/Radical_Behavior.js';
+import Radical_Glyph_Setter from '../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Setter.js';
+import Radical_Glyph_Behavior from '../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Behavior.js';
+import Spacing_Style from '../Types/Spacing_Style.js';
+import Radical_Node from '../Non-Leaf-Nodes/Radical/Radical_Node.js';
+import Radical_Behavior from '../Non-Leaf-Nodes/Radical/Radical_Behavior.js';
+import Radical_Setter from '../Non-Leaf-Nodes/Radical/Radical_Setter.js';
+import nodeFactory from './nodeFactory.js';
 
 /** @typedef {import('./nodeFactory').MathList} MathList */
-/** @typedef {import('../Leaf-Nodes/Radical_Glyph/Radical_Setter.js').radicalSetterSpec} radicalSetterSpec  */
+/** @typedef {import('../Leaf-Nodes/Radical_Glyph/Radical_Glyph_Setter.js').radicalSetterSpec} radicalGlyphSetterSpec  */
+
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
- * @return {Document_Node}
+ *@return {Radical_Node}
  */
-export default function variantGlyphFactory(mathList, fontData) {
-  const spacingStyle = mathList.spacingStyle;
+export default function radicalFactory(mathList, fontData) {
+  const spacingStyle = Spacing_Style.Ordinary;
   const setterSpec = generateSetterSpec();
   const typesetter = new Radical_Setter(setterSpec);
   const behavior = new Radical_Behavior({ typesetter, spacingStyle });
-  const node = new Document_Node(behavior);
+  const node = new Radical_Node(behavior);
+  node.radicand = nodeFactory(mathList.radicand, fontData);
+  if (mathList.degree) {
+    node.degree = nodeFactory(mathList.degree, fontData);
+  }
   return node;
 
   /**
-   * @return {radicalSetterSpec}
+   * @return {Object}
+   */
+  function generateSetterSpec() {
+    const mc = fontData.MATH.MathConstants;
+    const setterSpec = {};
+    setterSpec.upm = fontData.upm;
+    setterSpec.scriptFactor = mc.ScriptPercentScaleDown;
+    setterSpec.scriptscriptFactor = mc.ScriptScriptPercentScaleDown;
+
+    setterSpec.mathAxis = mc.AxisHeight;
+    setterSpec.verticalGap = mc.RadicalVerticalGap;
+    setterSpec.displayVerticalGap = mc.RadicalDisplayStyleVerticalGap;
+    setterSpec.ruleThickness = mc.RadicalRuleThickness;
+    setterSpec.extraAscender = mc.RadicalExtraAscender;
+    setterSpec.kernBeforeDegree = mc.RadicalKernBeforeDegree;
+    setterSpec.kernAfterDegree = mc.RadicalKernAfterDegree;
+    setterSpec.degreeBottomRaisePercent = mc.RadicalDegreeBottomRaisePercent;
+    setterSpec.radicalGlyphBehavior = radicalGlyphBehaviorFactory(fontData);
+    return setterSpec;
+  }
+}
+
+/**
+ * @param {Object} fontData
+ * @return {Radical_Glyph_Behavior}
+ */
+function radicalGlyphBehaviorFactory(fontData) {
+  const setterSpec = generateSetterSpec();
+  const spacingStyle = Spacing_Style.None;
+  const typesetter = new Radical_Glyph_Setter(setterSpec);
+  const behavior = new Radical_Glyph_Behavior({ typesetter, spacingStyle });
+  return behavior;
+
+  /**
+   * @return {radicalGlyphSetterSpec}
    */
   function generateSetterSpec() {
     const mc = fontData.MATH.MathConstants;
