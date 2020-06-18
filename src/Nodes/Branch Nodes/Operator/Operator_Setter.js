@@ -1,5 +1,4 @@
 import Typesetter from '../../Abstract/Typesetter';
-import Script_Type from './Script_Type';
 import Metrics from '../../Types/Metrics';
 
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
@@ -21,22 +20,12 @@ export default class Script_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
-   * @param {Behavior} nucleusBehavior
-   * @param {Behavior} targetBehavior
-   * @param {Behavior} upperLimitBehavior
-   * @param {Behavior} lowerLimitBehavior
+   * @param {Object} childBehaviors
    * @return {Object} result contains
    * Metrics
-   * script Container css
    * script Metrics
    * script css
    * subscript css
    */
-  calculateScripts(
-    pxpfu,
-    nucleusBehavior,
-    targetBehavior,
-    upperLimitBehavior,
-    lowerLimitBehavior
-  ) {}
+  calculateSettings(pxpfu, childBehaviors) {}
 }

@@ -1,5 +1,5 @@
 import Behavior from '../../Abstract/Behavior.js';
-import { Formula } from '../../../React-Components/Formula.js';
+import Formula from '../../../React-Components/Formula.js';
 /** @typedef {import('../../Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/Behavior.js').behaviorSpec} behaviorSpec */
@@ -36,7 +36,7 @@ export default class Formula_Behavior extends Behavior {
    * current state,and this behavior's
    * metrics and h.w style
    */
-  _update() {
+  update() {
     const formulaBehavior = this;
     if (this._isMathStyleSet()) {
       // no dependencies || validates nonvariant metrics
@@ -194,7 +194,7 @@ export default class Formula_Behavior extends Behavior {
   set mathStyle(style) {
     this._mathStyle = style;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._update();
+    this.update();
   }
   /**
    * @return {Math_Style} style
@@ -204,14 +204,14 @@ export default class Formula_Behavior extends Behavior {
   }
 
   /**
-   * @param {Behavior[]} elementBehaviors
+   * @param {Array} elementBehaviors
    */
   set elementBehaviors(elementBehaviors) {
     this._elementBehaviors = elementBehaviors;
-    this._update();
+    this.update();
   }
   /**
-   * @return {Behavior[]} should only be
+   * @return {Array} should only be
    * used for generating react components
    */
   get elementBehaviors() {

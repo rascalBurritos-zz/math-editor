@@ -18,10 +18,10 @@ export default class Glyph_Behavior extends Leaf_Behavior {
   /**
    * Should be called with the state changes
    */
-  _update() {
+  update() {
     const glyphBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._updateMetrics();
+    this.updateMetrics();
     updateInternalCharacterBox();
     updateItalicsCorrection();
     updateAccentAttachment();
@@ -57,7 +57,7 @@ export default class Glyph_Behavior extends Leaf_Behavior {
   /**
    * updates h,w,d and corresponding css
    */
-  _updateMetrics() {
+  updateMetrics() {
     this._metrics.height = this._typesetter.calculateHeight(this._pxpfu);
     this._metrics.depth = this._typesetter.calculateDepth(this._pxpfu);
     this._metrics.width = this._typesetter.calculateWidth(this._pxpfu);
@@ -75,7 +75,7 @@ export default class Glyph_Behavior extends Leaf_Behavior {
    */
   set mathStyle(mathStyle) {
     this._mathStyle = mathStyle;
-    this._update();
+    this.update();
   }
   /**
    * @return {Math_Style}

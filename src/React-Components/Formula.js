@@ -1,6 +1,7 @@
 import React from 'react';
 import './Styles/Formula.css';
-export class Formula extends React.Component {
+
+export default class Formula extends React.Component {
   /**
    * @return {JSX.Element}
    */

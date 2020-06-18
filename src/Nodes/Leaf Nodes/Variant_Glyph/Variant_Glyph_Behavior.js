@@ -49,7 +49,7 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
    */
   set mathStyle(mathStyle) {
     this._mathStyle = mathStyle;
-    this._update();
+    this.update();
   }
 
   /**
@@ -57,13 +57,13 @@ export default class Variant_Glyph_Behavior extends Leaf_Behavior {
    */
   set desiredSize(l) {
     this._desiredSize = l;
-    this._update();
+    this.update();
   }
 
   /**
    * Should be called with the state changes
    */
-  _update() {
+  update() {
     if (!this.isValid()) return;
     const variantGlyphBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);

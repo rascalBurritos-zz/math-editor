@@ -1,7 +1,7 @@
 import React from 'react';
 import './Styles/Radical.css';
 
-export class Radical extends React.Component {
+export default class Radical extends React.Component {
   /**
    * @return {JSX.Element}
    */

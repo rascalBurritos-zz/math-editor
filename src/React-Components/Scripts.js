@@ -1,7 +1,7 @@
 import React from 'react';
 import './Styles/Scripts.css';
 
-export class Scripts extends React.Component {
+export default class Scripts extends React.Component {
   /**
    * @return {JSX.Element}
    */

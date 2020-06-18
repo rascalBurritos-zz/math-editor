@@ -1,13 +1,12 @@
 import React from 'react';
 import './Styles/Accent.css';
 
-export class Accent extends React.Component {
+export default class Accent extends React.Component {
   /**
    * @return {JSX.Element}
    */
   render() {
     const data = this.props.data;
-    console.log(data);
     const nucleusBehavior = data.nucleusBehavior;
     const accenterBehavior = data.accenterBehavior;
 

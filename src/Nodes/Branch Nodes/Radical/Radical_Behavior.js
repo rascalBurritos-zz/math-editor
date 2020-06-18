@@ -1,5 +1,5 @@
 import Behavior from '../../Abstract/Behavior';
-import { Radical } from '../../../React-Components/Radical';
+import Radical from '../../../React-Components/Radical';
 import Math_Style from '../../Types/Math_Style';
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec}behaviorSpec  */
 
@@ -39,7 +39,7 @@ export default class Radical_Behavior extends Behavior {
   /**
    *
    */
-  _update() {
+  update() {
     if (!this.isValid()) return;
     const radicalBehavior = this;
     updateChildStyles();
@@ -143,7 +143,7 @@ export default class Radical_Behavior extends Behavior {
   set mathStyle(ms) {
     this._mathStyle = ms;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._update();
+    this.update();
   }
 
   /**
@@ -151,7 +151,7 @@ export default class Radical_Behavior extends Behavior {
    */
   set radicandBehavior(rb) {
     this._radicandBehavior = rb;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior}rb
@@ -164,7 +164,7 @@ export default class Radical_Behavior extends Behavior {
    */
   set degreeBehavior(db) {
     this._degreeBehavior = db;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior}

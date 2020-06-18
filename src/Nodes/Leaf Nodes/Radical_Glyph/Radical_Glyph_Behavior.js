@@ -47,7 +47,7 @@ export default class Radical_Glyph_Behavior extends Behavior {
   /**
    * Should be called with the state changes
    */
-  _update() {
+  update() {
     if (!this.isValid()) return;
     const radicalBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
@@ -72,14 +72,14 @@ export default class Radical_Glyph_Behavior extends Behavior {
    */
   set desiredLength(l) {
     this._desiredLength = l;
-    this._update();
+    this.update();
   }
   /**
    * @param {number} w width in pixels
    */
   set desiredWidth(w) {
     this._desiredWidth = w;
-    this._update();
+    this.update();
   }
 
   /**
@@ -87,7 +87,7 @@ export default class Radical_Glyph_Behavior extends Behavior {
    */
   set mathStyle(s) {
     this._mathStyle = s;
-    this._update();
+    this.update();
   }
 
   /**

@@ -50,7 +50,7 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
   /**
    * Should be called with the state changes
    */
-  _update() {
+  update() {
     if (!this.isValid()) return;
     const extendedRadicalBehavior = this;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
@@ -99,13 +99,13 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
    */
   set desiredLength(l) {
     this._desiredLength = l;
-    this._update();
+    this.update();
   }
   /**
    *@param {number} w
    */
   set desiredWidth(w) {
     this._desiredWidth = w;
-    this._update();
+    this.update();
   }
 }

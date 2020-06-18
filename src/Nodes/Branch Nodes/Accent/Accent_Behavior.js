@@ -1,6 +1,6 @@
 import Behavior from '../../Abstract/Behavior.js';
 import Math_Style from '../../Types/Math_Style.js';
-import { Accent } from '../../../React-Components/Accent.js';
+import Accent from '../../../React-Components/Accent.js';
 
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
@@ -46,7 +46,7 @@ export default class Accent_Behavior extends Behavior {
   /**
    *
    */
-  _update() {
+  update() {
     if (!this.isValid()) return;
     const accentBehavior = this;
     updateChildMathStyles();
@@ -110,7 +110,7 @@ export default class Accent_Behavior extends Behavior {
    */
   set accenterBehavior(behavior) {
     this._accenterBehavior = behavior;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -123,7 +123,7 @@ export default class Accent_Behavior extends Behavior {
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -138,7 +138,7 @@ export default class Accent_Behavior extends Behavior {
   set mathStyle(style) {
     this._mathStyle = style;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._update();
+    this.update();
   }
   /**
    * @return {Math_Style} style

@@ -1,10 +1,11 @@
-import Behavior from '../../Abstract/Behavior.js';
-import { Operator } from '../../../React-Components/Operator.js';
+import Operator from '../../../React-Components/Operator.js';
 import Math_Style from '../../Types/Math_Style.js';
+import Branch_Behavior from '../Branch_Behavior.js';
 
+/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
-export default class Operator_Behavior extends Behavior {
+export default class Operator_Behavior extends Branch_Behavior {
   _upperLimitBehavior;
   _nucleusBehavior;
   _lowerLimitBehavior;
@@ -22,14 +23,14 @@ export default class Operator_Behavior extends Behavior {
   /**
    * @return {boolean}
    */
-  isValid() {
+  _doEssentialBehaviorsExist() {
     const operatorBehavior = this;
-    return isStyleValid();
+    return doesNucleusExist();
     /**
      * @return {boolean}
      */
-    function isStyleValid() {
-      return operatorBehavior._mathStyle !== undefined;
+    function doesNucleusExist() {
+      return operatorBehavior._nucleusBehavior !== undefined;
     }
   }
   /**
@@ -52,102 +53,80 @@ export default class Operator_Behavior extends Behavior {
   }
 
   /**
-   *
+   * @override
    */
-  _update() {
-    if (!this.isValid()) return;
+  updateChildMathStyles() {
     const operatorBehavior = this;
-    updateChildMathStyles();
-    const operatorSettings = this._typesetter.calculateOperator(
-      this._pxpfu,
-      this._nucleusBehavior,
-      this._targetBehavior,
-      this._upperLimitBehavior,
-      this._lowerLimitBehavior
-    );
-    /*
-     * metrics
-     * script Container css
-     * script css
-     * subscript css*/
-    updateMetrics();
-    updateChildComponentStyles();
-
-    /**
-     * changes h,w,d of behavior._metrics
-     */
-    function updateMetrics() {
-      operatorBehavior._metrics = operatorSettings.metrics;
-      operatorBehavior.updateComponentStyleDimensions();
+    this._nucleusBehavior.mathStyle = this._mathStyle;
+    if (this.doesTargetExist()) {
+      this._targetBehavior.mathStyle = this._mathStyle;
     }
-
-    /**
-     * changes the component styles of super,sub, nuclues
-     */
-    function updateChildComponentStyles() {
-      operatorBehavior._nucleusBehavior.appendComponentStyle(
-        operatorSettings.nucleusComponentStyle
-      );
-      operatorBehavior._targetBehavior.appendComponentStyle(
-        operatorSettings.targetComponentStyle
-      );
-      if (operatorBehavior.doesUpperLimitExist()) {
-        operatorBehavior._upperLimitBehavior.appendComponentStyle(
-          operatorSettings.upperLimitComponentStyle
-        );
-      }
-      if (operatorBehavior.doesLowerLimitExist()) {
-        operatorBehavior._lowerLimitBehavior.appendComponentStyle(
-          operatorSettings.lowerLimitComponentStyle
-        );
-      }
+    if (this.doesUpperLimitExist()) {
+      this._upperLimitBehavior.mathStyle = getScriptStyle(true);
     }
-
+    if (this.doesLowerLimitExist()) {
+      this._lowerLimitBehavior.mathStyle = getScriptStyle(false);
+    }
     /**
-     * changes Styles of Sub and Script according
-     * to the current style
+     * @param {boolean} isSuperscript
+     * @return {Math_Style}
      */
-    function updateChildMathStyles() {
-      operatorBehavior._nucleusBehavior.mathStyle = operatorBehavior._mathStyle;
-      if (operatorBehavior.doesTargetExist()) {
-        operatorBehavior._targetBehavior.mathStyle =
-          operatorBehavior._mathStyle;
-      }
-      if (operatorBehavior.doesUpperLimitExist()) {
-        operatorBehavior._upperLimitBehavior.mathStyle = getScriptStyle(true);
-      }
-      if (operatorBehavior.doesLowerLimitExist()) {
-        operatorBehavior._lowerLimitBehavior.mathStyle = getScriptStyle(false);
-      }
-      /**
-       * @param {boolean} isSuperscript
-       * @return {Math_Style}
-       */
-      function getScriptStyle(isSuperscript) {
-        const currentStyle = operatorBehavior._mathStyle.type;
-        const styleMap = {
-          D: 'S',
-          T: 'S',
-          S: 'SS',
-          SS: 'SS',
-        };
+    function getScriptStyle(isSuperscript) {
+      const currentStyle = operatorBehavior._mathStyle.type;
+      const styleMap = {
+        D: 'S',
+        T: 'S',
+        S: 'SS',
+        SS: 'SS',
+      };
 
-        const isCramped = isSuperscript ? currentStyle.cramped : true;
-        return new Math_Style(
-          styleMap[currentStyle],
-          operatorBehavior._mathStyle.fontSize,
-          isCramped
-        );
-      }
+      const isCramped = isSuperscript ? currentStyle.cramped : true;
+      return new Math_Style(
+        styleMap[currentStyle],
+        operatorBehavior._mathStyle.fontSize,
+        isCramped
+      );
+    }
+  }
+  /**
+   * @override
+   * @param {Object} settings
+   */
+  updateChildComponentStyles(settings) {
+    this._nucleusBehavior.appendComponentStyle(settings.nucleusComponentStyle);
+    this._targetBehavior.appendComponentStyle(settings.targetComponentStyle);
+    if (this.doesUpperLimitExist()) {
+      this._upperLimitBehavior.appendComponentStyle(
+        settings.upperLimitComponentStyle
+      );
+    }
+    if (this.doesLowerLimitExist()) {
+      this._lowerLimitBehavior.appendComponentStyle(
+        settings.lowerLimitComponentStyle
+      );
     }
   }
 
+  /**
+   * @override
+   * @param {Object} settings
+   * changes h,w,d of behavior._metrics
+   */
+  updateMetrics(settings) {
+    this._metrics = settings.metrics;
+    this.updateComponentStyleDimensions();
+  }
+
+  /**
+   * changes the component styles of super,sub, nuclues
+   */
   /**
    * @param {Behavior} behavior
    */
   set upperLimitBehavior(behavior) {
     this._upperLimitBehavior = behavior;
-    this._update();
+    this._registerChildBehavior('upperLimit', behavior);
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -160,7 +139,8 @@ export default class Operator_Behavior extends Behavior {
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
-    this._update();
+    this._registerChildBehavior('nucleus', behavior);
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -173,7 +153,8 @@ export default class Operator_Behavior extends Behavior {
    */
   set lowerLimitBehavior(behavior) {
     this._lowerLimitBehavior = behavior;
-    this._update();
+    this._registerChildBehavior('lowerLimit', behavior);
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -186,27 +167,13 @@ export default class Operator_Behavior extends Behavior {
    */
   set targetBehavior(behavior) {
     this._targetBehavior = behavior;
-    this._update();
+    this._registerChildBehavior('target', behavior);
+    this.update();
   }
   /**
    * @return {Behavior} behavior
    */
   get targetBehavior() {
     return this._targetBehavior;
-  }
-
-  /**
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._update();
-  }
-  /**
-   * @return {Math_Style} style
-   */
-  get mathStyle() {
-    return this._mathStyle;
   }
 }

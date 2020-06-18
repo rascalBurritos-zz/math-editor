@@ -11,7 +11,7 @@ export default class Centered_Glyph_Behavior extends Glyph_Behavior {
   /**
    * updates h,w,d and corresponding css to center the glyph
    */
-  _updateMetrics() {
+  updateMetrics() {
     this._metrics.height = this._typesetter.calculateCenteredHeight(
       this._pxpfu
     );

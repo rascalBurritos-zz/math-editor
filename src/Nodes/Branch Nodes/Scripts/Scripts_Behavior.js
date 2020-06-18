@@ -1,5 +1,5 @@
 import Behavior from '../../Abstract/Behavior.js';
-import { Scripts } from '../../../React-Components/Scripts.js';
+import Scripts from '../../../React-Components/Scripts.js';
 import Math_Style from '../../Types/Math_Style.js';
 
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
@@ -43,7 +43,7 @@ export default class Script_Behavior extends Behavior {
   /**
    *
    */
-  _update() {
+  update() {
     if (!this.isStyleValid()) return;
     const scriptsBehavior = this;
     checkValidScript();
@@ -151,7 +151,7 @@ export default class Script_Behavior extends Behavior {
    */
   set superBehavior(behavior) {
     this._superBehavior = behavior;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -164,7 +164,7 @@ export default class Script_Behavior extends Behavior {
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -177,7 +177,7 @@ export default class Script_Behavior extends Behavior {
    */
   set subBehavior(behavior) {
     this._subBehavior = behavior;
-    this._update();
+    this.update();
   }
   /**
    * @return {Behavior} behavior
@@ -192,7 +192,7 @@ export default class Script_Behavior extends Behavior {
   set mathStyle(style) {
     this._mathStyle = style;
     this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this._update();
+    this.update();
   }
   /**
    * @return {Math_Style} style

@@ -52,7 +52,6 @@ export default class Accent_Setter extends Typesetter {
         accenterBehavior.accentAttachment.accenterHeight -
         alignment.vertical +
         nb.height;
-      console.log(alignment);
       return new Metrics(height, nb.width, nb.depth);
     }
 
