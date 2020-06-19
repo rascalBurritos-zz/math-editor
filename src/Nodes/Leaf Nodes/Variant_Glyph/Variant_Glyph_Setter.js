@@ -1,11 +1,5 @@
 import Typesetter from '../../Abstract/Typesetter.js';
-import Glyph_Behavior from '../Glyph/Glyph_Behavior.js';
-import Glyph_Setter from '../Glyph/Glyph_Setter.js';
-import Centered_Glyph_Behavior from '../Glyph/Centered_Glyph_Behavior.js';
-import Centered_Glyph_Setter from '../Glyph/Centered_Glyph_Setter.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
-import Extended_Glyph_Behavior from '../Extended_Glyph/Extended_Glyph_Behavior.js';
-import Extended_Glyph_Setter from '../Extended_Glyph/Extended_Glyph_Setter.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../../Abstract/Behavior').default} Behavior */
@@ -16,116 +10,66 @@ export default class Variant_Glyph_Setter extends Typesetter {
    */
   constructor(spec) {
     super(spec);
+    this._fontData = spec.fontData;
+
     this._mainAxisCoordinate = spec.mainAxisCoordinate;
+    this._doesExtensionExist = spec.doesExtensionExist;
     /**
      * variant = {unicode, glyphMetric, italicsCorrection, accentAttachment}
      */
     this._variants = spec.variants;
 
-    this._axisHeight = spec.axisHeight;
-    this._asc = spec.asc;
-    this._des = spec.des;
-    this._fontFamily = spec.fontFamily;
-
-    this._extendedItalicsCorrection = spec.extendedItalicsCorrection;
-    this._unAdjustedStringPathArray = spec.unAdjustedPathArray;
-    this._unAdjustedViewBox = spec.unAdjustedViewBox;
+    this._glyphBehaviorFactory = spec.glyphBehaviorFactory;
+    this._extendedGlyphBehaviorFactory = spec.extendedGlyphBehaviorFactory;
+    this._extensionSettings = spec.extensionSettings;
   }
 
   // Behavior w/ Typesetter
   /**
    *
-   * @param {number} desiredSize
    * @param {number} pxpfu
-   * @param {Math_Style} mathStyle
+   * @param {number} desiredSize
    * @return {Behavior}
    */
-  getBehavior(desiredSize, pxpfu, mathStyle) {
+  generateSettings(pxpfu, desiredSize) {
     const variantGlyphSetter = this;
     const premadeVariant = findBestAvailableVariant();
     const isGlyphVariant = premadeVariant.isLargeEnough
       ? true
-      : !doesExtensionExist();
+      : !this._doesExtensionExist;
 
     const behavior = isGlyphVariant
       ? generateGlyphBehavior()
       : generateExtendedGlyphBehavior();
 
-    /**
-     * triggers update on behavior which sets
-     * all uninitialized values
-     */
-    behavior.mathStyle = mathStyle;
     return behavior;
 
     /**
      * @return {Behavior}
      */
     function generateExtendedGlyphBehavior() {
-      const spacingStyle = Spacing_Style.None;
-      const setterSpec = {
-        upm: variantGlyphSetter._upm,
-
-        scriptFactor: variantGlyphSetter._scriptFactor,
-        scriptscriptFactor: variantGlyphSetter._scriptscriptFactor,
-        italicsCorrection: variantGlyphSetter._extendedItalicsCorrection,
-        unAdjustedStringPathArray:
-          variantGlyphSetter._unAdjustedStringPathArray,
-        unAdjustedViewBox: variantGlyphSetter._unAdjustedViewBox,
-        axisHeight: variantGlyphSetter._axisHeight,
-      };
-      const typesetter = new Extended_Glyph_Setter(setterSpec);
-      const behavior = new Extended_Glyph_Behavior({
-        typesetter,
-        spacingStyle,
-      });
-      behavior.desiredSize = desiredSize;
-      return behavior;
+      return variantGlyphSetter._extendedGlyphBehaviorFactory(
+        desiredSize,
+        variantGlyphSetter._extensionSettings,
+        variantGlyphSetter._fontData
+      );
     }
 
     /**
      * @return {Behavior}
      */
     function generateGlyphBehavior() {
-      const setterSpec = generateGlyphSetterSpec();
-      let typesetter;
-      let glyphBehavior;
-      const spacingStyle = Spacing_Style.None;
-      if (variantGlyphSetter.isVertical()) {
-        setterSpec.mathAxis = variantGlyphSetter._axisHeight;
-        typesetter = new Centered_Glyph_Setter(setterSpec);
-        glyphBehavior = new Centered_Glyph_Behavior({
-          typesetter,
-          spacingStyle,
-        });
-      } else {
-        typesetter = new Glyph_Setter(setterSpec);
-        glyphBehavior = new Glyph_Behavior({ typesetter, spacingStyle });
-      }
+      const mathList = {
+        type: 'Glyph', // unnecessary but here for clarity
+        unicode: premadeVariant.unicode,
+        spacingStyle: Spacing_Style.None,
+        centered: variantGlyphSetter.isVertical(),
+      };
+      const glyphBehavior = variantGlyphSetter._glyphBehaviorFactory(
+        mathList,
+        variantGlyphSetter._fontData
+      );
       return glyphBehavior;
-      /**
-       *@return {Object} setterSpec
-       */
-      function generateGlyphSetterSpec() {
-        return {
-          upm: variantGlyphSetter._upm,
-          scriptFactor: variantGlyphSetter._scriptFactor,
-          scriptscriptFactor: variantGlyphSetter._scriptscriptFactor,
-          asc: variantGlyphSetter._asc,
-          des: variantGlyphSetter._des,
-          unicode: premadeVariant.unicode,
-          fontFamily: variantGlyphSetter._fontFamily,
-          glyphMetric: premadeVariant.glyphMetric,
-          italicsCorrection: premadeVariant.italicsCorrection,
-          accentAttachmentPoint: premadeVariant.accentAttachmentPoint,
-        };
-      }
-    }
-    /**
-     * @return {boolean}
-     */
-    function doesExtensionExist() {
-      return variantGlyphSetter._unAdjustedStringPathArray !== undefined;
     }
     /**
      * @return {Object}

@@ -3,21 +3,23 @@ import Behavior from '../Abstract/Behavior.js';
 
 export default class Branch_Behavior extends Behavior {
   _childBehaviors = {};
-  _dependantBehaviors = [];
 
   /**
    *
    * @param {String} name
    * @param {Behavior} behavior
    */
-  _registerChildBehavior(name, behavior) {
+  registerChildBehavior(name, behavior) {
     this._childBehaviors[name] = behavior;
   }
   /**
+   *
    * @param {Behavior} behavior
    */
-  _registerDependantBehavior(behavior) {
-    this._dependantBehaviors.push(behavior);
+  unregisterChildBehavior(behavior) {
+    this._childBehaviors = this._childBehaviors.filter((child) => {
+      return behavior !== child;
+    });
   }
 
   /**
@@ -44,11 +46,6 @@ export default class Branch_Behavior extends Behavior {
    * with settings
    */
   updateChildComponentStyles(settings) {}
-  /**
-   * @abstract
-   * @param {Object} settings
-   */
-  updateMetrics(settings) {}
 
   /**
    * @return {boolean}
@@ -58,60 +55,21 @@ export default class Branch_Behavior extends Behavior {
   }
 
   /**
-   *@param {Array} dependancyChain
-   * when updating dependacies ensures
-   * that there are no infinite loops
+   * @override
    */
-  update(dependancyChain = []) {
-    if (!this._isValid()) return;
+  _preSetterSequence() {
     this.updateChildMathStyles();
-    const settings = this._typesetter.generateSettings(
-      this._pxpfu,
-      this._childBehaviors
-    );
+  }
+  /**
+   * @override
+   */
+  _postSetterSequence(settings) {
     this.updateChildComponentStyles(settings);
-    this.updateMetrics(settings);
-    this.updateComponentStyleDimensions();
-    this.updateDependants(dependancyChain);
-  }
-
-  /**
-   * @param {Array} dependancyChain
-   * updates all dependants
-   */
-  updateDependants(dependancyChain) {
-    dependancyChain.push(this);
-    const dependantsToUpdate = this._dependantBehaviors.filter(
-      (dependantOnBehavior) => {
-        return dependancyChain.some((dependantOnChain) => {
-          return dependantOnChain === dependantOnBehavior;
-        });
-      }
-    );
-    for (const dependant of dependantsToUpdate) {
-      dependant.update();
-    }
-  }
-
-  /**
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this.update();
   }
   /**
-   * @return {Math_Style} style
+   * @return {Array}
    */
-  get mathStyle() {
-    return this._mathStyle;
-  }
-
-  /**
-   * @return {boolean}
-   */
-  _isStyleValid() {
-    return this._mathStyle !== undefined;
+  _generateSetterDependencies() {
+    return [this._childBehaviors, this._dependantBehaviors];
   }
 }

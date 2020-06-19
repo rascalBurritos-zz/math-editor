@@ -24,90 +24,106 @@ export default class Extended_Glyph_Setter extends Typesetter {
     this._mathAxis = spec.axisHeight;
     this._italicsCorrection = spec.italicsCorrection;
   }
-  /**
-   * @param {number} desiredSize
-   * @param {number} pxpfu
-   * @param {boolean} isVertical
-   * @return {number} adjustmentAmount
-   */
-  calculateAdjustmentAmount(desiredSize, pxpfu, isVertical) {
-    const actualSize = isVertical
-      ? desiredSize - this._unAdjustedViewBox.yTotal * pxpfu
-      : desiredSize;
-    return actualSize;
-  }
 
   /**
-   * @param {number} verticalAdjustmentAmount
-   * @param {number} horizontalAdjustmentAmount
    * @param {number} pxpfu
-   * @return {String}
-   */
-  calculatePath(verticalAdjustmentAmount, horizontalAdjustmentAmount, pxpfu) {
-    const completePath = [];
-    const adjustmentMap = {
-      x: horizontalAdjustmentAmount,
-      y: verticalAdjustmentAmount,
-    };
-    for (const path of this._unAdjustedStringPathArray) {
-      if (typeof path === 'string') {
-        completePath.push(path);
-      } else if (path.adjusted) {
-        const addedPath = {};
-        for (const entry in path) {
-          if (entry !== path.mainAxis) {
-            addedPath[entry] = path[entry];
-          }
-        }
-        addedPath[path.mainAxis] = path[path.mainAxis].isPositive
-          ? adjustmentMap[path.mainAxis] / pxpfu
-          : -adjustmentMap[path.mainAxis] / pxpfu;
-
-        const adjustedPath =
-          addedPath.type + ' ' + addedPath.x + ' ' + addedPath.y + ' ';
-        completePath.push(adjustedPath);
-      } else {
-        console.log(typeof path);
-        console.warn('Wrong Path String Type');
-      }
-    }
-    return completePath.join('');
-  }
-  /**
-   * @param {number} verticalAdjustmentAmount
-   * @param {number} horizontalAdjustmentAmount
-   * @param {number} pxpfu
-   * @return {String} viewbox
-   */
-  calculateViewBox(
-    verticalAdjustmentAmount,
-    horizontalAdjustmentAmount,
-    pxpfu
-  ) {
-    const viewBox = Object.assign({}, this._unAdjustedViewBox);
-    viewBox.xTotal += horizontalAdjustmentAmount / pxpfu;
-    viewBox.yTotal += verticalAdjustmentAmount / pxpfu;
-    return (
-      viewBox.xMin +
-      ', ' +
-      viewBox.yMin +
-      ', ' +
-      viewBox.xTotal +
-      ', ' +
-      viewBox.yTotal
-    );
-  }
-
-  /**
    * @param {number} desiredLength
    * @param {number} desiredWidth
-   * @param {number} pxpfu
-   * @return {Metrics}
+   * @return {Object}
+   * path
+   * viewbox
+   * metrics
+   *
    */
-  calculateMetrics(desiredLength, desiredWidth, pxpfu) {
-    const height = desiredLength / 2 + this._mathAxis * pxpfu;
-    const depth = desiredLength / 2 - this._mathAxis * pxpfu;
-    const width = desiredWidth + this._unAdjustedViewBox.xTotal * pxpfu;
-    return new Metrics(height, width, depth);
+  generateSettings(pxpfu, desiredLength, desiredWidth) {
+    const radicalExtensionSetter = this;
+    const verticalAdjustmentAmount = calculateAdjustmentAmount(
+      desiredLength,
+      true
+    );
+    const horizontalAdjustmentAmount = calculateAdjustmentAmount(
+      desiredWidth,
+      false
+    );
+    const path = calculatePath();
+    const viewBox = calculateViewBox();
+    const metrics = calculateMetrics();
+    return { path, viewBox, metrics };
+    /**
+     * @param {number} desiredSize
+     * @param {boolean} isVertical
+     * @return {number} adjustmentAmount
+     */
+    function calculateAdjustmentAmount(desiredSize, isVertical) {
+      const actualSize = isVertical
+        ? desiredSize - radicalExtensionSetter._unAdjustedViewBox.yTotal * pxpfu
+        : desiredSize;
+      return actualSize;
+    }
+    /**
+     * @return {String}
+     */
+    function calculatePath() {
+      const completePath = [];
+      const adjustmentMap = {
+        x: horizontalAdjustmentAmount,
+        y: verticalAdjustmentAmount,
+      };
+      for (const path of radicalExtensionSetter._unAdjustedStringPathArray) {
+        if (typeof path === 'string') {
+          completePath.push(path);
+        } else if (path.adjusted) {
+          const addedPath = {};
+          for (const entry in path) {
+            if (entry !== path.mainAxis) {
+              addedPath[entry] = path[entry];
+            }
+          }
+          addedPath[path.mainAxis] = path[path.mainAxis].isPositive
+            ? adjustmentMap[path.mainAxis] / pxpfu
+            : -adjustmentMap[path.mainAxis] / pxpfu;
+
+          const adjustedPath =
+            addedPath.type + ' ' + addedPath.x + ' ' + addedPath.y + ' ';
+          completePath.push(adjustedPath);
+        } else {
+          console.log(typeof path);
+          console.warn('Wrong Path String Type');
+        }
+      }
+      return completePath.join('');
+    }
+    /**
+     * @return {String} viewbox
+     */
+    function calculateViewBox() {
+      const viewBox = Object.assign(
+        {},
+        radicalExtensionSetter._unAdjustedViewBox
+      );
+      viewBox.xTotal += horizontalAdjustmentAmount / pxpfu;
+      viewBox.yTotal += verticalAdjustmentAmount / pxpfu;
+      return (
+        viewBox.xMin +
+        ', ' +
+        viewBox.yMin +
+        ', ' +
+        viewBox.xTotal +
+        ', ' +
+        viewBox.yTotal
+      );
+    }
+    /**
+     * @return {Metrics}
+     */
+    function calculateMetrics() {
+      const height =
+        desiredLength / 2 + radicalExtensionSetter._mathAxis * pxpfu;
+      const depth =
+        desiredLength / 2 - radicalExtensionSetter._mathAxis * pxpfu;
+      const width =
+        desiredWidth + radicalExtensionSetter._unAdjustedViewBox.xTotal * pxpfu;
+      return new Metrics(height, width, depth);
+    }
   }
 }

@@ -4,13 +4,11 @@ import Math_Style from '../../Types/Math_Style.js';
 
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
-export default class Script_Behavior extends Behavior {
+export default class Scripts_Behavior extends Behavior {
   _superBehavior;
   _nucleusBehavior;
   _subBehavior;
   _scriptsComponentStyle;
-  _subscriptComponentStyle;
-  _superscriptComponentStyle;
 
   /**
    * @param {behaviorSpec} spec
@@ -22,94 +20,30 @@ export default class Script_Behavior extends Behavior {
   }
 
   /**
-   * @return {Object}
-   */
-  get scriptsComponentStyle() {
-    return this._scriptsComponentStyle;
-  }
-  /**
+   * @override
    * @return {boolean}
    */
-  doesSuperscriptExist() {
-    return this._superBehavior !== undefined;
-  }
-  /**
-   * @return {boolean}
-   */
-  doesSubscriptExist() {
-    return this._subBehavior !== undefined;
-  }
-
-  /**
-   *
-   */
-  update() {
-    if (!this.isStyleValid()) return;
+  _isValid() {
     const scriptsBehavior = this;
-    checkValidScript();
-    updateScriptStyles();
-    const scriptSettings = this._typesetter.calculateScripts(
-      this._pxpfu,
-      this._nucleusBehavior,
-      this._superBehavior,
-      this._subBehavior
+    return (
+      this._isStyleValid() &&
+      doesNucleusExist() &&
+      (this._doesSubscriptExist() || this._doesSuperscriptExist())
     );
-    /*
-     * Script Container Metrics
-     * script Container css
-     * script css
-     * subscript css*/
-    updateMetrics();
-    updateNucleusComponentStyle();
-    updateScriptsComponentStyle();
     /**
-     * Assures the behavior
-     * has at least one scirptk
+     * @return {boolean}
      */
-    function checkValidScript() {
-      if (
-        (!scriptsBehavior.doesSubscriptExist() &&
-          !scriptsBehavior.doesSuperscriptExist()) ||
-        scriptsBehavior._nucleusBehavior === undefined
-      ) {
-        console.log(scriptsBehavior);
-        console.warn('INVALID SCRIPT');
-      }
+    function doesNucleusExist() {
+      return scriptsBehavior._nucleusBehavior !== undefined;
     }
-    /**
-     * changes scriptsComponentStyle h,w, and top margin
-     */
-    function updateScriptsComponentStyle() {
-      scriptsBehavior._scriptsComponentStyle =
-        scriptSettings.scriptsComponentStyle;
-      if (scriptsBehavior.doesSuperscriptExist()) {
-        scriptsBehavior.superBehavior.appendComponentStyle(
-          scriptSettings.superscriptComponentStyle
-        );
-      }
-      if (scriptsBehavior.doesSubscriptExist()) {
-        scriptsBehavior.appendComponentStyle(
-          scriptSettings._subscriptComponentStyle
-        );
-      }
-    }
+  }
 
-    /**
-     * changes h,w,d of behavior._metrics
-     */
-    function updateMetrics() {
-      scriptsBehavior._metrics = scriptSettings.scriptContainerMetrics;
-      scriptsBehavior.updateComponentStyleDimensions();
-    }
-
-    /**
-     * changes the component styles of super,sub, nuclues
-     */
-    function updateNucleusComponentStyle() {
-      scriptsBehavior._nucleusBehavior.appendComponentStyle(
-        scriptSettings.nucleusComponentStyle
-      );
-    }
+  /**
+   * @override
+   */
+  _preSetterSequence() {
+    const scriptsBehavior = this;
+    updateScriptStyles();
 
     /**
      * changes Styles of Sub and Script according
@@ -117,10 +51,10 @@ export default class Script_Behavior extends Behavior {
      */
     function updateScriptStyles() {
       scriptsBehavior._nucleusBehavior.mathStyle = scriptsBehavior._mathStyle;
-      if (scriptsBehavior.doesSubscriptExist()) {
+      if (scriptsBehavior._doesSubscriptExist()) {
         scriptsBehavior._subBehavior.mathStyle = getScriptStyle(false);
       }
-      if (scriptsBehavior.doesSuperscriptExist()) {
+      if (scriptsBehavior._doesSuperscriptExist()) {
         scriptsBehavior._superBehavior.mathStyle = getScriptStyle(true);
       }
       /**
@@ -128,7 +62,7 @@ export default class Script_Behavior extends Behavior {
        * @return {Math_Style}
        */
       function getScriptStyle(isSuperscript) {
-        const currentStyle = scriptsBehavior._mathStyle.type;
+        const currentStyle = scriptsBehavior._mathStyle;
         const styleMap = {
           D: 'S',
           T: 'S',
@@ -138,12 +72,81 @@ export default class Script_Behavior extends Behavior {
 
         const isCramped = isSuperscript ? currentStyle.cramped : true;
         return new Math_Style(
-          styleMap[currentStyle],
+          styleMap[currentStyle.type],
           scriptsBehavior._mathStyle.fontSize,
           isCramped
         );
       }
     }
+  }
+  /**
+   * @override
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    return [this._nucleusBehavior, this._superBehavior, this._subBehavior];
+  }
+
+  /**
+   * @override
+   * @param {Object} settings
+   */
+  _postSetterSequence(settings) {
+    const scriptsBehavior = this;
+    updateNucleusComponentStyle();
+    updateScriptsComponentStyle();
+    /**
+     * changes scriptsComponentStyle h,w, and top margin
+     */
+    function updateScriptsComponentStyle() {
+      scriptsBehavior._scriptsComponentStyle = settings.scriptsComponentStyle;
+      if (scriptsBehavior._doesSuperscriptExist()) {
+        scriptsBehavior.superBehavior.appendComponentStyle(
+          settings.superscriptComponentStyle
+        );
+      }
+      if (scriptsBehavior._doesSubscriptExist()) {
+        scriptsBehavior.subBehavior.appendComponentStyle(
+          settings.subscriptComponentStyle
+        );
+      }
+    }
+    /**
+     * changes the component styles of super,sub, nuclues
+     */
+    function updateNucleusComponentStyle() {
+      scriptsBehavior._nucleusBehavior.appendComponentStyle(
+        settings.nucleusComponentStyle
+      );
+    }
+  }
+
+  /**
+   * @override
+   * @param {Object} settings
+   */
+  _updateMetrics(settings) {
+    this._metrics = settings.scriptContainerMetrics;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  _doesSuperscriptExist() {
+    return this._superBehavior !== undefined;
+  }
+  /**
+   * @return {boolean}
+   */
+  _doesSubscriptExist() {
+    return this._subBehavior !== undefined;
+  }
+
+  /**
+   * @return {Object}
+   */
+  get scriptsComponentStyle() {
+    return this._scriptsComponentStyle;
   }
 
   /**
@@ -184,27 +187,5 @@ export default class Script_Behavior extends Behavior {
    */
   get subBehavior() {
     return this._subBehavior;
-  }
-
-  /**
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this.update();
-  }
-  /**
-   * @return {Math_Style} style
-   */
-  get mathStyle() {
-    return this._mathStyle;
-  }
-
-  /**
-   * @return {boolean}
-   */
-  isStyleValid() {
-    return this._mathStyle !== undefined;
   }
 }

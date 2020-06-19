@@ -31,7 +31,7 @@ export default class Accent_Setter extends Typesetter {
    * nuclues componentStyle
    * accenter Component Style
    */
-  calculateAccent(pxpfu, nucleusBehavior, accenterBehavior) {
+  generateSettings(pxpfu, nucleusBehavior, accenterBehavior) {
     const accentSetter = this;
     const alignment = calculateAlignment();
     const nucleusComponentStyle = calculateNucleusComponentStyle();

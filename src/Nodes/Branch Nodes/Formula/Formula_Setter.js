@@ -1,6 +1,9 @@
 import Typesetter from '../../Abstract/Typesetter.js';
 import SpacingTable from './InterElementSpacingTable.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
+import Metrics from '../../Types/Metrics.js';
+
+/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
 
 export default class Formula_Setter extends Typesetter {
   /**
@@ -11,11 +14,13 @@ export default class Formula_Setter extends Typesetter {
   }
 
   /**
-   * @param {string[]} spacingTypeArray
    * @param {number} pxpfu
-   * @return {number[]} spacing in px between each elemen
+   * @param {Behavior[]} elementBehaviors
+   * @param {string[]} spacingTypeArray
+   * @return {Object}
+  //  * @property {number[]} spacing in px between each elemen
    **/
-  calculateInterElementSpacing(spacingTypeArray, pxpfu) {
+  generateSettings(pxpfu, elementBehaviors, spacingTypeArray) {
     const formulaSetter = this;
     const spacingArray = [];
     for (let i = 1; i < spacingTypeArray.length; i++) {
@@ -27,7 +32,8 @@ export default class Formula_Setter extends Typesetter {
         spacingArray.push(parseSpacingTable(SpacingTable[right][left], pxpfu));
       }
     }
-    return spacingArray;
+    const metrics = calculateMetrics();
+    return { spacingArray, metrics };
     /**
      * @param {String} code - Table Code
      * @param {number} pxpfu
@@ -44,6 +50,46 @@ export default class Formula_Setter extends Typesetter {
       const thickmu = 5 * mu;
       const muMap = { '0': 0, '1': thinmu, '2': medmu, '3': thickmu };
       return muMap[code.charAt(0)] * pxpfu;
+    }
+
+    /**
+     * @return {Metrics}
+     */
+    function calculateMetrics() {
+      const height = calculateHeight();
+      const width = calculateWidth();
+      const depth = calculateDepth();
+      return new Metrics(height, width, depth);
+      /**
+       * @return {number} - in pixels
+       * Finds Max height of child behaviors
+       */
+      function calculateHeight() {
+        const heightArray = elementBehaviors.map((ele) => ele.metrics.height);
+        return Math.max(...heightArray);
+      }
+      /**
+       * @return {number} min depth of child element
+       * behaviors in pixels
+       */
+      function calculateDepth() {
+        const depthArray = elementBehaviors.map((ele) => ele.metrics.depth);
+        return Math.max(...depthArray);
+      }
+      /**
+       * @return {number} width in pixels
+       * of entire formula
+       */
+      function calculateWidth() {
+        const rawWidth = elementBehaviors.reduce((acc, curr) => {
+          return acc + curr.metrics.width;
+        }, 0);
+        const interElementTotal = spacingArray.reduce((acc, curr) => {
+          return acc + curr;
+        }, 0);
+        const total = rawWidth + interElementTotal;
+        return total;
+      }
     }
   }
 }

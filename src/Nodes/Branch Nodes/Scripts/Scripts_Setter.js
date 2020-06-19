@@ -47,7 +47,7 @@ export default class Script_Setter extends Typesetter {
    * script css
    * subscript css
    */
-  calculateScripts(pxpfu, nucleusBehavior, superBehavior, subBehavior) {
+  generateSettings(pxpfu, nucleusBehavior, superBehavior, subBehavior) {
     const scriptsSetter = this;
     // atom or Text or Formula
     const initialValues = determineScriptIntialValues();

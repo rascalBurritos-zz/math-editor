@@ -34,13 +34,12 @@ export default class Radical_Glyph_Setter extends Typesetter {
 
   /**
    * @override
+   * @param {number} pxpfu
    * @param {number} desiredLength
    * @param {number} desiredWidth
-   * @param {number} pxpfu
-   * @param {Math_Style} mathStyle
    * @return {Behavior}
    */
-  getBehavior(desiredLength, desiredWidth, pxpfu, mathStyle) {
+  generateSettings(pxpfu, desiredLength, desiredWidth) {
     const radicalSetter = this;
     const premadeVariant = findBestAvailableVariant();
     const isRadicalGlyph = premadeVariant.isLargeEnough;
@@ -49,11 +48,6 @@ export default class Radical_Glyph_Setter extends Typesetter {
       ? generateRadicalGlyphBehavior()
       : generateExtendedRadicalBehavior();
 
-    /**
-     * triggers update on behavior which sets
-     * all uninitialized values
-     */
-    behavior.mathStyle = mathStyle;
     return behavior;
 
     /**
@@ -118,6 +112,7 @@ export default class Radical_Glyph_Setter extends Typesetter {
         };
       }
     }
+
     /**
      * @return {Object}
      */

@@ -1,6 +1,8 @@
 import Variant_Glyph_Setter from '../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Setter.js';
 import Variant_Glyph_Behavior from '../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior.js';
 import Document_Node from '../../Abstract/Document_Node.js';
+import { glyphBehaviorFactory } from './glyphFactory.js';
+import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
 
@@ -24,31 +26,35 @@ export default function variantGlyphFactory(mathList, fontData) {
  * @return {Object}
  */
 function generateSetterSpec(mathList, fontData) {
-  const mc = fontData.MATH.MathConstants;
   const variantsSettings = generateVariants();
   const extensionSettings = generateExtensionProperties();
+  const mc = fontData.MATH.MathConstants;
   const setterSpec = {
     upm: fontData.upm,
     scriptFactor: mc.ScriptPercentScaleDown,
     scriptscriptFactor: mc.ScriptScriptPercentScaleDown,
+
+    fontData,
+
     mainAxisCoordinate: variantsSettings.mainAxisCoordinate,
-    spacingStyle: mathList.spacingStyle,
+    doesExtensionExist: doesExtensionExist(),
 
     variants: variantsSettings.variants,
 
-    axisHeight: mc.AxisHeight,
-    des: fontData.des,
-    asc: fontData.asc,
-    fontFamily: fontData.fontFamily,
+    glyphBehaviorFactory,
+    extendedGlyphBehaviorFactory,
 
-    extendedItalicsCorrection: extensionSettings.italicsCorrection,
-    unAdjustedPathArray: extensionSettings.pathArray,
-    unAdjustedViewBox: extensionSettings.viewBox,
+    extensionSettings,
   };
   return setterSpec;
-
   /**
-   *@return {Object}
+   * @return {boolean}
+   */
+  function doesExtensionExist() {
+    return extensionSettings.pathArray !== undefined;
+  }
+  /**
+   * @return {Object}
    */
   function generateExtensionProperties() {
     for (const mode in fontData.extendable) {
@@ -66,6 +72,7 @@ function generateSetterSpec(mathList, fontData) {
     }
     return undefined;
   }
+
   /**
    * @return {Object}
    */

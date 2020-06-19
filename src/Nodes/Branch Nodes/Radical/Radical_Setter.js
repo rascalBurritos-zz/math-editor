@@ -28,9 +28,9 @@ export default class Radical_Setter extends Typesetter {
   }
 
   /**
+   * @param {number} pxpfu
    * @param {Behavior} radicandBehavior
    * @param {Behavior} degreeBehavior
-   * @param {number} pxpfu
    * @return {Object}
    * contains
    * complete radical glyph behavior (properly set)
@@ -39,7 +39,7 @@ export default class Radical_Setter extends Typesetter {
    * radicand component style
    * h,w of combination
    */
-  calculateRadical(radicandBehavior, degreeBehavior, pxpfu) {
+  generateSettings(pxpfu, radicandBehavior, degreeBehavior) {
     const radicalSetter = this;
     const radicalGlyphBehavior = this._radicalGlyphBehavior;
     const ruleThickness = radicalSetter._ruleThickness * pxpfu;

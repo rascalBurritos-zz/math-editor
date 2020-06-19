@@ -22,13 +22,7 @@ export default class Accent_Behavior extends Behavior {
    */
   isValid() {
     const accentBehavior = this;
-    return isStyleValid() && doesAccenterExist() && doesNucleusExist();
-    /**
-     * @return {boolean}
-     */
-    function isStyleValid() {
-      return accentBehavior._mathStyle !== undefined;
-    }
+    return this._isStyleValid() && doesAccenterExist() && doesNucleusExist();
     /**
      * @return {boolean}
      */
@@ -44,26 +38,11 @@ export default class Accent_Behavior extends Behavior {
   }
 
   /**
-   *
+   * @override
    */
-  update() {
-    if (!this.isValid()) return;
+  _preSetterSequence() {
     const accentBehavior = this;
     updateChildMathStyles();
-    const accentSettings = this._typesetter.calculateAccent(
-      this._pxpfu,
-      this._nucleusBehavior,
-      this._accenterBehavior
-    );
-    /*
-     * metrics
-     * accenter component Style
-     * nucleus component Style
-     */
-    updateMetrics();
-    updateNucleusComponentStyle();
-    updateAccenterComponentStyle();
-
     /**
      * changes nucleus Math Style
      */
@@ -77,15 +56,23 @@ export default class Accent_Behavior extends Behavior {
       );
       accentBehavior._accenterBehavior.mathStyle = accentBehavior._mathStyle;
     }
+  }
 
-    /**
-     * changes h,w,d of behavior._metrics
-     */
-    function updateMetrics() {
-      accentBehavior._metrics = accentSettings.metrics;
-      accentBehavior.updateComponentStyleDimensions();
-    }
+  /**
+   * @override
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    return [this._nucleusBehavior, this._accenterBehavior];
+  }
 
+  /**
+   * @override
+   */
+  _postSetterSequence(accentSettings) {
+    const accentBehavior = this;
+    updateNucleusComponentStyle();
+    updateAccenterComponentStyle();
     /**
      * changes the component styles
      */
@@ -103,6 +90,13 @@ export default class Accent_Behavior extends Behavior {
         accentSettings.accenterComponentStyle
       );
     }
+  }
+
+  /**
+   * @override
+   */
+  _updateMetrics(settings) {
+    this._metrics = settings.metrics;
   }
 
   /**
@@ -130,20 +124,5 @@ export default class Accent_Behavior extends Behavior {
    */
   get nucleusBehavior() {
     return this._nucleusBehavior;
-  }
-
-  /**
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this.update();
-  }
-  /**
-   * @return {Math_Style} style
-   */
-  get mathStyle() {
-    return this._mathStyle;
   }
 }

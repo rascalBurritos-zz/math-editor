@@ -20,17 +20,10 @@ export default class Extended_Glyph_Behavior extends Leaf_Behavior {
   /**
    * @return {boolean}
    */
-  isValid() {
+  _isValid() {
     const extendedGlyphBehavior = this;
-    const valid = isMathStyleValid() && isDesiredSizeValid();
+    const valid = this._isStyleValid() && isDesiredSizeValid();
     return valid;
-
-    /**
-     * @return {boolean}
-     */
-    function isMathStyleValid() {
-      return extendedGlyphBehavior._mathStyle !== undefined;
-    }
 
     /**
      * @return {boolean}
@@ -39,67 +32,31 @@ export default class Extended_Glyph_Behavior extends Leaf_Behavior {
       return extendedGlyphBehavior._desiredSize !== undefined;
     }
   }
-  /**
-   * Should be called with the state changes
-   */
-  update() {
-    if (!this.isValid()) return;
-    const extendedGlyphBehavior = this;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    const adjustmentAmount = this._typesetter.calculateAdjustmentAmount(
-      this._desiredSize,
-      this._pxpfu
-    );
-    calculateSVGProperties();
-    updateMetrics();
-    updateAccentAttachment();
 
-    /**
-     * updates accent attachment to match current font size (pxpfu)
-     */
-    function updateAccentAttachment() {
-      extendedGlyphBehavior._accentAttachment = extendedGlyphBehavior._typesetter.calculateAccentAttachment(
-        extendedGlyphBehavior._metrics
-      );
-    }
-    /**
-     *
-     */
-    function calculateSVGProperties() {
-      extendedGlyphBehavior._path = extendedGlyphBehavior._typesetter.calculatePath(
-        adjustmentAmount,
-        extendedGlyphBehavior._pxpfu
-      );
-      extendedGlyphBehavior._viewBox = extendedGlyphBehavior._typesetter.calculateViewBox(
-        adjustmentAmount,
-        extendedGlyphBehavior._pxpfu
-      );
-    }
-    /**
-     *
-     */
-    function updateMetrics() {
-      extendedGlyphBehavior._metrics = extendedGlyphBehavior._typesetter.calculateMetrics(
-        extendedGlyphBehavior._desiredSize,
-        extendedGlyphBehavior._pxpfu
-      );
-      extendedGlyphBehavior.updateComponentStyleDimensions();
-    }
+  /**
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    return [this._desiredSize];
   }
 
   /**
-   * @param {Math_Style} mathStyle Alters the Math Style
-   * and thus the font size of the glyph
+   * @override
+   * @param {Object} settings
    */
-  set mathStyle(mathStyle) {
-    this._mathStyle = mathStyle;
-    this.update();
+  _postSetterSequence(settings) {
+    this._path = settings.path;
+    this._viewBox = settings.viewBox;
+    this._accentAttachment = settings.accentAttachment;
+    this._italicsCorrection = settings.italicsCorrection;
   }
+
   /**
-   * @return {Math_Style}
+   * @override
+   * @param {Object} settings
    */
-  get mathStyle() {
-    return this._mathStyle;
+  _updateMetrics(settings) {
+    this._metrics = settings.metrics;
   }
 
   /**

@@ -21,18 +21,11 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
   /**
    * @return {boolean}
    */
-  isValid() {
+  _isValid() {
     const extendedRadicalBehavior = this;
     const valid =
-      isMathStyleValid() && isDesiredLengthValid() && isDesiredWidthValid();
+      this._isStyleValid() && isDesiredLengthValid() && isDesiredWidthValid();
     return valid;
-
-    /**
-     * @return {boolean}
-     */
-    function isMathStyleValid() {
-      return extendedRadicalBehavior._mathStyle !== undefined;
-    }
 
     /**
      * @return {boolean}
@@ -47,51 +40,27 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
       return extendedRadicalBehavior._desiredWidth !== undefined;
     }
   }
+
   /**
-   * Should be called with the state changes
+   * @return {Array}
    */
-  update() {
-    if (!this.isValid()) return;
-    const extendedRadicalBehavior = this;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    const verticalAdjustmentAmount = this._typesetter.calculateAdjustmentAmount(
-      this._desiredLength,
-      this._pxpfu,
-      true
-    );
-    const horizontalAdjustmentAmount = this._typesetter.calculateAdjustmentAmount(
-      this._desiredWidth,
-      this._pxpfu,
-      false
-    );
-    calculateSVGProperties();
-    updateMetrics();
-    /**
-     *
-     */
-    function calculateSVGProperties() {
-      extendedRadicalBehavior._path = extendedRadicalBehavior._typesetter.calculatePath(
-        verticalAdjustmentAmount,
-        horizontalAdjustmentAmount,
-        extendedRadicalBehavior._pxpfu
-      );
-      extendedRadicalBehavior._viewBox = extendedRadicalBehavior._typesetter.calculateViewBox(
-        verticalAdjustmentAmount,
-        horizontalAdjustmentAmount,
-        extendedRadicalBehavior._pxpfu
-      );
-    }
-    /**
-     *
-     */
-    function updateMetrics() {
-      extendedRadicalBehavior._metrics = extendedRadicalBehavior._typesetter.calculateMetrics(
-        extendedRadicalBehavior._desiredLength,
-        extendedRadicalBehavior._desiredWidth,
-        extendedRadicalBehavior._pxpfu
-      );
-      extendedRadicalBehavior.updateComponentStyleDimensions();
-    }
+  _generateSetterDependencies() {
+    return [this._desiredLength, this._desiredWidth];
+  }
+
+  /**
+   * @param {Object} settings
+   */
+  _postSetterSequence(settings) {
+    this._path = settings.path;
+    this._viewBox = settings.viewBox;
+  }
+
+  /**
+   * @param {Object} settings
+   */
+  _updateMetrics(settings) {
+    this._metrics = settings.metrics;
   }
 
   /**

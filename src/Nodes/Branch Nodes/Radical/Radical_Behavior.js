@@ -20,15 +20,9 @@ export default class Radical_Behavior extends Behavior {
   /**
    *@return {boolean}
    */
-  isValid() {
+  _isValid() {
     const radicalBehavior = this;
-    return isStyleValid() && doesRadicandExist();
-    /**
-     * @return {boolean}
-     */
-    function isStyleValid() {
-      return radicalBehavior._mathStyle !== undefined;
-    }
+    return this._isStyleValid() && doesRadicandExist();
     /**
      * @return {boolean}
      */
@@ -37,25 +31,52 @@ export default class Radical_Behavior extends Behavior {
     }
   }
   /**
-   *
+   * @override
    */
-  update() {
-    if (!this.isValid()) return;
+  _preSetterSequence() {
     const radicalBehavior = this;
     updateChildStyles();
-    const radicalSettings = this._typesetter.calculateRadical(
-      this._radicandBehavior,
-      this._degreeBehavior,
-      this._pxpfu
-    );
+    /**
+     * changes degree and radicand math styles
+     */
+    function updateChildStyles() {
+      const currentType = radicalBehavior._mathStyle.type;
+      const currentFontSize = radicalBehavior._mathStyle.fontSize;
+
+      radicalBehavior._radicandBehavior.mathStyle = new Math_Style(
+        currentType,
+        currentFontSize,
+        true
+      );
+      if (radicalBehavior._doesDegreeExist()) {
+        const currentCramped = radicalBehavior._mathStyle.cramped;
+        radicalBehavior._degreeBehavior.mathStyle = new Math_Style(
+          'SS',
+          currentFontSize,
+          currentCramped
+        );
+      }
+    }
+  }
+
+  /**
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    return [this._radicandBehavior, this._degreeBehavior];
+  }
+
+  /**
+   * @override
+   */
+  _postSetterSequence(radicalSettings) {
+    const radicalBehavior = this;
     setContainerDimensions();
-    updateMetrics();
     updateRadicalGlyphBehavior();
     updateRadicand(); // width radicalSettings.radicandComponentStyle
-    if (doesDegreeExist()) {
+    if (this._doesDegreeExist()) {
       updateDegree(); // width radicalSettings.radicandComponentStyle
     }
-
     /**
      *
      */
@@ -88,62 +109,21 @@ export default class Radical_Behavior extends Behavior {
       styles.alignSelf = 'flex-end';
       radicalBehavior._radicandBehavior.appendComponentStyle(styles);
     }
-    /**
-     * changes behavior metrics
-     */
-    function updateMetrics() {
-      radicalBehavior._metrics = radicalSettings.metrics;
-      radicalBehavior.updateComponentStyleDimensions();
-    }
-
-    /**
-     * changes degree and radicand math styles
-     */
-    function updateChildStyles() {
-      const currentType = radicalBehavior._mathStyle.type;
-      const currentFontSize = radicalBehavior._mathStyle.fontSize;
-
-      radicalBehavior._radicandBehavior.mathStyle = new Math_Style(
-        currentType,
-        currentFontSize,
-        true
-      );
-      if (doesDegreeExist()) {
-        const currentCramped = radicalBehavior._mathStyle.cramped;
-        radicalBehavior._degreeBehavior.mathStyle = new Math_Style(
-          'SS',
-          currentFontSize,
-          currentCramped
-        );
-      }
-    }
-    /**
-     * @return {boolean}
-     */
-    function doesDegreeExist() {
-      return radicalBehavior._degreeBehavior !== undefined;
-    }
-    /**
-     * @return {boolean}
-     */
-    function doesDegreeExist() {
-      return radicalBehavior._degreeBehavior !== undefined;
-    }
   }
 
   /**
-   * @return {Math_Style}
+   *
+   * @param {Object} settings
    */
-  get mathStyle() {
-    return this._mathStyle;
+  _updateMetrics(settings) {
+    this._metrics = settings.metrics;
   }
+
   /**
-   * @param {Math_Style} ms
+   * @return {boolean}
    */
-  set mathStyle(ms) {
-    this._mathStyle = ms;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this.update();
+  _doesDegreeExist() {
+    return this._degreeBehavior !== undefined;
   }
 
   /**

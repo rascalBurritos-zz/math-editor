@@ -167,7 +167,7 @@ export default class Operator_Behavior extends Branch_Behavior {
    */
   set targetBehavior(behavior) {
     this._targetBehavior = behavior;
-    this._registerChildBehavior('target', behavior);
+    this._registerDependantBehavior(behavior);
     this.update();
   }
   /**

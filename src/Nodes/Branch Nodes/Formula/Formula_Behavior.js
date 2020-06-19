@@ -8,19 +8,7 @@ import Formula from '../../../React-Components/Formula.js';
  * @class
  */
 export default class Formula_Behavior extends Behavior {
-  // Inherited properties
-  // _componentStyle = {};//rw can write anything not h,w
-  // _metrics = new Metrics(0, 0, 0); //r
-  // _mathStyle;//rw
-  // _spacingStyle;//r
-  // _pxpfu;//none
-  // _typesetter;//none
-  // _component;//r
-
-  // added Properties
   _elementBehaviors = []; // w
-  // spacing between elements
-  _interElementSpacing = []; // none
 
   /**
    * @param {behaviorSpec} behaviorSpec
@@ -32,24 +20,13 @@ export default class Formula_Behavior extends Behavior {
   }
 
   /**
-   * updates children's component style
-   * current state,and this behavior's
-   * metrics and h.w style
+   * @override
    */
-  update() {
+  _preSetterSequence() {
     const formulaBehavior = this;
-    if (this._isMathStyleSet()) {
-      // no dependencies || validates nonvariant metrics
-      updateElementMathStyles();
-      updateVariantGlyphs();
-      updateRadicals();
-      // depends on all elements to have valid spacing
-      // styles and component styles:
-      updateInterElementSpacing();
-      updateMetrics();
-      updateElementBehaviorTopMargins();
-    }
-
+    updateElementMathStyles();
+    updateVariantGlyphs();
+    updateRadicals();
     /**
      * sets length of variant glyphs
      */
@@ -72,55 +49,6 @@ export default class Formula_Behavior extends Behavior {
       }
     }
     /**
-     * changes the top margins of each element
-     * behavior so that elements are aligned
-     * to baseline
-     */
-    function updateElementBehaviorTopMargins() {
-      for (const behavior of formulaBehavior._elementBehaviors) {
-        const marginTop =
-          formulaBehavior._metrics.height - behavior.metrics.height + 'px';
-        behavior.appendComponentStyle({ marginTop });
-      }
-    }
-    /**
-     * changes the inter element spacing array property to
-     * match the current spacing style types of elements
-     */
-    function updateInterElementSpacing() {
-      const rawTypes = formulaBehavior._elementBehaviors.map(
-        (ele) => ele.spacingStyle
-      );
-      const defactoSpacingTypes = calculateDefactoTypes(rawTypes);
-      formulaBehavior._interElementSpacing = formulaBehavior._typesetter.calculateInterElementSpacing(
-        defactoSpacingTypes,
-        formulaBehavior._pxpfu
-      );
-      adjustElementBehaviorRightMargins();
-
-      /**
-       * changes the right margins of the element behaviors
-       */
-      function adjustElementBehaviorRightMargins() {
-        const behaviors = formulaBehavior._elementBehaviors;
-        for (let index = 0; index < behaviors.length - 1; index++) {
-          const marginRight =
-            formulaBehavior._interElementSpacing[index] + 'px';
-          behaviors[index].appendComponentStyle({ marginRight });
-        }
-      }
-
-      /**
-       * @param {Spacing_Style[]} rawTypes
-       * @return {Spacing_Style[]}
-       */
-      function calculateDefactoTypes(rawTypes) {
-        // TODO
-        // should account for spacing type coercions
-        return rawTypes;
-      }
-    }
-    /**
      * Changes Corresponding Node's Element's Behavior's
      * Style
      */
@@ -129,80 +57,63 @@ export default class Formula_Behavior extends Behavior {
         behavior.mathStyle = formulaBehavior._mathStyle;
       });
     }
+  }
+  /**
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    const rawTypes = this._elementBehaviors.map((ele) => ele.spacingStyle);
+    const defactoSpacingTypes = calculateDefactoTypes(rawTypes);
+    return [this._elementBehaviors, defactoSpacingTypes];
     /**
-     * Changes the Height, Width, and Depth of the Metric
+     * @param {Spacing_Style[]} rawTypes
+     * @return {Spacing_Style[]}
      */
-    function updateMetrics() {
-      formulaBehavior._metrics.height = calculateHeight();
-      formulaBehavior._metrics.depth = calculateDepth();
-      formulaBehavior._metrics.width = calculateWidth();
-      formulaBehavior.updateComponentStyleDimensions();
-
-      /**
-       * @return {number} - in pixels
-       * Finds Max height of child behaviors
-       */
-      function calculateHeight() {
-        const heightArray = formulaBehavior._elementBehaviors.map(
-          (ele) => ele.metrics.height
-        );
-        return Math.max(...heightArray);
-      }
-      /**
-       * @return {number} min depth of child element
-       * behaviors in pixels
-       */
-      function calculateDepth() {
-        const depthArray = formulaBehavior._elementBehaviors.map(
-          (ele) => ele.metrics.depth
-        );
-        return Math.max(...depthArray);
-      }
-      /**
-       * @return {number} width in pixels
-       * of entire formula
-       */
-      function calculateWidth() {
-        const rawWidth = formulaBehavior._elementBehaviors.reduce(
-          (acc, curr) => {
-            return acc + curr.metrics.width;
-          },
-          0
-        );
-        const interElementTotal = formulaBehavior._interElementSpacing.reduce(
-          (acc, curr) => {
-            return acc + curr;
-          },
-          0
-        );
-        const total = rawWidth + interElementTotal;
-        return total;
-      }
+    function calculateDefactoTypes(rawTypes) {
+      // TODO
+      // should account for spacing type coercions
+      return rawTypes;
     }
   }
 
   /**
-   * @return {boolean}
+   * @override
    */
-  _isMathStyleSet() {
-    return this._mathStyle !== undefined;
-  }
+  _postSetterSequence(settings) {
+    const formulaBehavior = this;
+    adjustElementBehaviorRightMargins();
+    adjustElementBehaviorTopMargins();
 
-  /**
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    this._mathStyle = style;
-    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-    this.update();
+    /**
+     * changes the top margins of each element
+     * behavior so that elements are aligned
+     * to baseline
+     */
+    function adjustElementBehaviorTopMargins() {
+      for (const behavior of formulaBehavior._elementBehaviors) {
+        const marginTop =
+          settings.metrics.height - behavior.metrics.height + 'px';
+        behavior.appendComponentStyle({ marginTop });
+      }
+    }
+    /**
+     * changes the right margins of the element behaviors
+     */
+    function adjustElementBehaviorRightMargins() {
+      const behaviors = formulaBehavior._elementBehaviors;
+      for (let index = 0; index < behaviors.length - 1; index++) {
+        const marginRight = settings.spacingArray[index] + 'px';
+        behaviors[index].appendComponentStyle({ marginRight });
+      }
+    }
   }
   /**
-   * @return {Math_Style} style
+   * @param {Object} settings
+   * Changes the Height, Width, and Depth of the Metric
    */
-  get mathStyle() {
-    return this._mathStyle;
+  _updateMetrics(settings) {
+    this._metrics = settings.metrics;
   }
-
   /**
    * @param {Array} elementBehaviors
    */

@@ -21,6 +21,7 @@ export default class Behavior {
   _pxpfu; // none
   _typesetter; // none
   _component; // r
+  _dependantBehaviors; // rw
 
   /**
    *  @param {behaviorSpec} spec
@@ -30,12 +31,59 @@ export default class Behavior {
     this._metrics = new Metrics(0, 0, 0);
     this._typesetter = spec.typesetter;
     this._spacingStyle = spec.spacingStyle;
+    this._dependantBehaviors = [];
+  }
+
+  /**
+   * @return {boolean}
+   */
+  _isValid() {
+    return this._isStyleValid();
+  }
+
+  /**
+   *
+   */
+  _preSetterSequence() {}
+  /**
+   *
+   * @param {Object} settings
+   */
+  _postSetterSequence(settings) {}
+  /**
+   * @abstract
+   * @return {Array}
+   */
+  _generateSetterDependencies() {
+    return [];
+  }
+  /**
+   * @abstract
+   * @param {Object} settings
+   */
+  _updateMetrics(settings) {}
+  /**
+   *
+   * @param {Array} dependancyChain
+   */
+  update(dependancyChain = []) {
+    if (!this._isValid()) return;
+    this._preSetterSequence();
+    const setterDependencies = this._generateSetterDependencies();
+    const settings = this._typesetter.generateSettings(
+      this._pxpfu,
+      ...setterDependencies
+    );
+    this._postSetterSequence(settings);
+    this._updateMetrics(settings);
+    this._updateComponentStyleDimensions();
+    this._updateDependants(dependancyChain);
   }
 
   /**
    * updates the css style based on the updated h,w,d _metrics
    */
-  updateComponentStyleDimensions() {
+  _updateComponentStyleDimensions() {
     this.componentStyle.height = this._metrics.height + this._metrics.depth;
     this.componentStyle.width = this._metrics.width;
   }
@@ -46,25 +94,12 @@ export default class Behavior {
   get spacingStyle() {
     return this._spacingStyle;
   }
-  /**
-   * @abstract
-   * @param {Math_Style} style
-   */
-  set mathStyle(style) {
-    // this._mathStyle = style;
-    // this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
-  }
-  /**
-   * @return {Math_Style}
-   */
-  get mathStyle() {
-    return this._mathStyle;
-  }
 
   /**
    * @return {Metrics}
    */
   get metrics() {
+    if (!this._isValid()) console.warn('invalid ');
     return this._metrics;
   }
 
@@ -107,5 +142,60 @@ export default class Behavior {
    */
   set type(string) {
     this._type = string;
+  }
+
+  /**
+   * @param {Behavior} behavior
+   */
+  registerDependantBehavior(behavior) {
+    this._dependantBehaviors.push(behavior);
+  }
+
+  /**
+   *
+   * @param {Behavior} behavior
+   */
+  unregisterDependantBehavior(behavior) {
+    this._dependantBehaviors = this._dependantBehaviors.filter((dependant) => {
+      return behavior !== dependant;
+    });
+  }
+  /**
+   * @param {Array} dependancyChain
+   * updates all dependants
+   */
+  _updateDependants(dependancyChain) {
+    dependancyChain.push(this);
+    const dependantsToUpdate = this._dependantBehaviors.filter(
+      (dependantOnBehavior) => {
+        return !dependancyChain.some((dependantOnChain) => {
+          return dependantOnChain === dependantOnBehavior;
+        });
+      }
+    );
+    for (const dependant of dependantsToUpdate) {
+      dependant.update(dependancyChain);
+    }
+  }
+  /**
+   * @param {Math_Style} style
+   */
+  set mathStyle(style) {
+    this._mathStyle = style;
+    this._pxpfu = this._typesetter.calculatePXPFU(this._mathStyle);
+    this.update();
+  }
+  /**
+   * @return {Math_Style} style
+   */
+  get mathStyle() {
+    return this._mathStyle;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  _isStyleValid() {
+    return this._mathStyle !== undefined;
   }
 }
