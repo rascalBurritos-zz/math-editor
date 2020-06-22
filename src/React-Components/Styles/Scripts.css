@@ -1,9 +1,9 @@
-.Scripts {
+.ScriptsContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
-.ScriptsContainer {
+.Scripts {
   display: flex;
   flex-direction: row;
 }

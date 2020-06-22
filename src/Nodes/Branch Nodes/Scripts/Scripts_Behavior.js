@@ -8,7 +8,7 @@ export default class Scripts_Behavior extends Behavior {
   _superBehavior;
   _nucleusBehavior;
   _subBehavior;
-  _scriptsComponentStyle;
+  _containerStyle;
 
   /**
    * @param {behaviorSpec} spec
@@ -16,7 +16,7 @@ export default class Scripts_Behavior extends Behavior {
   constructor(spec) {
     super(spec);
     this._component = Scripts;
-    this._type = 'Scripts';
+    this.type = 'Scripts';
   }
 
   /**
@@ -99,7 +99,7 @@ export default class Scripts_Behavior extends Behavior {
      * changes scriptsComponentStyle h,w, and top margin
      */
     function updateScriptsComponentStyle() {
-      scriptsBehavior._scriptsComponentStyle = settings.scriptsComponentStyle;
+      scriptsBehavior._containerStyle = settings.scriptsComponentStyle;
       if (scriptsBehavior._doesSuperscriptExist()) {
         scriptsBehavior.superBehavior.appendComponentStyle(
           settings.superscriptComponentStyle
@@ -145,8 +145,8 @@ export default class Scripts_Behavior extends Behavior {
   /**
    * @return {Object}
    */
-  get scriptsComponentStyle() {
-    return this._scriptsComponentStyle;
+  get containerStyle() {
+    return this._containerStyle;
   }
 
   /**

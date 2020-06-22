@@ -1,7 +1,7 @@
 import React from 'react';
-import './Styles/Operator.css';
+import './Styles/Limits.css';
 
-export default class Operator extends React.Component {
+export default class Limits extends React.Component {
   /**
    * @return {JSX.Element}
    */
@@ -9,44 +9,36 @@ export default class Operator extends React.Component {
     const data = this.props.data;
     let upperLimit;
     let lowerLimit;
-    let target;
     const nucleusBehavior = data.nucleusBehavior;
     const nucleus = (
       <nucleusBehavior.component key="nucleus" data={data.nucleusBehavior} />
     );
-    if (data.upperLimit) {
+    if (data.upperLimitBehavior) {
+      const upperLimitBehavior = data.upperLimitBehavior;
       upperLimit = (
-        <data.upperLimitBehavior.component
+        <upperLimitBehavior.component
           key="upper limit"
-          data={data.upperLimitBehavior}
+          data={upperLimitBehavior}
         />
       );
     }
-    if (data.lowerLimit) {
+    if (data.lowerLimitBehavior) {
+      const lowerLimitBehavior = data.lowerLimitBehavior;
       lowerLimit = (
-        <data.lowerLimitBehavior.component
+        <lowerLimitBehavior.component
           key="lower limit"
-          data={data.lowerLimitBehavior}
-        />
-      );
-    }
-    if (data.target) {
-      target = (
-        <data.targetBehavior.component
-          key="target"
-          data={data.targetBehavior}
+          data={lowerLimitBehavior}
         />
       );
     }
 
     return (
-      <div style={data.componentStyle}>
-        <div>
+      <div className="Limits" style={data.componentStyle}>
+        <div className="LimitsContainer" style={data.containerStyle}>
           {upperLimit}
           {nucleus}
           {lowerLimit}
         </div>
-        {target}
       </div>
     );
   }

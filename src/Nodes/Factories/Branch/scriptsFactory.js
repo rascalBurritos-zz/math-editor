@@ -30,7 +30,7 @@ export default function scriptsFactory(mathList, fontData) {
  * @param {Object} fontData
  * @return {Object}
  */
-function getScriptFontParameters(fontData) {
+export function getScriptFontParameters(fontData) {
   const mc = fontData.MATH.MathConstants;
   const fp = {};
   fp.upm = fontData.upm;

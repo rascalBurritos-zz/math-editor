@@ -14,7 +14,7 @@ export default class Radical_Behavior extends Behavior {
   constructor(spec) {
     super(spec);
     this._component = Radical;
-    this._type = 'Radical';
+    this.type = 'Radical';
   }
 
   /**

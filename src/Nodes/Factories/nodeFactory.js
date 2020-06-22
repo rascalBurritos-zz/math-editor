@@ -4,8 +4,8 @@ import scriptsFactory from './Branch/scriptsFactory.js';
 import variantGlyphFactory from './Leaf/variantGlyphFactory.js';
 import radicalFactory from './Branch/radicalFactory.js';
 import accentFactory from './Branch/accentFactory.js';
+import operatorFactory from './Branch/operatorFactory.js';
 
-/** @typedef {import('../../Font/FontData').default} FontData  */
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../Types/Spacing_Style.js').default} Spacing_Style  */
@@ -43,6 +43,8 @@ export default function nodeFactory(mathList, fontData) {
     Variant_Glyph: variantGlyphFactory,
     Radical: radicalFactory,
     Accent: accentFactory,
+    Operator: operatorFactory,
   };
+
   return nodeMap[mathList.type](mathList, fontData);
 }

@@ -51,7 +51,7 @@ function generateSetterSpec(mathList, fontData) {
    * @return {boolean}
    */
   function doesExtensionExist() {
-    return extensionSettings.pathArray !== undefined;
+    return extensionSettings !== undefined;
   }
   /**
    * @return {Object}

@@ -14,7 +14,8 @@ import nodeFactory from './nodeFactory.js';
  * @return {Document_Node}
  */
 export default function nodeTreeFactory(mathList, context) {
-  const tree = nodeFactory(mathList, context.fontData);
+  const dependantMap = {};
+  const tree = nodeFactory(mathList, context.fontData, dependantMap);
   tree.behavior.mathStyle = context.rootStyle;
   return tree;
 }

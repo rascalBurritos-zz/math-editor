@@ -35,12 +35,12 @@ export default class Scripts extends React.Component {
     }
 
     return (
-      <div className="ScriptsContainer" style={data.componentStyle}>
+      <div className="Scripts" style={data.componentStyle}>
         {nucleus}
         <div
-          className="Scripts"
-          key="scripts"
-          style={data.scriptsComponentStyle}
+          className="ScriptsContainer"
+          key="SUBandSUPER"
+          style={data.containerStyle}
         >
           {superscript}
           {subscript}

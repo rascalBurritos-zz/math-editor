@@ -13,7 +13,7 @@ import Metrics from '../Types/Metrics.js';
  * @classdesc Specifies the appreance of a node
  */
 export default class Behavior {
-  _type; // rw
+  type; // rw
   _componentStyle; // rw
   _metrics; // r
   _mathStyle; // rw
@@ -132,23 +132,11 @@ export default class Behavior {
   }
 
   /**
-   * @return {String}
-   */
-  get type() {
-    return this._type;
-  }
-  /**
-   * @param {String} string
-   */
-  set type(string) {
-    this._type = string;
-  }
-
-  /**
    * @param {Behavior} behavior
    */
   registerDependantBehavior(behavior) {
     this._dependantBehaviors.push(behavior);
+    this.update();
   }
 
   /**

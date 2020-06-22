@@ -16,7 +16,7 @@ export default class Formula_Behavior extends Behavior {
   constructor(behaviorSpec) {
     super(behaviorSpec);
     this._component = Formula;
-    this._type = 'Formula';
+    this.type = 'Formula';
   }
 
   /**

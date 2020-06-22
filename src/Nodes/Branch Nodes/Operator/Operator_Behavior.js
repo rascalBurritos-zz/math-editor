@@ -1,31 +1,30 @@
-import Operator from '../../../React-Components/Operator.js';
 import Math_Style from '../../Types/Math_Style.js';
-import Branch_Behavior from '../Branch_Behavior.js';
+import Behavior from '../../Abstract/Behavior.js';
 
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../Types/Metrics').default} Metrics  */
+/** @typedef {import('./Limits_Behavior').default} Limits_Behavior  */
 /** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
 
-export default class Operator_Behavior extends Branch_Behavior {
+export default class Operator_Behavior extends Behavior {
   _upperLimitBehavior;
   _nucleusBehavior;
   _lowerLimitBehavior;
-  _targetBehavior;
+  _target;
 
   /**
    * @param {behaviorSpec} spec
    */
   constructor(spec) {
     super(spec);
-    this._component = Operator;
-    this._type = 'Operator';
+    this.type = 'Operator';
   }
 
   /**
    * @return {boolean}
    */
-  _doEssentialBehaviorsExist() {
+  _isValid() {
     const operatorBehavior = this;
-    return doesNucleusExist();
+    return this._isStyleValid() && doesNucleusExist();
     /**
      * @return {boolean}
      */
@@ -33,12 +32,7 @@ export default class Operator_Behavior extends Branch_Behavior {
       return operatorBehavior._nucleusBehavior !== undefined;
     }
   }
-  /**
-   * @return {boolean}
-   */
-  doesTargetExist() {
-    return this._targetBehavior !== undefined;
-  }
+
   /**
    * @return {boolean}
    */
@@ -55,66 +49,71 @@ export default class Operator_Behavior extends Branch_Behavior {
   /**
    * @override
    */
-  updateChildMathStyles() {
+  _preSetterSequence() {
     const operatorBehavior = this;
-    this._nucleusBehavior.mathStyle = this._mathStyle;
-    if (this.doesTargetExist()) {
-      this._targetBehavior.mathStyle = this._mathStyle;
-    }
-    if (this.doesUpperLimitExist()) {
-      this._upperLimitBehavior.mathStyle = getScriptStyle(true);
-    }
-    if (this.doesLowerLimitExist()) {
-      this._lowerLimitBehavior.mathStyle = getScriptStyle(false);
-    }
+    updateChildMathStyles();
     /**
-     * @param {boolean} isSuperscript
-     * @return {Math_Style}
+     * @override
      */
-    function getScriptStyle(isSuperscript) {
-      const currentStyle = operatorBehavior._mathStyle.type;
-      const styleMap = {
-        D: 'S',
-        T: 'S',
-        S: 'SS',
-        SS: 'SS',
-      };
+    function updateChildMathStyles() {
+      operatorBehavior._nucleusBehavior.mathStyle = operatorBehavior._mathStyle;
+      if (operatorBehavior.doesUpperLimitExist()) {
+        operatorBehavior._upperLimitBehavior.mathStyle = getScriptStyle(true);
+      }
+      if (operatorBehavior.doesLowerLimitExist()) {
+        operatorBehavior._lowerLimitBehavior.mathStyle = getScriptStyle(false);
+      }
+      /**
+       * @param {boolean} isSuperscript
+       * @return {Math_Style}
+       */
+      function getScriptStyle(isSuperscript) {
+        const currentStyle = operatorBehavior._mathStyle.type;
+        const styleMap = {
+          D: 'S',
+          T: 'S',
+          S: 'SS',
+          SS: 'SS',
+        };
 
-      const isCramped = isSuperscript ? currentStyle.cramped : true;
-      return new Math_Style(
-        styleMap[currentStyle],
-        operatorBehavior._mathStyle.fontSize,
-        isCramped
-      );
+        const isCramped = isSuperscript ? currentStyle.cramped : true;
+        return new Math_Style(
+          styleMap[currentStyle],
+          operatorBehavior._mathStyle.fontSize,
+          isCramped
+        );
+      }
     }
   }
+
   /**
-   * @override
-   * @param {Object} settings
+   * @return {Array}
    */
-  updateChildComponentStyles(settings) {
-    this._nucleusBehavior.appendComponentStyle(settings.nucleusComponentStyle);
-    this._targetBehavior.appendComponentStyle(settings.targetComponentStyle);
-    if (this.doesUpperLimitExist()) {
-      this._upperLimitBehavior.appendComponentStyle(
-        settings.upperLimitComponentStyle
-      );
-    }
-    if (this.doesLowerLimitExist()) {
-      this._lowerLimitBehavior.appendComponentStyle(
-        settings.lowerLimitComponentStyle
-      );
-    }
+  _generateSetterDependencies() {
+    return [
+      this._nucleusBehavior,
+      this._lowerLimitBehavior,
+      this._upperLimitBehavior,
+      this._target,
+    ];
+  }
+
+  /**
+   *
+   * @param {Limits_Behavior} behavior
+   */
+  _postSetterSequence(behavior) {
+    this._behavior = behavior;
+    this._behavior.mathStyle = this._mathStyle;
   }
 
   /**
    * @override
-   * @param {Object} settings
+   * @param {Object} behavior
    * changes h,w,d of behavior._metrics
    */
-  updateMetrics(settings) {
-    this._metrics = settings.metrics;
-    this.updateComponentStyleDimensions();
+  _updateMetrics(behavior) {
+    this._metrics = behavior.metrics;
   }
 
   /**
@@ -125,7 +124,6 @@ export default class Operator_Behavior extends Branch_Behavior {
    */
   set upperLimitBehavior(behavior) {
     this._upperLimitBehavior = behavior;
-    this._registerChildBehavior('upperLimit', behavior);
     this.update();
   }
   /**
@@ -139,7 +137,6 @@ export default class Operator_Behavior extends Branch_Behavior {
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
-    this._registerChildBehavior('nucleus', behavior);
     this.update();
   }
   /**
@@ -153,7 +150,6 @@ export default class Operator_Behavior extends Branch_Behavior {
    */
   set lowerLimitBehavior(behavior) {
     this._lowerLimitBehavior = behavior;
-    this._registerChildBehavior('lowerLimit', behavior);
     this.update();
   }
   /**
@@ -162,18 +158,88 @@ export default class Operator_Behavior extends Branch_Behavior {
   get lowerLimitBehavior() {
     return this._lowerLimitBehavior;
   }
+
+  /**
+   * @return {Behavior}
+   */
+  get subBehavior() {
+    return this._lowerLimitBehavior;
+  }
+  /**
+   * @return {Behavior}
+   */
+  get superBehavior() {
+    return this._upperLimitBehavior;
+  }
+
   /**
    * @param {Behavior} behavior
    */
-  set targetBehavior(behavior) {
-    this._targetBehavior = behavior;
-    this._registerDependantBehavior(behavior);
+  set target(behavior) {
+    this._target = behavior;
     this.update();
   }
   /**
    * @return {Behavior} behavior
    */
-  get targetBehavior() {
-    return this._targetBehavior;
+  get target() {
+    return this._target;
+  }
+
+  /**
+   * @return {Object}
+   */
+  get component() {
+    if (!this._isValidBehavior()) console.warn('Invalid Behavior');
+    return this._behavior.component;
+  }
+  /**
+   * @return {Object}
+   */
+  get componentStyle() {
+    if (!this._isValidBehavior()) console.warn('Invalid Behavior');
+    return this._behavior.componentStyle;
+  }
+
+  /**
+   * @return {Object}
+   */
+  get containerStyle() {
+    if (!this._isValidBehavior()) console.warn('Invalid Behavior');
+    return this._behavior._containerStyle;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  _isValidBehavior() {
+    return this._isScriptsType() || this._isLimitsType();
+  }
+  /**
+   * @return {boolean}
+   */
+  _isScriptsType() {
+    return this._behavior.type === 'Scripts';
+  }
+  /**
+   * @return {boolean}
+   */
+  _isLimitsType() {
+    return this._behavior.type === 'Limits';
+  }
+
+  /**
+   * @param {Array} styles
+   */
+  appendComponentStyle(styles) {
+    this._behavior.appendComponentStyle(styles);
+  }
+
+  /**
+   * @return {Metrics}
+   */
+  get metrics() {
+    if (!this._isValidBehavior()) console.warn('Invalid Behavior');
+    return this._behavior.metrics;
   }
 }

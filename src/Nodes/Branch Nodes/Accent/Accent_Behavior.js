@@ -14,7 +14,7 @@ export default class Accent_Behavior extends Behavior {
   constructor(spec) {
     super(spec);
     this._component = Accent;
-    this._type = 'Accent';
+    this.type = 'Accent';
   }
 
   /**

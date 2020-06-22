@@ -12,7 +12,7 @@ export default class Glyph_Behavior extends Leaf_Behavior {
   constructor(spec) {
     super(spec);
     this._component = Glyph;
-    this._type = 'Glyph';
+    this.type = 'Glyph';
   }
 
   /**

@@ -4,9 +4,114 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
-      type: 'Glyph',
-      unicode: '8721',
-      spacingStyle: Spacing_Style.Operator,
+      type: 'Scripts',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '120',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+      superscript: {
+        type: 'Operator',
+        nucleus: {
+          type: 'Variant_Glyph',
+          unicode: '8747',
+          spacingStyle: Spacing_Style.Operator,
+        },
+        lowerLimit: {
+          type: 'Formula',
+          spacingStyle: Spacing_Style.Operator,
+          elements: [
+            {
+              type: 'Glyph',
+              unicode: '120',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+            {
+              type: 'Glyph',
+              unicode: '61',
+              spacingStyle: Spacing_Style.Binary,
+            },
+            {
+              type: 'Glyph',
+              unicode: '50',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+          ],
+        },
+        upperLimit: {
+          type: 'Glyph',
+          unicode: '65',
+          spacingStyle: Spacing_Style.Ordinary,
+        },
+      },
+    },
+    {
+      type: 'Operator',
+      nucleus: {
+        type: 'Variant_Glyph',
+        unicode: '8747',
+        spacingStyle: Spacing_Style.Operator,
+      },
+      lowerLimit: {
+        type: 'Formula',
+        spacingStyle: Spacing_Style.Operator,
+        elements: [
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+        ],
+      },
+      upperLimit: {
+        type: 'Glyph',
+        unicode: '65',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+    },
+    {
+      type: 'Operator',
+      nucleus: {
+        type: 'Variant_Glyph',
+        unicode: '8721',
+        spacingStyle: Spacing_Style.Operator,
+      },
+      lowerLimit: {
+        type: 'Formula',
+        spacingStyle: Spacing_Style.Operator,
+        elements: [
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+        ],
+      },
+      upperLimit: {
+        type: 'Glyph',
+        unicode: '65',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
     },
     {
       type: 'Accent',
@@ -21,221 +126,221 @@ export default {
         spacingStyle: Spacing_Style.Ordinary,
       },
     },
-    {
-      type: 'Radical',
-      radicand: {
-        type: 'Formula',
-        elements: [
-          {
-            type: 'Glyph',
-            unicode: '89',
-            spacingStyle: Spacing_Style.Ordinary,
-          },
-          {
-            type: 'Glyph',
-            unicode: '43',
-            spacingStyle: Spacing_Style.Binary,
-          },
-          {
-            type: 'Radical',
-            radicand: {
-              type: 'Formula',
-              elements: [
-                {
-                  type: 'Glyph',
-                  unicode: '89',
-                  spacingStyle: Spacing_Style.Ordinary,
-                },
-                {
-                  type: 'Glyph',
-                  unicode: '43',
-                  spacingStyle: Spacing_Style.Binary,
-                },
-                {
-                  type: 'Radical',
-                  radicand: {
-                    type: 'Formula',
-                    elements: [
-                      {
-                        type: 'Glyph',
-                        unicode: '89',
-                        spacingStyle: Spacing_Style.Ordinary,
-                      },
-                      {
-                        type: 'Glyph',
-                        unicode: '43',
-                        spacingStyle: Spacing_Style.Binary,
-                      },
-                      {
-                        type: 'Radical',
-                        radicand: {
-                          type: 'Formula',
-                          elements: [
-                            {
-                              type: 'Glyph',
-                              unicode: '89',
-                              spacingStyle: Spacing_Style.Ordinary,
-                            },
-                            {
-                              type: 'Glyph',
-                              unicode: '43',
-                              spacingStyle: Spacing_Style.Binary,
-                            },
-                            {
-                              type: 'Radical',
-                              radicand: {
-                                type: 'Formula',
-                                elements: [
-                                  {
-                                    type: 'Glyph',
-                                    unicode: '89',
-                                    spacingStyle: Spacing_Style.Ordinary,
-                                  },
-                                  {
-                                    type: 'Glyph',
-                                    unicode: '43',
-                                    spacingStyle: Spacing_Style.Binary,
-                                  },
-                                  {
-                                    type: 'Radical',
-                                    radicand: {
-                                      type: 'Formula',
-                                      elements: [
-                                        {
-                                          type: 'Glyph',
-                                          unicode: '89',
-                                          spacingStyle: Spacing_Style.Ordinary,
-                                        },
-                                        {
-                                          type: 'Glyph',
-                                          unicode: '43',
-                                          spacingStyle: Spacing_Style.Binary,
-                                        },
-                                        {
-                                          type: 'Radical',
-                                          radicand: {
-                                            type: 'Formula',
-                                            elements: [
-                                              {
-                                                type: 'Glyph',
-                                                unicode: '89',
-                                                spacingStyle:
-                                                  Spacing_Style.Ordinary,
-                                              },
-                                              {
-                                                type: 'Glyph',
-                                                unicode: '43',
-                                                spacingStyle:
-                                                  Spacing_Style.Binary,
-                                              },
-                                            ],
-                                            spacingStyle:
-                                              Spacing_Style.Ordinary,
-                                          },
-                                          degree: {
-                                            type: 'Formula',
-                                            elements: [
-                                              {
-                                                type: 'Glyph',
-                                                unicode: '82',
-                                                spacingStyle:
-                                                  Spacing_Style.Ordinary,
-                                              },
-                                            ],
-                                            spacingStyle:
-                                              Spacing_Style.Ordinary,
-                                          },
-                                        },
-                                      ],
-                                      spacingStyle: Spacing_Style.Ordinary,
-                                    },
-                                    degree: {
-                                      type: 'Formula',
-                                      elements: [
-                                        {
-                                          type: 'Glyph',
-                                          unicode: '82',
-                                          spacingStyle: Spacing_Style.Ordinary,
-                                        },
-                                      ],
-                                      spacingStyle: Spacing_Style.Ordinary,
-                                    },
-                                  },
-                                ],
-                                spacingStyle: Spacing_Style.Ordinary,
-                              },
-                              degree: {
-                                type: 'Formula',
-                                elements: [
-                                  {
-                                    type: 'Glyph',
-                                    unicode: '82',
-                                    spacingStyle: Spacing_Style.Ordinary,
-                                  },
-                                ],
-                                spacingStyle: Spacing_Style.Ordinary,
-                              },
-                            },
-                          ],
-                          spacingStyle: Spacing_Style.Ordinary,
-                        },
-                        degree: {
-                          type: 'Formula',
-                          elements: [
-                            {
-                              type: 'Glyph',
-                              unicode: '82',
-                              spacingStyle: Spacing_Style.Ordinary,
-                            },
-                          ],
-                          spacingStyle: Spacing_Style.Ordinary,
-                        },
-                      },
-                    ],
-                    spacingStyle: Spacing_Style.Ordinary,
-                  },
-                  degree: {
-                    type: 'Formula',
-                    elements: [
-                      {
-                        type: 'Glyph',
-                        unicode: '82',
-                        spacingStyle: Spacing_Style.Ordinary,
-                      },
-                    ],
-                    spacingStyle: Spacing_Style.Ordinary,
-                  },
-                },
-              ],
-              spacingStyle: Spacing_Style.Ordinary,
-            },
-            degree: {
-              type: 'Formula',
-              elements: [
-                {
-                  type: 'Glyph',
-                  unicode: '82',
-                  spacingStyle: Spacing_Style.Ordinary,
-                },
-              ],
-              spacingStyle: Spacing_Style.Ordinary,
-            },
-          },
-        ],
-        spacingStyle: Spacing_Style.Ordinary,
-      },
-      degree: {
-        type: 'Formula',
-        elements: [
-          {
-            type: 'Glyph',
-            unicode: '82',
-            spacingStyle: Spacing_Style.Ordinary,
-          },
-        ],
-        spacingStyle: Spacing_Style.Ordinary,
-      },
-    },
+    // {
+    //   type: 'Radical',
+    //   radicand: {
+    //     type: 'Formula',
+    //     elements: [
+    //       {
+    //         type: 'Glyph',
+    //         unicode: '89',
+    //         spacingStyle: Spacing_Style.Ordinary,
+    //       },
+    //       {
+    //         type: 'Glyph',
+    //         unicode: '43',
+    //         spacingStyle: Spacing_Style.Binary,
+    //       },
+    //       {
+    //         type: 'Radical',
+    //         radicand: {
+    //           type: 'Formula',
+    //           elements: [
+    //             {
+    //               type: 'Glyph',
+    //               unicode: '89',
+    //               spacingStyle: Spacing_Style.Ordinary,
+    //             },
+    //             {
+    //               type: 'Glyph',
+    //               unicode: '43',
+    //               spacingStyle: Spacing_Style.Binary,
+    //             },
+    //             {
+    //               type: 'Radical',
+    //               radicand: {
+    //                 type: 'Formula',
+    //                 elements: [
+    //                   {
+    //                     type: 'Glyph',
+    //                     unicode: '89',
+    //                     spacingStyle: Spacing_Style.Ordinary,
+    //                   },
+    //                   {
+    //                     type: 'Glyph',
+    //                     unicode: '43',
+    //                     spacingStyle: Spacing_Style.Binary,
+    //                   },
+    //                   {
+    //                     type: 'Radical',
+    //                     radicand: {
+    //                       type: 'Formula',
+    //                       elements: [
+    //                         {
+    //                           type: 'Glyph',
+    //                           unicode: '89',
+    //                           spacingStyle: Spacing_Style.Ordinary,
+    //                         },
+    //                         {
+    //                           type: 'Glyph',
+    //                           unicode: '43',
+    //                           spacingStyle: Spacing_Style.Binary,
+    //                         },
+    //                         {
+    //                           type: 'Radical',
+    //                           radicand: {
+    //                             type: 'Formula',
+    //                             elements: [
+    //                               {
+    //                                 type: 'Glyph',
+    //                                 unicode: '89',
+    //                                 spacingStyle: Spacing_Style.Ordinary,
+    //                               },
+    //                               {
+    //                                 type: 'Glyph',
+    //                                 unicode: '43',
+    //                                 spacingStyle: Spacing_Style.Binary,
+    //                               },
+    //                               {
+    //                                 type: 'Radical',
+    //                                 radicand: {
+    //                                   type: 'Formula',
+    //                                   elements: [
+    //                                     {
+    //                                       type: 'Glyph',
+    //                                       unicode: '89',
+    //                                       spacingStyle: Spacing_Style.Ordinary,
+    //                                     },
+    //                                     {
+    //                                       type: 'Glyph',
+    //                                       unicode: '43',
+    //                                       spacingStyle: Spacing_Style.Binary,
+    //                                     },
+    //                                     {
+    //                                       type: 'Radical',
+    //                                       radicand: {
+    //                                         type: 'Formula',
+    //                                         elements: [
+    //                                           {
+    //                                             type: 'Glyph',
+    //                                             unicode: '89',
+    //                                             spacingStyle:
+    //                                               Spacing_Style.Ordinary,
+    //                                           },
+    //                                           {
+    //                                             type: 'Glyph',
+    //                                             unicode: '43',
+    //                                             spacingStyle:
+    //                                               Spacing_Style.Binary,
+    //                                           },
+    //                                         ],
+    //                                         spacingStyle:
+    //                                           Spacing_Style.Ordinary,
+    //                                       },
+    //                                       degree: {
+    //                                         type: 'Formula',
+    //                                         elements: [
+    //                                           {
+    //                                             type: 'Glyph',
+    //                                             unicode: '82',
+    //                                             spacingStyle:
+    //                                               Spacing_Style.Ordinary,
+    //                                           },
+    //                                         ],
+    //                                         spacingStyle:
+    //                                           Spacing_Style.Ordinary,
+    //                                       },
+    //                                     },
+    //                                   ],
+    //                                   spacingStyle: Spacing_Style.Ordinary,
+    //                                 },
+    //                                 degree: {
+    //                                   type: 'Formula',
+    //                                   elements: [
+    //                                     {
+    //                                       type: 'Glyph',
+    //                                       unicode: '82',
+    //                                       spacingStyle: Spacing_Style.Ordinary,
+    //                                     },
+    //                                   ],
+    //                                   spacingStyle: Spacing_Style.Ordinary,
+    //                                 },
+    //                               },
+    //                             ],
+    //                             spacingStyle: Spacing_Style.Ordinary,
+    //                           },
+    //                           degree: {
+    //                             type: 'Formula',
+    //                             elements: [
+    //                               {
+    //                                 type: 'Glyph',
+    //                                 unicode: '82',
+    //                                 spacingStyle: Spacing_Style.Ordinary,
+    //                               },
+    //                             ],
+    //                             spacingStyle: Spacing_Style.Ordinary,
+    //                           },
+    //                         },
+    //                       ],
+    //                       spacingStyle: Spacing_Style.Ordinary,
+    //                     },
+    //                     degree: {
+    //                       type: 'Formula',
+    //                       elements: [
+    //                         {
+    //                           type: 'Glyph',
+    //                           unicode: '82',
+    //                           spacingStyle: Spacing_Style.Ordinary,
+    //                         },
+    //                       ],
+    //                       spacingStyle: Spacing_Style.Ordinary,
+    //                     },
+    //                   },
+    //                 ],
+    //                 spacingStyle: Spacing_Style.Ordinary,
+    //               },
+    //               degree: {
+    //                 type: 'Formula',
+    //                 elements: [
+    //                   {
+    //                     type: 'Glyph',
+    //                     unicode: '82',
+    //                     spacingStyle: Spacing_Style.Ordinary,
+    //                   },
+    //                 ],
+    //                 spacingStyle: Spacing_Style.Ordinary,
+    //               },
+    //             },
+    //           ],
+    //           spacingStyle: Spacing_Style.Ordinary,
+    //         },
+    //         degree: {
+    //           type: 'Formula',
+    //           elements: [
+    //             {
+    //               type: 'Glyph',
+    //               unicode: '82',
+    //               spacingStyle: Spacing_Style.Ordinary,
+    //             },
+    //           ],
+    //           spacingStyle: Spacing_Style.Ordinary,
+    //         },
+    //       },
+    //     ],
+    //     spacingStyle: Spacing_Style.Ordinary,
+    //   },
+    //   degree: {
+    //     type: 'Formula',
+    //     elements: [
+    //       {
+    //         type: 'Glyph',
+    //         unicode: '82',
+    //         spacingStyle: Spacing_Style.Ordinary,
+    //       },
+    //     ],
+    //     spacingStyle: Spacing_Style.Ordinary,
+    //   },
+    // },
     {
       type: 'Variant_Glyph',
       unicode: '40',

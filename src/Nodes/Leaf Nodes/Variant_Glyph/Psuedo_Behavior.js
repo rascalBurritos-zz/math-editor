@@ -107,7 +107,10 @@ export default class Psuedo_Behavior extends Leaf_Behavior {
    */
   _isValidGlyphBehavior() {
     if (!this._behavior) return false;
-    return this._behavior.type === 'Glyph';
+    return (
+      this._behavior.type === 'Glyph' ||
+      this._behavior.type === 'Centered_Glyph'
+    );
   }
   /**
    * @return {boolean}

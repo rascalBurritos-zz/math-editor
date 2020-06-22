@@ -6,7 +6,7 @@ export default class Centered_Glyph_Behavior extends Glyph_Behavior {
    */
   constructor(spec) {
     super(spec);
-    this._type = 'Centered_Glyph';
+    this.type = 'Centered_Glyph';
   }
 
   /**

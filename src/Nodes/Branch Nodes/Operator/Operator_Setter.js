@@ -1,6 +1,11 @@
 import Typesetter from '../../Abstract/Typesetter';
-import Metrics from '../../Types/Metrics';
+import { getScriptFontParameters } from '../../Factories/Branch/scriptsFactory';
+import Scripts_Setter from '../Scripts/Scripts_Setter';
+import Spacing_Style from '../../Types/Spacing_Style';
+import Scripts_Behavior from '../Scripts/Scripts_Behavior';
+import limitsBehaviorFactory from '../../Factories/Branch/limitsBehaviorFactory';
 
+/** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior  */
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
 /** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec  */
 /** @typedef {import('../../Abstract/Behavior').default} Behavior  */
@@ -8,24 +13,119 @@ import Metrics from '../../Types/Metrics';
 /**
  * @typedef {Object} ScriptSetterType
  */
-export default class Script_Setter extends Typesetter {
+export default class Operator_Setter extends Typesetter {
   /**
-   * @param {Object} scriptSpec
+   * @param {Object} spec
    * h,w,d of behavior
    * margins
    */
-  constructor(scriptSpec) {
-    super(scriptSpec);
+  constructor(spec) {
+    super(spec);
+    this._displayOperatorMinHeight = spec.displayOperatorMinHeight;
+    this._fontData = spec.fontData;
   }
 
   /**
    * @param {number} pxpfu
-   * @param {Object} childBehaviors
+   * @param {Variant_Glyph_Behavior} nucleusBehavior // will set nucleus desired size
+   * @param {Behavior} lowerlimitBehavior
+   * @param {Behavior} upperlimitBehavior
+   * @param {Behavior} targetBehavior
    * @return {Object} result contains
-   * Metrics
-   * script Metrics
-   * script css
-   * subscript css
+   * resultant Behavior = Scripts | Limits
    */
-  calculateSettings(pxpfu, childBehaviors) {}
+  generateSettings(
+    pxpfu,
+    nucleusBehavior,
+    lowerlimitBehavior,
+    upperlimitBehavior,
+    targetBehavior
+  ) {
+    const operatorSetter = this;
+    const desiredSize = calculateDesiredSize();
+    setNucleusSize();
+    const behavior = determineOperatorBehavior();
+    return behavior;
+
+    /**
+     * @return {Behavior}
+     */
+    function determineOperatorBehavior() {
+      if (nucleusBehavior.mathStyle.type === 'D') {
+        return generateLimitsBehavior();
+      }
+      return generateScriptsBehavior();
+
+      /**
+       * @return {Behavior}
+       */
+      function generateLimitsBehavior() {
+        const limitsBehavior = limitsBehaviorFactory(operatorSetter._fontData);
+        limitsBehavior.upperLimitBehavior = upperlimitBehavior;
+        limitsBehavior.nucleusBehavior = nucleusBehavior;
+        limitsBehavior.lowerLimitBehavior = lowerlimitBehavior;
+        return limitsBehavior;
+      }
+
+      /**
+       * @return {Behavior}
+       */
+      function generateScriptsBehavior() {
+        const spec = getScriptFontParameters(operatorSetter._fontData);
+        const typesetter = new Scripts_Setter(spec);
+        const spacingStyle = Spacing_Style.Operator;
+        const scriptsBehavior = new Scripts_Behavior({
+          typesetter,
+          spacingStyle,
+        });
+        scriptsBehavior.nucleusBehavior = nucleusBehavior;
+        if (doesUpperLimitExist()) {
+          scriptsBehavior.superBehavior = upperlimitBehavior;
+        }
+        if (doesLowerLimitExist()) {
+          scriptsBehavior.subBehavior = lowerlimitBehavior;
+        }
+        return scriptsBehavior;
+      }
+    }
+
+    /**
+     * @return {boolean}
+     */
+    function doesUpperLimitExist() {
+      return upperlimitBehavior !== undefined;
+    }
+    /**
+     * @return {boolean}
+     */
+    function doesLowerLimitExist() {
+      return lowerlimitBehavior !== undefined;
+    }
+    /**
+     *
+     */
+    function setNucleusSize() {
+      nucleusBehavior.desiredSize = desiredSize;
+    }
+    /**
+     * @return {number}
+     */
+    function calculateDesiredSize() {
+      if (doesTargetExist()) {
+        return targetBehavior.metrics.height + targetBehavior.metrics.depth;
+      }
+      if (nucleusBehavior.mathStyle.type === 'D') {
+        return operatorSetter._displayOperatorMinHeight * pxpfu;
+      }
+      // should target the smallest variant
+      return 0;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    function doesTargetExist() {
+      return targetBehavior !== undefined;
+    }
+  }
 }

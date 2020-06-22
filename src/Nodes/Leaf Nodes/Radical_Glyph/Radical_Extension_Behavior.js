@@ -15,7 +15,7 @@ export default class Radical_Extension_Behavior extends Extended_Glyph_Behavior 
   constructor(spec) {
     super(spec);
     this._component = ExtendedGlyph;
-    this._type = 'Extended_Radical';
+    this.type = 'Extended_Radical';
   }
 
   /**
