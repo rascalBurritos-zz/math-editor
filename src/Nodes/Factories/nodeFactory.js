@@ -5,6 +5,7 @@ import variantGlyphFactory from './Leaf/variantGlyphFactory.js';
 import radicalFactory from './Branch/radicalFactory.js';
 import accentFactory from './Branch/accentFactory.js';
 import operatorFactory from './Branch/operatorFactory.js';
+import fractionFactory from './Branch/fractionFactory.js';
 import DependancyOrganizer from './DependancyOrganizer.js';
 
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
@@ -45,6 +46,7 @@ export default function nodeFactory(mathList, fontData) {
     Radical: radicalFactory,
     Accent: accentFactory,
     Operator: operatorFactory,
+    Fraction: fractionFactory,
   };
   const node = nodeMap[mathList.type](mathList, fontData);
   registerDependancies();

@@ -4,6 +4,80 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Fraction',
+
+      numerator: {
+        type: 'Formula',
+        spacingStyle: Spacing_Style.Operator,
+        elements: [
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+        ],
+      },
+      denominator: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '98',
+      },
+    },
+    {
+      type: 'Scripts',
+      nucleus: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Binary,
+        unicode: '50',
+      },
+
+      superscript: {
+        type: 'Fraction',
+
+        numerator: {
+          type: 'Formula',
+          spacingStyle: Spacing_Style.Operator,
+          elements: [
+            {
+              type: 'Glyph',
+              unicode: '120',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+            {
+              type: 'Glyph',
+              unicode: '61',
+              spacingStyle: Spacing_Style.Binary,
+            },
+            {
+              type: 'Glyph',
+              unicode: '50',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+          ],
+        },
+        denominator: {
+          type: 'Glyph',
+          spacingStyle: Spacing_Style.Ordinary,
+          unicode: '98',
+        },
+      },
+      subscript: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '50',
+      },
+    },
+    {
       type: 'Accent',
       nucleus: {
         type: 'Glyph',
@@ -16,7 +90,6 @@ export default {
         spacingStyle: Spacing_Style.Ordinary,
       },
     },
-
     {
       type: 'Variant_Glyph',
       unicode: '40',
@@ -33,11 +106,7 @@ export default {
       unicode: '41',
       spacingStyle: Spacing_Style.Ordinary,
     },
-    {
-      type: 'Variant_Glyph',
-      unicode: '8658',
-      spacingStyle: Spacing_Style.Binary,
-    },
+
     {
       type: 'Scripts',
       nucleus: {

@@ -18,7 +18,7 @@ export default function sequence() {
   const lineOneBehavior = lineOneNode.behavior;
   const lineTwoNode = nodeTreeFactory(mlTwo, context);
   const lineTwoBehavior = lineTwoNode.behavior;
-  console.log(lineOneBehavior);
+  console.log(lineTwoBehavior);
   const myApp = (
     <div className={'Editor'}>
       <div className="Line">
