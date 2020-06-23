@@ -1,4 +1,5 @@
 import nodeFactory from './nodeFactory.js';
+import DependancyOrganizer from './DependancyOrganizer.js';
 /** @typedef {import('../Types/Math_Style.js').default}  Math_Style*/
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node */
 /** @typedef {import('./nodeFactory').MathList} MathList  */
@@ -14,8 +15,12 @@ import nodeFactory from './nodeFactory.js';
  * @return {Document_Node}
  */
 export default function nodeTreeFactory(mathList, context) {
-  const dependantMap = {};
-  const tree = nodeFactory(mathList, context.fontData, dependantMap);
+  const tree = nodeFactory(mathList, context.fontData);
+  if (DependancyOrganizer.verifyPairs()) {
+    DependancyOrganizer.linkDependants();
+  } else {
+    console.log('failed dependants');
+  }
   tree.behavior.mathStyle = context.rootStyle;
   return tree;
 }

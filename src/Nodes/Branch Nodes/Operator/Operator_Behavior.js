@@ -24,12 +24,23 @@ export default class Operator_Behavior extends Behavior {
    */
   _isValid() {
     const operatorBehavior = this;
-    return this._isStyleValid() && doesNucleusExist();
+    return this._isStyleValid() && doesNucleusExist() && isTargetValid();
     /**
      * @return {boolean}
      */
     function doesNucleusExist() {
       return operatorBehavior._nucleusBehavior !== undefined;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    function isTargetValid() {
+      if (operatorBehavior._target) {
+        return operatorBehavior._target._isValid();
+      }
+      // if no target target is valid
+      return true;
     }
   }
 

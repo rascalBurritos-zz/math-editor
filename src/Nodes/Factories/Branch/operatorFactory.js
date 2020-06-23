@@ -3,8 +3,10 @@ import nodeFactory from '../nodeFactory';
 import Operator_Setter from '../../Branch Nodes/Operator/Operator_Setter';
 import Operator_Behavior from '../../Branch Nodes/Operator/Operator_Behavior';
 import Operator_Node from '../../Branch Nodes/Operator/Operator_Node';
+import variantGlyphFactory from '../Leaf/variantGlyphFactory';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
+/** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList
@@ -18,7 +20,7 @@ export default function operatorFactory(mathList, fontData) {
   const spacingStyle = Spacing_Style.Operator;
   const behavior = new Operator_Behavior({ typesetter, spacingStyle });
   const node = new Operator_Node(behavior);
-  node.nucleus = nodeFactory(mathList.nucleus, fontData);
+  node.nucleus = generateNucleus();
   if (mathList.lowerLimit !== undefined) {
     node.lowerLimit = nodeFactory(mathList.lowerLimit, fontData);
   }
@@ -26,6 +28,18 @@ export default function operatorFactory(mathList, fontData) {
     node.upperLimit = nodeFactory(mathList.upperLimit, fontData);
   }
   return node;
+
+  /**
+   * @return {Document_Node}
+   */
+  function generateNucleus() {
+    const nucleusMathList = {
+      type: 'Variant_Glyph',
+      unicode: mathList.unicode,
+      spacingStyle: Spacing_Style.None,
+    };
+    return variantGlyphFactory(nucleusMathList, fontData);
+  }
 }
 
 /**

@@ -99,7 +99,7 @@ export default class Behavior {
    * @return {Metrics}
    */
   get metrics() {
-    if (!this._isValid()) console.warn('invalid ');
+    if (!this._isValid()) console.warn('invalid ', this);
     return this._metrics;
   }
 
@@ -132,10 +132,10 @@ export default class Behavior {
   }
 
   /**
-   * @param {Behavior} behavior
+   * @param {Array} behaviors
    */
-  registerDependantBehavior(behavior) {
-    this._dependantBehaviors.push(behavior);
+  registerDependantBehavior(...behaviors) {
+    this._dependantBehaviors.push(...behaviors);
     this.update();
   }
 

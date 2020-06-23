@@ -12,11 +12,7 @@ export default {
       },
       superscript: {
         type: 'Operator',
-        nucleus: {
-          type: 'Variant_Glyph',
-          unicode: '8747',
-          spacingStyle: Spacing_Style.Operator,
-        },
+        unicode: '8747',
         lowerLimit: {
           type: 'Formula',
           spacingStyle: Spacing_Style.Operator,
@@ -47,11 +43,8 @@ export default {
     },
     {
       type: 'Operator',
-      nucleus: {
-        type: 'Variant_Glyph',
-        unicode: '8747',
-        spacingStyle: Spacing_Style.Operator,
-      },
+      unicode: '8747',
+      drain: 'BigBoi',
       lowerLimit: {
         type: 'Formula',
         spacingStyle: Spacing_Style.Operator,
@@ -81,11 +74,7 @@ export default {
     },
     {
       type: 'Operator',
-      nucleus: {
-        type: 'Variant_Glyph',
-        unicode: '8721',
-        spacingStyle: Spacing_Style.Operator,
-      },
+      unicode: '8721',
       lowerLimit: {
         type: 'Formula',
         spacingStyle: Spacing_Style.Operator,
@@ -345,6 +334,7 @@ export default {
       type: 'Variant_Glyph',
       unicode: '40',
       spacingStyle: Spacing_Style.Ordinary,
+      source: 'BigBoi',
     },
     {
       type: 'Variant_Glyph',
