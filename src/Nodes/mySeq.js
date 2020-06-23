@@ -5,19 +5,28 @@ import AsanaFontData from '../../fonts/AsanaFontData.js';
 import Math_Style from './Types/Math_Style';
 import '../React-Components/Styles/fonts.css';
 import '../React-Components/Styles/Editor.css';
-import tmpMathList from './tmpMathList';
+import mlOne from './mathListOne.js';
+import mlTwo from './mathListTwo.js';
+
 /**
  * test sequence
  */
 export default function sequence() {
   const rootStyle = new Math_Style('D', 30, false);
   const context = { fontData: AsanaFontData, rootStyle };
-  const tmpNode = nodeTreeFactory(tmpMathList, context);
-  const behavior = tmpNode.behavior;
-  console.log(behavior);
+  const lineOneNode = nodeTreeFactory(mlOne, context);
+  const lineOneBehavior = lineOneNode.behavior;
+  const lineTwoNode = nodeTreeFactory(mlTwo, context);
+  const lineTwoBehavior = lineTwoNode.behavior;
+  console.log(lineOneBehavior);
   const myApp = (
     <div className={'Editor'}>
-      <behavior.component data={behavior} />
+      <div className="Line">
+        <lineOneBehavior.component data={lineOneBehavior} />
+      </div>
+      <div className="Line">
+        <lineTwoBehavior.component data={lineTwoBehavior} />
+      </div>
     </div>
   );
   ReactDOM.render(myApp, document.getElementById('app'));

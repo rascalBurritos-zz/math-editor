@@ -112,7 +112,11 @@ export default class Operator_Setter extends Typesetter {
      */
     function calculateDesiredSize() {
       if (doesTargetExist()) {
-        return targetBehavior.metrics.height + targetBehavior.metrics.depth;
+        const maxLength = Math.max(
+          targetBehavior.metrics.height,
+          targetBehavior.metrics.depth
+        );
+        return maxLength * 2;
       }
       if (nucleusBehavior.mathStyle.type === 'D') {
         return operatorSetter._displayOperatorMinHeight * pxpfu;

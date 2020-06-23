@@ -18,6 +18,7 @@ export default function nodeTreeFactory(mathList, context) {
   const tree = nodeFactory(mathList, context.fontData);
   if (DependancyOrganizer.verifyPairs()) {
     DependancyOrganizer.linkDependants();
+    DependancyOrganizer.clearMap();
   } else {
     console.log('failed dependants');
   }

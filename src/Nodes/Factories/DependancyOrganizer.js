@@ -49,6 +49,13 @@ export default class DependancyOrganizer {
   }
 
   /**
+   *
+   */
+  static clearMap() {
+    DependancyOrganizer.map = {};
+  }
+
+  /**
    * @return {boolean}
    */
   static verifyPairs() {
