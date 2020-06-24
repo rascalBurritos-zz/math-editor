@@ -4,6 +4,52 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Skewed_Fraction',
+
+      numerator: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '49',
+      },
+      denominator: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '50',
+      },
+    },
+    {
+      type: 'Stack',
+
+      numerator: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '97',
+      },
+      denominator: {
+        type: 'Glyph',
+        spacingStyle: Spacing_Style.Ordinary,
+        unicode: '98',
+      },
+    },
+    {
+      type: 'Stretch_Stack',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '8644',
+        spacingStyle: Spacing_Style.Relation,
+      },
+      upperLimit: {
+        type: 'Glyph',
+        unicode: '1113494',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+      lowerLimit: {
+        type: 'Glyph',
+        unicode: '1113495',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+    },
+    {
       type: 'Fraction',
 
       numerator: {

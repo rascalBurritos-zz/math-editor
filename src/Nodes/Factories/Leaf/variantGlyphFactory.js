@@ -12,12 +12,21 @@ import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
  * @return {Document_Node}
  */
 export default function variantGlyphFactory(mathList, fontData) {
+  const behavior = variantGlyphBehaviorFactory(mathList, fontData);
+  const node = new Document_Node(behavior);
+  return node;
+}
+
+/**
+ * @param {Object} mathList
+ * @param {Object} fontData
+ * @return {Variant_Glyph_Behavior}
+ */
+export function variantGlyphBehaviorFactory(mathList, fontData) {
   const spacingStyle = mathList.spacingStyle;
   const setterSpec = generateSetterSpec(mathList, fontData);
   const typesetter = new Variant_Glyph_Setter(setterSpec);
-  const behavior = new Variant_Glyph_Behavior({ typesetter, spacingStyle });
-  const node = new Document_Node(behavior);
-  return node;
+  return new Variant_Glyph_Behavior({ typesetter, spacingStyle });
 }
 
 /**

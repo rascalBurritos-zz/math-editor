@@ -6,7 +6,10 @@ import radicalFactory from './Branch/radicalFactory.js';
 import accentFactory from './Branch/accentFactory.js';
 import operatorFactory from './Branch/operatorFactory.js';
 import fractionFactory from './Branch/fractionFactory.js';
+import stackFactory from './Branch/stackFactory.js';
+import stretchStackFactory from './Branch/stretchStackFactory.js';
 import DependancyOrganizer from './DependancyOrganizer.js';
+import skewedFractionFactory from './Branch/skewedFractionFactory.js';
 
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
@@ -47,6 +50,9 @@ export default function nodeFactory(mathList, fontData) {
     Accent: accentFactory,
     Operator: operatorFactory,
     Fraction: fractionFactory,
+    Skewed_Fraction: skewedFractionFactory,
+    Stack: stackFactory,
+    Stretch_Stack: stretchStackFactory,
   };
   const node = nodeMap[mathList.type](mathList, fontData);
   registerDependancies();
