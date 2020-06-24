@@ -99,7 +99,7 @@ export default class Behavior {
    * @return {Metrics}
    */
   get metrics() {
-    if (!this._isValid()) console.warn('invalid ', this);
+    if (!this._isValid()) throw new Error('hi'); // console.warn('invalid ', this);
     return this._metrics;
   }
 

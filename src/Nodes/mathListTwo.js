@@ -4,8 +4,14 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Delimiter',
+      unicode: '91',
+      drain: 'no1',
+      spacingStyle: Spacing_Style.Ordinary,
+    },
+    {
       type: 'Skewed_Fraction',
-
+      source: 'no1',
       numerator: {
         type: 'Glyph',
         spacingStyle: Spacing_Style.Ordinary,
@@ -16,6 +22,13 @@ export default {
         spacingStyle: Spacing_Style.Ordinary,
         unicode: '50',
       },
+    },
+
+    {
+      type: 'Delimiter',
+      unicode: '93',
+      drain: 'no1',
+      spacingStyle: Spacing_Style.Ordinary,
     },
     {
       type: 'Stack',
@@ -137,8 +150,9 @@ export default {
       },
     },
     {
-      type: 'Variant_Glyph',
+      type: 'Delimiter',
       unicode: '40',
+      drain: 'largeIntegral',
       spacingStyle: Spacing_Style.Ordinary,
     },
     {
@@ -146,10 +160,12 @@ export default {
       // unicode: '8658',
       unicode: '8747',
       spacingStyle: Spacing_Style.Binary,
+      source: 'largeIntegral',
     },
     {
-      type: 'Variant_Glyph',
+      type: 'Delimiter',
       unicode: '41',
+      drain: 'largeIntegral',
       spacingStyle: Spacing_Style.Ordinary,
     },
 
