@@ -50,7 +50,7 @@ export default class Scripts_Behavior extends Behavior {
      * to the current style
      */
     function updateScriptStyles() {
-      scriptsBehavior._nucleusBehavior.mathStyle = scriptsBehavior._mathStyle;
+      scriptsBehavior._nucleusBehavior.mathStyle = scriptsBehavior._mathStyle.copy();
       if (scriptsBehavior._doesSubscriptExist()) {
         scriptsBehavior._subBehavior.mathStyle = getScriptStyle(false);
       }
@@ -62,14 +62,13 @@ export default class Scripts_Behavior extends Behavior {
        * @return {Math_Style}
        */
       function getScriptStyle(isSuperscript) {
-        const currentStyle = scriptsBehavior._mathStyle;
+        const currentStyle = scriptsBehavior._mathStyle.copy();
         const styleMap = {
           D: 'S',
           T: 'S',
           S: 'SS',
           SS: 'SS',
         };
-
         const isCramped = isSuperscript ? currentStyle.cramped : true;
         return new Math_Style(
           styleMap[currentStyle.type],

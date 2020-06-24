@@ -21,4 +21,11 @@ export default class Math_Style {
     // cramped?: boolean
     this.cramped = cramped;
   }
+
+  /**
+   * @return {Math_Style}
+   */
+  copy() {
+    return new Math_Style(this.type, this.fontSize, this.cramped);
+  }
 }

@@ -63,7 +63,7 @@ export default class Generalized_Fraction_Behavior extends Behavior {
        */
       function getFractionStyle(isNumerator) {
         const ms = generalizedFractionBehavior._mathStyle;
-        if ((ms.type = 'D')) {
+        if (ms.type === 'D') {
           const isCramped = isNumerator ? ms.cramped : true;
           return new Math_Style('T', ms.fontSize, isCramped);
         } else {
