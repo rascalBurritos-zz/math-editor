@@ -152,20 +152,12 @@ export default {
     {
       type: 'Delimiter',
       unicode: '40',
-      drain: 'largeIntegral',
       spacingStyle: Spacing_Style.Ordinary,
     },
-    {
-      type: 'Variant_Glyph',
-      // unicode: '8658',
-      unicode: '8747',
-      spacingStyle: Spacing_Style.Binary,
-      source: 'largeIntegral',
-    },
+
     {
       type: 'Delimiter',
       unicode: '41',
-      drain: 'largeIntegral',
       spacingStyle: Spacing_Style.Ordinary,
     },
 
@@ -221,6 +213,70 @@ export default {
       type: 'Glyph',
       spacingStyle: Spacing_Style.Ordinary,
       unicode: '65',
+    },
+    {
+      type: 'Stretch_Stack',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '8660',
+        spacingStyle: Spacing_Style.Relation,
+      },
+      upperLimit: {
+        type: 'Formula',
+        spacingStyle: Spacing_Style.Operator,
+        elements: [
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+        ],
+      },
+      lowerLimit: {
+        type: 'Glyph',
+        unicode: '1113495',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
     },
   ],
 };

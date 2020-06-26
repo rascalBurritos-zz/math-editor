@@ -25,29 +25,7 @@ export default class Formula_Behavior extends Behavior {
   _preSetterSequence() {
     const formulaBehavior = this;
     updateElementMathStyles();
-    updateVariantGlyphs();
-    updateRadicals();
-    /**
-     * sets length of variant glyphs
-     */
-    function updateVariantGlyphs() {
-      for (const behavior of formulaBehavior._elementBehaviors) {
-        if (behavior.type === 'Variant_Glyph') {
-          behavior.desiredSize = 300;
-        }
-      }
-    }
-    /**
-     * sets length and width of radicals
-     */
-    function updateRadicals() {
-      for (const behavior of formulaBehavior._elementBehaviors) {
-        if (behavior.type === 'Radical_Glyph') {
-          behavior.desiredLength = 500;
-          behavior.desiredWidth = 50;
-        }
-      }
-    }
+
     /**
      * Changes Corresponding Node's Element's Behavior's
      * Style

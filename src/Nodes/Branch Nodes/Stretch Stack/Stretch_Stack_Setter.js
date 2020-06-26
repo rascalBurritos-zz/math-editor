@@ -39,11 +39,16 @@ export default class Stretch_Stack_Setter extends Typesetter {
     upperlimitBehavior
   ) {
     const stretchStackSetter = this;
-    const upperGap = getUpperGap();
-    const lowerGap = getLowerGap();
+    updateNucleusSize();
     const totalWidth = calculateTotalWidth();
-    const upperLimitComponentStyle = calculateUpperLimitComponentyStyle();
-    const lowerLimitComponentStyle = calculateLowerLimitComponentStyle();
+    const upperGap = doesUpperLimitExist() ? getUpperGap() : 0;
+    const lowerGap = doesLowerLimitExist() ? getLowerGap() : 0;
+    const upperLimitComponentStyle = doesUpperLimitExist()
+      ? calculateUpperLimitComponentyStyle()
+      : {};
+    const lowerLimitComponentStyle = doesLowerLimitExist()
+      ? calculateLowerLimitComponentStyle()
+      : {};
     const nucleusComponentStyle = calculateNucleusComponentStyle();
     const metrics = calculateMetrics();
     return {
@@ -52,6 +57,23 @@ export default class Stretch_Stack_Setter extends Typesetter {
       nucleusComponentStyle,
       lowerLimitComponentStyle,
     };
+
+    /**
+     *
+     */
+    function updateNucleusSize() {
+      if (nucleusBehavior.type === 'Variant_Glyph') {
+        const upperWidth = doesUpperLimitExist()
+          ? upperlimitBehavior.metrics.width
+          : 0;
+        const lowerWidth = doesLowerLimitExist()
+          ? lowerlimitBehavior.metrics.width
+          : 0;
+        const maxWidth = Math.max(upperWidth, lowerWidth);
+        nucleusBehavior.desiredSize = maxWidth;
+      }
+    }
+
     /**
      * @return {Object}
      */
@@ -80,10 +102,14 @@ export default class Stretch_Stack_Setter extends Typesetter {
      * @return {number}
      */
     function calculateTotalWidth() {
-      const nm = nucleusBehavior.metrics;
-      const um = upperlimitBehavior.metrics;
-      const lm = lowerlimitBehavior.metrics;
-      return Math.max(nm.width, um.width, lm.width);
+      const nucleusWidth = nucleusBehavior.metrics.width;
+      const upperWidth = doesUpperLimitExist()
+        ? upperlimitBehavior.metrics.width
+        : 0;
+      const lowerWidth = doesLowerLimitExist()
+        ? lowerlimitBehavior.metrics.width
+        : 0;
+      return Math.max(nucleusWidth, upperWidth, lowerWidth);
     }
 
     /**
@@ -118,6 +144,19 @@ export default class Stretch_Stack_Setter extends Typesetter {
         stretchStackSetter._stretchStackBottomShiftDown * pxpfu -
         upperlimitBehavior.metrics.height;
       return Math.max(defaultGap, minLowerGap);
+    }
+
+    /**
+     * @return {boolean}
+     */
+    function doesUpperLimitExist() {
+      return upperlimitBehavior !== undefined;
+    }
+    /**
+     * @return {boolean}
+     */
+    function doesLowerLimitExist() {
+      return lowerlimitBehavior !== undefined;
     }
   }
 }

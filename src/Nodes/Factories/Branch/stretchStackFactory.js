@@ -1,9 +1,9 @@
-import Spacing_Style from '../../Types/Spacing_Style';
+// import Spacing_Style from '../../Types/Spacing_Style';
 import nodeFactory from '../nodeFactory';
 import Operator_Node from '../../Branch Nodes/Operator/Operator_Node';
-import variantGlyphFactory from '../Leaf/variantGlyphFactory';
 import Stretch_Stack_Setter from '../../Branch Nodes/Stretch Stack/Stretch_Stack_Setter';
 import Stretch_Stack_Behavior from '../../Branch Nodes/Stretch Stack/Stretch_Stack_Behavior';
+import universalGlyphFactory from './universalGlyphFactory';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
 /** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
@@ -20,7 +20,7 @@ export default function stretchStackFactory(mathList, fontData) {
   const spacingStyle = mathList.nucleus.spacingStyle;
   const behavior = new Stretch_Stack_Behavior({ typesetter, spacingStyle });
   const node = new Operator_Node(behavior);
-  node.nucleus = nodeFactory(mathList.nucleus, fontData);
+  node.nucleus = universalGlyphFactory(mathList.nucleus, fontData);
   if (mathList.lowerLimit !== undefined) {
     node.lowerLimit = nodeFactory(mathList.lowerLimit, fontData);
   }

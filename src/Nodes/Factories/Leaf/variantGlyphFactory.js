@@ -13,6 +13,7 @@ import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
  */
 export default function variantGlyphFactory(mathList, fontData) {
   const behavior = variantGlyphBehaviorFactory(mathList, fontData);
+  if (!behavior) console.warn('Invalid Behavior');
   const node = new Document_Node(behavior);
   return node;
 }
@@ -20,11 +21,12 @@ export default function variantGlyphFactory(mathList, fontData) {
 /**
  * @param {Object} mathList
  * @param {Object} fontData
- * @return {Variant_Glyph_Behavior}
+ * @return {Variant_Glyph_Behavior | boolean}
  */
 export function variantGlyphBehaviorFactory(mathList, fontData) {
   const spacingStyle = mathList.spacingStyle;
   const setterSpec = generateSetterSpec(mathList, fontData);
+  if (!setterSpec) return false;
   const typesetter = new Variant_Glyph_Setter(setterSpec);
   return new Variant_Glyph_Behavior({ typesetter, spacingStyle });
 }
@@ -36,6 +38,7 @@ export function variantGlyphBehaviorFactory(mathList, fontData) {
  */
 function generateSetterSpec(mathList, fontData) {
   const variantsSettings = generateVariants();
+  if (!variantsSettings) return false;
   const extensionSettings = generateExtensionProperties();
   const mc = fontData.MATH.MathConstants;
   const setterSpec = {
@@ -112,8 +115,8 @@ function generateSetterSpec(mathList, fontData) {
         };
       }
     }
-    console.warn('DOESNT EXIST in variant glyph factory');
-    return {};
+
+    return false;
     /**
      * @param {String} mode
      * @return {String}

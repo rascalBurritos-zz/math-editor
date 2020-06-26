@@ -333,27 +333,6 @@ export default {
       },
     },
     {
-      type: 'Variant_Glyph',
-      unicode: '40',
-      spacingStyle: Spacing_Style.Ordinary,
-    },
-    {
-      type: 'Variant_Glyph',
-      // unicode: '8658',
-      unicode: '8747',
-      spacingStyle: Spacing_Style.Binary,
-    },
-    {
-      type: 'Variant_Glyph',
-      unicode: '41',
-      spacingStyle: Spacing_Style.Ordinary,
-    },
-    {
-      type: 'Variant_Glyph',
-      unicode: '8658',
-      spacingStyle: Spacing_Style.Binary,
-    },
-    {
       type: 'Scripts',
       nucleus: {
         type: 'Glyph',

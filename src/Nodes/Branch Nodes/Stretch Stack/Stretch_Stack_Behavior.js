@@ -62,6 +62,8 @@ export default class Stretch_Stack_Behavior extends Behavior {
   _preSetterSequence() {
     const operatorBehavior = this;
     updateChildMathStyles();
+    // updateChildDependants();
+
     /**
      * @override
      */

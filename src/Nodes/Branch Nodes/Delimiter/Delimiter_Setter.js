@@ -44,10 +44,13 @@ export default class Delimiter_Setter extends Typesetter {
     function determineDesiredSize() {
       // const scaleFactor =
       //   delimiterSetter._delimitedSubFormulaMinHeight / delimiterSetter._upm;
-      const totalHeight =
-        2 *
-        Math.max(targetBehavior.metrics.height, targetBehavior.metrics.depth);
-      return doesTargetExist() ? totalHeight : 0;
+      return doesTargetExist()
+        ? 2 *
+            Math.max(
+              targetBehavior.metrics.height,
+              targetBehavior.metrics.depth
+            )
+        : 0;
     }
 
     /**
