@@ -4,23 +4,43 @@ export default {
   spacingStyle: Spacing_Style.None,
   elements: [
     {
+      type: 'Underbar',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '110',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+    },
+    {
+      type: 'Overbar',
+      nucleus: {
+        type: 'Glyph',
+        unicode: '120',
+        spacingStyle: Spacing_Style.Binary,
+      },
+    },
+    {
       type: 'Delimiter',
       unicode: '91',
       drain: 'no1',
       spacingStyle: Spacing_Style.Ordinary,
     },
     {
-      type: 'Skewed_Fraction',
-      source: 'no1',
-      numerator: {
-        type: 'Glyph',
-        spacingStyle: Spacing_Style.Ordinary,
-        unicode: '49',
-      },
-      denominator: {
-        type: 'Glyph',
-        spacingStyle: Spacing_Style.Ordinary,
-        unicode: '50',
+      type: 'Overbar',
+      nucleus: {
+        type: 'Skewed_Fraction',
+        spacingStyle: Spacing_Style.None,
+        source: 'no1',
+        numerator: {
+          type: 'Glyph',
+          spacingStyle: Spacing_Style.Ordinary,
+          unicode: '49',
+        },
+        denominator: {
+          type: 'Glyph',
+          spacingStyle: Spacing_Style.Ordinary,
+          unicode: '50',
+        },
       },
     },
 
@@ -46,6 +66,7 @@ export default {
     },
     {
       type: 'Stretch_Stack',
+      alignmentMode: 'Center',
       nucleus: {
         type: 'Glyph',
         unicode: '8644',
@@ -216,9 +237,76 @@ export default {
     },
     {
       type: 'Stretch_Stack',
+      alignmentMode: 'Center',
       nucleus: {
         type: 'Glyph',
         unicode: '8660',
+        spacingStyle: Spacing_Style.Relation,
+      },
+      upperLimit: {
+        type: 'Formula',
+        spacingStyle: Spacing_Style.Operator,
+        elements: [
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '120',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '61',
+            spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: 'Glyph',
+            unicode: '50',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+        ],
+      },
+      lowerLimit: {
+        type: 'Glyph',
+        unicode: '1113495',
+        spacingStyle: Spacing_Style.Ordinary,
+      },
+    },
+    {
+      type: 'Stretch_Stack',
+      alignmentMode: 'Under',
+      nucleus: {
+        type: 'Glyph',
+        // underbrace
+        unicode: '9183',
         spacingStyle: Spacing_Style.Relation,
       },
       upperLimit: {

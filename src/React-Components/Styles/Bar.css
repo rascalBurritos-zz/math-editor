@@ -1,0 +1,9 @@
+.BarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.Bar {
+  align-self: stretch;
+  background-color: black;
+}

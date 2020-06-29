@@ -10,6 +10,7 @@ import stackFactory from './Branch/stackFactory.js';
 import stretchStackFactory from './Branch/stretchStackFactory.js';
 import DependancyOrganizer from './DependancyOrganizer.js';
 import skewedFractionFactory from './Branch/skewedFractionFactory.js';
+import barFactory from './Branch/barFactory.js';
 import delimiterFactory from './Branch/delimiterFactory.js';
 
 /** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
@@ -55,6 +56,8 @@ export default function nodeFactory(mathList, fontData) {
     Stack: stackFactory,
     Stretch_Stack: stretchStackFactory,
     Delimiter: delimiterFactory,
+    Overbar: barFactory,
+    Underbar: barFactory,
   };
   const node = nodeMap[mathList.type](mathList, fontData);
   registerDependancies();

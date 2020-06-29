@@ -22,6 +22,7 @@ export default class Stretch_Stack_Setter extends Typesetter {
     this._stretchStackBottomShiftDown = spec.stretchStackBottomShiftDown;
     this._stretchStackGapAboveMin = spec.stretchStackGapAboveMin;
     this._stretchStackGapBelowMin = spec.stretchStackGapBelowMin;
+    this._alignmentMode = spec.alignmentMode;
   }
 
   /**
@@ -119,10 +120,58 @@ export default class Stretch_Stack_Setter extends Typesetter {
       const nm = nucleusBehavior.metrics;
       const um = upperlimitBehavior.metrics;
       const lm = lowerlimitBehavior.metrics;
-      const height = nm.height + upperGap + um.depth + um.height;
-      const width = totalWidth;
-      const depth = nm.depth + lowerGap + lm.height + lm.depth;
-      return new Metrics(height, width, depth);
+      const metricMap = {
+        Over: calculateOverMetrics,
+        Center: calculateCenterMetrics,
+        Under: calculateUnderMetrics,
+      };
+      return metricMap[stretchStackSetter._alignmentMode]();
+
+      /**
+       * meant for overbrace like
+       * stacks
+       * aligns with the lowerLimit
+       * @return {metrics};
+       */
+      function calculateOverMetrics() {
+        const height =
+          lm.height +
+          lowerGap +
+          nm.depth +
+          nm.height +
+          upperGap +
+          um.depth +
+          um.height;
+        const depth = lm.depth;
+        const width = totalWidth;
+        return new Metrics(height, width, depth);
+      }
+      /**
+       * @return {metrics};
+       */
+      function calculateCenterMetrics() {
+        const height = nm.height + upperGap + um.depth + um.height;
+        const width = totalWidth;
+        const depth = nm.depth + lowerGap + lm.height + lm.depth;
+        return new Metrics(height, width, depth);
+      }
+      /**
+       * @return {metrics};
+       *  aligns with upper limit
+       */
+      function calculateUnderMetrics() {
+        const height = um.height;
+        const depth =
+          um.depth +
+          upperGap +
+          nm.height +
+          nm.depth +
+          lowerGap +
+          lm.height +
+          lm.depth;
+        const width = totalWidth;
+        return new Metrics(height, width, depth);
+      }
     }
 
     /**
