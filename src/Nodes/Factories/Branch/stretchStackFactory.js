@@ -6,7 +6,7 @@ import Stretch_Stack_Behavior from '../../Branch Nodes/Stretch Stack/Stretch_Sta
 import universalGlyphFactory from './universalGlyphFactory';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
-/** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList

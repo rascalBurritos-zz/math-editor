@@ -1,9 +1,9 @@
-import Behavior from '../../Abstract/Behavior.js';
+import MathBehavior from '../../../Abstract/MathBehavior.js';
 import Math_Style from '../../Types/Math_Style.js';
 
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
-export default class Generalized_Fraction_Behavior extends Behavior {
+export default class Generalized_Fraction_Behavior extends MathBehavior {
   _numeratorBehavior;
   _denominatorBehavior;
 

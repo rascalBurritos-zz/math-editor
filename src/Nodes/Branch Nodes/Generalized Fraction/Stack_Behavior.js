@@ -1,7 +1,7 @@
 import Generalized_Fraction_Behavior from './Generalized_Fraction_Behavior.js';
 import Stack from '../../../React-Components/Stack.js';
 
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
 export default class Stack_Behavior extends Generalized_Fraction_Behavior {
   _ruleStyle;

@@ -1,4 +1,4 @@
-import Typesetter from '../../Abstract/Typesetter.js';
+import Typesetter from '../../../Abstract/Typesetter.js';
 import InternalCharacterBoxComponent from '../../../React-Components/InternalCharacterBoxComponent.js';
 import Metrics from '../../Types/Metrics.js';
 /** @typedef {typeof import('react').Component} Component */
@@ -36,7 +36,7 @@ import Metrics from '../../Types/Metrics.js';
  * @property {Object} glyphMetric 
  * @property {number} italicsCorrection
  * @property {number} accentAttachmentPoint
- * @typedef {import('../../Abstract/Typesetter.js').setterSpec 
+ * @typedef {import('../../../Abstract/Typesetter.js').setterSpec 
   & glyphSetterType} glyphSetterSpec
  */
 

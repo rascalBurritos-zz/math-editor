@@ -2,7 +2,7 @@ import { Glyph } from '../../../React-Components/Glyph.js';
 import Leaf_Behavior from '../Leaf_Behavior.js';
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('./Glyph_Setter').InternalCharacterBox} InternalCharacterBox  */
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
 export default class Glyph_Behavior extends Leaf_Behavior {
   _internalCharacterBox;

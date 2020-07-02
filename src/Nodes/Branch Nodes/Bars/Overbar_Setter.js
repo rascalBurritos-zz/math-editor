@@ -1,7 +1,7 @@
-import Typesetter from '../../Abstract/Typesetter';
+import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 
 export default class Overbar_Setter extends Typesetter {

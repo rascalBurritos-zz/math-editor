@@ -1,7 +1,7 @@
 import Generalized_Fraction_Behavior from './Generalized_Fraction_Behavior.js';
 import Skewed_Fraction from '../../../React-Components/Skewed_Fraction.js';
 
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
 export default class Skewed_Fraction_Behavior extends Generalized_Fraction_Behavior {
   _slashBehavior;

@@ -1,6 +1,6 @@
 import Psuedo_Behavior from '../Variant_Glyph/Psuedo_Behavior';
 
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style */
 /** @typedef {import('../../Types/Metrics').default} Metrics */
 

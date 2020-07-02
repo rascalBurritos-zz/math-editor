@@ -1,4 +1,4 @@
-import Document_Node from '../../Abstract/Document_Node';
+import Document_Node from '../../../Abstract/Document_Node';
 
 export default class Radical_Node extends Document_Node {
   _radicand;

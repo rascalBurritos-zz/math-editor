@@ -1,7 +1,7 @@
 import Leaf_Behavior from '../Leaf_Behavior.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 /** @typedef {import('../../Types/Metrics').default} Metrics  */
 
 /**

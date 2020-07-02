@@ -1,6 +1,6 @@
 import Variant_Glyph_Setter from '../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Setter.js';
 import Variant_Glyph_Behavior from '../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior.js';
-import Document_Node from '../../Abstract/Document_Node.js';
+import Document_Node from '../../../Abstract/Document_Node.js';
 import { glyphBehaviorFactory } from './glyphFactory.js';
 import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
 

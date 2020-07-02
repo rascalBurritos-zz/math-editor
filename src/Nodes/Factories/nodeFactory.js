@@ -13,7 +13,7 @@ import skewedFractionFactory from './Branch/skewedFractionFactory.js';
 import barFactory from './Branch/barFactory.js';
 import delimiterFactory from './Branch/delimiterFactory.js';
 
-/** @typedef {import('../Abstract/Document_Node.js').default} Document_Node*/
+/** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../Types/Spacing_Style.js').default} Spacing_Style  */
 

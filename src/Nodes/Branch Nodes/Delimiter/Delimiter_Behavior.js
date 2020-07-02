@@ -1,7 +1,7 @@
-import Behavior from '../../Abstract/Behavior';
+import MathBehavior from '../../../Abstract/MathBehavior';
 import Delimiter from '../../../React-Components/Delimiter';
 
-export default class Delimiter_Behavior extends Behavior {
+export default class Delimiter_Behavior extends MathBehavior {
   _glyphBehavior;
   _target;
   /**

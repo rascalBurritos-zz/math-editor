@@ -1,14 +1,13 @@
-import Document_Node from '../../../Abstract/Document_Node.js';
-/** @typedef {import('./Formula_Behavior').default} Formula_Behavior */
+import Document_Node from '../../Abstract/Document_Node.js';
 /**
  * @class
  */
-export default class Formula_Node extends Document_Node {
+export default class Vertical_List_Node extends Document_Node {
   /**
-   * @param {Formula_Behavior} formulaBehavior
+   * @param {Vertical_List_Behavior} verticalListBehavior
    */
-  constructor(formulaBehavior) {
-    super(formulaBehavior);
+  constructor(verticalListBehavior) {
+    super(verticalListBehavior);
     /**
      * List of descendants from left to right
      */

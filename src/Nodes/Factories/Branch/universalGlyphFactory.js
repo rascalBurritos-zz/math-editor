@@ -1,4 +1,4 @@
-import Document_Node from '../../Abstract/Document_Node.js';
+import Document_Node from '../../../Abstract/Document_Node.js';
 import { variantGlyphBehaviorFactory } from '../Leaf/variantGlyphFactory.js';
 import { glyphBehaviorFactory } from '../Leaf/glyphFactory.js';
 

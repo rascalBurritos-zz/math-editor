@@ -1,8 +1,8 @@
-import Typesetter from '../../Abstract/Typesetter.js';
+import Typesetter from '../../../Abstract/Typesetter.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../Abstract/Behavior').default} Behavior */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior */
 
 export default class Variant_Glyph_Setter extends Typesetter {
   /**

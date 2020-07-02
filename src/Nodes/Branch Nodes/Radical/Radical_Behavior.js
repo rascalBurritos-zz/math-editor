@@ -1,9 +1,9 @@
-import Behavior from '../../Abstract/Behavior';
+import MathBehavior from '../../../Abstract/MathBehavior';
 import Radical from '../../../React-Components/Radical';
 import Math_Style from '../../Types/Math_Style';
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec}behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec}behaviorSpec  */
 
-export default class Radical_Behavior extends Behavior {
+export default class Radical_Behavior extends MathBehavior {
   _radicandBehavior;
   _degreeBehavior;
   _radicalGlyphBehavior;

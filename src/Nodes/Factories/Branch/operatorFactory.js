@@ -6,7 +6,7 @@ import Operator_Node from '../../Branch Nodes/Operator/Operator_Node';
 import variantGlyphFactory from '../Leaf/variantGlyphFactory';
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
-/** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList

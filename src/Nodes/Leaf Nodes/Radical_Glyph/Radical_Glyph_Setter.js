@@ -4,10 +4,10 @@ import Extended_Glyph_Setter from '../Extended_Glyph/Extended_Glyph_Setter';
 import Radical_Extension_Behavior from './Radical_Extension_Behavior.js';
 import Radical_Extension_Setter from './Radical_Extension_Setter.js';
 
-import Typesetter from '../../Abstract/Typesetter';
-/** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec */
+import Typesetter from '../../../Abstract/Typesetter';
+/** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 
 /** @typedef {import('./Radical_Extension_Setter').extendedRadicalSetterSpec} extendedRadicalSetterSpec */
 /** @typedef {import('../Extended_Glyph/Extended_Glyph_Setter').extendedGlyphSetterSpec} extendedGlyphSetterSpec */

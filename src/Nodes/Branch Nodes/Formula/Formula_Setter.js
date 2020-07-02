@@ -1,9 +1,9 @@
-import Typesetter from '../../Abstract/Typesetter.js';
+import Typesetter from '../../../Abstract/Typesetter.js';
 import SpacingTable from './InterElementSpacingTable.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
 import Metrics from '../../Types/Metrics.js';
 
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 
 export default class Formula_Setter extends Typesetter {
   /**

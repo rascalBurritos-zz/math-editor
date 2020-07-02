@@ -1,7 +1,7 @@
 import Generalized_Fraction_Behavior from './Generalized_Fraction_Behavior.js';
 import Fraction from '../../../React-Components/Fraction.js';
 
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
 export default class Fraction_Behavior extends Generalized_Fraction_Behavior {
   _ruleStyle;

@@ -1,4 +1,4 @@
-import Typesetter from '../../Abstract/Typesetter';
+import Typesetter from '../../../Abstract/Typesetter';
 import { getScriptFontParameters } from '../../Factories/Branch/scriptsFactory';
 import Scripts_Setter from '../Scripts/Scripts_Setter';
 import Spacing_Style from '../../Types/Spacing_Style';
@@ -7,8 +7,8 @@ import limitsBehaviorFactory from '../../Factories/Branch/limitsBehaviorFactory'
 
 /** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior  */
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
-/** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  * @typedef {Object} ScriptSetterType

@@ -1,4 +1,4 @@
-/** @typedef {import('../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
 
 export default class DependancyOrganizer {
   static map = {};

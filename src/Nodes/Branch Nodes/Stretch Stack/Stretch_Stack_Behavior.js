@@ -1,11 +1,11 @@
 import Math_Style from '../../Types/Math_Style.js';
-import Behavior from '../../Abstract/Behavior.js';
+import MathBehavior from '../../../Abstract/MathBehavior.js';
 import Stretch_Stack from '../../../React-Components/Stretch_Stack.js';
 
 /** @typedef {import('../../Types/Metrics').default} Metrics  */
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
-export default class Stretch_Stack_Behavior extends Behavior {
+export default class Stretch_Stack_Behavior extends MathBehavior {
   _upperLimitBehavior;
   _nucleusBehavior;
   _lowerLimitBehavior;

@@ -1,8 +1,8 @@
-import Typesetter from '../../Abstract/Typesetter';
+import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
-/** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  * @typedef {Object} ScriptSetterType

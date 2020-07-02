@@ -1,7 +1,7 @@
-import Behavior from '../../Abstract/Behavior';
+import MathBehavior from '../../../Abstract/MathBehavior';
 import Bar from '../../../React-Components/Bar';
 
-export default class Bar_Behavior extends Behavior {
+export default class Bar_Behavior extends MathBehavior {
   _nucleusBehavior;
   _barStyle;
   _isOverbar;

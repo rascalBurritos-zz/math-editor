@@ -5,7 +5,7 @@ import { variantGlyphBehaviorFactory } from '../Leaf/variantGlyphFactory';
 import Skewed_Fraction_Setter from '../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Setter';
 import Skewed_Fraction_Behavior from '../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Behavior';
 
-/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
 
 /** @typedef {import('../nodeFactory').MathList} MathList */
 

@@ -1,11 +1,11 @@
 import Math_Style from '../../Types/Math_Style.js';
-import Behavior from '../../Abstract/Behavior.js';
+import MathBehavior from '../../../Abstract/MathBehavior.js';
 
 /** @typedef {import('../../Types/Metrics').default} Metrics  */
 /** @typedef {import('./Limits_Behavior').default} Limits_Behavior  */
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
-export default class Operator_Behavior extends Behavior {
+export default class Operator_Behavior extends MathBehavior {
   _upperLimitBehavior;
   _nucleusBehavior;
   _lowerLimitBehavior;

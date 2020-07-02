@@ -1,6 +1,6 @@
-import Metrics from '../Types/Metrics.js';
-/** @typedef {import('../Types/Math_Style.js').default} Math_Style */
-/** @typedef {import('../Types/Spacing_Style.js').default} Spacing_Style */
+import Metrics from '../Nodes/Types/Metrics.js';
+/** @typedef {import('../Nodes/Types/Math_Style.js').default} Math_Style */
+/** @typedef {import('../Nodes/Types/Spacing_Style.js').default} Spacing_Style */
 /** @typedef {import('./Typesetter.js').default} Typesetter */
 
 /** @typedef {Object} behaviorSpec

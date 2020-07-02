@@ -2,7 +2,7 @@ import { ExtendedGlyph } from '../../../React-Components/ExtendedGlyph.js';
 import Leaf_Behavior from '../Leaf_Behavior.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../Abstract/Behavior').behaviorSpec} behaviorSpec  */
+/** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
 export default class Extended_Glyph_Behavior extends Leaf_Behavior {
   _path;

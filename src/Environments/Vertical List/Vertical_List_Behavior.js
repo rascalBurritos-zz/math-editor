@@ -1,13 +1,13 @@
-import MathBehavior from '../../../Abstract/MathBehavior.js';
-import Formula from '../../../React-Components/Formula.js';
-/** @typedef {import('../../Types/Math_Style.js').default} Math_Style  */
-/** @typedef {import('../../Types/Spacing_Style').default} Spacing_Style  */
-/** @typedef {import('../../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
+import MathBehavior from '../../Abstract/MathBehavior.js';
+import Vertical_List from '../../../React-Components/Vertical_List.js';
+/** @typedef {import('../../Nodes/Types/Math_Style.js').default} Math_Style  */
+/** @typedef {import('../../Nodes/Types/Spacing_Style').default} Spacing_Style  */
+/** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
 
 /**
  * @class
  */
-export default class Formula_Behavior extends MathBehavior {
+export default class Vertical_List_Behavior extends MathBehavior {
   _elementBehaviors = []; // w
 
   /**
@@ -15,15 +15,15 @@ export default class Formula_Behavior extends MathBehavior {
    */
   constructor(behaviorSpec) {
     super(behaviorSpec);
-    this._component = Formula;
-    this.type = 'Formula';
+    this._component = Vertical_List;
+    this.type = 'Vertical_List';
   }
 
   /**
    * @override
    */
   _preSetterSequence() {
-    const formulaBehavior = this;
+    const verticalListBehavior = this;
     updateElementMathStyles();
 
     /**
@@ -31,8 +31,8 @@ export default class Formula_Behavior extends MathBehavior {
      * Style
      */
     function updateElementMathStyles() {
-      formulaBehavior._elementBehaviors.forEach((behavior) => {
-        behavior.mathStyle = formulaBehavior._mathStyle;
+      verticalListBehavior._elementBehaviors.forEach((behavior) => {
+        behavior.mathStyle = verticalListBehavior._mathStyle;
       });
     }
   }
@@ -58,7 +58,7 @@ export default class Formula_Behavior extends MathBehavior {
    * @override
    */
   _postSetterSequence(settings) {
-    const formulaBehavior = this;
+    const verticalListBehavior = this;
     adjustElementBehaviorRightMargins();
     adjustElementBehaviorTopMargins();
 
@@ -68,7 +68,7 @@ export default class Formula_Behavior extends MathBehavior {
      * to baseline
      */
     function adjustElementBehaviorTopMargins() {
-      for (const behavior of formulaBehavior._elementBehaviors) {
+      for (const behavior of verticalListBehavior._elementBehaviors) {
         const marginTop =
           settings.metrics.height - behavior.metrics.height + 'px';
         behavior.appendComponentStyle({ marginTop });
@@ -78,7 +78,7 @@ export default class Formula_Behavior extends MathBehavior {
      * changes the right margins of the element behaviors
      */
     function adjustElementBehaviorRightMargins() {
-      const behaviors = formulaBehavior._elementBehaviors;
+      const behaviors = verticalListBehavior._elementBehaviors;
       for (let index = 0; index < behaviors.length - 1; index++) {
         const marginRight = settings.spacingArray[index] + 'px';
         behaviors[index].appendComponentStyle({ marginRight });

@@ -1,7 +1,7 @@
-import Typesetter from '../../Abstract/Typesetter';
+import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
-/** @typedef {import('../../Abstract/Typesetter').setterSpec} setterSpec */
+/** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec */
 
 /**
  * @typedef {Object} extendedRadicalSetterLike
