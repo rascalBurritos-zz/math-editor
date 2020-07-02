@@ -1,9 +1,9 @@
-import Scripts_Setter from '../../Branch Nodes/Scripts/Scripts_Setter';
-import Scripts_Behavior from '../../Branch Nodes/Scripts/Scripts_Behavior.js';
-import Scripts_Node from '../../Branch Nodes/Scripts/Scripts_Node';
-import mathNodeFactory from '../Math/mathNodeFactory';
+import Scripts_Setter from '../../../Branch Nodes/Scripts/Scripts_Setter';
+import Scripts_Behavior from '../../../Branch Nodes/Scripts/Scripts_Behavior.js';
+import Scripts_Node from '../../../Branch Nodes/Scripts/Scripts_Node';
+import mathNodeFactory from '../mathNodeFactory';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

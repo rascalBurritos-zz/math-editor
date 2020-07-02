@@ -1,8 +1,8 @@
-import Document_Node from '../../../Abstract/Document_Node.js';
+import Document_Node from '../../../../Abstract/Document_Node.js';
 import { variantGlyphBehaviorFactory } from '../Leaf/variantGlyphFactory.js';
 import { glyphBehaviorFactory } from '../Leaf/glyphFactory.js';
 
-/** @typedef {import('../nodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * Outputs variant if available,

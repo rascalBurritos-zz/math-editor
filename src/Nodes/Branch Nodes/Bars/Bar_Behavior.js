@@ -1,5 +1,5 @@
 import MathBehavior from '../../../Abstract/MathBehavior';
-import Bar from '../../../React-Components/Bar';
+import Bar from '../../React-Components/Math/Bar';
 
 export default class Bar_Behavior extends MathBehavior {
   _nucleusBehavior;

@@ -1,5 +1,5 @@
 import MathBehavior from '../../../Abstract/MathBehavior.js';
-import Formula from '../../../React-Components/Formula.js';
+import Formula from '../../React-Components/Math/Formula.js';
 /** @typedef {import('../../Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */

@@ -1,6 +1,6 @@
-import Spacing_Style from '../../Types/Spacing_Style';
-import Extended_Glyph_Behavior from '../../Leaf Nodes/Extended_Glyph/Extended_Glyph_Behavior';
-import Extended_Glyph_Setter from '../../Leaf Nodes/Extended_Glyph/Extended_Glyph_Setter';
+import Spacing_Style from '../../../Types/Spacing_Style';
+import Extended_Glyph_Behavior from '../../../Leaf Nodes/Extended_Glyph/Extended_Glyph_Behavior';
+import Extended_Glyph_Setter from '../../../Leaf Nodes/Extended_Glyph/Extended_Glyph_Setter';
 
 /**
  * @param {number} desiredSize

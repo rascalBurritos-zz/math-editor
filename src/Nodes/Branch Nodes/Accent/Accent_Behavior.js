@@ -1,6 +1,6 @@
 import MathBehavior from '../../../Abstract/MathBehavior.js';
 import Math_Style from '../../Types/Math_Style.js';
-import Accent from '../../../React-Components/Accent.js';
+import Accent from '../../React-Components/Math/Accent.js';
 
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 

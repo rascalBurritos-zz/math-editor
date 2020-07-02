@@ -1,5 +1,5 @@
 import Typesetter from '../../../Abstract/Typesetter.js';
-import InternalCharacterBoxComponent from '../../../React-Components/InternalCharacterBoxComponent.js';
+import InternalCharacterBoxComponent from '../../React-Components/Math/InternalCharacterBoxComponent.js';
 import Metrics from '../../Types/Metrics.js';
 /** @typedef {typeof import('react').Component} Component */
 

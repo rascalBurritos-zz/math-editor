@@ -1,5 +1,5 @@
 import MathBehavior from '../../../Abstract/MathBehavior.js';
-import Scripts from '../../../React-Components/Scripts.js';
+import Scripts from '../../React-Components/Math/Scripts.js';
 import Math_Style from '../../Types/Math_Style.js';
 
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */

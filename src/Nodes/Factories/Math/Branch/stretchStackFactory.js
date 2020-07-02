@@ -1,12 +1,12 @@
 // import Spacing_Style from '../../Types/Spacing_Style';
-import mathNodeFactory from '../Math/mathNodeFactory';
-import Operator_Node from '../../Branch Nodes/Operator/Operator_Node';
-import Stretch_Stack_Setter from '../../Branch Nodes/Stretch Stack/Stretch_Stack_Setter';
-import Stretch_Stack_Behavior from '../../Branch Nodes/Stretch Stack/Stretch_Stack_Behavior';
+import mathNodeFactory from '../mathNodeFactory';
+import Operator_Node from '../../../Branch Nodes/Operator/Operator_Node';
+import Stretch_Stack_Setter from '../../../Branch Nodes/Stretch Stack/Stretch_Stack_Setter';
+import Stretch_Stack_Behavior from '../../../Branch Nodes/Stretch Stack/Stretch_Stack_Behavior';
 import universalGlyphFactory from './universalGlyphFactory';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
-/** @typedef {import('../../../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../../../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList

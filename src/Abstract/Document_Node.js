@@ -1,16 +1,16 @@
-/** @typedef {import('./MathBehavior.js').default} MathBehavior  */
+/** @typedef {import('./Behavior.js').default} Behavior  */
 
 export default class Document_Node {
   _behavior;
   /**
    *
-   * @param {MathBehavior} behavior
+   * @param {Behavior} behavior
    */
   constructor(behavior) {
     this._behavior = behavior;
   }
   /**
-   * @return {MathBehavior}
+   * @return {Behavior}
    */
   get behavior() {
     return this._behavior;

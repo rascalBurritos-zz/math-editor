@@ -1,10 +1,10 @@
-import Overbar_Setter from '../../Branch Nodes/Bars/Overbar_Setter';
-import Underbar_Setter from '../../Branch Nodes/Bars/Underbar_Setter';
-import Bar_Behavior from '../../Branch Nodes/Bars/Bar_Behavior';
-import Bar_Node from '../../Branch Nodes/Bars/Bar_Node';
-import mathNodeFactory from '../Math/mathNodeFactory';
+import Overbar_Setter from '../../../Branch Nodes/Bars/Overbar_Setter';
+import Underbar_Setter from '../../../Branch Nodes/Bars/Underbar_Setter';
+import Bar_Behavior from '../../../Branch Nodes/Bars/Bar_Behavior';
+import Bar_Node from '../../../Branch Nodes/Bars/Bar_Node';
+import mathNodeFactory from '../mathNodeFactory';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

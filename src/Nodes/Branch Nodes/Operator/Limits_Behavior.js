@@ -1,6 +1,6 @@
 import MathBehavior from '../../../Abstract/MathBehavior.js';
 import Math_Style from '../../Types/Math_Style.js';
-import Limits from '../../../React-Components/Limits.js';
+import Limits from '../../React-Components/Math/Limits.js';
 
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 

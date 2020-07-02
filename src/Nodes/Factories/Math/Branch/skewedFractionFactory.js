@@ -1,13 +1,13 @@
-import mathNodeFactory from '../Math/mathNodeFactory';
-import Generalized_Fraction_Node from '../../Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
-import Spacing_Style from '../../Types/Spacing_Style';
+import mathNodeFactory from '../mathNodeFactory';
+import Generalized_Fraction_Node from '../../../Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
+import Spacing_Style from '../../../Types/Spacing_Style';
 import { variantGlyphBehaviorFactory } from '../Leaf/variantGlyphFactory';
-import Skewed_Fraction_Setter from '../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Setter';
-import Skewed_Fraction_Behavior from '../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Behavior';
+import Skewed_Fraction_Setter from '../../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Setter';
+import Skewed_Fraction_Behavior from '../../../Branch Nodes/Generalized Fraction/Skewed_Fraction_Behavior';
 
-/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
+/** @typedef {import('../../../../Abstract/MathBehavior').default} MathBehavior  */
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

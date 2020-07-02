@@ -1,9 +1,9 @@
-import mathNodeFactory from '../Math/mathNodeFactory';
-import Accent_Setter from '../../Branch Nodes/Accent/Accent_Setter';
-import Accent_Node from '../../Branch Nodes/Accent/Accent_Node';
-import Accent_Behavior from '../../Branch Nodes/Accent/Accent_Behavior';
+import mathNodeFactory from '../mathNodeFactory';
+import Accent_Setter from '../../../Branch Nodes/Accent/Accent_Setter';
+import Accent_Node from '../../../Branch Nodes/Accent/Accent_Node';
+import Accent_Behavior from '../../../Branch Nodes/Accent/Accent_Behavior';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

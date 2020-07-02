@@ -1,10 +1,10 @@
-import Spacing_Style from '../../Types/Spacing_Style.js';
-import Formula_Setter from '../../Branch Nodes/Formula/Formula_Setter.js';
-import Formula_Behavior from '../../Branch Nodes/Formula/Formula_Behavior.js';
-import Formula_Node from '../../Branch Nodes/Formula/Formula_Node.js';
-import nodeFactory from '../nodeFactory.js';
+import Spacing_Style from '../../../Types/Spacing_Style.js';
+import Formula_Setter from '../../../Branch Nodes/Formula/Formula_Setter.js';
+import Formula_Behavior from '../../../Branch Nodes/Formula/Formula_Behavior.js';
+import Formula_Node from '../../../Branch Nodes/Formula/Formula_Node.js';
+import mathNodeFactory from '../mathNodeFactory.js';
 
-/** @typedef {import('../nodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
@@ -23,7 +23,7 @@ export default function formulaFactory(mathList, fontData) {
   const formulaNode = new Formula_Node(formulaBehavior);
   const elementNodes = [];
   for (const listElement of mathList.elements) {
-    elementNodes.push(nodeFactory(listElement, fontData));
+    elementNodes.push(mathNodeFactory(listElement, fontData));
   }
   formulaNode.elements = elementNodes;
   return formulaNode;

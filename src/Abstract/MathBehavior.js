@@ -1,4 +1,4 @@
-import Metrics from '../Nodes/Types/Metrics.js';
+import Behavior from './Behavior.js';
 /** @typedef {import('../Nodes/Types/Math_Style.js').default} Math_Style */
 /** @typedef {import('../Nodes/Types/Spacing_Style.js').default} Spacing_Style */
 /** @typedef {import('./Typesetter.js').default} Typesetter */
@@ -12,24 +12,17 @@ import Metrics from '../Nodes/Types/Metrics.js';
  * @class
  * @classdesc Specifies the appreance of a node
  */
-export default class MathBehavior {
-  type; // rw
-  _componentStyle; // rw
-  _metrics; // r
+export default class MathBehavior extends Behavior {
   _mathStyle; // rw
   _spacingStyle; // r
   _pxpfu; // none
-  _typesetter; // none
-  _component; // r
   _dependantBehaviors; // rw
 
   /**
    *  @param {behaviorSpec} spec
    *  */
   constructor(spec) {
-    this._componentStyle = {};
-    this._metrics = new Metrics(0, 0, 0);
-    this._typesetter = spec.typesetter;
+    super(spec);
     this._spacingStyle = spec.spacingStyle;
     this._dependantBehaviors = [];
   }
@@ -39,6 +32,12 @@ export default class MathBehavior {
    */
   _isValid() {
     return this._isStyleValid();
+  }
+  /**
+   * @return {boolean}
+   */
+  _isStyleValid() {
+    return this._mathStyle !== undefined;
   }
 
   /**
@@ -81,54 +80,10 @@ export default class MathBehavior {
   }
 
   /**
-   * updates the css style based on the updated h,w,d _metrics
-   */
-  _updateComponentStyleDimensions() {
-    this.componentStyle.height = this._metrics.height + this._metrics.depth;
-    this.componentStyle.width = this._metrics.width;
-  }
-
-  /**
    * @return {Spacing_Style}
    */
   get spacingStyle() {
     return this._spacingStyle;
-  }
-
-  /**
-   * @return {Metrics}
-   */
-  get metrics() {
-    if (!this._isValid()) throw new Error('hi'); // console.warn('invalid ', this);
-    return this._metrics;
-  }
-
-  /**
-   * @return {Object} represents CSS of behavior
-   */
-  get componentStyle() {
-    return this._componentStyle;
-  }
-  /**
-   * @param {Object} addedStyles sets the current CSS excluding
-   * height and width
-   * one key value pair
-   */
-  appendComponentStyle(addedStyles) {
-    for (const property in addedStyles) {
-      if (!['height', 'width', 'depth'].includes(property)) {
-        this._componentStyle[property] = addedStyles[property];
-      } else {
-        console.warn('SET DIMENSION IN SET', this);
-      }
-    }
-  }
-
-  /**
-   * @return {React.Component}
-   */
-  get component() {
-    return this._component;
   }
 
   /**
@@ -178,12 +133,5 @@ export default class MathBehavior {
    */
   get mathStyle() {
     return this._mathStyle;
-  }
-
-  /**
-   * @return {boolean}
-   */
-  _isStyleValid() {
-    return this._mathStyle !== undefined;
   }
 }

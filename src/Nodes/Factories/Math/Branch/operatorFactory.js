@@ -1,12 +1,12 @@
-import Spacing_Style from '../../Types/Spacing_Style';
-import mathNodeFactory from '../Math/mathNodeFactory';
-import Operator_Setter from '../../Branch Nodes/Operator/Operator_Setter';
-import Operator_Behavior from '../../Branch Nodes/Operator/Operator_Behavior';
-import Operator_Node from '../../Branch Nodes/Operator/Operator_Node';
+import Spacing_Style from '../../../Types/Spacing_Style';
+import mathNodeFactory from '../mathNodeFactory';
+import Operator_Setter from '../../../Branch Nodes/Operator/Operator_Setter';
+import Operator_Behavior from '../../../Branch Nodes/Operator/Operator_Behavior';
+import Operator_Node from '../../../Branch Nodes/Operator/Operator_Node';
 import variantGlyphFactory from '../Leaf/variantGlyphFactory';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
-/** @typedef {import('../../../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../../../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList

@@ -8,14 +8,14 @@ import operatorFactory from './Branch/operatorFactory.js';
 import fractionFactory from './Branch/fractionFactory.js';
 import stackFactory from './Branch/stackFactory.js';
 import stretchStackFactory from './Branch/stretchStackFactory.js';
-import DependancyOrganizer from './DependancyOrganizer.js';
+import DependancyOrganizer from '../Document/DependancyOrganizer.js';
 import skewedFractionFactory from './Branch/skewedFractionFactory.js';
 import barFactory from './Branch/barFactory.js';
 import delimiterFactory from './Branch/delimiterFactory.js';
 
-/** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node*/
-/** @typedef {import('../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../Types/Spacing_Style.js').default} Spacing_Style  */
+/** @typedef {import('../../../Abstract/Document_Node.js').default} Document_Node*/
+/** @typedef {import('../../Types/Math_Style').default} Math_Style  */
+/** @typedef {import('../../Types/Spacing_Style.js').default} Spacing_Style  */
 
 /**
  * @typedef {Object} MathList
@@ -42,7 +42,7 @@ import delimiterFactory from './Branch/delimiterFactory.js';
  * @param {Object} fontData
  * @return {Document_Node}
  */
-export default function nodeFactory(mathList, fontData) {
+export default function mathNodeFactory(mathList, fontData) {
   const nodeMap = {
     Formula: formulaFactory,
     Glyph: glyphFactory,

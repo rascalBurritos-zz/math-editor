@@ -1,4 +1,4 @@
-import { ExtendedGlyph } from '../../../React-Components/ExtendedGlyph.js';
+import { ExtendedGlyph } from '../../React-Components/Math/ExtendedGlyph.js';
 import Extended_Glyph_Behavior from '../Extended_Glyph/Extended_Glyph_Behavior.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */

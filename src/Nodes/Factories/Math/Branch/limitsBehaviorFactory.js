@@ -1,8 +1,8 @@
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
-import Limits_Behavior from '../../Branch Nodes/Operator/Limits_Behavior';
-import Limits_Setter from '../../Branch Nodes/Operator/Limits_Setter';
-import Spacing_Style from '../../Types/Spacing_Style';
+import Limits_Behavior from '../../../Branch Nodes/Operator/Limits_Behavior';
+import Limits_Setter from '../../../Branch Nodes/Operator/Limits_Setter';
+import Spacing_Style from '../../../Types/Spacing_Style';
 
 /**
  * @param {Object} fontData

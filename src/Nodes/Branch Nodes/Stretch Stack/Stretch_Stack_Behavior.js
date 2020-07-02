@@ -1,6 +1,6 @@
 import Math_Style from '../../Types/Math_Style.js';
 import MathBehavior from '../../../Abstract/MathBehavior.js';
-import Stretch_Stack from '../../../React-Components/Stretch_Stack.js';
+import Stretch_Stack from '../../React-Components/Math/Stretch_Stack.js';
 
 /** @typedef {import('../../Types/Metrics').default} Metrics  */
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */

@@ -1,5 +1,5 @@
 import MathBehavior from '../../../Abstract/MathBehavior';
-import Radical from '../../../React-Components/Radical';
+import Radical from '../../React-Components/Math/Radical';
 import Math_Style from '../../Types/Math_Style';
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec}behaviorSpec  */
 

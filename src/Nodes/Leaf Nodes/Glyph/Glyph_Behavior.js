@@ -1,4 +1,4 @@
-import { Glyph } from '../../../React-Components/Glyph.js';
+import { Glyph } from '../../React-Components/Math/Glyph.js';
 import Leaf_Behavior from '../Leaf_Behavior.js';
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('./Glyph_Setter').InternalCharacterBox} InternalCharacterBox  */

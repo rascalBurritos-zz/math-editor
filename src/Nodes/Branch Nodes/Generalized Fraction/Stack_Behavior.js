@@ -1,5 +1,5 @@
 import Generalized_Fraction_Behavior from './Generalized_Fraction_Behavior.js';
-import Stack from '../../../React-Components/Stack.js';
+import Stack from '../../React-Components/Math/Stack.js';
 
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 

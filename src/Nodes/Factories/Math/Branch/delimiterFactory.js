@@ -1,10 +1,10 @@
-import Spacing_Style from '../../Types/Spacing_Style';
-import Delimiter_Node from '../../Branch Nodes/Delimiter/Delimiter_Node';
-import Delimiter_Setter from '../../Branch Nodes/Delimiter/Delimiter_Setter';
-import Delimiter_Behavior from '../../Branch Nodes/Delimiter/Delimiter_Behavior';
+import Spacing_Style from '../../../Types/Spacing_Style';
+import Delimiter_Node from '../../../Branch Nodes/Delimiter/Delimiter_Node';
+import Delimiter_Setter from '../../../Branch Nodes/Delimiter/Delimiter_Setter';
+import Delimiter_Behavior from '../../../Branch Nodes/Delimiter/Delimiter_Behavior';
 import variantGlyphFactory from '../Leaf/variantGlyphFactory';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

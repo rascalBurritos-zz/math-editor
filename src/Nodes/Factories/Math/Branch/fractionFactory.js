@@ -1,10 +1,10 @@
-import mathNodeFactory from '../Math/mathNodeFactory';
-import Generalized_Fraction_Node from '../../Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
-import Fraction_Setter from '../../Branch Nodes/Generalized Fraction/Fraction_Setter';
-import Spacing_Style from '../../Types/Spacing_Style';
-import Fraction_Behavior from '../../Branch Nodes/Generalized Fraction/Fraction_Behavior';
+import mathNodeFactory from '../mathNodeFactory';
+import Generalized_Fraction_Node from '../../../Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
+import Fraction_Setter from '../../../Branch Nodes/Generalized Fraction/Fraction_Setter';
+import Spacing_Style from '../../../Types/Spacing_Style';
+import Fraction_Behavior from '../../../Branch Nodes/Generalized Fraction/Fraction_Behavior';
 
-/** @typedef {import('../Math/mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathNodeFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList

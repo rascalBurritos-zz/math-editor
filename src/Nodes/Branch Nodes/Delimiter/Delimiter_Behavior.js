@@ -1,5 +1,5 @@
 import MathBehavior from '../../../Abstract/MathBehavior';
-import Delimiter from '../../../React-Components/Delimiter';
+import Delimiter from '../../React-Components/Math/Delimiter';
 
 export default class Delimiter_Behavior extends MathBehavior {
   _glyphBehavior;

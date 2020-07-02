@@ -1,5 +1,5 @@
 import Generalized_Fraction_Behavior from './Generalized_Fraction_Behavior.js';
-import Skewed_Fraction from '../../../React-Components/Skewed_Fraction.js';
+import Skewed_Fraction from '../../React-Components/Math/Skewed_Fraction.js';
 
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
