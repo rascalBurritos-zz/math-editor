@@ -133,27 +133,27 @@ export default class Generalized_Fraction_Behavior extends MathBehavior {
   }
 
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set numeratorBehavior(behavior) {
     this._numeratorBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get numeratorBehavior() {
     return this._numeratorBehavior;
   }
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set denominatorBehavior(behavior) {
     this._denominatorBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get denominatorBehavior() {
     return this._denominatorBehavior;

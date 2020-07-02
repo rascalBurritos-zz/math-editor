@@ -1,7 +1,7 @@
 import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 
 export default class Overbar_Setter extends Typesetter {
@@ -17,7 +17,7 @@ export default class Overbar_Setter extends Typesetter {
   }
   /**
    * @param {number} pxpfu
-   * @param {Behavior} nucleusBehavior
+   * @param {MathBehavior} nucleusBehavior
    * @return {Object} result contains
    * overbar style
    * metrics

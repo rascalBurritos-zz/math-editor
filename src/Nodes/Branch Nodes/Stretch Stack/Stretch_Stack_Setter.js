@@ -4,7 +4,7 @@ import Metrics from '../../Types/Metrics';
 /** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior  */
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  * @typedef {Object} ScriptSetterType
@@ -28,8 +28,8 @@ export default class Stretch_Stack_Setter extends Typesetter {
   /**
    * @param {number} pxpfu
    * @param {Variant_Glyph_Behavior} nucleusBehavior // will set nucleus desired size
-   * @param {Behavior} lowerlimitBehavior
-   * @param {Behavior} upperlimitBehavior
+   * @param {MathBehavior} lowerlimitBehavior
+   * @param {MathBehavior} upperlimitBehavior
    * @return {Object} result contains
    * resultant Behavior = Scripts | Limits
    */

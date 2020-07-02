@@ -2,7 +2,7 @@ import Typesetter from '../../../Abstract/Typesetter';
 
 /** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior */
 /** @typedef {import('../../Types/Math_Style').default} Metrics*/
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 
 export default class Delimiter_Setter extends Typesetter {
@@ -17,7 +17,7 @@ export default class Delimiter_Setter extends Typesetter {
   /**
    * @param {number} pxpfu
    * @param {Variant_Glyph_Behavior} glyphBehavior
-   * @param {Behavior} targetBehavior
+   * @param {MathBehavior} targetBehavior
    * @return {Object} result contains
    * metrics
    * Component Style

@@ -127,33 +127,33 @@ export default class Radical_Behavior extends MathBehavior {
   }
 
   /**
-   * @param {Behavior}rb
+   * @param {MathBehavior}rb
    */
   set radicandBehavior(rb) {
     this._radicandBehavior = rb;
     this.update();
   }
   /**
-   * @return {Behavior}rb
+   * @return {MathBehavior}rb
    */
   get radicandBehavior() {
     return this._radicandBehavior;
   }
   /**
-   * @param {Behavior}db
+   * @param {MathBehavior}db
    */
   set degreeBehavior(db) {
     this._degreeBehavior = db;
     this.update();
   }
   /**
-   * @return {Behavior}
+   * @return {MathBehavior}
    */
   get degreeBehavior() {
     return this._degreeBehavior;
   }
   /**
-   * @return {Behavior}
+   * @return {MathBehavior}
    */
   get radicalGlyphBehavior() {
     return this._radicalGlyphBehavior;

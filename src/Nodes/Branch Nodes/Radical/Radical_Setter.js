@@ -3,7 +3,7 @@ import Metrics from '../../Types/Metrics';
 
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 
 /**
@@ -29,8 +29,8 @@ export default class Radical_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
-   * @param {Behavior} radicandBehavior
-   * @param {Behavior} degreeBehavior
+   * @param {MathBehavior} radicandBehavior
+   * @param {MathBehavior} degreeBehavior
    * @return {Object}
    * contains
    * complete radical glyph behavior (properly set)

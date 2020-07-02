@@ -2,7 +2,7 @@ import Typesetter from '../../../Abstract/Typesetter.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior */
 
 export default class Variant_Glyph_Setter extends Typesetter {
   /**
@@ -29,7 +29,7 @@ export default class Variant_Glyph_Setter extends Typesetter {
    *
    * @param {number} pxpfu
    * @param {number} desiredSize
-   * @return {Behavior}
+   * @return {MathBehavior}
    */
   generateSettings(pxpfu, desiredSize) {
     const variantGlyphSetter = this;
@@ -45,7 +45,7 @@ export default class Variant_Glyph_Setter extends Typesetter {
     return behavior;
 
     /**
-     * @return {Behavior}
+     * @return {MathBehavior}
      */
     function generateExtendedGlyphBehavior() {
       return variantGlyphSetter._extendedGlyphBehaviorFactory(
@@ -56,7 +56,7 @@ export default class Variant_Glyph_Setter extends Typesetter {
     }
 
     /**
-     * @return {Behavior}
+     * @return {MathBehavior}
      */
     function generateGlyphBehavior() {
       const mathList = {

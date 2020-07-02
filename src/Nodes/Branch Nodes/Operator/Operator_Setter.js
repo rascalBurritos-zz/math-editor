@@ -8,7 +8,7 @@ import limitsBehaviorFactory from '../../Factories/Branch/limitsBehaviorFactory'
 /** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior  */
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  * @typedef {Object} ScriptSetterType
@@ -28,9 +28,9 @@ export default class Operator_Setter extends Typesetter {
   /**
    * @param {number} pxpfu
    * @param {Variant_Glyph_Behavior} nucleusBehavior // will set nucleus desired size
-   * @param {Behavior} lowerlimitBehavior
-   * @param {Behavior} upperlimitBehavior
-   * @param {Behavior} targetBehavior
+   * @param {MathBehavior} lowerlimitBehavior
+   * @param {MathBehavior} upperlimitBehavior
+   * @param {MathBehavior} targetBehavior
    * @return {Object} result contains
    * resultant Behavior = Scripts | Limits
    */
@@ -48,7 +48,7 @@ export default class Operator_Setter extends Typesetter {
     return behavior;
 
     /**
-     * @return {Behavior}
+     * @return {MathBehavior}
      */
     function determineOperatorBehavior() {
       if (nucleusBehavior.mathStyle.type === 'D') {
@@ -57,7 +57,7 @@ export default class Operator_Setter extends Typesetter {
       return generateScriptsBehavior();
 
       /**
-       * @return {Behavior}
+       * @return {MathBehavior}
        */
       function generateLimitsBehavior() {
         const limitsBehavior = limitsBehaviorFactory(operatorSetter._fontData);
@@ -68,7 +68,7 @@ export default class Operator_Setter extends Typesetter {
       }
 
       /**
-       * @return {Behavior}
+       * @return {MathBehavior}
        */
       function generateScriptsBehavior() {
         const spec = getScriptFontParameters(operatorSetter._fontData);

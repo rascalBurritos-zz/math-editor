@@ -100,27 +100,27 @@ export default class Accent_Behavior extends MathBehavior {
   }
 
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set accenterBehavior(behavior) {
     this._accenterBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get accenterBehavior() {
     return this._accenterBehavior;
   }
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get nucleusBehavior() {
     return this._nucleusBehavior;

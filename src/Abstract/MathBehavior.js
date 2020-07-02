@@ -12,7 +12,7 @@ import Metrics from '../Nodes/Types/Metrics.js';
  * @class
  * @classdesc Specifies the appreance of a node
  */
-export default class Behavior {
+export default class MathBehavior {
   type; // rw
   _componentStyle; // rw
   _metrics; // r
@@ -141,7 +141,7 @@ export default class Behavior {
 
   /**
    *
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   unregisterDependantBehavior(behavior) {
     this._dependantBehaviors = this._dependantBehaviors.filter((dependant) => {

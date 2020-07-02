@@ -7,7 +7,7 @@ import Radical_Extension_Setter from './Radical_Extension_Setter.js';
 import Typesetter from '../../../Abstract/Typesetter';
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 
 /** @typedef {import('./Radical_Extension_Setter').extendedRadicalSetterSpec} extendedRadicalSetterSpec */
 /** @typedef {import('../Extended_Glyph/Extended_Glyph_Setter').extendedGlyphSetterSpec} extendedGlyphSetterSpec */
@@ -37,7 +37,7 @@ export default class Radical_Glyph_Setter extends Typesetter {
    * @param {number} pxpfu
    * @param {number} desiredLength
    * @param {number} desiredWidth
-   * @return {Behavior}
+   * @return {MathBehavior}
    */
   generateSettings(pxpfu, desiredLength, desiredWidth) {
     const radicalSetter = this;
@@ -51,7 +51,7 @@ export default class Radical_Glyph_Setter extends Typesetter {
     return behavior;
 
     /**
-     * @return {Behavior}
+     * @return {MathBehavior}
      */
     function generateExtendedRadicalBehavior() {
       const spacingStyle = Spacing_Style.None;
@@ -82,7 +82,7 @@ export default class Radical_Glyph_Setter extends Typesetter {
     }
 
     /**
-     * @return {Behavior}
+     * @return {MathBehavior}
      */
     function generateRadicalGlyphBehavior() {
       const setterSpec = generateRadicalGlyphSetterSpec();

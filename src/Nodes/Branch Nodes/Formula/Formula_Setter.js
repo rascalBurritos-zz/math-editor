@@ -3,7 +3,7 @@ import SpacingTable from './InterElementSpacingTable.js';
 import Spacing_Style from '../../Types/Spacing_Style.js';
 import Metrics from '../../Types/Metrics.js';
 
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 
 export default class Formula_Setter extends Typesetter {
   /**
@@ -15,7 +15,7 @@ export default class Formula_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
-   * @param {Behavior[]} elementBehaviors
+   * @param {MathBehavior[]} elementBehaviors
    * @param {string[]} spacingTypeArray
    * @return {Object}
   //  * @property {number[]} spacing in px between each elemen

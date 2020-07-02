@@ -140,40 +140,40 @@ export default class Stretch_Stack_Behavior extends MathBehavior {
    * changes the component styles of super,sub, nuclues
    */
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set upperLimitBehavior(behavior) {
     this._upperLimitBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get upperLimitBehavior() {
     return this._upperLimitBehavior;
   }
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set nucleusBehavior(behavior) {
     this._nucleusBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get nucleusBehavior() {
     return this._nucleusBehavior;
   }
   /**
-   * @param {Behavior} behavior
+   * @param {MathBehavior} behavior
    */
   set lowerLimitBehavior(behavior) {
     this._lowerLimitBehavior = behavior;
     this.update();
   }
   /**
-   * @return {Behavior} behavior
+   * @return {MathBehavior} behavior
    */
   get lowerLimitBehavior() {
     return this._lowerLimitBehavior;

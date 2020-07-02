@@ -2,7 +2,7 @@ import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  * @typedef {Object} ScriptSetterType
@@ -26,8 +26,8 @@ export default class Skewed_Fraction_Setter extends Typesetter {
   /**
    * @param {number} pxpfu
    * @param {Math_Style} currentStyle
-   * @param {Behavior} numeratorBehavior
-   * @param {Behavior} denominatorBehavior
+   * @param {MathBehavior} numeratorBehavior
+   * @param {MathBehavior} denominatorBehavior
    * @return {Object} result contains
    * metrics
    * numerator component style

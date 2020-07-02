@@ -4,7 +4,7 @@ import Metrics from '../../Types/Metrics';
 /** @typedef {import('../../Leaf Nodes/Variant_Glyph/Variant_Glyph_Behavior').default} Variant_Glyph_Behavior  */
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
-/** @typedef {import('../../../Abstract/MathBehavior').default} Behavior  */
+/** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /**
  */
@@ -26,8 +26,8 @@ export default class Limits_Setter extends Typesetter {
   /**
    * @param {number} pxpfu
    * @param {Variant_Glyph_Behavior} nucleusBehavior
-   * @param {Behavior} upperLimitBehavior
-   * @param {Behavior} lowerLimitBehavior
+   * @param {MathBehavior} upperLimitBehavior
+   * @param {MathBehavior} lowerLimitBehavior
    * @return {Object} result contains
    * metrics
    * container componentStyle

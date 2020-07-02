@@ -79,7 +79,7 @@ export default class Delimiter_Behavior extends MathBehavior {
   }
 
   /**
-   * @param {Behavior} t
+   * @param {MathBehavior} t
    */
   set target(t) {
     this._target = t;
