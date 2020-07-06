@@ -1,6 +1,6 @@
 import Behavior from './Behavior.js';
-/** @typedef {import('../Nodes/Types/Math_Style.js').default} Math_Style */
-/** @typedef {import('../Nodes/Types/Spacing_Style.js').default} Spacing_Style */
+/** @typedef {import('../Math Nodes/Types/Math_Style.js').default} Math_Style */
+/** @typedef {import('../Math Nodes/Types/Spacing_Style.js').default} Spacing_Style */
 /** @typedef {import('./Typesetter.js').default} Typesetter */
 
 /** @typedef {Object} behaviorSpec

@@ -1,14 +1,17 @@
-import Document_Node from '../../Abstract/Document_Node.js';
-/** @typedef {import('./Vertical_List_Behavior').default} Vertical_List_Behavior  */
+import Document_Node from '../../Abstract/Document_Node';
+
 /**
  * @class
  */
-export default class Vertical_List_Node extends Document_Node {
+export default class Text_Block_Node extends Document_Node {
   /**
-   * @param {Vertical_List_Behavior} verticalListBehavior
+   * @param {Object}  textEnvironmentBehavior
    */
-  constructor(verticalListBehavior) {
-    super(verticalListBehavior);
+  constructor(textEnvironmentBehavior) {
+    super(textEnvironmentBehavior);
+    /**
+     * List of descendants from left to right
+     */
     this._elements = [];
   }
 
@@ -16,7 +19,7 @@ export default class Vertical_List_Node extends Document_Node {
    * Updates the behavior if there is a change in the elements
    **/
   updateBehavior() {
-    this._behavior.elementBehaviors = this._elements.map((element) => {
+    this._behavior.elements = this._elements.map((element) => {
       return element.behavior;
     });
   }

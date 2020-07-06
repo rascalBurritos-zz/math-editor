@@ -1,4 +1,4 @@
-import Metrics from '../Nodes/Types/Metrics.js';
+import Metrics from '../Math Nodes/Types/Metrics.js';
 /** @typedef {import('./Typesetter.js').default} Typesetter */
 
 /** @typedef {Object} behaviorSpec
@@ -13,7 +13,6 @@ export default class Behavior {
   type; // rw
   _componentStyle; // rw
   _metrics; // r
-  _pxpfu; // none
   _typesetter; // none
   _component; // r
 

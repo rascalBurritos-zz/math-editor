@@ -5,8 +5,8 @@ export default class Vertical_List_Setter {
    * @param {Object} spec
    */
   constructor(spec) {
-    this._baselineDistance = spec._baselineDistance;
-    this._baselineBump = spec._baselineBump;
+    this._baselineDistance = spec.baselineDistance;
+    this._baselineBump = spec.baselineBump;
   }
 
   /**

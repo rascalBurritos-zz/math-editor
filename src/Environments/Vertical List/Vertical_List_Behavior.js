@@ -1,6 +1,7 @@
 import Behavior from '../../Abstract/Behavior.js';
-/** @typedef {import('../../Nodes/Types/Math_Style.js').default} Math_Style  */
-/** @typedef {import('../../Nodes/Types/Spacing_Style').default} Spacing_Style  */
+import VerticalList from '../../React-Components/Document/VerticalList.js';
+/** @typedef {import('../../Math Nodes/Types/Math_Style.js').default} Math_Style  */
+/** @typedef {import('../../Math Nodes/Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
 
 /**
@@ -40,11 +41,17 @@ export default class Vertical_List_Behavior extends Behavior {
      */
     function updateElementComponentStyles() {
       for (const [index, behavior] of vlb._elementBehaviors.entries()) {
-        behavior.appendComponentStyle(settings.elementStyles[index]);
+        behavior.appendComponentStyle(settings.elementComponentStyles[index]);
       }
     }
   }
 
+  /**
+   * @return {Behavior[]}
+   */
+  get elementBehaviors() {
+    return this._elementBehaviors;
+  }
   /**
    * @param {Behavior[]} behaviors
    */

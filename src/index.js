@@ -1,3 +1,3 @@
-import sequence from './Nodes/mySeq';
+import sequence from './Math Nodes/mySeq';
 
 sequence();

@@ -13,7 +13,8 @@ export default class Display_Environment_Setter {
    * @return {Object}
    */
   generateSettings(rootBehavior) {
-    const rootStyle = this._rootStyle;
-    return { rootStyle };
+    rootBehavior.mathStyle = this._rootStyle;
+    const metrics = rootBehavior.metrics.copy();
+    return { metrics };
   }
 }

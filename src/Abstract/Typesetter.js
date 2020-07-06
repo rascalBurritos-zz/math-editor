@@ -1,4 +1,4 @@
-/** @typedef {import('../Nodes/Types/Math_Style.js').default} Math_Style  */
+/** @typedef {import('../Math Nodes/Types/Math_Style.js').default} Math_Style  */
 /**
  * @typedef {Object} setterSpec
  * @property {number} upm
