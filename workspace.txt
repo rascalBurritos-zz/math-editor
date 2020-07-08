@@ -1,0 +1,36 @@
+Either desired destination is within bounds or it isn't
+
+sample indices M : [2,3,num,super,4]
+
+Layers:
+Vertical List: [0-3]
+Formula: [0-3]
+Fraction: den, num
+Scripts : nuc, super, sub
+Formula : [0-5]
+
+
+Move Left Command
+M : [2,3,num,super,0]
+
+Move Left Command
+M : [2,3,num,1]
+
+Move Left Command
+M : [2,3,num,0]
+
+Move Left Command
+M : [2,3,0]
+
+Move Left Command
+M : [2,3]
+
+let m be the the branch references by all indices except the final one
+ask m if destination within bounds
+  if it is 
+    set the final index accordingly
+  else
+    ask the m's parent r where the new index should go
+    by giving r the m's location within r and 
+    the intended direction
+  

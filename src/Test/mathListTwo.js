@@ -1,4 +1,4 @@
-import Spacing_Style from './Types/Spacing_Style';
+import Spacing_Style from '../Math Nodes/Types/Spacing_Style';
 export default {
   type: 'Formula',
   spacingStyle: Spacing_Style.None,

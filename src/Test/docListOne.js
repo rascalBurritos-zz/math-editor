@@ -1,5 +1,5 @@
 import AsanaFontData from '../../fonts/AsanaFontData';
-import Math_Style from './Types/Math_Style';
+import Math_Style from '../Math Nodes/Types/Math_Style';
 import mlOne from './mathListOne.js';
 import mlTwo from './mathListTwo.js';
 

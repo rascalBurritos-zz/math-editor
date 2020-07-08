@@ -4,6 +4,7 @@ import '../React-Components/Math/Styles/fonts.css';
 import '../React-Components/Math/Styles/Editor.css';
 import documentNodeFactory from '../Factories/documentNodeFactory.js';
 import docListOne from './docListOne';
+import main from '../../Experiment/main';
 
 /**
  * test sequence
@@ -11,7 +12,8 @@ import docListOne from './docListOne';
 export default function sequence() {
   const myDoc = documentNodeFactory(docListOne);
   const behavior = myDoc.behavior;
-  console.log(behavior);
+  // console.log(behavior);
+  main();
   const myApp = (
     <div className={'Editor'}>
       <behavior.component data={behavior} />
