@@ -1,7 +1,6 @@
-import CaretNode from './CaretNode';
-import CaretHolder from './CaretHolder';
+import { isDeclareFunction } from '../../../../.cache/typescript/3.9/node_modules/@babel/types/lib/index';
 
-export default class Formula extends CaretHolder {
+export default class Formula {
   _elements = [];
 
   /**
@@ -16,7 +15,6 @@ export default class Formula extends CaretHolder {
    */
   set elements(e) {
     this._elements = e;
-    this.linkCaretNodes();
   }
 
   /**
@@ -25,55 +23,39 @@ export default class Formula extends CaretHolder {
    */
   push(...args) {
     this._elements.push(...args);
-    this.linkCaretNodes();
   }
 
   /**
-   *
+   * @return {Object}
    */
-  linkCaretNodes() {
-    /**
-     * first left one is fine
-     * merge first right one and second left one
-     * continue until reach last right one
-     * last right one is fine
-     *
-     */
-    if (this._elements.length === 0) return;
-    this.leftCaretNode = this._elements[0].leftCaretNode;
-    this.rightCaretNode = this._elements.slice(-1)[0].rightCaretNode;
-    this.leftCaretNode.parent = this;
-    this.leftCaretNode.index = 0;
-    this.rightCaretNode.parent = this;
-    this.rightCaretNode.index = this._elements.length;
+  getRightMostCaret() {
+    return this._elements.slice(-1)[0].getRightMostLeaf();
+  }
 
-    for (const [index, element] of this._elements.slice(0, -1).entries()) {
-      // this makes the left right and the right left point to the same things
-      const middleMan = new CaretNode();
-      middleMan.parent = this;
-      middleMan.index = index + 1;
-
-      const leftOfMiddle = element.rightCaretNode.left;
-      const rightOfMiddle = this._elements[index + 1].leftCaretNode.right;
-      // console.log(leftOfMiddle, rightOfMiddle);
-      // console.log('hi');
-      linkNodes(leftOfMiddle, middleMan);
-      // console.log('ho');
-      element.rightCaretNode = middleMan;
-      linkNodes(middleMan, rightOfMiddle);
-      this._elements[index + 1].leftCaretNode = middleMan;
-
-      middleMan.middleman = 'middle';
+  /**
+   * @param {Number} startingIndex
+   * @return {Object} node left of base node
+   */
+  moveLeft(startingIndex) {
+    const formula = this;
+    if (withinBounds(startingIndex - 1)) {
+      const leftNode = this.elements[startingIndex - 1];
+      if (leftNode.isLeaf()) {
+        return { index: startingIndex - 1, parent: this };
+      } else {
+        return leftNode.getRightMostCaret();
+      }
+    } else {
+      this.parent.getLeftOf(this);
     }
 
     /**
-     * @param {CaretNode} a left node
-     * @param {CaretNode} b right node
+     * @param {*} num
+     * @return {boolean}
      */
-    function linkNodes(a, b) {
-      if (a === undefined || b === undefined) console.warn(a, b);
-      a.right = b;
-      b.left = a;
+    function withinBounds(num) {
+      const l = formula._elements.length;
+      return num > -1 && num < l;
     }
   }
 }

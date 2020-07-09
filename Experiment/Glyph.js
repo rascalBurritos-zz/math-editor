@@ -1,18 +1,9 @@
-import CaretHolder from './CaretHolder';
-
-export default class Glyph extends CaretHolder {
+export default class Glyph {
   /**
    *
-   * @param {String} char
+   * @param {String} string
    */
-  constructor(char) {
-    super();
-    this.rightCaretNode.left = this.leftCaretNode;
-    this.rightCaretNode.parent = this;
-    this.rightCaretNode.index = 70;
-    this.leftCaretNode.right = this.rightCaretNode;
-    this.leftCaretNode.index = 69;
-    this.leftCaretNode.parent = this;
-    this.char = char;
+  constructor(string) {
+    this.string = string;
   }
 }
