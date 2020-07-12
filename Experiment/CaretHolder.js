@@ -1,35 +1,58 @@
 import CaretNode from './CaretNode';
 
 export default class CaretHolder {
-  leftCaretNode = new CaretNode();
-  rightCaretNode = new CaretNode();
+  /**
+   *
+   */
+  constructor() {
+    const lcn = {
+      dependants: [_directlySetLeftCaretNode],
+      parent: this,
+    };
+    const rcn = {
+      dependants: [_directlySetRightCaretNode],
+      parent: this,
+    };
+    this._leftCaretNode = new CaretNode(lcn);
+    this._rightCaretNode = new CaretNode(rcn);
+    const caretHolder = this;
 
-  // /**
-  //  * @param {CaretNode} caretNode
-  //  * @param {Object} parent
-  //  */
-  // rightCaretNode(caretNode, parent) {
-  //   this._rightCaretNode = caretNode;
-  //   this._rightCaretNode.parent = parent;
-  // }
-  // /**
-  //  * @param {CaretNode} caretNode
-  //  * @param {Object} parent
-  //  */
-  // set leftCaretNode(caretNode, parent) {
-  //   this._leftCaretNode = caretNode;
-  //   this._leftCaretNode.parent = parent;
-  // }
-  // /**
-  //  * @return {CaretNode}
-  //  */
-  // get rightCaretNode() {
-  //   return this._rightCaretNode;
-  // }
-  // /**
-  //  * @return {CaretNode}
-  //  */
-  // get leftCaretNode() {
-  //   return this._leftCaretNode;
-  // }
+    /**
+     * @param {CaretNode} lcn
+     */
+    function _directlySetLeftCaretNode(lcn) {
+      caretHolder._leftCaretNode = lcn;
+    }
+    /**
+     * @param {CaretNode} rcn
+     */
+    function _directlySetRightCaretNode(rcn) {
+      caretHolder._rightCaretNode = rcn;
+    }
+  }
+
+  /**
+   * @param {CaretNode} rcn
+   */
+  set rightCaretNode(rcn) {
+    this._rightCaretNode.syncDependants(rcn);
+  }
+  /**
+   * @return {CaretNode}
+   */
+  get rightCaretNode() {
+    return this._rightCaretNode;
+  }
+  /**
+   * @param {CaretNode} lcn
+   */
+  set leftCaretNode(lcn) {
+    this._leftCaretNode.syncDependants(lcn);
+  }
+  /**
+   * @return {CaretNode}
+   */
+  get leftCaretNode() {
+    return this._leftCaretNode;
+  }
 }

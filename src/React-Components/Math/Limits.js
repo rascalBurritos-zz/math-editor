@@ -34,6 +34,7 @@ export default class Limits extends React.Component {
 
     return (
       <div className="Limits" style={data.componentStyle}>
+        {this.props.data.caret}
         <div className="LimitsContainer" style={data.containerStyle}>
           {upperLimit}
           {nucleus}

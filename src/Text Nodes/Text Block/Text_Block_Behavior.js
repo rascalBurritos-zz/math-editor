@@ -14,6 +14,59 @@ export default class Text_Block_Behavior extends Behavior {
   }
 
   /**
+   *
+   * @param {Object} point
+   * @return {Behavior}
+   *  x, y
+   */
+  getBehaviorClosestToPoint(point) {
+    if (!this._isValid()) return;
+    let progress = 0;
+    for (let i = 0; i < this._elements.length; i++) {
+      progress += this._elements[i].metrics.width;
+      if (point.x < progress) {
+        return this._elements[i];
+      }
+    }
+    return this._elements.slice(-1)[0];
+  }
+
+  /**
+   * @param {number} index
+   * @return {Behavior}
+   */
+  getRelativePositionOfCaretNode(index) {
+    return this.getRelativePositionWithElementIndex(index);
+  }
+
+  /**
+   * @param {number} index
+   * @return {Object}
+   *
+   */
+  getRelativePositionWithElementIndex(index) {
+    if (!this._isValid()) return;
+    const top =
+      index >= this._elements.length
+        ? 0
+        : this._metrics.height - this._elements[index].metrics.height;
+    const left = this._elements.slice(0, index).reduce((acc, curr) => {
+      return acc + curr.metrics.width;
+    }, 0);
+    return { top, left };
+  }
+
+  /**
+   * @param {Behavior} nodeBehavior
+   * @return {Object}
+   *
+   */
+  getRelativePositionOfBehavior(nodeBehavior) {
+    const index = this._elements.indexOf(nodeBehavior);
+    return this.getRelativePositionWithElementIndex(index);
+  }
+
+  /**
    * @override
    * @return {boolean}
    */

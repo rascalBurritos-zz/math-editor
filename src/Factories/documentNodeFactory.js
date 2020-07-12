@@ -1,6 +1,6 @@
 import displayEnvironmentFactory from './Document/displayEnvironmentFactory';
 import verticalListFactory from './Document/verticalListFactory';
-import textEnvironmentFactory from './Document/textEnvironmentFactory';
+import textBlockFactory from './Document/textBlockFactory';
 /** @typedef {import('../Abstract/Document_Node').default} Document_Node  */
 
 /**
@@ -11,7 +11,7 @@ export default function documentNodeFactory(docList) {
   const nodeMap = {
     Display: displayEnvironmentFactory,
     Vertical_List: verticalListFactory,
-    Text: textEnvironmentFactory,
+    Text: textBlockFactory,
   };
   return nodeMap[docList.type](docList);
 }

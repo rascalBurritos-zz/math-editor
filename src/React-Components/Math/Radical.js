@@ -12,6 +12,7 @@ export default class Radical extends React.Component {
     ) : undefined;
     return (
       <div className="Radical" style={d.componentStyle}>
+        {this.props.data.caret}
         <div style={d.containerDimensions} className="RadicalContainer">
           {degree}
           <d.radicandBehavior.component

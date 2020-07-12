@@ -12,6 +12,7 @@ export default class Accent extends React.Component {
 
     return (
       <div className="Accent" style={data.componentStyle}>
+        {this.props.data.caret}
         <accenterBehavior.component key="accenter" data={accenterBehavior} />
         <nucleusBehavior.component key="nucleus" data={nucleusBehavior} />
       </div>

@@ -5,11 +5,13 @@
   margin-left: auto;
   display: flex;
   flex-direction: column;
-  height: 1000px;
+  align-items: center;
+  /* height: 1000px; */
   width: 100%;
   /* width: 2000px; */
 }
 * {
   box-sizing: border-box;
   outline: 0px solid white !important;
+  position: relative;
 }

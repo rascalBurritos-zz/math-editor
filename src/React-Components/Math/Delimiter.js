@@ -9,6 +9,7 @@ export default class Delimiter extends React.Component {
 
     return (
       <div style={data.componentStyle}>
+        {this.props.data.caret}
         <data.glyphBehavior.component data={data.glyphBehavior} />
       </div>
     );

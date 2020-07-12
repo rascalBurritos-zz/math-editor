@@ -1,4 +1,3 @@
-import DependancyOrganizer from './DependancyOrganizer';
 import Vertical_List_Setter from '../../Environments/Vertical List/Vertical_List_Setter';
 import Vertical_List_Behavior from '../../Environments/Vertical List/Vertical_List_Behavior';
 import Vertical_List_Node from '../../Environments/Vertical List/Vertical_List_Node';

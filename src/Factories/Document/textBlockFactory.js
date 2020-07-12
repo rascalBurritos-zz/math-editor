@@ -1,4 +1,3 @@
-import Document_Node from '../../Abstract/Document_Node';
 import Text_Block_Behavior from '../../Text Nodes/Text Block/Text_Block_Behavior';
 import Text_Block_Setter from '../../Text Nodes/Text Block/Text_Block_Setter';
 import textGlyphFactory from './textGlyphFactory';

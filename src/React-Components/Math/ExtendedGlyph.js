@@ -7,13 +7,16 @@ export class ExtendedGlyph extends React.Component {
    */
   render() {
     return (
-      <svg
-        style={this.props.data.componentStyle}
-        className="ExtendedGlyph"
-        viewBox={this.props.data.viewBox}
-      >
-        <path d={this.props.data.path} />
-      </svg>
+      <div>
+        {this.props.data.caret}
+        <svg
+          style={this.props.data.componentStyle}
+          className="ExtendedGlyph"
+          viewBox={this.props.data.viewBox}
+        >
+          <path d={this.props.data.path} />
+        </svg>
+      </div>
     );
   }
 }

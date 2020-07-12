@@ -8,33 +8,29 @@ export default {
   baselineDistance: 20,
   baselineBump: 10,
   elements: [
+    // {
+    //   type: 'Display',
+    //   rootStyle: new Math_Style('D', 30, false),
+    //   fontData: AsanaFontData,
+    //   rootFormula: mlOne,
+    // },
     {
-      type: 'Display',
-      rootStyle: new Math_Style('D', 30, false),
+      type: 'Text',
+      fontSize: 30,
       fontData: AsanaFontData,
-      rootFormula: mlOne,
+      content: 'sexy body, she shows it \\\\  Loves the drama she chose it',
     },
     {
       type: 'Text',
-      block: {
-        fontSize: 30,
-        fontData: AsanaFontData,
-        content: 'sexy body, she shows it \\\\  Loves the drama she chose it',
-      },
-    },
-    {
-      type: 'Text',
-      block: {
-        fontSize: 30,
-        fontData: AsanaFontData,
-        content: 'The quick brown fox jumped over the lazy dog',
-      },
-    },
-    {
-      type: 'Display',
-      rootStyle: new Math_Style('D', 30, false),
+      fontSize: 30,
       fontData: AsanaFontData,
-      rootFormula: mlTwo,
+      content: 'The quick brown fox jumped over the lazy dog',
     },
+    // {
+    //   type: 'Display',
+    //   rootStyle: new Math_Style('D', 30, false),
+    //   fontData: AsanaFontData,
+    //   rootFormula: mlTwo,
+    // },
   ],
 };

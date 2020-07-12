@@ -12,6 +12,7 @@ export default class VerticalList extends React.Component {
 
     return (
       <div className="VerticalList" style={this.props.data.componentStyle}>
+        {this.props.data.caret}
         {elements}
       </div>
     );

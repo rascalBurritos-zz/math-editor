@@ -3,6 +3,7 @@ import Variant_Glyph_Behavior from '../../../Math Nodes/Leaf Nodes/Variant_Glyph
 import Document_Node from '../../../Abstract/Document_Node.js';
 import { glyphBehaviorFactory } from './glyphFactory.js';
 import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
+import Leaf_Node from '../../../Abstract/Leaf_Node.js';
 
 /** @typedef {import('../mathNodeFactory').MathList} MathList */
 
@@ -14,7 +15,7 @@ import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
 export default function variantGlyphFactory(mathList, fontData) {
   const behavior = variantGlyphBehaviorFactory(mathList, fontData);
   if (!behavior) console.warn('Invalid Behavior');
-  const node = new Document_Node(behavior);
+  const node = new Leaf_Node(behavior);
   return node;
 }
 

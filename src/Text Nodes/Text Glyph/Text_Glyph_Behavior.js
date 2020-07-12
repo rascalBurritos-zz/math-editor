@@ -14,6 +14,17 @@ export default class Text_Glyph_Behavior extends Behavior {
   }
 
   /**
+   * @param {number} index caret index
+   * @return {Object}
+   */
+  getRelativePositionOfCaretNode(index) {
+    if (!this._isValid()) return;
+    const left = index === 0 ? 0 : this._metrics.width;
+    const top = 0;
+    return { top, left };
+  }
+
+  /**
    * @return {number}
    */
   get fontSize() {
@@ -25,6 +36,12 @@ export default class Text_Glyph_Behavior extends Behavior {
   set fontSize(fs) {
     this._fontSize = fs;
     this.update();
+  }
+  /**
+   * @param {Object} point
+   */
+  getCaretNodeClosestToPoint(point) {
+    this.parent.getRelativePositionOfBehavior;
   }
 
   /**

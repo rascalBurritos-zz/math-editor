@@ -12,6 +12,7 @@ export default class TextBlock extends React.Component {
     });
     return (
       <div className="TextBlock" style={this.props.data.componentStyle}>
+        {this.props.data.caret}
         {elements}
       </div>
     );

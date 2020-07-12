@@ -2,21 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../React-Components/Math/Styles/fonts.css';
 import '../React-Components/Math/Styles/Editor.css';
-import documentNodeFactory from '../Factories/documentNodeFactory.js';
-import docListOne from './docListOne';
-import main from '../../Experiment/main';
+import Document from '../React-Components/Document/Document';
 
 /**
  * test sequence
  */
 export default function sequence() {
-  const myDoc = documentNodeFactory(docListOne);
-  const behavior = myDoc.behavior;
-  // console.log(behavior);
-  main();
   const myApp = (
     <div className={'Editor'}>
-      <behavior.component data={behavior} />
+      <Document />
     </div>
   );
   ReactDOM.render(myApp, document.getElementById('app'));

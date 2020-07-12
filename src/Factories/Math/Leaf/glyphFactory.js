@@ -1,7 +1,7 @@
 import Glyph_Setter from '../../../Math Nodes/Leaf Nodes/Glyph/Glyph_Setter';
 import Glyph_Behavior from '../../../Math Nodes/Leaf Nodes/Glyph/Glyph_Behavior';
 import Centered_Glyph_Behavior from '../../../Math Nodes/Leaf Nodes/Glyph/Centered_Glyph_Behavior.js';
-import Document_Node from '../../../Abstract/Document_Node';
+import Leaf_Node from '../../../Abstract/Leaf_Node';
 /** @typedef {import('../mathNodeFactory').MathList} MathList  */
 /**
  * @param {MathList} mathList
@@ -10,7 +10,7 @@ import Document_Node from '../../../Abstract/Document_Node';
  */
 export default function glyphFactory(mathList, fontData) {
   const glyphBehavior = glyphBehaviorFactory(mathList, fontData);
-  const glyphNode = new Document_Node(glyphBehavior);
+  const glyphNode = new Leaf_Node(glyphBehavior);
   return glyphNode;
 }
 

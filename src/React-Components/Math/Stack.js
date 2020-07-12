@@ -12,6 +12,7 @@ export default class Stack extends React.Component {
 
     return (
       <div className="Stack" style={data.componentStyle}>
+        {this.props.data.caret}
         <nb.component data={nb} />
         <db.component data={db} />
       </div>

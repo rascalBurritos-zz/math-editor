@@ -12,6 +12,7 @@ export default class Fraction extends React.Component {
 
     return (
       <div className="Fraction" style={data.componentStyle}>
+        {this.props.data.caret}
         <nb.component data={nb} />
         <div style={data.ruleStyle} className="FractionRule"></div>
         <db.component data={db} />
