@@ -1,5 +1,9 @@
 /** @typedef {import('../../Experiment/CaretNode').default} CaretNode  */
 
+import Leaf_Behavior from '../Abstract/Leaf_Behavior';
+import Behavior from '../Abstract/Behavior';
+import Point from '../Abstract/Point';
+
 export default class CaretBehavior {
   /**
    *
@@ -7,31 +11,59 @@ export default class CaretBehavior {
   constructor() {
     this._currentCaretNode = null;
     this.componentStyle = {};
-    this.moveRight = this._moveRight.bind(this);
-    this.moveLeft = this._moveLeft.bind(this);
+    this.moveUp = this._moveVertical.bind(this, true);
+    this.moveDown = this._moveVertical.bind(this, false);
+    this.moveLeft = this._moveHorizontal.bind(this, true);
+    this.moveRight = this._moveHorizontal.bind(this, false);
   }
 
   /**
+   * @param {boolean} isAbove
    * @return {CaretBehavior}
    */
-  _moveLeft() {
-    const cur = this._currentCaretNode;
-    const cb = new CaretBehavior();
-    if (cur.left !== undefined) {
-      cb.currentCaretNode = cur.left;
+  _moveVertical(isAbove) {
+    const direction = isAbove ? 'above' : 'below';
+    const ccn = this._currentCaretNode[direction];
+    if (ccn !== null) {
+      let currentBehavior = ccn.behavior;
+      let behaviorPosition = this.getPositionOfBehaviorWithinRoot(
+        currentBehavior
+      );
+      let currentPosition = this.getPositionOfCaretNodeWithinRoot().subtract(
+        behaviorPosition
+      );
+      const cb = new CaretBehavior();
+      while (!(currentBehavior instanceof Leaf_Behavior)) {
+        const parentBehavior = currentBehavior;
+        currentBehavior = currentBehavior.getBehaviorClosestToPoint(
+          currentPosition
+        );
+        behaviorPosition = parentBehavior.getRelativePositionOfBehavior(
+          currentBehavior
+        );
+        currentPosition = currentPosition.subtract(behaviorPosition);
+      }
+      cb.currentCaretNode = currentBehavior.getCaretNodeClosestToPoint(
+        currentPosition
+      );
+      return cb;
     } else {
       return;
+      // let currentBehavior = currentCaretNode[
+      //   direction
+      // ].behavior.getBehaviorClosestToPoint(currentPosition);
     }
-    return cb;
   }
   /**
+   * @param {boolean} isLeft
    * @return {CaretBehavior}
    */
-  _moveRight() {
+  _moveHorizontal(isLeft) {
     const cur = this._currentCaretNode;
     const cb = new CaretBehavior();
-    if (cur.right !== undefined) {
-      cb.currentCaretNode = cur.right;
+    const direction = isLeft ? 'left' : 'right';
+    if (cur[direction] !== null) {
+      cb.currentCaretNode = cur[direction];
     } else {
       return;
     }
@@ -56,7 +88,7 @@ export default class CaretBehavior {
    *
    */
   update() {
-    const pos = this.getPositionWithinRoot();
+    const pos = this.getPositionOfCaretNodeWithinRoot();
     this.componentStyle.left = pos.left;
     this.componentStyle.top = pos.top;
   }
@@ -64,33 +96,32 @@ export default class CaretBehavior {
   /**
    * @return {Object}
    */
-  getPositionWithinRoot() {
+  getPositionOfCaretNodeWithinRoot() {
     const index = this._currentCaretNode.index;
-    const parentNode = this._currentCaretNode.parent;
-    let position = parentNode.behavior.getRelativePositionOfCaretNode(index);
-    let junior = parentNode;
-    let senior = junior.parent;
+    const parentBehavior = this._currentCaretNode.parentDocNode.behavior;
+    let position = parentBehavior.getRelativePositionOfCaretNode(index);
+    const parentBehaviorPos = this.getPositionOfBehaviorWithinRoot(
+      parentBehavior
+    );
+    position = position.add(parentBehaviorPos);
+    return position;
+  }
+
+  /**
+   * @param {Behavior} behavior
+   * @return {Point}
+   */
+  getPositionOfBehaviorWithinRoot(behavior) {
+    let junior = behavior;
+    let senior = junior.parentBehavior;
+    let position = new Point(0, 0);
+    // crawl out to root
     while (senior !== null) {
-      const relativePos = senior.behavior.getRelativePositionOfBehavior(
-        junior.behavior
-      );
-      position = combinePositions(relativePos, position);
+      const relativePos = senior.getRelativePositionOfBehavior(junior);
+      position = relativePos.add(position);
       junior = senior;
-      senior = junior.parent;
+      senior = junior.parentBehavior;
     }
     return position;
-
-    /**
-     *
-     * @param {Object} a
-     * @param {Object} b
-     * @return {Object}
-     * {top, left}
-     */
-    function combinePositions(a, b) {
-      const left = a.left + b.left;
-      const top = a.top + b.top;
-      return { top, left };
-    }
   }
 }

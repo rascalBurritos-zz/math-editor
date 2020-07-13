@@ -1,7 +1,9 @@
-import Behavior from '../../Abstract/Behavior';
 import { Glyph } from '../../React-Components/Math/Glyph';
+import Point from '../../Abstract/Point';
+import Leaf_Behavior from '../../Abstract/Leaf_Behavior';
+/** @typedef {import('../../../Experiment/CaretNode').default} CaretNode  */
 
-export default class Text_Glyph_Behavior extends Behavior {
+export default class Text_Glyph_Behavior extends Leaf_Behavior {
   _internalCharacterBox;
   _fontSize;
   /**
@@ -21,7 +23,7 @@ export default class Text_Glyph_Behavior extends Behavior {
     if (!this._isValid()) return;
     const left = index === 0 ? 0 : this._metrics.width;
     const top = 0;
-    return { top, left };
+    return new Point(top, left);
   }
 
   /**
@@ -37,11 +39,17 @@ export default class Text_Glyph_Behavior extends Behavior {
     this._fontSize = fs;
     this.update();
   }
+
   /**
-   * @param {Object} point
+   * @param {Point} point
+   *  {top, left}
+   * @return {CaretNode}
    */
   getCaretNodeClosestToPoint(point) {
-    this.parent.getRelativePositionOfBehavior;
+    const middleX = this.metrics.width / 2;
+    return middleX > point.left
+      ? this.node.leftCaretNode
+      : this.node.rightCaretNode;
   }
 
   /**

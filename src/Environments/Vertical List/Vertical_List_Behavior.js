@@ -1,5 +1,6 @@
 import Behavior from '../../Abstract/Behavior.js';
 import VerticalList from '../../React-Components/Document/VerticalList.js';
+import Point from '../../Abstract/Point.js';
 /** @typedef {import('../../Math Nodes/Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Math Nodes/Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
@@ -19,7 +20,6 @@ export default class Vertical_List_Behavior extends Behavior {
     this.type = 'Vertical_List';
     this._component = VerticalList;
   }
-  j;
   /**
    * @param {Behavior} nodeBehavior
    * @return {Object}
@@ -36,6 +36,26 @@ export default class Vertical_List_Behavior extends Behavior {
    */
   getRelativePositionOfCaretNode(index) {
     return this.getRelativePositionWithElementIndex(index);
+  }
+
+  /**
+   * @param {Object} point
+   * @return {Behavior}
+   *  x, y
+   */
+  getBehaviorClosestToPoint(point) {
+    if (!this._isValid()) return;
+    let progress = 0;
+    for (const [index, behavior] of this._elementBehaviors.entries()) {
+      const marginBottom = this._settings.elementComponentStyles[index]
+        .marginBottom;
+      progress +=
+        behavior.metrics.height + behavior.metrics.depth + marginBottom;
+      if (point.left < progress) {
+        return behavior;
+      }
+    }
+    return this._elementBehaviors.slice(-1)[0];
   }
 
   /**
@@ -58,7 +78,7 @@ export default class Vertical_List_Behavior extends Behavior {
         return acc + curr.marginBottom;
       }, 0);
     const top = elementHeights + bottomMargins;
-    return { top, left };
+    return new Point(top, left);
   }
 
   /**
@@ -109,6 +129,9 @@ export default class Vertical_List_Behavior extends Behavior {
    */
   set elementBehaviors(behaviors) {
     this._elementBehaviors = behaviors;
+    for (const behavior of this._elementBehaviors) {
+      behavior.parentBehavior = this;
+    }
     this.update();
   }
 }

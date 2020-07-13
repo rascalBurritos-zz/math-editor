@@ -2,7 +2,7 @@ import Typesetter from '../../../Abstract/Typesetter';
 import Metrics from '../../Types/Metrics';
 
 /** @typedef {import('../../Leaf Nodes/Glyph/Glyph_Behavior').default} Glyph_Behavior  */
-/** @typedef {import('../../Leaf Nodes/Leaf_Behavior').default} Leaf_Behavior */
+/** @typedef {import('../../Leaf Nodes/Math_Math_Leaf_Behavior').default} Math_Leaf_Behavior */
 /** @typedef {import('../../../Abstract/Typesetter').setterSpec} setterSpec  */
 /** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
@@ -23,8 +23,8 @@ export default class Accent_Setter extends Typesetter {
 
   /**
    * @param {number} pxpfu
-   * @param {Leaf_Behavior} nucleusBehavior
-   * @param {Leaf_Behavior} accenterBehavior
+   * @param {Math_Leaf_Behavior} nucleusBehavior
+   * @param {Math_Leaf_Behavior} accenterBehavior
    * @return {Object} result contains
    * metrics
    * Component Style

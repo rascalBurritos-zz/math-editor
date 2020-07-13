@@ -27,11 +27,10 @@ export default class Document extends React.Component {
     this.setState((prevState) => {
       const cb = prevState.caretBehavior;
       const keyMap = {
-        // 37: cb.moveLeft,
-        // 38: moveUp,
+        ArrowUp: cb.moveUp,
+        ArrowDown: cb.moveDown,
         ArrowRight: cb.moveRight,
         ArrowLeft: cb.moveLeft,
-        // 40: moveDown,
       };
       if (keyMap[e.code]) {
         const caretBehavior = keyMap[e.code]();

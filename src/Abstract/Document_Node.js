@@ -9,7 +9,7 @@ export default class Document_Node extends CaretHolder {
   constructor(behavior) {
     super();
     this._behavior = behavior;
-    this.parent = null;
+    this._behavior.node = this;
   }
   /**
    * @return {Behavior}

@@ -1,8 +1,9 @@
 import Behavior from '../../Abstract/Behavior';
 import TextEnvironment from '../../React-Components/Document/TextBlock';
+import Point from '../../Abstract/Point';
 
 export default class Text_Block_Behavior extends Behavior {
-  _elements;
+  _elementBehaviors;
   /**
    *
    * @param {Object} behaviorSpec
@@ -22,18 +23,18 @@ export default class Text_Block_Behavior extends Behavior {
   getBehaviorClosestToPoint(point) {
     if (!this._isValid()) return;
     let progress = 0;
-    for (let i = 0; i < this._elements.length; i++) {
-      progress += this._elements[i].metrics.width;
-      if (point.x < progress) {
-        return this._elements[i];
+    for (let i = 0; i < this._elementBehaviors.length; i++) {
+      progress += this._elementBehaviors[i].metrics.width;
+      if (point.left < progress) {
+        return this._elementBehaviors[i];
       }
     }
-    return this._elements.slice(-1)[0];
+    return this._elementBehaviors.slice(-1)[0];
   }
 
   /**
    * @param {number} index
-   * @return {Behavior}
+   * @return {Point}
    */
   getRelativePositionOfCaretNode(index) {
     return this.getRelativePositionWithElementIndex(index);
@@ -41,19 +42,19 @@ export default class Text_Block_Behavior extends Behavior {
 
   /**
    * @param {number} index
-   * @return {Object}
+   * @return {Point}
    *
    */
   getRelativePositionWithElementIndex(index) {
     if (!this._isValid()) return;
     const top =
-      index >= this._elements.length
+      index >= this._elementBehaviors.length
         ? 0
-        : this._metrics.height - this._elements[index].metrics.height;
-    const left = this._elements.slice(0, index).reduce((acc, curr) => {
+        : this._metrics.height - this._elementBehaviors[index].metrics.height;
+    const left = this._elementBehaviors.slice(0, index).reduce((acc, curr) => {
       return acc + curr.metrics.width;
     }, 0);
-    return { top, left };
+    return new Point(top, left);
   }
 
   /**
@@ -62,7 +63,7 @@ export default class Text_Block_Behavior extends Behavior {
    *
    */
   getRelativePositionOfBehavior(nodeBehavior) {
-    const index = this._elements.indexOf(nodeBehavior);
+    const index = this._elementBehaviors.indexOf(nodeBehavior);
     return this.getRelativePositionWithElementIndex(index);
   }
 
@@ -71,7 +72,7 @@ export default class Text_Block_Behavior extends Behavior {
    * @return {boolean}
    */
   _isValid() {
-    return this._elements !== undefined;
+    return this._elementBehaviors !== undefined;
   }
 
   /**
@@ -79,7 +80,7 @@ export default class Text_Block_Behavior extends Behavior {
    */
   update() {
     if (!this._isValid()) return;
-    const settings = this._typesetter.generateSettings(this.elements);
+    const settings = this._typesetter.generateSettings(this.elementBehaviors);
     this._updateElementComponentStyles(settings);
     this._updateMetrics(settings);
   }
@@ -88,7 +89,7 @@ export default class Text_Block_Behavior extends Behavior {
    * @param {Object} settings
    */
   _updateElementComponentStyles(settings) {
-    for (const [index, behavior] of this._elements.entries()) {
+    for (const [index, behavior] of this._elementBehaviors.entries()) {
       behavior.appendComponentStyle(settings.elementStyles[index]);
     }
   }
@@ -104,14 +105,17 @@ export default class Text_Block_Behavior extends Behavior {
   /**
    * @return {Array}
    */
-  get elements() {
-    return this._elements;
+  get elementBehaviors() {
+    return this._elementBehaviors;
   }
   /**
    * @param {Array} arr
    */
-  set elements(arr) {
-    this._elements = arr;
+  set elementBehaviors(arr) {
+    this._elementBehaviors = arr;
+    for (const behavior of this._elementBehaviors) {
+      behavior.parentBehavior = this;
+    }
     this.update();
   }
 }

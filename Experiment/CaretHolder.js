@@ -7,11 +7,11 @@ export default class CaretHolder {
   constructor() {
     const lcn = {
       dependants: [_directlySetLeftCaretNode],
-      parent: this,
+      parentDocNode: this,
     };
     const rcn = {
       dependants: [_directlySetRightCaretNode],
-      parent: this,
+      parentDocNode: this,
     };
     this._leftCaretNode = new CaretNode(lcn);
     this._rightCaretNode = new CaretNode(rcn);
@@ -30,6 +30,17 @@ export default class CaretHolder {
       caretHolder._rightCaretNode = rcn;
     }
   }
+
+  /**
+   * @abstract
+   * @param {Node} docNode
+   */
+  setAboveOfCaretNodes(docNode) {}
+  /**
+   * @abstract
+   * @param {Node} docNode
+   */
+  setBelowOfCaretNodes(docNode) {}
 
   /**
    * @param {CaretNode} rcn

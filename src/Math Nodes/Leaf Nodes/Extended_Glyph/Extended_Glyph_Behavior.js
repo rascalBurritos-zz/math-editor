@@ -1,10 +1,10 @@
 import { ExtendedGlyph } from '../../../React-Components/Math/ExtendedGlyph.js';
-import Leaf_Behavior from '../Leaf_Behavior.js';
+import Math_Leaf_Behavior from '../Math_Leaf_Behavior.js';
 
 /** @typedef {import('../../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
-export default class Extended_Glyph_Behavior extends Leaf_Behavior {
+export default class Extended_Glyph_Behavior extends Math_Leaf_Behavior {
   _path;
   _viewBox;
   _desiredSize;

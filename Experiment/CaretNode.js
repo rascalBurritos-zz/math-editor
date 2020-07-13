@@ -5,11 +5,15 @@ export default class CaretNode {
    */
   constructor(options = {}) {
     this.index = options.index || null;
+    // left and right are other caret nodes
     this.left = options.left || null;
     this.right = options.right || null;
+    // above and below are document nodes
+    // that will be searched for the closest point
+    // to this caret node
     this.above = options.above || null;
     this.below = options.below || null;
-    this.parent = null;
+    this.parentDocNode = null;
     this._dependants = options.dependants || [];
   }
 

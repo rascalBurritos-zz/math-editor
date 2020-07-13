@@ -2,7 +2,7 @@ import MathBehavior from '../../Abstract/MathBehavior.js';
 /** @typedef {import('../Types/Math_Style').default} Math_Style  */
 /** @typedef {import('../../Abstract/MathBehavior').behaviorSpec} behaviorSpec  */
 
-export default class Leaf_Behavior extends MathBehavior {
+export default class Math_Leaf_Behavior extends MathBehavior {
   _italicsCorrection;
   _accentAttachment;
 

@@ -7,7 +7,7 @@ export default class TextBlock extends React.Component {
    */
   render() {
     const behavior = this.props.data;
-    const elements = behavior.elements.map((ele, index) => {
+    const elements = behavior.elementBehaviors.map((ele, index) => {
       return <ele.component key={index} data={ele} />;
     });
     return (

@@ -32,11 +32,10 @@ export default class Vertical_List_Node extends Document_Node {
    * add Document Node to end of elements
    * @param {Document_Node} node node to be pushed
    */
-  push(node) {
-    node.parent = this;
-    this._elements.push(node);
-    this.update();
-  }
+  // push(node) {
+  //   this._elements.push(node);
+  //   this.update();
+  // }
 
   /**
    * @param {Document_Node[]} elementArray Node array to
@@ -44,10 +43,22 @@ export default class Vertical_List_Node extends Document_Node {
    */
   set elements(elementArray) {
     this._elements = elementArray;
-    for (const ele of elementArray) {
-      ele.parent = this;
-    }
     this.update();
+  }
+
+  /**
+   * @override
+   * @param {Node} belowDocNode
+   */
+  setBelowOfCaretNodes(belowDocNode) {
+    this.elements.slice(-1)[0].setBelowOfCaretNodes(belowDocNode);
+  }
+  /**
+   * @override
+   * @param {Node} aboveDocNode
+   */
+  setAboveOfCaretNodes(aboveDocNode) {
+    this.elements[0].setAboveOfCaretNodes(aboveDocNode);
   }
   /**
    *
@@ -67,9 +78,12 @@ export default class Vertical_List_Node extends Document_Node {
     for (const [indexOfElement, element] of this._elements
       .slice(0, -1)
       .entries()) {
+      const nextElement = this._elements[indexOfElement + 1];
       // this makes the left right and the right left point to each other
       const left = element.rightCaretNode;
-      const right = this._elements[indexOfElement + 1].leftCaretNode;
+      const right = nextElement.leftCaretNode;
+      element.setBelowOfCaretNodes(nextElement);
+      nextElement.setAboveOfCaretNodes(element);
       right.linkLeftTo(left);
       left.linkRightTo(right);
     }
