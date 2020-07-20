@@ -36,7 +36,6 @@ export default class Scripts extends React.Component {
 
     return (
       <div className="Scripts" style={data.componentStyle}>
-        {this.props.data.caret}
         {nucleus}
         <div
           className="ScriptsContainer"

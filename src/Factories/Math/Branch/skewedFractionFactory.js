@@ -1,4 +1,4 @@
-import mathNodeFactory from '../mathNodeFactory';
+import mathViewFactory from '../mathViewFactory';
 import Generalized_Fraction_Node from '../../../Math Nodes/Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
 import Spacing_Style from '../../../Math Nodes/Types/Spacing_Style';
 import { variantGlyphBehaviorFactory } from '../Leaf/variantGlyphFactory';
@@ -7,24 +7,30 @@ import Skewed_Fraction_Behavior from '../../../Math Nodes/Branch Nodes/Generaliz
 
 /** @typedef {import('../../../Abstract/MathBehavior').default} MathBehavior  */
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Generalized_Fraction_Node}
  */
-export default function skewedFractionFactory(mathList, fontData) {
+export default function skewedFractionFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const spec = generateSpec(fontData);
   const typesetter = new Skewed_Fraction_Setter(spec);
   const spacingStyle = Spacing_Style.Ordinary;
   const behavior = new Skewed_Fraction_Behavior({ typesetter, spacingStyle });
   const node = new Generalized_Fraction_Node(behavior);
-  node.numerator = mathNodeFactory(mathList.numerator, fontData);
-  node.denominator = mathNodeFactory(mathList.denominator, fontData);
+  node.numerator = mathViewFactory(mathList.numerator, fontData);
+  node.denominator = mathViewFactory(mathList.denominator, fontData);
   return node;
   /**
    * @param {Object} fontData
+   * @param {Object} dependancyOrganizer
    * @return {Object}
    */
   function generateSpec(fontData) {

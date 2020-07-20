@@ -31,11 +31,14 @@ export default class Vertical_List_Behavior extends Behavior {
   }
 
   /**
-   * @param {number} index
+   * @param {Object} caretKey
    * @return {Object}
    */
-  getRelativePositionOfCaretNode(index) {
-    return this.getRelativePositionWithElementIndex(index);
+  getRelativePositionOfCaretKey(caretKey) {
+    return this.getRelativePositionWithElementIndex(
+      caretKey.rungIndex,
+      caretKey.onLeft
+    );
   }
 
   /**
@@ -60,13 +63,15 @@ export default class Vertical_List_Behavior extends Behavior {
 
   /**
    * @param {number} index
+   * @param {boolean} toLeft
    * @return {Object}
-   *
    */
-  getRelativePositionWithElementIndex(index) {
+  getRelativePositionWithElementIndex(index, toLeft = true) {
     if (!this._isValid()) return;
-    const left =
-      (this._metrics.width - this._elementBehaviors[index].metrics.width) / 2;
+    const elementWidth = this._elementBehaviors[index].metrics.width;
+    const totalWidth = this._metrics.width;
+    const leftMargin = (totalWidth - elementWidth) / 2;
+    const left = toLeft ? leftMargin : leftMargin + elementWidth;
     const elementHeights = this._elementBehaviors
       .slice(0, index)
       .reduce((acc, curr) => {

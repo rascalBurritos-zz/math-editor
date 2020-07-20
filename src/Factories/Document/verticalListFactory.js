@@ -1,11 +1,11 @@
 import Vertical_List_Setter from '../../Environments/Vertical List/Vertical_List_Setter';
 import Vertical_List_Behavior from '../../Environments/Vertical List/Vertical_List_Behavior';
-import Vertical_List_Node from '../../Environments/Vertical List/Vertical_List_Node';
-import documentNodeFactory from '../documentNodeFactory';
+import documentViewFactory from '../documentViewFactory';
+/** @typedef {import('../../Abstract/Behavior').default} Behavior  */
 
 /**
  * @param {Object} documentList
- * @return {Vertical_List_Node  }
+ * @return {Behavior}
  */
 export default function verticalListFactory(documentList) {
   const spec = {};
@@ -13,11 +13,10 @@ export default function verticalListFactory(documentList) {
   spec.baselineBump = documentList.baselineBump;
   const typesetter = new Vertical_List_Setter(spec);
   const behavior = new Vertical_List_Behavior({ typesetter });
-  const node = new Vertical_List_Node(behavior);
   const elements = [];
   for (const subList of documentList.elements) {
-    elements.push(documentNodeFactory(subList));
+    elements.push(documentViewFactory(subList));
   }
-  node.elements = elements;
-  return node;
+  behavior.elementBehaviors = elements;
+  return behavior;
 }

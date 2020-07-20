@@ -8,10 +8,11 @@ import operatorFactory from './Branch/operatorFactory.js';
 import fractionFactory from './Branch/fractionFactory.js';
 import stackFactory from './Branch/stackFactory.js';
 import stretchStackFactory from './Branch/stretchStackFactory.js';
-import DependancyOrganizer from '../Document/DependancyOrganizer.js';
 import skewedFractionFactory from './Branch/skewedFractionFactory.js';
 import barFactory from './Branch/barFactory.js';
 import delimiterFactory from './Branch/delimiterFactory.js';
+import Behavior from '../../Abstract/Behavior.js';
+import MathBehavior from '../../Abstract/MathBehavior.js';
 
 /** @typedef {import('../../Abstract/Document_Node.js').default} Document_Node*/
 /** @typedef {import('../../Math Nodes/Types/Math_Style').default} Math_Style  */
@@ -40,10 +41,15 @@ import delimiterFactory from './Branch/delimiterFactory.js';
 /**
  * @param {Object} mathList {type, nodeSpecificInfo}
  * @param {Object} fontData
- * @return {Document_Node}
+ * @param {Object} dependancyOrganizer
+ * @return {MathBehavior}
  */
-export default function mathNodeFactory(mathList, fontData) {
-  const nodeMap = {
+export default function mathViewFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
+  const viewMap = {
     Formula: formulaFactory,
     Glyph: glyphFactory,
     Scripts: scriptsFactory,
@@ -59,19 +65,22 @@ export default function mathNodeFactory(mathList, fontData) {
     Overbar: barFactory,
     Underbar: barFactory,
   };
-  const node = nodeMap[mathList.type](mathList, fontData);
+  const behavior = viewMap[mathList.type](
+    mathList,
+    fontData,
+    dependancyOrganizer
+  );
   registerDependancies();
-  return node;
-
+  return behavior;
   /**
    *
    */
   function registerDependancies() {
     if (mathList.source) {
-      DependancyOrganizer.registerSource(mathList.source, node);
+      dependancyOrganizer.registerSource(mathList.source, behavior);
     }
     if (mathList.drain) {
-      DependancyOrganizer.registerDrain(mathList.drain, node);
+      dependancyOrganizer.registerDrain(mathList.drain, behavior);
     }
   }
 }

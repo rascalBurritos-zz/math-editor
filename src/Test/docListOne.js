@@ -15,13 +15,13 @@ export default {
     //   rootFormula: mlOne,
     // },
     {
-      type: 'Text',
+      type: 'Text_Block',
       fontSize: 30,
       fontData: AsanaFontData,
       content: 'sexy body, she shows it \\\\  Loves the drama she chose it',
     },
     {
-      type: 'Text',
+      type: 'Text_Block',
       fontSize: 30,
       fontData: AsanaFontData,
       content: 'The quick brown fox jumped over the lazy dog',

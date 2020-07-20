@@ -10,7 +10,6 @@ export class Glyph extends React.Component {
     const internal = data.internalCharacterBox;
     return (
       <div className="Glyph" style={data.componentStyle}>
-        {this.props.data.caret}
         <internal.component data={internal} />
       </div>
     );

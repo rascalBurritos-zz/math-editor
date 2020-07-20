@@ -13,7 +13,6 @@ export default class Bar extends React.Component {
 
     return (
       <div className="BarContainer" style={data.componentStyle}>
-        {this.props.data.caret}
         {overbar}
         <data.nucleusBehavior.component data={data.nucleusBehavior} />
         {underbar}

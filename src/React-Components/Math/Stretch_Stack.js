@@ -34,7 +34,6 @@ export default class Stretch_Stack extends React.Component {
 
     return (
       <div className="StretchStack" style={data.componentStyle}>
-        {this.props.data.caret}
         {upperLimit}
         {nucleus}
         {lowerLimit}

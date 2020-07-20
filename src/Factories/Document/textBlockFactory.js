@@ -1,11 +1,12 @@
 import Text_Block_Behavior from '../../Text Nodes/Text Block/Text_Block_Behavior';
 import Text_Block_Setter from '../../Text Nodes/Text Block/Text_Block_Setter';
 import textGlyphFactory from './textGlyphFactory';
-import Text_Block_Node from '../../Text Nodes/Text Block/Text_Block_Node';
+
+/** @typedef {import('../../Abstract/Behavior').default}  Behavior */
 
 /**
  * @param {Object} documentList
- * @return {Document_Node}
+ * @return {Behavior}
  */
 export default function textBlockFactory(documentList) {
   const typesetter = new Text_Block_Setter();
@@ -17,7 +18,6 @@ export default function textBlockFactory(documentList) {
     const tg = textGlyphFactory({ unicode, fontSize }, documentList.fontData);
     elements.push(tg);
   }
-  const node = new Text_Block_Node(behavior);
-  node.elements = elements;
-  return node;
+  behavior.elementBehaviors = elements;
+  return behavior;
 }

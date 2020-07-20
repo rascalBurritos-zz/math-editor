@@ -8,7 +8,6 @@ export class ExtendedGlyph extends React.Component {
   render() {
     return (
       <div>
-        {this.props.data.caret}
         <svg
           style={this.props.data.componentStyle}
           className="ExtendedGlyph"

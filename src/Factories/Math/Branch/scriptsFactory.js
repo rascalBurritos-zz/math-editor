@@ -1,33 +1,39 @@
 import Scripts_Setter from '../../../Math Nodes/Branch Nodes/Scripts/Scripts_Setter';
 import Scripts_Behavior from '../../../Math Nodes/Branch Nodes/Scripts/Scripts_Behavior.js';
 import Scripts_Node from '../../../Math Nodes/Branch Nodes/Scripts/Scripts_Node';
-import mathNodeFactory from '../mathNodeFactory';
+import mathViewFactory from '../mathViewFactory';
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Scripts_Node}
  */
-export default function scriptsFactory(mathList, fontData) {
+export default function scriptsFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const setterSpec = getScriptFontParameters(fontData);
   const typesetter = new Scripts_Setter(setterSpec);
   const spacingStyle = mathList.nucleus.spacingStyle;
   const scriptsBehavior = new Scripts_Behavior({ typesetter, spacingStyle });
   const scriptsNode = new Scripts_Node(scriptsBehavior);
-  scriptsNode.nucleus = mathNodeFactory(mathList.nucleus, fontData);
+  scriptsNode.nucleus = mathViewFactory(mathList.nucleus, fontData);
   if (mathList.subscript !== undefined) {
-    scriptsNode.subscript = mathNodeFactory(mathList.subscript, fontData);
+    scriptsNode.subscript = mathViewFactory(mathList.subscript, fontData);
   }
   if (mathList.superscript !== undefined) {
-    scriptsNode.superscript = mathNodeFactory(mathList.superscript, fontData);
+    scriptsNode.superscript = mathViewFactory(mathList.superscript, fontData);
   }
   return scriptsNode;
 }
 
 /**
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Object}
  */
 export function getScriptFontParameters(fontData) {

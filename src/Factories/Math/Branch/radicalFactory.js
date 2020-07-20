@@ -4,25 +4,30 @@ import Spacing_Style from '../../../Math Nodes/Types/Spacing_Style.js';
 import Radical_Node from '../../../Math Nodes/Branch Nodes/Radical/Radical_Node.js';
 import Radical_Behavior from '../../../Math Nodes/Branch Nodes/Radical/Radical_Behavior.js';
 import Radical_Setter from '../../../Math Nodes/Branch Nodes/Radical/Radical_Setter.js';
-import mathNodeFactory from '../mathNodeFactory.js';
+import mathViewFactory from '../mathViewFactory.js';
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 /** @typedef {import('../../../Math Nodes/Leaf Nodes/Radical_Glyph/Radical_Glyph_Setter.js').radicalSetterSpec} radicalGlyphSetterSpec  */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  *@return {Radical_Node}
  */
-export default function radicalFactory(mathList, fontData) {
+export default function radicalFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const spacingStyle = Spacing_Style.Ordinary;
   const setterSpec = generateSetterSpec();
   const typesetter = new Radical_Setter(setterSpec);
   const behavior = new Radical_Behavior({ typesetter, spacingStyle });
   const node = new Radical_Node(behavior);
-  node.radicand = mathNodeFactory(mathList.radicand, fontData);
+  node.radicand = mathViewFactory(mathList.radicand, fontData);
   if (mathList.degree) {
-    node.degree = mathNodeFactory(mathList.degree, fontData);
+    node.degree = mathViewFactory(mathList.degree, fontData);
   }
   return node;
 
@@ -51,6 +56,7 @@ export default function radicalFactory(mathList, fontData) {
 
 /**
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Radical_Glyph_Behavior}
  */
 function radicalGlyphBehaviorFactory(fontData) {

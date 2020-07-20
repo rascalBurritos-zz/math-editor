@@ -1,65 +1,57 @@
-/** @typedef {import('../../Abstract/Document_Node').default} Document_Node */
+/** @typedef {import('../../Abstract/Behavior').default} Behavior */
 
 export default class DependancyOrganizer {
-  static map = {};
+  map = {};
 
   /**
    * @param {String} id
-   * @param {Document_Node} node
+   * @param {Behavior} behavior
    */
-  static registerSource(id, node) {
-    if (!DependancyOrganizer.map[id]) {
-      DependancyOrganizer.map[id] = {};
+  registerSource(id, behavior) {
+    if (!this.map[id]) {
+      this.map[id] = {};
     }
-    DependancyOrganizer.map[id].source = node;
+    this.map[id].source = behavior;
   }
+
   /**
    * @param {String} id
-   * @param {Document_Node} node
+   * @param {Behavior} behavior
    */
-  static registerDrain(id, node) {
-    if (!DependancyOrganizer.map[id]) {
-      DependancyOrganizer.map[id] = {};
-      if (DependancyOrganizer.map[id].drain === undefined) {
-        DependancyOrganizer.map[id].drain = [];
+  registerDrain(id, behavior) {
+    if (!this.map[id]) {
+      this.map[id] = {};
+      if (this.map[id].drain === undefined) {
+        this.map[id].drain = [];
       }
     }
-    DependancyOrganizer.map[id].drain.push(node);
+    this.map[id].drain.push(behavior);
   }
 
   /**
    *
    */
-  static linkDependants() {
-    const map = DependancyOrganizer.map;
+  linkDependants() {
+    const map = this.map;
     for (const pairID in map) {
       if (map[pairID]) {
         const drainBehaviors = map[pairID].drain.reduce((acc, curr) => {
-          acc.push(curr.behavior);
+          acc.push(curr);
           return acc;
         }, []);
-        map[pairID].source.behavior.registerDependantBehavior(
-          ...drainBehaviors
-        );
-        for (const node of map[pairID].drain) {
-          node.behavior.target = map[pairID].source.behavior;
+        map[pairID].source.registerDependantBehavior(...drainBehaviors);
+        for (const behavior of map[pairID].drain) {
+          behavior.target = map[pairID].source;
         }
       }
     }
   }
 
   /**
-   *
-   */
-  static clearMap() {
-    DependancyOrganizer.map = {};
-  }
-
-  /**
    * @return {boolean}
    */
-  static verifyPairs() {
-    const map = DependancyOrganizer.map;
+  verifyPairs() {
+    const map = this.map;
 
     return verifySources() && verifyDrains();
 

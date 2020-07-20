@@ -5,15 +5,24 @@ import { glyphBehaviorFactory } from './glyphFactory.js';
 import extendedGlyphBehaviorFactory from './extendedGlyphBehaviorFactory.js';
 import Leaf_Node from '../../../Abstract/Leaf_Node.js';
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Document_Node}
  */
-export default function variantGlyphFactory(mathList, fontData) {
-  const behavior = variantGlyphBehaviorFactory(mathList, fontData);
+export default function variantGlyphFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
+  const behavior = variantGlyphBehaviorFactory(
+    mathList,
+    fontData,
+    dependancyOrganizer
+  );
   if (!behavior) console.warn('Invalid Behavior');
   const node = new Leaf_Node(behavior);
   return node;
@@ -22,11 +31,20 @@ export default function variantGlyphFactory(mathList, fontData) {
 /**
  * @param {Object} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Variant_Glyph_Behavior | boolean}
  */
-export function variantGlyphBehaviorFactory(mathList, fontData) {
+export function variantGlyphBehaviorFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const spacingStyle = mathList.spacingStyle;
-  const setterSpec = generateSetterSpec(mathList, fontData);
+  const setterSpec = generateSetterSpec(
+    mathList,
+    fontData,
+    dependancyOrganizer
+  );
   if (!setterSpec) return false;
   const typesetter = new Variant_Glyph_Setter(setterSpec);
   return new Variant_Glyph_Behavior({ typesetter, spacingStyle });
@@ -35,9 +53,10 @@ export function variantGlyphBehaviorFactory(mathList, fontData) {
 /**
  * @param {Object} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Object}
  */
-function generateSetterSpec(mathList, fontData) {
+function generateSetterSpec(mathList, fontData, dependancyOrganizer) {
   const variantsSettings = generateVariants();
   if (!variantsSettings) return false;
   const extensionSettings = generateExtensionProperties();

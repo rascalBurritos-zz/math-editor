@@ -6,6 +6,7 @@ import Extended_Glyph_Setter from '../../../Math Nodes/Leaf Nodes/Extended_Glyph
  * @param {number} desiredSize
  * @param {Object} extensionSettings
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Extended_Glyph_Behavior}
  */
 export default function extenddedGlyphBehaviorFactory(

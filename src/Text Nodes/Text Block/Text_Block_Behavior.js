@@ -36,7 +36,8 @@ export default class Text_Block_Behavior extends Behavior {
    * @param {number} index
    * @return {Point}
    */
-  getRelativePositionOfCaretNode(index) {
+  getRelativePositionOfCaretKey(caretKey) {
+    const index = Math.floor(caretKey.index + 1);
     return this.getRelativePositionWithElementIndex(index);
   }
 

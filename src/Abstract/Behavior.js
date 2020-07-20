@@ -11,7 +11,6 @@ import Metrics from '../Math Nodes/Types/Metrics.js';
  */
 export default class Behavior {
   type; // rw
-  node;
   _componentStyle; // rw
   _metrics; // r
   _typesetter; // none

@@ -2,14 +2,19 @@ import Glyph_Setter from '../../../Math Nodes/Leaf Nodes/Glyph/Glyph_Setter';
 import Glyph_Behavior from '../../../Math Nodes/Leaf Nodes/Glyph/Glyph_Behavior';
 import Centered_Glyph_Behavior from '../../../Math Nodes/Leaf Nodes/Glyph/Centered_Glyph_Behavior.js';
 import Leaf_Node from '../../../Abstract/Leaf_Node';
-/** @typedef {import('../mathNodeFactory').MathList} MathList  */
+/** @typedef {import('../mathViewFactory').MathList} MathList  */
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Document_Node}
  */
-export default function glyphFactory(mathList, fontData) {
-  const glyphBehavior = glyphBehaviorFactory(mathList, fontData);
+export default function glyphFactory(mathList, fontData, dependancyOrganizer) {
+  const glyphBehavior = glyphBehaviorFactory(
+    mathList,
+    fontData,
+    dependancyOrganizer
+  );
   const glyphNode = new Leaf_Node(glyphBehavior);
   return glyphNode;
 }
@@ -17,9 +22,10 @@ export default function glyphFactory(mathList, fontData) {
 /**
  * @param {Object} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Glyph_Behavior}
  */
-export function glyphBehaviorFactory(mathList, fontData) {
+export function glyphBehaviorFactory(mathList, fontData, dependancyOrganizer) {
   const spacingStyle = mathList.spacingStyle;
   const italicsCorrection = fontData.italicCorrectionMap[mathList.unicode];
   const mc = fontData.MATH.MathConstants;

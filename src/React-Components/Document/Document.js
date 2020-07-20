@@ -1,6 +1,8 @@
 import React from 'react';
-import Caret from './Caret';
 import documentStartup from './documentStartup';
+import documentViewFactory from '../../Factories/documentViewFactory';
+import getCaretView from '../../../Experiment 2/getCaretView';
+import Caret from './Caret';
 
 export default class Document extends React.Component {
   /**
@@ -51,13 +53,14 @@ export default class Document extends React.Component {
    * @return {JSX.Element}
    */
   render() {
-    const rootBehavior = this.state.rootNode.behavior;
-    const caretBehavior = this.state.caretBehavior;
-    console.log(this.state);
+    console.log(this.state.model);
+    const rootBehavior = documentViewFactory(this.state.model);
+    console.log(rootBehavior);
+    const caretStyle = getCaretView(rootBehavior, this.state.caretKeychain);
     return (
       <div>
         <rootBehavior.component data={rootBehavior}></rootBehavior.component>
-        <Caret data={caretBehavior} />
+        <Caret data={caretStyle} />
       </div>
     );
   }

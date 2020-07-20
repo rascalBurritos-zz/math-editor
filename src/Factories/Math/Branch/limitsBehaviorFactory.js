@@ -1,4 +1,4 @@
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 
 import Limits_Behavior from '../../../Math Nodes/Branch Nodes/Operator/Limits_Behavior';
 import Limits_Setter from '../../../Math Nodes/Branch Nodes/Operator/Limits_Setter';

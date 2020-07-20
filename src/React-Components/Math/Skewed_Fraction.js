@@ -13,7 +13,6 @@ export default class Skewed_Fraction extends React.Component {
 
     return (
       <div className="SkewedFraction" style={data.componentStyle}>
-        {this.props.data.caret}
         <nb.component data={nb} />
         <sb.component data={sb} />
         <db.component data={db} />

@@ -1,25 +1,37 @@
-import mathNodeFactory from '../mathNodeFactory';
-import Generalized_Fraction_Node from '../../../Math Nodes/Branch Nodes/Generalized Fraction/Generalized_Fraction_Node';
+import mathViewFactory from '../mathViewFactory';
 import Fraction_Setter from '../../../Math Nodes/Branch Nodes/Generalized Fraction/Fraction_Setter';
 import Spacing_Style from '../../../Math Nodes/Types/Spacing_Style';
 import Fraction_Behavior from '../../../Math Nodes/Branch Nodes/Generalized Fraction/Fraction_Behavior';
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../../../Math Nodes/Branch Nodes/Generalized Fraction/Generalized_Fraction_Behavior').default} Generalized_Fraction_Behavior  */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
- * @return {Generalized_Fraction_Node}
+ * @param {Object} dependancyOrganizer
+ * @return {Generalized_Fraction_Behavior}
  */
-export default function fractionFactory(mathList, fontData) {
+export default function fractionFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const spec = generateSpec(fontData);
   const typesetter = new Fraction_Setter(spec);
   const spacingStyle = Spacing_Style.Ordinary;
   const behavior = new Fraction_Behavior({ typesetter, spacingStyle });
-  const node = new Generalized_Fraction_Node(behavior);
-  node.numerator = mathNodeFactory(mathList.numerator, fontData);
-  node.denominator = mathNodeFactory(mathList.denominator, fontData);
-  return node;
+  behavior.numeratorBehavior = mathViewFactory(
+    mathList.numerator,
+    fontData,
+    dependancyOrganizer
+  );
+  behavior.denominatorBehavior = mathViewFactory(
+    mathList.denominator,
+    fontData,
+    dependancyOrganizer
+  );
+  return behavior;
 }
 
 /**

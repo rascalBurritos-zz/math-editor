@@ -1,19 +1,24 @@
 // import Spacing_Style from '../../Types/Spacing_Style';
-import mathNodeFactory from '../mathNodeFactory';
+import mathViewFactory from '../mathViewFactory';
 import Operator_Node from '../../../Math Nodes/Branch Nodes/Operator/Operator_Node';
 import Stretch_Stack_Setter from '../../../Math Nodes/Branch Nodes/Stretch Stack/Stretch_Stack_Setter';
 import Stretch_Stack_Behavior from '../../../Math Nodes/Branch Nodes/Stretch Stack/Stretch_Stack_Behavior';
 import universalGlyphFactory from './universalGlyphFactory';
 
-/** @typedef {import('../mathNodeFactory').MathList} MathList */
+/** @typedef {import('../mathViewFactory').MathList} MathList */
 /** @typedef {import('../../../Abstract/Document_Node').default} Document_Node */
 
 /**
  * @param {MathList} mathList
  * @param {Object} fontData
+ * @param {Object} dependancyOrganizer
  * @return {Operator_Node} fontData
  */
-export default function stretchStackFactory(mathList, fontData) {
+export default function stretchStackFactory(
+  mathList,
+  fontData,
+  dependancyOrganizer
+) {
   const setterSpec = getSetterSpec();
   const typesetter = new Stretch_Stack_Setter(setterSpec);
   // spacing style is set in operator setter? NO!
@@ -22,10 +27,10 @@ export default function stretchStackFactory(mathList, fontData) {
   const node = new Operator_Node(behavior);
   node.nucleus = universalGlyphFactory(mathList.nucleus, fontData);
   if (mathList.lowerLimit !== undefined) {
-    node.lowerLimit = mathNodeFactory(mathList.lowerLimit, fontData);
+    node.lowerLimit = mathViewFactory(mathList.lowerLimit, fontData);
   }
   if (mathList.upperLimit !== undefined) {
-    node.upperLimit = mathNodeFactory(mathList.upperLimit, fontData);
+    node.upperLimit = mathViewFactory(mathList.upperLimit, fontData);
   }
   return node;
   /**

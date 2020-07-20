@@ -14,7 +14,6 @@ export default class Formula extends React.Component {
 
     return (
       <div className="Formula" style={this.props.data.componentStyle}>
-        {this.props.data.caret}
         {formulaElements}
       </div>
     );
