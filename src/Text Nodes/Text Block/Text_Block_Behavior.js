@@ -17,27 +17,28 @@ export default class Text_Block_Behavior extends Behavior {
   /**
    *
    * @param {Object} point
-   * @return {Behavior}
+   * @return {Object}
    *  x, y
    */
-  getBehaviorClosestToPoint(point) {
+  getBoxKeyClosestToPoint(point) {
     if (!this._isValid()) return;
     let progress = 0;
     for (let i = 0; i < this._elementBehaviors.length; i++) {
-      progress += this._elementBehaviors[i].metrics.width;
+      progress += this._elementBehaviors[i].metrics.width / 2;
       if (point.left < progress) {
-        return this._elementBehaviors[i];
+        return { isCaret: true, index: i };
       }
+      progress += this._elementBehaviors[i].metrics.width / 2;
     }
-    return this._elementBehaviors.slice(-1)[0];
+    return { isCaret: true, index: this._elementBehaviors.length };
   }
 
   /**
-   * @param {number} index
+   * @param {Object} caretKey
    * @return {Point}
    */
   getRelativePositionOfCaretKey(caretKey) {
-    const index = Math.floor(caretKey.index + 1);
+    const index = caretKey.index;
     return this.getRelativePositionWithElementIndex(index);
   }
 

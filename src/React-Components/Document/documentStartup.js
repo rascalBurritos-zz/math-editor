@@ -5,7 +5,15 @@ import docListOne from '../../Test/docListOne';
  */
 export default function documentStartup() {
   // vertical list -> textblock -> textGlyph
-  // const starterKeychain = [['elementBehaviors', 0], { index: 3 }];
-  const starterKeychain = [{ rungIndex: 1, onLeft: true }];
+  const starterKeychain = [
+    {
+      isCaret: false,
+      index: 1,
+      modelAccess: ['elements', 1],
+      viewAccess: ['elementBehaviors', 1],
+    },
+    { isCaret: true, index: 0 },
+  ];
+  // const starterKeychain = [['elementBehaviors',]];
   return { model: docListOne, caretKeychain: starterKeychain };
 }

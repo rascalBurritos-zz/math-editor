@@ -1,8 +1,12 @@
 import React from 'react';
 import documentStartup from './documentStartup';
 import documentViewFactory from '../../Factories/documentViewFactory';
-import getCaretView from '../../../Experiment 2/getCaretView';
+import getCaretView from '../../../Experiment 2/keyChainToViewPoint';
 import Caret from './Caret';
+import caretTraverser, {
+  DIRECTION,
+} from '../../../Experiment 2/caretTraverser';
+import determineKeychain from '../../../Experiment 2/determineKeychain';
 
 export default class Document extends React.Component {
   /**
@@ -27,18 +31,18 @@ export default class Document extends React.Component {
    */
   keyHandler(e) {
     this.setState((prevState) => {
-      const cb = prevState.caretBehavior;
       const keyMap = {
-        ArrowUp: cb.moveUp,
-        ArrowDown: cb.moveDown,
-        ArrowRight: cb.moveRight,
-        ArrowLeft: cb.moveLeft,
+        ArrowUp: DIRECTION.UP,
+        ArrowDown: DIRECTION.DOWN,
+        ArrowRight: DIRECTION.RIGHT,
+        ArrowLeft: DIRECTION.LEFT,
       };
       if (keyMap[e.code]) {
-        const caretBehavior = keyMap[e.code]();
-        if (caretBehavior) {
-          return { caretBehavior };
-        }
+        const direction = keyMap[e.code];
+        const ck = prevState.caretKeychain;
+        const model = prevState.model;
+        const newKeychain = determineKeychain(ck, model, direction);
+        return { caretKeychain: newKeychain };
       }
     });
   }
@@ -53,10 +57,10 @@ export default class Document extends React.Component {
    * @return {JSX.Element}
    */
   render() {
-    console.log(this.state.model);
+    // console.log(this.state);
     const rootBehavior = documentViewFactory(this.state.model);
-    console.log(rootBehavior);
-    const caretStyle = getCaretView(rootBehavior, this.state.caretKeychain);
+    const caretStyle = getCaretView(rootBehavior, this.state.caretKeychain)
+      .position;
     return (
       <div>
         <rootBehavior.component data={rootBehavior}></rootBehavior.component>

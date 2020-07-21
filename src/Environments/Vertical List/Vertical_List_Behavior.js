@@ -1,6 +1,8 @@
 import Behavior from '../../Abstract/Behavior.js';
 import VerticalList from '../../React-Components/Document/VerticalList.js';
 import Point from '../../Abstract/Point.js';
+import { isExpressionWrapper } from '../../../../../../.cache/typescript/3.9/node_modules/@babel/types/lib/index.js';
+import Radical_Glyph_Behavior from '../../Math Nodes/Leaf Nodes/Radical_Glyph/Radical_Glyph_Behavior.js';
 /** @typedef {import('../../Math Nodes/Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Math Nodes/Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
@@ -33,8 +35,10 @@ export default class Vertical_List_Behavior extends Behavior {
   /**
    * @param {Object} caretKey
    * @return {Object}
+   * s
    */
   getRelativePositionOfCaretKey(caretKey) {
+    console.log('Should Not be called! ');
     return this.getRelativePositionWithElementIndex(
       caretKey.rungIndex,
       caretKey.onLeft
@@ -46,7 +50,7 @@ export default class Vertical_List_Behavior extends Behavior {
    * @return {Behavior}
    *  x, y
    */
-  getBehaviorClosestToPoint(point) {
+  getBoxKeyClosestToPoint(point) {
     if (!this._isValid()) return;
     let progress = 0;
     for (const [index, behavior] of this._elementBehaviors.entries()) {
@@ -55,10 +59,20 @@ export default class Vertical_List_Behavior extends Behavior {
       progress +=
         behavior.metrics.height + behavior.metrics.depth + marginBottom;
       if (point.left < progress) {
-        return behavior;
+        return boxWrap(index);
       }
     }
-    return this._elementBehaviors.slice(-1)[0];
+    return boxWrap(this._elementBehaviors.length - 1);
+
+    /**
+     * @param {number} num
+     * @return {Object}
+     */
+    function boxWrap(num) {
+      const viewAccess = ['elementBehaviors', num];
+      const modelAccess = ['elements', num];
+      return { isCaret: false, index: num, viewAccess, modelAccess };
+    }
   }
 
   /**

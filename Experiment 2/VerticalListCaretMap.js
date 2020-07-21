@@ -1,93 +1,92 @@
-import { DIRECTION } from './CaretTraverser';
+import CaretMap from './CaretMap';
 
-export default class VerticalListCaretMap {
+export default class VerticalListCaretMap extends CaretMap {
   /**
-   * @param {Object} submodel
+   *
+   * @param {Object} model
    */
-  constructor(submodel) {
-    this.elements = submodel.elements;
-    this.numElements = submodel.elements.length;
-    this.outsideRight = { outside: 'Right' };
-    this.outsideLeft = { outside: 'Left' };
+  constructor(model) {
+    super();
+    this.numElements = model.elements.length;
   }
-
   /**
-   * @param {Object} caretKey
-   * @param {String} direction
-   * @return {Object} direction
-   */
-  getNextItem(caretKey, direction) {
-    const change = this.directionToChange(direction);
-    const sideIndex = caretKey.slice(-1);
-    const sideLeft = sideIndex === '0';
-    const directionLeft = direction === DIRECTION.LEFT;
-    let key;
-    let isCaret;
-    if ((sideLeft && directionLeft) || (!sideLeft && !directionLeft)) {
-      isCaret = true;
-      key = this.directMove(caretKey, direction);
-    } else {
-      isCaret = false;
-      key = ['elementBehaviors', caretKey.rungIndex];
-    }
-    return { isCaret, key };
-  }
-
-  /**
-   * @param {Object} caretKey
-   * @param {String} direction
-   * @return {Object} block# | caret
-   */
-  directMove(caretKey, direction) {
-    if ('outside' in caretKey) {
-      if (caretKey.outside === this.outsideRight.outside) {
-        const lastIndex = this.numElements - 1;
-        return direction === DIRECTION.RIGHT
-          ? caretKey
-          : { rungIndex: lastIndex, toLeft: false };
-      } else {
-        return direction === DIRECTION.LEFT
-          ? caretKey
-          : { rungIndex: 0, onLeft: true };
-      }
-    }
-
-    const onLeft = caretKey.onLeft;
-    const rungIndex = caretKey.rungIndex;
-    if (rungIndex === 0 && onLeft && direction === DIRECTION.LEFT) {
-      return this.outsideLeft;
-    } else if (
-      rungIndex === this.numElements - 1 &&
-      !onLeft &&
-      direction === DIRECTION.RIGHT
-    ) {
-      return this.outsideRight;
-    }
-
-    if (direction === DIRECTION.RIGHT) {
-      if (onLeft) {
-        return { rungIndex, onLeft: false };
-      } else {
-        return { rungIndex: rungIndex + 1, onLeft: true };
-      }
-    } // going left
-    else {
-      if (onLeft) {
-        return { rungIndex: rungIndex - 1, onLeft: false };
-      } else {
-        return { rungIndex, onLeft: true };
-      }
-    }
-  }
-
-  /**
-   * @param {Array} modelKey
-   * @param {String} direction
+   * @param {*} boxKey
    * @return {Object}
    */
-  closestCaretKey(modelKey, direction) {
-    const onLeft = direction === DIRECTION.LEFT;
-    const rungIndex = modelKey[1]; // model key ['elementBehaviors',index]
-    return { rungIndex, onLeft };
+  convertBounds(boxKey) {
+    const newKey = {};
+    if (this.isLeftBound(boxKey) || this.isUpBound()) {
+      newKey.index = this.minIndex - 1;
+    } else if (this.isRightBound(boxKey) || this.isDownBound()) {
+      newKey.index = this.maxIndex + 1;
+    } else {
+      newKey.index = boxKey.index;
+    }
+    return newKey;
+  }
+
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getUp(boxKey) {
+    return this.getLeft(boxKey);
+  }
+
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getDown(boxKey) {
+    return this.getRight(boxKey);
+  }
+
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getRight(boxKey) {
+    const safeKey = this.convertBounds(boxKey);
+    const index = safeKey.index + 1;
+    return this.finalize(index);
+  }
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getLeft(boxKey) {
+    const safeKey = this.convertBounds(boxKey);
+    const index = safeKey.index - 1;
+    return this.finalize(index);
+  }
+
+  /**
+   * @return {number}
+   */
+  get minIndex() {
+    return 0;
+  }
+
+  /**
+   * @return {number}
+   */
+  get maxIndex() {
+    return this.numElements - 1;
+  }
+
+  /**
+   * @param {number} num
+   * @return {Object}
+   */
+  finalize(num) {
+    if (num < this.minIndex) {
+      return this.BOUND_LEFT;
+    } else if (num > this.maxIndex) {
+      return this.BOUND_RIGHT;
+    } else {
+      const viewAccess = ['elementBehaviors', num];
+      const modelAccess = ['elements', num];
+      return { isCaret: false, index: num, viewAccess, modelAccess };
+    }
   }
 }

@@ -1,136 +1,98 @@
-import { DIRECTION } from './CaretTraverser';
+import CaretMap from './CaretMap';
 
-export default class TextBlockCaretMap {
+export default class TextBlockCaretMap extends CaretMap {
   /**
    *
-   * @param {Object} submodel
+   * @param {Object} textBlockModel
    */
-  constructor(submodel) {
-    this.numElements = submodel.content.length;
+  constructor(textBlockModel) {
+    super();
+    this.numElements = textBlockModel.content.length;
+  }
+
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getUp(boxKey) {
+    if (this.isDownBound(boxKey)) {
+      return this.finalize(this.minIndex);
+    }
+    return this.BOUND_UP;
+  }
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getDown(boxKey) {
+    if (this.isUpBound(boxKey)) {
+      return this.finalize(this.minIndex);
+    }
+    return this.BOUND_DOWN;
+  }
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getRight(boxKey) {
+    const safeKey = this.convertBounds(boxKey);
+    const index = safeKey.index + 1;
+    return this.finalize(index);
+  }
+  /**
+   * @param {Object} boxKey
+   * @return {Object} new Box key
+   */
+  getLeft(boxKey) {
+    const safeKey = this.convertBounds(boxKey);
+    const index = safeKey.index - 1;
+    return this.finalize(index);
+  }
+
+  /**
+   * @param {*} boxKey
+   * @return {Object}
+   */
+  convertBounds(boxKey) {
+    const newKey = {};
+    if (this.isLeftBound(boxKey)) {
+      newKey.index = this.minIndex - 1;
+    } else if (this.isRightBound(boxKey)) {
+      newKey.index = this.maxIndex + 1;
+    } else {
+      newKey.index = boxKey.index;
+    }
+    return newKey;
+  }
+
+  /**
+   * @return {number}
+   */
+  get minIndex() {
+    return 0;
+  }
+
+  /**
+   * @return {number}
+   */
+  get maxIndex() {
+    return this.numElements;
+  }
+
+  /**
+   * @param {number} num
+   * @return {Object}
+   */
+  finalize(num) {
+    if (num < this.minIndex) {
+      return this.BOUND_LEFT;
+    } else if (num > this.maxIndex) {
+      return this.BOUND_RIGHT;
+    } else {
+      // they are all carets
+      // const viewAccess = ['elementBehaviors', (num - 1) / 2];
+      // const modelAccess = ['content', (num - 1) / 2];
+      return { isCaret: true, index: num };
+    }
   }
 }
-
-// export default class TextBlockCaretMap {
-//   /**
-//    * @param {Object} submodel
-//    */
-//   constructor(submodel) {
-//     this.numElements = submodel.content.length;
-//     this.outsideRight = { outside: 'Right' };
-//     this.outsideLeft = { outside: 'Left' };
-//   }
-//   /**
-//    * @param {String} dirstr
-//    * @return {number}
-//    */
-//   directionToChange(dirstr) {
-//     return dirstr === DIRECTION.LEFT ? -0.5 : 0.5;
-//   }
-
-//   /**
-//    *
-//    */
-//   get minIndex() {
-//     const change = this.directionToChange(DIRECTION.LEFT);
-//     return 0 + change;
-//   }
-//   /**
-//    *
-//    */
-//   get maxIndex() {
-//     const change = this.directionToChange(DIRECTION.RIGHT);
-//     return this.numElements + change;
-//   }
-
-//   /**
-//    * @param {Object} caretKey
-//    * @return {number} index
-//    */
-//   getCaretKeyIndex(caretKey) {
-//     if ('outside' in caretKey) {
-//       return caretKey.outside === this.outsideLeft.outside
-//         ? -1
-//         : this.numElements + 1;
-//     } else {
-//       return caretKey.index;
-//     }
-//   }
-
-//   /**
-//    * @param {Object} caretKey
-//    * @param {String} direction
-//    * @return {Object} caretKey | modelKey
-//    */
-//   getNextItem(caretKey, direction) {
-//     const caretIndex = this.getCaretKeyIndex(caretKey);
-//     return this.getNextItemFromUniversalIndex(caretIndex, direction);
-//   }
-
-//   /**
-//    * @param {number} index
-//    * @param {String} direction
-//    * @return {Object} caretKey | modelKey
-//    */
-//   getNextItemFromUniversalIndex(index, direction) {
-//     const tbcm = this;
-//     const change = this.directionToChange(direction);
-//     const nextIndex = index + change;
-//     if (nextIndex < this.minIndex) {
-//       return wrapOutsideCaret(DIRECTION.LEFT);
-//     } else if (nextIndex > this.maxIndex) {
-//       return wrapOutsideCaret(DIRECTION.RIGHT);
-//     }
-
-//     if (nextIndex === Math.floor(nextIndex)) {
-//       return { isCaret: false, key: ['elementBehaviors', index] };
-//     } else {
-//       return { isCaret: true, key: { index: nextIndex } };
-//     }
-
-//     /**
-//      * @param {String} direction
-//      * @return {Object}
-//      */
-//     function wrapOutsideCaret(direction) {
-//       const key =
-//         direction === DIRECTION.LEFT ? tbcm.outsideLeft : tbcm.outsideRight;
-//       return { isCaret: true, key };
-//     }
-//   }
-
-//   /**
-//    * @param {Object} caretKey
-//    * @param {String} direction
-//    * @return {Object} box# | caret
-//    */
-//   directMove(caretKey, direction) {
-//     const index = this.getCaretKeyIndex(caretKey);
-//     return this.getNextCaretKeyInDirection(index, direction);
-//   }
-//   /**
-//    *
-//    * @param {Array} modelKey
-//    * @param {String} direction
-//    * @return {Object}
-//    */
-//   closestCaretKey(modelKey, direction) {
-//     const index = modelKey.slice(-1)[0];
-//     return this.getNextCaretKeyInDirection(index, direction);
-//   }
-
-//   /**
-//    * @param {number} index
-//    * @param {String} direction
-//    * @return {Object}
-//    */
-//   getNextCaretKeyInDirection(index, direction) {
-//     let isCaretKey = false;
-//     let item;
-//     while (!isCaretKey) {
-//       item = this.getNextItemFromUniversalIndex(index, direction);
-//       index += this.directionToChange(direction);
-//       isCaretKey = item.isCaret;
-//     }
-//     return item.key;
-//   }
-// }
