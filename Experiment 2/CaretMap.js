@@ -5,10 +5,10 @@ export default class CaretMap {
    *
    */
   constructor() {
-    this.BOUND_LEFT = { outside: 'Left' };
-    this.BOUND_RIGHT = { outside: 'Right' };
-    this.BOUND_UP = { outside: 'Up' };
-    this.BOUND_DOWN = { outside: 'Down' };
+    this.BOUND_LEFT = { outside: DIRECTION.LEFT };
+    this.BOUND_RIGHT = { outside: DIRECTION.RIGHT };
+    this.BOUND_UP = { outside: DIRECTION.UP };
+    this.BOUND_DOWN = { outside: DIRECTION.DOWN };
     this.isRightBound = this.isBoundGenerator(this.BOUND_RIGHT);
     this.isLeftBound = this.isBoundGenerator(this.BOUND_LEFT);
     this.isUpBound = this.isBoundGenerator(this.BOUND_UP);

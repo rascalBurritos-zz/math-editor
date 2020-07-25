@@ -4,3 +4,42 @@
   height: 20px;
   position: absolute;
 }
+
+/* blink */
+.Blink {
+  --decoration: blink;
+  --name: blinker;
+  --duration: 0.6s;
+  --iteration-count: infinite;
+  --timing-function: ease-in-out;
+  --direction: alternate;
+  text-decoration: var(--decoration);
+  animation-name: var(--name);
+  animation-duration: var(--duration);
+  animation-iteration-count: var(--iteration-count);
+  animation-timing-function: var(--timing-function);
+  animation-direction: var(--direction);
+  -webkit-text-decoration: var(--decoration);
+  -webkit-animation-name: var(--name);
+  -webkit-animation-duration: var(--duration);
+  -webkit-animation-iteration-count: var(--iteration-count);
+  -webkit-animation-timing-function: var(--timing-function);
+  -webkit-animation-direction: var(--direction);
+}
+@keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes blinker {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

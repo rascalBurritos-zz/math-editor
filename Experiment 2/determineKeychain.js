@@ -1,7 +1,8 @@
 import caretTraverser, { DIRECTION } from './caretTraverser';
 import documentViewFactory from '../src/Factories/documentViewFactory';
 import verticalCaretTraverser from './verticalCaretTraverser';
-import keychainToViewPoint, { getSubview } from './keyChainToViewPoint';
+import keychainToViewPoint from './getCaretView';
+import getSubItem from './getSubItem';
 
 /**
  * @param {Object} keychain
@@ -41,15 +42,21 @@ export default function determineKeychain(keychain, model, direction) {
  * @param {*} targetView
  * @return {Array}
  */
-function keychainFromPosition(startPoint, targetView) {
+export function keychainFromPosition(startPoint, targetView) {
   let done = false;
   const keychain = [];
   let currentView = targetView;
+  let currentPoint = startPoint;
   while (!done) {
-    const boxKey = currentView.getBoxKeyClosestToPoint(startPoint);
+    const boxKey = currentView.getBoxKeyClosestToPoint(currentPoint);
     keychain.push(boxKey);
     if (!boxKey.isCaret) {
-      currentView = getSubview(boxKey, currentView);
+      const previousView = currentView;
+      currentView = getSubItem(boxKey, currentView, true);
+      const subViewPos = previousView.getRelativePositionOfBehavior(
+        currentView
+      );
+      currentPoint = currentPoint.subtract(subViewPos);
     }
     done = boxKey.isCaret;
   }

@@ -14,10 +14,15 @@ export default function getCaretView(view, keychain) {
         const caretKeyPos = viewPoint.view.getRelativePositionOfCaretKey(
           boxKey
         );
-        return {
+        const completeViewPoint = {
           view: viewPoint.view,
           position: caretKeyPos.add(viewPoint.position),
         };
+        if (viewPoint.view.getCaretStyle !== undefined) {
+          const style = viewPoint.view.getCaretStyle();
+          completeViewPoint.style = style;
+        }
+        return completeViewPoint;
       } else {
         const subView = getSubItem(boxKey, viewPoint.view, true);
         const relativePos = viewPoint.view.getRelativePositionOfBehavior(
@@ -32,15 +37,4 @@ export default function getCaretView(view, keychain) {
     { view: view, position: new Point(0, 0) }
   );
   return rootViewPoint;
-}
-
-/**
- * @param {*} boxKey
- * @param {*} view
- * @return {*} subview
- */
-export function getSubview(boxKey, view) {
-  return boxKey.viewAccess.reduce((partition, key) => {
-    return partition[key];
-  }, view);
 }

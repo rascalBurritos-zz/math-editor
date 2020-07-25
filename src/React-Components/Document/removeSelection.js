@@ -4,6 +4,7 @@ import { traverse } from '../../../Experiment 2/caretTraverser';
 // import getCaretMap from '../../../Experiment 2/getCaretMap';
 import { removeDirectly } from './removeDirectly';
 import getAccessMap from '../../../Experiment 2/getAccessMap';
+import keychainsEqual from './keychainsEqual';
 
 /**
  *
@@ -13,6 +14,7 @@ import getAccessMap from '../../../Experiment 2/getAccessMap';
  * @return {Object}
  */
 export default function removeSelection(keychainA, keychainB, model) {
+  if (keychainsEqual(keychainA, keychainB)) return {};
   const commonAncestorIndex = getCommonAncestorIndex(keychainA, keychainB);
   const commonAncestor = getCommonAncestor(
     model,
@@ -26,20 +28,25 @@ export default function removeSelection(keychainA, keychainB, model) {
     subChainB,
     commonAncestor
   );
+  let newModel;
   if (commonAncestorIndex === 0) {
-    return { model: newCommonAncestor };
+    newModel = newCommonAncestor;
+  } else {
+    const commonAncestorParent = traverse(
+      model,
+      keychainA.slice(0, commonAncestorIndex - 1)
+    );
+    const accessor = getAccessMap(commonAncestorParent.type, false);
+    const caIndexWithinParent = commonAncestorParent[accessor].indexOf(
+      commonAncestor
+    );
+    commonAncestorParent[accessor][caIndexWithinParent] = newCommonAncestor;
+    newModel = model;
   }
-  const commonAncestorParent = traverse(
-    model,
-    keychainA.slice(0, commonAncestorIndex - 1)
-  );
-  const accessor = getAccessMap(commonAncestorParent.type, false);
-  const caIndexWithinParent = commonAncestorParent[accessor].indexOf(
-    commonAncestor
-  );
-  commonAncestorParent[accessor][caIndexWithinParent] = newCommonAncestor;
-
-  return { model };
+  const leftKeychain =
+    subChainA[0].index < subChainB[0].index ? keychainA : keychainB;
+  const selection = { anchor: leftKeychain, focus: leftKeychain };
+  return { model: newModel, selection };
 
   /**
    * @param {Object} model
@@ -76,41 +83,9 @@ export default function removeSelection(keychainA, keychainB, model) {
    * @param {*} boxkeyB
    * @return {boolean}
    * NOTE: Only valid for boxkeys on same level with same parent
+   * NOTE: only compares indices
    */
   function boxKeyEquals(boxkeyA, boxkeyB) {
     return boxkeyA.index === boxkeyB.index;
   }
 }
-
-// /**
-//  *
-//  * @param {*} boxKeyA
-//  * @param {*} boxKeyB
-//  * @param {*} submodel
-//  */
-// function getBetween(boxKeyA, boxKeyB, parent) {
-//   const accessElementIndex = 0;
-//   const [leftKey, rightKey] =
-//     boxKeyA.index < boxKeyB.index ? [boxKeyA, boxKeyB] : [boxKeyB, boxKeyA];
-//   const leftModelIndex = getModelIndex(leftKey, parent, DIRECTION.RIGHT);
-//   const rightModelIndex = getModelIndex(rightKey, parent, DIRECTION.LEFT);
-//   // if same or goes in wrong direction might be problemo
-//   if (leftModelIndex === -1 || rightModelIndex === -1) {
-//     console.warn('wrong direction');
-//   }
-//   const deleteAmount = rightModelIndex - leftModelIndex;
-//   parent[accessElementIndex].splice(leftModelIndex, deleteAmount);
-// }
-
-// /**
-//  * @param {Object} boxKey
-//  * @param {Object} parent
-//  */
-// function getModelIndex(boxKey, parent, direction) {
-//   const caretMaps = {
-//     Vertical_List: VerticalListCaretMap,
-//     Text_Block: TextBlockCaretMap,
-//   };
-//   const caretMap = new caretMaps[parent.type](parent);
-//   return caretMap.getModelIndex(boxKey, direction);
-// }

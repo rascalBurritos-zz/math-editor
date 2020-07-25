@@ -1,8 +1,6 @@
 import Behavior from '../../Abstract/Behavior.js';
 import VerticalList from '../../React-Components/Document/VerticalList.js';
 import Point from '../../Abstract/Point.js';
-import { isExpressionWrapper } from '../../../../../../.cache/typescript/3.9/node_modules/@babel/types/lib/index.js';
-import Radical_Glyph_Behavior from '../../Math Nodes/Leaf Nodes/Radical_Glyph/Radical_Glyph_Behavior.js';
 /** @typedef {import('../../Math Nodes/Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Math Nodes/Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
@@ -58,7 +56,7 @@ export default class Vertical_List_Behavior extends Behavior {
         .marginBottom;
       progress +=
         behavior.metrics.height + behavior.metrics.depth + marginBottom;
-      if (point.left < progress) {
+      if (point.top < progress) {
         return boxWrap(index);
       }
     }
@@ -69,9 +67,7 @@ export default class Vertical_List_Behavior extends Behavior {
      * @return {Object}
      */
     function boxWrap(num) {
-      const viewAccess = ['elementBehaviors', num];
-      const modelAccess = ['elements', num];
-      return { isCaret: false, index: num, viewAccess, modelAccess };
+      return { isCaret: false, index: num };
     }
   }
 

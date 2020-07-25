@@ -34,12 +34,20 @@ export default class Text_Block_Behavior extends Behavior {
   }
 
   /**
+   * @return {Object}
+   */
+  getCaretStyle() {
+    return { backgroundColor: 'black', height: this.metrics.height };
+  }
+
+  /**
    * @param {Object} caretKey
    * @return {Point}
    */
   getRelativePositionOfCaretKey(caretKey) {
     const index = Math.floor(caretKey.index / 2);
-    return this.getRelativePositionWithElementIndex(index);
+    const exactPos = this.getRelativePositionWithElementIndex(index);
+    return new Point(0, exactPos.left);
   }
 
   /**

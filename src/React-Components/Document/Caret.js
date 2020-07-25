@@ -6,7 +6,9 @@ export default class Caret extends React.Component {
    * @return {JSX.Element}
    */
   render() {
-    const caretStyle = this.props.data;
-    return <div className="Caret" style={caretStyle}></div>;
+    const caretData = this.props.data;
+    const caretStyle = caretData.style;
+    const className = caretData.isBlinking ? 'Caret Blink' : 'Caret';
+    return <div className={className} style={caretStyle}></div>;
   }
 }
