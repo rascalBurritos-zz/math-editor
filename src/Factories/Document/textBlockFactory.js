@@ -1,6 +1,7 @@
 import Text_Block_Behavior from '../../Text Nodes/Text Block/Text_Block_Behavior';
 import Text_Block_Setter from '../../Text Nodes/Text Block/Text_Block_Setter';
 import textGlyphFactory from './textGlyphFactory';
+import fontMapper from './fontMapper';
 
 /** @typedef {import('../../Abstract/Behavior').default}  Behavior */
 
@@ -15,7 +16,8 @@ export default function textBlockFactory(documentList) {
   for (const char of documentList.content) {
     const unicode = char.codePointAt(0);
     const fontSize = documentList.fontSize;
-    const tg = textGlyphFactory({ unicode, fontSize }, documentList.fontData);
+    const font = fontMapper(documentList.fontName);
+    const tg = textGlyphFactory({ unicode, fontSize }, font);
     elements.push(tg);
   }
   behavior.elementBehaviors = elements;

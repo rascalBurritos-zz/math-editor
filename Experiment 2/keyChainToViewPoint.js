@@ -1,4 +1,5 @@
 import Point from '../src/Abstract/Point';
+import getSubItem from './getSubItem';
 
 /**
  *
@@ -6,7 +7,7 @@ import Point from '../src/Abstract/Point';
  * @param {Array} keychain
  * @return {Object} Caret Component Style
  */
-export default function keychainToViewPoint(view, keychain) {
+export default function getCaretView(view, keychain) {
   const rootViewPoint = keychain.reduce(
     (viewPoint, boxKey) => {
       if (boxKey.isCaret) {
@@ -18,7 +19,7 @@ export default function keychainToViewPoint(view, keychain) {
           position: caretKeyPos.add(viewPoint.position),
         };
       } else {
-        const subView = getSubview(boxKey, viewPoint.view);
+        const subView = getSubItem(boxKey, viewPoint.view, true);
         const relativePos = viewPoint.view.getRelativePositionOfBehavior(
           subView
         );

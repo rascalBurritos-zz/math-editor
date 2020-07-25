@@ -1,4 +1,3 @@
-import AsanaFontData from '../../fonts/AsanaFontData';
 import Math_Style from '../Math Nodes/Types/Math_Style';
 import mlOne from './mathListOne.js';
 import mlTwo from './mathListTwo.js';
@@ -17,13 +16,13 @@ export default {
     {
       type: 'Text_Block',
       fontSize: 30,
-      fontData: AsanaFontData,
+      fontName: 'Asana',
       content: 'sexy body, she shows it \\\\  Loves the drama she chose it',
     },
     {
       type: 'Text_Block',
       fontSize: 30,
-      fontData: AsanaFontData,
+      fontName: 'Asana',
       content: 'The quick brown fox jumped over the lazy dog',
     },
     // {

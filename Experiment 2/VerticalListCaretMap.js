@@ -2,13 +2,25 @@ import CaretMap from './CaretMap';
 
 export default class VerticalListCaretMap extends CaretMap {
   /**
-   *
-   * @param {Object} model
+   * @param {Object} info
    */
-  constructor(model) {
+  constructor(info) {
     super();
-    this.numElements = model.elements.length;
+    this.numElements = info.numElements;
   }
+
+  /**
+   *
+   * @param {Object} boxKey
+   * @return {number}
+   */
+  getModelIndex(boxKey) {
+    if ('outside' in boxKey) {
+      console.warn('invalid model index');
+    }
+    return boxKey.index;
+  }
+
   /**
    * @param {*} boxKey
    * @return {Object}
@@ -84,9 +96,7 @@ export default class VerticalListCaretMap extends CaretMap {
     } else if (num > this.maxIndex) {
       return this.BOUND_RIGHT;
     } else {
-      const viewAccess = ['elementBehaviors', num];
-      const modelAccess = ['elements', num];
-      return { isCaret: false, index: num, viewAccess, modelAccess };
+      return { isCaret: false, index: num };
     }
   }
 }

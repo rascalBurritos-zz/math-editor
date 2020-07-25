@@ -3,10 +3,9 @@ import documentStartup from './documentStartup';
 import documentViewFactory from '../../Factories/documentViewFactory';
 import getCaretView from '../../../Experiment 2/keyChainToViewPoint';
 import Caret from './Caret';
-import caretTraverser, {
-  DIRECTION,
-} from '../../../Experiment 2/caretTraverser';
-import determineKeychain from '../../../Experiment 2/determineKeychain';
+import documentKeyEventHandler from './documentKeyEventHandler';
+import Selection from './Selection';
+import getSelectionData from './getSelectionData';
 
 export default class Document extends React.Component {
   /**
@@ -27,44 +26,26 @@ export default class Document extends React.Component {
 
   /**
    *
-   * @param {*} e
+   * @param {*} event
    */
-  keyHandler(e) {
+  keyHandler(event) {
     this.setState((prevState) => {
-      const keyMap = {
-        ArrowUp: DIRECTION.UP,
-        ArrowDown: DIRECTION.DOWN,
-        ArrowRight: DIRECTION.RIGHT,
-        ArrowLeft: DIRECTION.LEFT,
-      };
-      if (keyMap[e.code]) {
-        const direction = keyMap[e.code];
-        const ck = prevState.caretKeychain;
-        const model = prevState.model;
-        const newKeychain = determineKeychain(ck, model, direction);
-        return { caretKeychain: newKeychain };
-      }
+      return documentKeyEventHandler(event, prevState);
     });
-  }
-  /**
-   *
-   */
-  componentWillUnmount() {
-    // clearInterval(this.timerID);
   }
 
   /**
    * @return {JSX.Element}
    */
   render() {
-    // console.log(this.state);
-    const rootBehavior = documentViewFactory(this.state.model);
-    const caretStyle = getCaretView(rootBehavior, this.state.caretKeychain)
-      .position;
+    const s = this.state;
+    // console.log(s);
+    const rootView = documentViewFactory(s.model);
+    const selectionData = getSelectionData(rootView, s.selection);
     return (
       <div>
-        <rootBehavior.component data={rootBehavior}></rootBehavior.component>
-        <Caret data={caretStyle} />
+        <rootView.component data={rootView}></rootView.component>
+        <Selection data={selectionData} />
       </div>
     );
   }

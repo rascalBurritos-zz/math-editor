@@ -26,11 +26,11 @@ export default class Text_Block_Behavior extends Behavior {
     for (let i = 0; i < this._elementBehaviors.length; i++) {
       progress += this._elementBehaviors[i].metrics.width / 2;
       if (point.left < progress) {
-        return { isCaret: true, index: i };
+        return { isCaret: true, index: i * 2 };
       }
       progress += this._elementBehaviors[i].metrics.width / 2;
     }
-    return { isCaret: true, index: this._elementBehaviors.length };
+    return { isCaret: true, index: this._elementBehaviors.length * 2 };
   }
 
   /**
@@ -38,7 +38,7 @@ export default class Text_Block_Behavior extends Behavior {
    * @return {Point}
    */
   getRelativePositionOfCaretKey(caretKey) {
-    const index = caretKey.index;
+    const index = Math.floor(caretKey.index / 2);
     return this.getRelativePositionWithElementIndex(index);
   }
 

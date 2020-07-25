@@ -1,4 +1,5 @@
 import getCaretMap from './getCaretMap';
+import getSubItem from './getSubItem';
 
 export const DIRECTION = {
   LEFT: 'LEFT',
@@ -16,9 +17,9 @@ export const DIRECTION = {
 export default function caretTraverser(keyChain, model, direction) {
   const parentKeyChain = keyChain.slice(0, -1);
   const parent = traverse(model, parentKeyChain);
-  const caretMap = getCaretMap(parent);
+  const caretMap = getCaretMap(parent, false);
   const caretKey = keyChain[keyChain.length - 1];
-  const boxKey = caretMap.getBoxInDirection(direction, caretKey);
+  const boxKey = caretMap.nextItemOnCaretPath(direction, caretKey);
   if (caretMap.isBound(boxKey)) {
     if (parent === model) {
       const safeDirection = oppositeDirection(direction);
@@ -57,9 +58,7 @@ export default function caretTraverser(keyChain, model, direction) {
  */
 export function traverse(model, keychain) {
   const p = keychain.reduce((submodel, boxKey) => {
-    return boxKey.modelAccess.reduce((partition, curr) => {
-      return partition[curr];
-    }, submodel);
+    return getSubItem(boxKey, submodel, false);
   }, model);
   return p;
 }

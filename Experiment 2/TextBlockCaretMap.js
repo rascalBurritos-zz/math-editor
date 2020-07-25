@@ -3,11 +3,40 @@ import CaretMap from './CaretMap';
 export default class TextBlockCaretMap extends CaretMap {
   /**
    *
-   * @param {Object} textBlockModel
+   * @param {Object} info
    */
-  constructor(textBlockModel) {
+  constructor(info) {
     super();
-    this.numElements = textBlockModel.content.length;
+    this.numElements = info.numElements;
+  }
+
+  /**
+   * @param {String} direction
+   * @param {Object} boxKey
+   * @return {*}
+   */
+  nextItemOnCaretPath(direction, boxKey) {
+    let done = false;
+    let nextItem = boxKey;
+    while (!done) {
+      nextItem = this.nextItem(direction, nextItem);
+      done = this.isBound(nextItem) || nextItem.isCaret;
+    }
+    return nextItem;
+  }
+
+  /**
+   *
+   * @param {Object} boxKey
+   * @return {number}
+   */
+  getModelIndex(boxKey) {
+    if ('outside' in boxKey) {
+      console.log('invalid model index');
+    } else if (boxKey.isCaret) {
+      console.log('Cannot get model index of caret');
+    }
+    return Math.floor(boxKey.index / 2);
   }
 
   /**
@@ -76,7 +105,7 @@ export default class TextBlockCaretMap extends CaretMap {
    * @return {number}
    */
   get maxIndex() {
-    return this.numElements;
+    return this.numElements * 2 + 1;
   }
 
   /**
@@ -89,10 +118,8 @@ export default class TextBlockCaretMap extends CaretMap {
     } else if (num > this.maxIndex) {
       return this.BOUND_RIGHT;
     } else {
-      // they are all carets
-      // const viewAccess = ['elementBehaviors', (num - 1) / 2];
-      // const modelAccess = ['content', (num - 1) / 2];
-      return { isCaret: true, index: num };
+      const isCaret = num % 2 === 0;
+      return { isCaret, index: num };
     }
   }
 }

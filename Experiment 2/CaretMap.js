@@ -49,7 +49,7 @@ export default class CaretMap {
    * @param {Object} boxKey
    * @return {*}
    */
-  getBoxInDirection(direction, boxKey) {
+  nextItem(direction, boxKey) {
     switch (direction) {
       case DIRECTION.RIGHT:
         return this.getRight(boxKey);
@@ -62,6 +62,15 @@ export default class CaretMap {
       default:
         return;
     }
+  }
+
+  /**
+   * @param {String} direction
+   * @param {Object} boxKey
+   * @return {*}
+   */
+  nextItemOnCaretPath(direction, boxKey) {
+    return this.nextItem(direction, boxKey);
   }
 
   /**

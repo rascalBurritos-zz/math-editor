@@ -9,11 +9,9 @@ export default function documentStartup() {
     {
       isCaret: false,
       index: 1,
-      modelAccess: ['elements', 1],
-      viewAccess: ['elementBehaviors', 1],
     },
     { isCaret: true, index: 0 },
   ];
-  // const starterKeychain = [['elementBehaviors',]];
-  return { model: docListOne, caretKeychain: starterKeychain };
+  const selection = { anchor: starterKeychain, focus: starterKeychain };
+  return { model: docListOne, selection };
 }
