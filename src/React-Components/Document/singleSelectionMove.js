@@ -1,5 +1,3 @@
-import determineKeychain from '../../../Experiment 2/determineKeychain';
-
 /**
  * @param {Object} prevState
  * @param {String} direction

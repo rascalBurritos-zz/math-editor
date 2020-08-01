@@ -1,10 +1,5 @@
-import { traverse } from '../../../Experiment 2/caretTraverser';
-// import VerticalListCaretMap from '../../../Experiment 2/VerticalListCaretMap';
-// import TextBlockCaretMap from '../../../Experiment 2/TextBlockCaretMap';
-// import getCaretMap from '../../../Experiment 2/getCaretMap';
 import { removeDirectly } from './removeDirectly';
-import getAccessMap from '../../../Experiment 2/getAccessMap';
-import keychainsEqual from './keychainsEqual';
+import { traverse } from '../../Interaction/Access/access';
 
 /**
  *
@@ -34,7 +29,8 @@ export default function removeSelection(keychainA, keychainB, model) {
   } else {
     const commonAncestorParent = traverse(
       model,
-      keychainA.slice(0, commonAncestorIndex - 1)
+      keychainA.slice(0, commonAncestorIndex - 1),
+      false
     );
     const accessor = getAccessMap(commonAncestorParent.type, false);
     const caIndexWithinParent = commonAncestorParent[accessor].indexOf(
@@ -56,7 +52,7 @@ export default function removeSelection(keychainA, keychainB, model) {
    */
   function getCommonAncestor(model, keychain, index) {
     const commonKeychain = keychain.slice(0, index);
-    return traverse(model, commonKeychain);
+    return traverse(model, commonKeychain, false);
   }
 
   /**

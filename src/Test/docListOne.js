@@ -17,13 +17,19 @@ export default {
       type: 'Text_Block',
       fontSize: 30,
       fontName: 'Asana',
-      content: 'sexy body, she shows it \\\\  Loves the drama she chose it',
+      content: "I'm minding my own damn business",
     },
     {
       type: 'Text_Block',
       fontSize: 30,
       fontName: 'Asana',
-      content: 'The quick brown fox jumped over the lazy dog',
+      content: "Don't try to find me",
+    },
+    {
+      type: 'Text_Block',
+      fontSize: 30,
+      fontName: 'Asana',
+      content: "I'm better left alone than in this",
     },
     // {
     //   type: 'Display',

@@ -1,6 +1,7 @@
 import Behavior from '../../Abstract/Behavior';
 import TextEnvironment from '../../React-Components/Document/TextBlock';
 import Point from '../../Abstract/Point';
+import Rectangle from '../../Abstract/Rectangle';
 
 export default class Text_Block_Behavior extends Behavior {
   _elementBehaviors;
@@ -12,6 +13,28 @@ export default class Text_Block_Behavior extends Behavior {
     super(behaviorSpec);
     this.type = 'Text_Block';
     this._component = TextEnvironment;
+  }
+
+  /**
+   *
+   * @param {number} leftIndex
+   * @param {number} rightIndex
+   * @return {Rectangle[]}
+   * NOTE: inclusive, i.e. includes endpoints
+   */
+  getSelectionRects(leftIndex, rightIndex) {
+    let left = 0;
+    let width = 0;
+    for (let i = 0; i <= rightIndex; i++) {
+      if (i < leftIndex) {
+        left += this._elementBehaviors[i].metrics.width;
+      } else {
+        width += this._elementBehaviors[i].metrics.width;
+      }
+    }
+    const top = 0;
+    const height = this.metrics.height + this.metrics.depth;
+    return [new Rectangle(new Point(top, left), height, width)];
   }
 
   /**
@@ -37,7 +60,8 @@ export default class Text_Block_Behavior extends Behavior {
    * @return {Object}
    */
   getCaretStyle() {
-    return { backgroundColor: 'black', height: this.metrics.height };
+    const height = this.metrics.height + this.metrics.depth;
+    return { backgroundColor: 'black', height };
   }
 
   /**

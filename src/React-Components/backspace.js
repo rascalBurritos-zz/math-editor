@@ -1,8 +1,3 @@
-import removeSelection from './Document/removeSelection';
-import keychainsEqual from './Document/keychainsEqual';
-import determineKeychain from '../../Experiment 2/determineKeychain';
-import { DIRECTION } from '../../Experiment 2/caretTraverser';
-
 /**
  * @param {Object} prevState
  * @return {Object}

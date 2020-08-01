@@ -6,7 +6,7 @@ export default class VerticalList extends React.Component {
    * @return {JSX.Element}
    */
   render() {
-    const elements = this.props.data.elementBehaviors.map((ele, index) => {
+    const elements = this.props.data.elements.map((ele, index) => {
       return <ele.component key={index} data={ele} />;
     });
 

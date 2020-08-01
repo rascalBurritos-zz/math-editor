@@ -1,6 +1,7 @@
 import Behavior from '../../Abstract/Behavior.js';
 import VerticalList from '../../React-Components/Document/VerticalList.js';
 import Point from '../../Abstract/Point.js';
+import Rectangle from '../../Abstract/Rectangle.js';
 /** @typedef {import('../../Math Nodes/Types/Math_Style.js').default} Math_Style  */
 /** @typedef {import('../../Math Nodes/Types/Spacing_Style').default} Spacing_Style  */
 /** @typedef {import('../../Abstract/MathBehavior.js').behaviorSpec} behaviorSpec */
@@ -19,6 +20,30 @@ export default class Vertical_List_Behavior extends Behavior {
     super(behaviorSpec);
     this.type = 'Vertical_List';
     this._component = VerticalList;
+  }
+  /**
+   *
+   * @param {number} leftIndex
+   * @param {number} rightIndex
+   * @return {Rectangle[]}
+   * NOTE: inclusive, i.e. includes endpoints
+   */
+  getSelectionRects(leftIndex, rightIndex) {
+    let top = 0;
+    let height = 0;
+    for (let i = 0; i <= rightIndex; i++) {
+      const currentMetric = this._elementBehaviors[i].metrics;
+      const marginBottom = this._settings.elementComponentStyles[i]
+        .marginBottom;
+      if (i < leftIndex) {
+        top += currentMetric.height + currentMetric.depth + marginBottom;
+      } else {
+        height += this._elementBehaviors[i].metrics.height + marginBottom;
+      }
+    }
+    const left = 0;
+    const width = this.metrics.width;
+    return [new Rectangle(new Point(top, left), height, width)];
   }
   /**
    * @param {Behavior} nodeBehavior

@@ -1,6 +1,5 @@
 import Point from '../../Abstract/Point';
 import documentViewFactory from '../../Factories/documentViewFactory';
-import { keychainFromPosition } from '../../../Experiment 2/determineKeychain';
 
 /**
  * @param {*} event

@@ -1,22 +1,33 @@
-import getCaretView from '../../../Experiment 2/getCaretView';
-import keychainsEqual from './keychainsEqual';
+import showSelection from './showSelection';
+import keychainToViewPoint, {
+  keychainsEqual,
+} from '../../Interaction/Access/keychain';
 
 /**
  *
+ * @param {Object} rootModel
  * @param {Object} rootView
  * @param {Object} selection
  * @return {Object}
  */
-export default function getSelectionData(rootView, selection) {
-  const pcv = getCaretView(rootView, selection.focus);
+export default function getSelectionData(rootModel, rootView, selection) {
+  const pcv = keychainToViewPoint(rootView, selection.focus);
   if (keychainsEqual(selection.focus, selection.anchor)) {
     const primary = wrapCaret(pcv, true);
     return { primary };
   } else {
-    const scv = getCaretView(rootView, selection.anchor);
+    const selectionRects = showSelection(
+      rootModel,
+      rootView,
+      selection.focus,
+      selection.anchor
+    );
+
+    const scv = keychainToViewPoint(rootView, selection.anchor);
     const primary = wrapCaret(pcv, false);
     const secondary = wrapCaret(scv, false);
-    return { primary, secondary };
+    // return { primary, secondary };
+    return { primary, secondary, selectionRects };
   }
 
   /**

@@ -1,5 +1,5 @@
 import docListOne from '../../Test/docListOne';
-
+import '../../Test/nodeImports';
 /**
  * @return {Object} document state
  */

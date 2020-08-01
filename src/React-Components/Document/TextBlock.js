@@ -6,8 +6,8 @@ export default class TextBlock extends React.Component {
    * @return {JSX.Element}
    */
   render() {
-    const behavior = this.props.data;
-    const elements = behavior.elementBehaviors.map((ele, index) => {
+    const view = this.props.data;
+    const elements = view.elements.map((ele, index) => {
       return <ele.component key={index} data={ele} />;
     });
     return (

@@ -1,10 +1,3 @@
-import { DIRECTION, traverse } from '../../../Experiment 2/caretTraverser';
-import getCaretMap from '../../../Experiment 2/getCaretMap';
-import getAccessMap from '../../../Experiment 2/getAccessMap';
-import removeFromCompoundModels, {
-  joinAlikeCompoundModels,
-} from '../../../Experiment 2/removeFromCompoundModels';
-
 /**
  *
  * @param {Array} keychainA
@@ -51,14 +44,14 @@ export function removeDirectly(keychainA, keychainB, parent) {
   const deleteCount = rightIndex - leftIndex + 1;
   if (boxKeyA.type === boxKeyB.type && determineType(boxKeyA) === 'Box') {
     // only top level merge... may expand if actual uses
-    const subModelA = traverse(parent, [boxKeyA]);
-    const subModelB = traverse(parent, [boxKeyB]);
-    const accessA = getAccessMap(subModelA.type, false);
-    const accessB = getAccessMap(subModelB.type, false);
-    const groupA = subModelA[accessA];
-    const groupB = subModelB[accessB];
-    const comboGroup = joinAlikeCompoundModels(groupA, groupB);
-    subModelA[accessA] = comboGroup;
+    const leftSubModel = traverse(parent, [leftKey], false);
+    const rightSubModel = traverse(parent, [rightKey], false);
+    const leftAccess = getAccessMap(leftSubModel.type, false);
+    const rightAccess = getAccessMap(rightSubModel.type, false);
+    const leftGroup = leftSubModel[leftAccess];
+    const rightGroup = rightSubModel[rightAccess];
+    const comboGroup = joinAlikeCompoundModels(leftGroup, rightGroup);
+    leftSubModel[leftAccess] = comboGroup;
     removeFromCompoundModels(
       parent,
       parentElementAccess,
@@ -146,7 +139,7 @@ export function removeDirectly(keychainA, keychainB, parent) {
    * @return {String | number}
    */
   function boxIndex(boxKey, model, direction) {
-    let submodel = traverse(model, [boxKey]);
+    let submodel = traverse(model, [boxKey], false);
     if (isAtomic(submodel)) {
       const caretMap = getCaretMap(model, false);
       return caretMap.getModelIndex(boxKey);

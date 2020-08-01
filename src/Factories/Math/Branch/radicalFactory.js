@@ -81,7 +81,7 @@ function radicalGlyphBehaviorFactory(fontData) {
     };
   }
   /**
-   * retreives the singly extended radicals
+   * retrieves the singly extended radicals
    * @return {Array}
    */
   function getVariants() {
