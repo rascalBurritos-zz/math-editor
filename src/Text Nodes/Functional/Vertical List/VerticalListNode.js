@@ -12,9 +12,9 @@ import {
   AccessContainer,
   ACCESS_TYPE,
 } from '../../../Interaction/Access/access';
-import { VERTICAL_LIST_TYPE } from './VerticalListModel';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
 import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
+import { VERTICAL_LIST_TYPE } from './VerticalListViewFactory';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 AccessContainer.register(

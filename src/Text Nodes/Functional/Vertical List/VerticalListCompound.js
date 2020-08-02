@@ -1,9 +1,9 @@
 import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
 import { isBound } from '../BaseModel';
-import { VERTICAL_LIST_TYPE } from './VerticalListModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { sort } from '../Text Block/TextBlockCompound';
+import { VERTICAL_LIST_TYPE } from './VerticalListViewFactory';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 CompoundTable.register(VERTICAL_LIST_TYPE, {
@@ -12,9 +12,17 @@ CompoundTable.register(VERTICAL_LIST_TYPE, {
   getModelIndex,
   splice,
   merge,
+  getElements,
   sort,
 });
 
+/**
+ * @param {Object} item
+ * @return {Array}
+ */
+function getElements(item) {
+  return item.elements;
+}
 /**
  * @param {VerticalListView} view
  * @param {number} leftIndex
@@ -22,7 +30,7 @@ CompoundTable.register(VERTICAL_LIST_TYPE, {
  * @return {Rectangle[]}
  * NOTE: inclusive, i.e. includes endpoints
  */
-export function getSelectionRects(view, leftIndex, rightIndex) {
+function getSelectionRects(view, leftIndex, rightIndex) {
   const top = view.elements.slice(0, leftIndex).reduce((acc, element) => {
     const currentMetric = element.metrics;
     const marginBottom = element.componentStyle.marginBottom;

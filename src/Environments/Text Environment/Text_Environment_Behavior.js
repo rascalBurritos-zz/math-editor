@@ -1,5 +1,5 @@
 import Environment_Behavior from '../../Abstract/Environment_Behavior';
-import TextEnvironment from '../../React-Components/Document/TextEnvironment';
+import TextEnvironment from '../../React-Components/Text/TextEnvironment';
 
 export default class Text_Environment_Behavior extends Environment_Behavior {
   /**

@@ -51,6 +51,7 @@ export const AtomTable = {
  * @property {Function} splice
  * @property {Function} merge
  * @property {Function} getSelectionRects
+ * @property {Function} getElements
  * @property {Function} sort
  */
 

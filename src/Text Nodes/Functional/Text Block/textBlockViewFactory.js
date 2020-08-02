@@ -3,7 +3,7 @@ import textGlyphViewFactory from '../Text Glyph/textGlyphViewFactory';
 import Metrics from '../../../Math Nodes/Types/Metrics';
 import fontMapper from '../../../Factories/Document/fontMapper';
 import { getComponentStyle } from '../BaseView';
-import TextBlock from '../../../React-Components/Document/TextBlock';
+import { TextBlock } from '../../../React-Components/Text/TextBlock';
 
 /** @typedef {import('../BaseView').BaseView} BaseView */
 

@@ -3,8 +3,6 @@ import Point from '../../../Abstract/Point';
 import { isBound, isLeftBound, isRightBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { TEXT_BLOCK_TYPE } from './TextBlockNode';
-import { AccessContainer } from '../../../Interaction/Access/access';
-import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {
@@ -13,9 +11,19 @@ CompoundTable.register(TEXT_BLOCK_TYPE, {
   getSelectionRects,
   splice,
   merge,
+  getElements,
   sort,
 });
 
+/**
+ *
+ * @param {Object} item
+ * @param {boolean} isView
+ * @return {String | Array} isView
+ */
+function getElements(item, isView) {
+  return isView ? item.elements : item.content;
+}
 /**
  * @param {TextBlockView} textBlockView
  * @param {number} leftIndex

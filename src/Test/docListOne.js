@@ -1,9 +1,11 @@
 import Math_Style from '../Math Nodes/Types/Math_Style';
 import mlOne from './mathListOne.js';
 import mlTwo from './mathListTwo.js';
+import { VERTICAL_LIST_TYPE } from '../Text Nodes/Functional/Vertical List/VerticalListViewFactory';
+import { TEXT_BLOCK_TYPE } from '../Text Nodes/Functional/Text Block/TextBlockNode';
 
 export default {
-  type: 'Vertical_List',
+  type: VERTICAL_LIST_TYPE,
   baselineDistance: 20,
   baselineBump: 10,
   elements: [
@@ -14,19 +16,19 @@ export default {
     //   rootFormula: mlOne,
     // },
     {
-      type: 'Text_Block',
+      type: TEXT_BLOCK_TYPE,
       fontSize: 30,
       fontName: 'Asana',
       content: "I'm minding my own damn business",
     },
     {
-      type: 'Text_Block',
+      type: TEXT_BLOCK_TYPE,
       fontSize: 30,
       fontName: 'Asana',
       content: "Don't try to find me",
     },
     {
-      type: 'Text_Block',
+      type: TEXT_BLOCK_TYPE,
       fontSize: 30,
       fontName: 'Asana',
       content: "I'm better left alone than in this",

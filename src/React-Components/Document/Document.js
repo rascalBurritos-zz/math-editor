@@ -1,11 +1,11 @@
 import React from 'react';
 import documentStartup from './documentStartup';
-import documentViewFactory from '../../Factories/documentViewFactory';
 import documentKeyEventHandler from '../../Interaction/Events/documentKeyEventHandler';
 import Selection from './Selection';
 import getSelectionData from '../../Interaction/Selection/getSelectionData';
 import documentMouseEventHandler from '../../Interaction/Events/documentMouseEventHandler';
 import funcDocumentViewFactory from '../../Text Nodes/Functional/funcDocumentViewFactory';
+import './Styles/Document.css';
 
 export default class Document extends React.Component {
   /**
@@ -90,9 +90,11 @@ export default class Document extends React.Component {
     const selectionData = getSelectionData(s.model, rootView, s.selection);
     const style = { border: '1px solid black' };
     return (
-      <div id={this.id} style={style}>
-        <rootView.component data={rootView}></rootView.component>
-        <Selection data={selectionData} />
+      <div className="Document" style={style}>
+        <div id={this.id} className="FittingContainer">
+          <rootView.component data={rootView}></rootView.component>
+          <Selection data={selectionData} />
+        </div>
       </div>
     );
   }

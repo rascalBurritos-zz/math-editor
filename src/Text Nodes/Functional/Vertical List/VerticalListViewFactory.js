@@ -2,7 +2,6 @@ import Metrics from '../../../Math Nodes/Types/Metrics';
 import { getComponentStyle } from '../BaseView';
 import VerticalList from '../../../React-Components/Document/VerticalList';
 import funcDocumentViewFactory from '../funcDocumentViewFactory';
-import { VERTICAL_LIST_TYPE } from './VerticalListModel';
 
 /** @typedef {import('../BaseView').BaseView} BaseView  */
 
@@ -15,6 +14,7 @@ import { VERTICAL_LIST_TYPE } from './VerticalListModel';
  *
  * @typedef {BaseView & _VerticalListView} VerticalListView
  */
+export const VERTICAL_LIST_TYPE = 'Vertical List';
 
 /**
  * @param {Object} documentList
