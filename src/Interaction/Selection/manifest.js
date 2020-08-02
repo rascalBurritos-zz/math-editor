@@ -1,7 +1,7 @@
 import { CompoundTable, NodeTable } from '../Tables/nodeTable';
-import { DIRECTION } from '../Movement/movement';
 import { isBound, boundGenerator } from '../../Text Nodes/Functional/BaseModel';
 import { traverse } from '../Access/access';
+import { DIRECTION } from '../Tables/direction';
 
 export const NO_ACTION = 'No Action';
 /**
@@ -9,19 +9,16 @@ export const NO_ACTION = 'No Action';
  * @return {boolean}
  */
 export function isNoAction(item) {
-  return item !== NO_ACTION;
+  return item === NO_ACTION;
 }
 
 /**
  * @param {Function} action
  * @param {Function} getNewArgs
+ * @param {Function} normalize
  * @return {Function}
  */
-export default function manifest(
-  action,
-  getNewArgs,
-  { accumDefaultValue, mergeAccumulator }
-) {
+export default function manifest(action, getNewArgs, normalize) {
   /**
    *
    * @param {Array} keychainA
@@ -36,15 +33,16 @@ export default function manifest(
     const boxKeyB = keychainB[0];
     const compound = CompoundTable.retrieve(parentModel.type);
     const { leftKey, rightKey } = compound.sort(boxKeyA, boxKeyB);
-    let accumulator = accumDefaultValue;
-    const leftIndex = getIndex(leftKey, parent, DIRECTION.RIGHT);
-    const rightIndex = getIndex(rightKey, parent, DIRECTION.LEFT);
-    return action(
-      { leftIndex, leftKey },
-      { rightIndex, rightKey },
+    const leftIndexInfo = getIndex(leftKey, parentModel, DIRECTION.RIGHT);
+    const rightIndexInfo = getIndex(rightKey, parentModel, DIRECTION.LEFT);
+
+    const result = action(
+      { leftIndexInfo, leftKey },
+      { rightIndexInfo, rightKey },
       parentModel,
       ...args
     );
+    return result;
 
     /**
      * @param {Object} boxKey
@@ -54,7 +52,7 @@ export default function manifest(
      */
     function getIndex(boxKey, model, direction) {
       const indexFunc =
-        isBound(boxKey) || boxKey.isCaret ? getModelIndexInDirection : boxIndex;
+        isBound(boxKey) || boxKey.isCaret ? notCompositeIndex : boxIndex;
       return indexFunc(boxKey, model, direction);
     }
 
@@ -86,24 +84,49 @@ export default function manifest(
      * @param {*} boxKey
      * @param {*} model
      * @param {*} direction
-     * @return {String | number}
+     * @return {Object}
+     */
+    function notCompositeIndex(boxKey, model, direction) {
+      return { index: getModelIndexInDirection(boxKey, model, direction) };
+    }
+
+    /**
+     *
+     * @param {*} boxKey
+     * @param {*} model
+     * @param {*} direction
+     * @return {Object}
      */
     function boxIndex(boxKey, model, direction) {
       const submodel = traverse(model, [boxKey], false);
       if (isAtomic(submodel)) {
         const compound = CompoundTable.retrieve(model.type);
-        return compound.getModelIndex(boxKey);
+        return {
+          index: compound.getModelIndex(boxKey),
+        };
       } else {
         const isA = boxKey === keychainA[0];
         const newKeychain = isA ? keychainA.slice(1) : keychainB.slice(1);
-        const bound = boundGenerator(direction);
-        const boundKeychain = [bound];
+        const boundKeychain = [boundGenerator(direction)()];
+        const subModel = traverse(model, [boxKey], false);
         const newArgs = getNewArgs(boxKey, model, direction, ...args);
-        accumulator = mergeAccumulator(
-          accumulator,
-          getBetween(newKeychain, boundKeychain, submodel, ...newArgs)
+        const newResults = getBetween(
+          newKeychain,
+          boundKeychain,
+          subModel,
+          ...newArgs
         );
-        return getModelIndexInDirection(boxKey, model, direction);
+        const additions = normalize(
+          boxKey,
+          model,
+          direction,
+          newResults,
+          ...args
+        );
+        return {
+          index: getModelIndexInDirection(boxKey, model, direction),
+          additions,
+        };
       }
 
       /**
@@ -117,42 +140,3 @@ export default function manifest(
     }
   };
 }
-
-// /**
-//  * @return {Object}
-//  */
-// function testRemove({ leftIndex, leftKey }, { rightIndex, rightKey }, parent) {
-//   if (leftIndex === 'No Delete' || rightIndex === 'No Delete') {
-//     return parent;
-//   } else {
-//     leftIndex = Number(leftIndex);
-//     rightIndex = Number(rightIndex);
-//   }
-//   const parentElementAccess = getAccessMap(parent.type, false);
-//   const deleteCount = rightIndex - leftIndex + 1;
-//   if (boxKeyA.type === boxKeyB.type && determineType(boxKeyA) === 'Box') {
-//     // only top level merge... may expand if actual uses
-//     const leftSubModel = traverse(parent, [leftKey], false);
-//     const rightSubModel = traverse(parent, [rightKey], false);
-//     const leftAccess = getAccessMap(leftSubModel.type, false);
-//     const rightAccess = getAccessMap(rightSubModel.type, false);
-//     const leftGroup = leftSubModel[leftAccess];
-//     const rightGroup = rightSubModel[rightAccess];
-//     const comboGroup = joinAlikeCompoundModels(leftGroup, rightGroup);
-//     leftSubModel[leftAccess] = comboGroup;
-//     removeFromCompoundModels(
-//       parent,
-//       parentElementAccess,
-//       leftIndex,
-//       deleteCount + 1
-//     );
-//   } else {
-//     removeFromCompoundModels(
-//       parent,
-//       parentElementAccess,
-//       leftIndex,
-//       deleteCount
-//     );
-//   }
-//   return parent;
-// }

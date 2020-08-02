@@ -1,7 +1,7 @@
-import singleMove from './singleMove';
-import singleSelectionMove from './singleSelectionMove';
-import backspace from '../backspace';
-import insertCharacter from './insertCharacter';
+import singleMove from '../../React-Components/Document/singleMove';
+import singleSelectionMove from '../../React-Components/Document/singleSelectionMove';
+import backspace from '../../React-Components/backspace';
+import insertCharacter from '../../React-Components/Document/insertCharacter';
 /**
  * @param {*} event
  * @param {*} prevState

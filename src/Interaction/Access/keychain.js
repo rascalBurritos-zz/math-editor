@@ -19,10 +19,7 @@ export function keychainFromPosition(targetView, startPoint) {
     if (!boxKey.isCaret) {
       const previousView = currentView;
       currentView = getSubItem(boxKey, currentView, true);
-      const subViewPos = node.getRelativePositionOfBehavior(
-        previousView,
-        currentView
-      );
+      const subViewPos = node.getRelativePositionOfBox(previousView, boxKey);
       currentPoint = currentPoint.subtract(subViewPos);
     }
     done = boxKey.isCaret;

@@ -1,12 +1,13 @@
 import manifest, { isNoAction } from './manifest';
-import { CompoundTable } from '../Tables/nodeTable';
+import { CompoundTable, NodeTable } from '../Tables/nodeTable';
 import { traverse } from '../Access/access';
 /** @typedef {import('../../Abstract/Rectangle').default} Rectangle  */
 
-export const manifestSelection = manifest(selectionAction, getNewParentView, {
-  accumDefaultValue: [],
-  mergeAccumulator: mergeRectangleArray,
-});
+export const manifestSelection = manifest(
+  selectionAction,
+  getNewParentView,
+  normalizeRectangles
+);
 
 /**
  *
@@ -17,23 +18,49 @@ export const manifestSelection = manifest(selectionAction, getNewParentView, {
  * @return {Rectangle[]}
  */
 function selectionAction(
-  { leftIndex },
-  { rightIndex },
+  { leftIndexInfo },
+  { rightIndexInfo },
   parentModel,
   parentView
 ) {
-  const currentRectangles = [];
-  if (isNoAction(leftIndex) || isNoAction(rightIndex)) {
+  if (isNoAction(leftIndexInfo.index) || isNoAction(rightIndexInfo.index)) {
     return [];
   }
+  const leftAdditions = getAdditions(leftIndexInfo);
+  const rightAdditions = getAdditions(rightIndexInfo);
   const compound = CompoundTable.retrieve(parentModel.type);
   const newRectangles = compound.getSelectionRects(
     parentView,
-    leftIndex,
-    rightIndex
+    leftIndexInfo.index,
+    rightIndexInfo.index
   );
-  currentRectangles.push(...newRectangles);
-  return currentRectangles;
+  return newRectangles.concat(leftAdditions, rightAdditions);
+
+  /**
+   * @param {Object} indexInfo
+   * @return {boolean}
+   */
+  function getAdditions(indexInfo) {
+    const add = indexInfo.additions;
+    return add ? add : [];
+  }
+}
+
+/**
+ *
+ * @param {*} boxKey
+ * @param {*} model
+ * @param {*} direction
+ * @param {*} results
+ * @param {*} parentView
+ * @return {Rectangle[]}
+ */
+function normalizeRectangles(boxKey, model, direction, results, parentView) {
+  const node = NodeTable.retrieve(model.type);
+  const relativePos = node.getRelativePositionOfBox(parentView, boxKey);
+  return results.map((rect) => {
+    return rect.addToOrigin(relativePos);
+  });
 }
 
 /**
@@ -46,14 +73,5 @@ function selectionAction(
  */
 function getNewParentView(boxKey, parentModel, direction, parentView) {
   const subView = traverse(parentView, [boxKey], true);
-  return subView;
-}
-
-/**
- * @param {Rectangle[]} groupA
- * @param {Rectangle[]} groupB
- * @return {Rectangle[]}
- */
-function mergeRectangleArray(groupA, groupB) {
-  return groupA.concat(groupB);
+  return [subView];
 }

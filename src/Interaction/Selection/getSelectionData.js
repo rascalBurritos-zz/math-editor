@@ -1,7 +1,5 @@
 import showSelection from './showSelection';
-import keychainToViewPoint, {
-  keychainsEqual,
-} from '../../Interaction/Access/keychain';
+import keychainToViewPoint, { keychainsEqual } from '../Access/keychain';
 
 /**
  *

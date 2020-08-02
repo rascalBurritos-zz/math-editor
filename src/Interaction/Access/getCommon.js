@@ -1,4 +1,4 @@
-import { traverse } from '../Access/access';
+import { traverse } from './access';
 
 /**
  * @param {Object} unit

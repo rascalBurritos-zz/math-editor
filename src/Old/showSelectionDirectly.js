@@ -141,6 +141,7 @@ export default function showSelectionDirectly(
         boundKeychain,
         subView
       );
+
       const relativePos = view.getRelativePositionOfBehavior(subView);
       additionalRects = additionalRects.map((rect) => {
         return rect.addToOrigin(relativePos);

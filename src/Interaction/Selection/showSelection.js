@@ -2,10 +2,7 @@ import keychainToViewPoint, {
   keychainsEqual,
 } from '../../Interaction/Access/keychain';
 import { manifestSelection } from '../../Interaction/Selection/manifestSelection';
-import {
-  getCommonAncestorIndex,
-  getCommonAncestor,
-} from '../../Interaction/Selection/getCommon';
+import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
 
 /**
  *

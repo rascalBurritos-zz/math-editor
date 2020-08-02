@@ -1,10 +1,10 @@
 import React from 'react';
 import documentStartup from './documentStartup';
 import documentViewFactory from '../../Factories/documentViewFactory';
-import documentKeyEventHandler from './documentKeyEventHandler';
+import documentKeyEventHandler from '../../Interaction/Events/documentKeyEventHandler';
 import Selection from './Selection';
-import getSelectionData from './getSelectionData';
-import documentMouseEventHandler from './documentMouseEventHandler';
+import getSelectionData from '../../Interaction/Selection/getSelectionData';
+import documentMouseEventHandler from '../../Interaction/Events/documentMouseEventHandler';
 import funcDocumentViewFactory from '../../Text Nodes/Functional/funcDocumentViewFactory';
 
 export default class Document extends React.Component {
@@ -84,8 +84,8 @@ export default class Document extends React.Component {
    */
   render() {
     const s = this.state;
-    // console.log(s);
     // const rootView = documentViewFactory(s.model);
+    // console.log(s);
     const rootView = funcDocumentViewFactory(s.model);
     const selectionData = getSelectionData(s.model, rootView, s.selection);
     const style = { border: '1px solid black' };

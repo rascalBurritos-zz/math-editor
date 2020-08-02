@@ -1,5 +1,6 @@
 import Point from '../../Abstract/Point';
-import documentViewFactory from '../../Factories/documentViewFactory';
+import { keychainFromPosition } from '../Access/keychain';
+import funcDocumentViewFactory from '../../Text Nodes/Functional/funcDocumentViewFactory';
 
 /**
  * @param {*} event
@@ -18,8 +19,8 @@ export default function documentMouseEventHandler(
   const docRect = document.getElementById(docID).getBoundingClientRect();
   const docPoint = new Point(docRect.top, docRect.left);
   const relativePoint = mousePoint.subtract(docPoint);
-  const rootView = documentViewFactory(prevState.model);
-  const keychain = keychainFromPosition(relativePoint, rootView);
+  const rootView = funcDocumentViewFactory(prevState.model);
+  const keychain = keychainFromPosition(rootView, relativePoint);
   let selection;
   if (resetAnchor) {
     selection = { anchor: keychain, focus: keychain };
