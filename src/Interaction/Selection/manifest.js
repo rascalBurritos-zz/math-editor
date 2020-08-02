@@ -126,6 +126,7 @@ export default function manifest(action, getNewArgs, normalize) {
         return {
           index: getModelIndexInDirection(boxKey, model, direction),
           additions,
+          boxKey,
         };
       }
 

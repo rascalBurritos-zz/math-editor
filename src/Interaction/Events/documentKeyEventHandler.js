@@ -1,7 +1,7 @@
 import singleMove from '../Movement/singleMove';
 import singleSelectionMove from '../Movement/singleSelectionMove';
 import backspace from '../Removal/backspace';
-import insertCharacter from '../../React-Components/Document/insertCharacter';
+import insertCharacter from '../Insertion/insertCharacter';
 import { DIRECTION } from '../Tables/direction';
 /**
  * @param {*} event

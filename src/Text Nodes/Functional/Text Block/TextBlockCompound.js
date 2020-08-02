@@ -3,6 +3,8 @@ import Point from '../../../Abstract/Point';
 import { isBound, isLeftBound, isRightBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { TEXT_BLOCK_TYPE } from './TextBlockNode';
+import { AccessContainer } from '../../../Interaction/Access/access';
+import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {
@@ -72,7 +74,7 @@ function getInsertIndex(boxKey) {
  * @return {String}
  */
 function splice(model, leftIndex, deleteCount, ...toInsert) {
-  const modelCopy = JSON.parse(JSON.stringify(model));
+  const modelCopy = { ...model };
   const contentArray = model.content.split('');
   contentArray.splice(leftIndex, deleteCount, ...toInsert);
   modelCopy.content = contentArray.join('');
@@ -86,8 +88,8 @@ function splice(model, leftIndex, deleteCount, ...toInsert) {
  */
 function merge(modelA, modelB) {
   const commonModel = JSON.parse(JSON.stringify(modelA));
-  const elements = modelA.content.concat(modelB.content);
-  commonModel.elements = elements;
+  const content = modelA.content.concat(modelB.content);
+  commonModel.content = content;
   return commonModel;
 }
 

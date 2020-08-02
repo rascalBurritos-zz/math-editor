@@ -16,15 +16,13 @@ export const removeBetween = manifest(
  * @param {*} parentModel
  * @return {Object} new Model
  */
-function removeAction(
-  { leftIndexInfo, leftKey },
-  { rightIndexInfo, rightKey },
-  parentModel
-) {
+function removeAction({ leftIndexInfo }, { rightIndexInfo }, parentModel) {
   const compound = CompoundTable.retrieve(parentModel.type);
   let currentModel = addAdditions(parentModel, leftIndexInfo);
   currentModel = addAdditions(currentModel, rightIndexInfo);
-  if (areMergeable(currentModel, leftKey, rightKey)) {
+  if (areMergeable(currentModel, leftIndexInfo.boxKey, rightIndexInfo.boxKey)) {
+    const leftKey = leftIndexInfo.boxKey;
+    const rightKey = rightIndexInfo.boxKey;
     const leftBoxIndex = compound.getModelIndex(leftKey);
     const rightBoxIndex = compound.getModelIndex(rightKey);
     const leftBox = getSubItem(currentModel, leftKey, false);
@@ -48,7 +46,9 @@ function removeAction(
       return model;
     }
     const compound = CompoundTable.retrieve(model.type);
-    return compound.splice(model, indexInfo.index, 1, indexInfo.additions);
+    const index = compound.getModelIndex(indexInfo.boxKey);
+    const x = compound.splice(model, index, 1, indexInfo.additions);
+    return x;
   }
 
   /**
@@ -70,6 +70,6 @@ function removeAction(
    * @return {boolean}
    */
   function isCompositeKey(boxKey) {
-    return !boxKey.isCaret && !isBound(boxKey);
+    return boxKey !== undefined && !boxKey.isCaret && !isBound(boxKey);
   }
 }

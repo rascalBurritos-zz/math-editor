@@ -1,15 +1,16 @@
 import { traverse } from './access';
+import { DangerousSetContainer } from '../Removal/dangerousSetContainer';
 
 /**
- * @param {Object} unit
+ * @param {Object} item
  * @param {Array} keychain
  * @param {number} index
  * @param {boolean} isView
  * @return {Object} subunit
  */
-export function getCommonAncestor(unit, keychain, index, isView) {
-  const commonKeychain = keychain.slice(0, index);
-  return traverse(unit, commonKeychain, isView);
+export function getCommonAncestor(item, keychain, index, isView) {
+  const commonKeychain = keychain.slice(0, index + 1);
+  return traverse(item, commonKeychain, isView);
 }
 
 /**
@@ -18,16 +19,14 @@ export function getCommonAncestor(unit, keychain, index, isView) {
  * @return {number}
  */
 export function getCommonAncestorIndex(keychainA, keychainB) {
-  const shortestLength =
-    keychainA.length > keychainB.length ? keychainA.length : keychainB.length;
-  let commonAncestorIndex = shortestLength; // 0 is root
+  const shortestLength = Math.min(keychainA.length, keychainB.length);
   for (let index = 0; index < shortestLength; index++) {
     if (!boxKeyEquals(keychainA[index], keychainB[index])) {
-      commonAncestorIndex = index;
-      break;
+      return index - 1;
     }
   }
-  return commonAncestorIndex;
+  console.warn('NO COMMON');
+  return -1;
 }
 
 /**
@@ -38,5 +37,28 @@ export function getCommonAncestorIndex(keychainA, keychainB) {
  * NOTE: only compares indices
  */
 function boxKeyEquals(boxkeyA, boxkeyB) {
-  return boxkeyA.index === boxkeyB.index;
+  return JSON.stringify(boxkeyA) === JSON.stringify(boxkeyB);
+}
+
+/**
+ *
+ * @param {*} model
+ * @param {*} parentKeychain
+ * @param {*} toInsert
+ */
+export function dangerousSetParent(model, parentKeychain, toInsert) {
+  const commonAncestorParent = traverse(
+    model,
+    parentKeychain.slice(0, -1),
+    false
+  );
+  const dangerSetParent = DangerousSetContainer.retrieve(
+    commonAncestorParent.type,
+    false
+  );
+  dangerSetParent(
+    commonAncestorParent,
+    parentKeychain[parentKeychain.length - 1],
+    toInsert
+  );
 }

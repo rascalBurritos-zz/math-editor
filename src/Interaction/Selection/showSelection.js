@@ -27,8 +27,8 @@ export default function showSelection(model, view, keychainA, keychainB) {
     commonAncestorIndex,
     false
   );
-  const subChainA = keychainA.slice(commonAncestorIndex);
-  const subChainB = keychainB.slice(commonAncestorIndex);
+  const subChainA = keychainA.slice(commonAncestorIndex + 1);
+  const subChainB = keychainB.slice(commonAncestorIndex + 1);
   let rectangles = manifestSelection(
     subChainA,
     subChainB,
@@ -38,7 +38,7 @@ export default function showSelection(model, view, keychainA, keychainB) {
   // let rectangles = showSelectionDirectly(subChainA, subChainB, commonAncestor);
   const relativePos = keychainToViewPoint(
     view,
-    keychainA.slice(0, commonAncestorIndex)
+    keychainA.slice(0, commonAncestorIndex + 1)
   ).position;
   rectangles = rectangles.map((rect) => {
     return rect.addToOrigin(relativePos);

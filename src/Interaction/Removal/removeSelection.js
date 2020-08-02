@@ -1,8 +1,11 @@
 import { traverse } from '../Access/access';
-import { keychainsEqual } from '../Access/keychain';
-import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
+import { keychainsEqual, keychainFromPosition } from '../Access/keychain';
+import {
+  getCommonAncestorIndex,
+  getCommonAncestor,
+  dangerousSetParent,
+} from '../Access/getCommon';
 import { removeBetween } from './removeBetween';
-import { CompoundTable } from '../Tables/nodeTable';
 import produce from 'immer';
 import { DangerousSetContainer } from './dangerousSetContainer';
 
@@ -22,26 +25,17 @@ export default function removeSelection(keychainA, keychainB, model) {
     commonAncestorIndex,
     false
   );
-  const subChainA = keychainA.slice(commonAncestorIndex);
-  const subChainB = keychainB.slice(commonAncestorIndex);
+  const subChainA = keychainA.slice(commonAncestorIndex + 1);
+  const subChainB = keychainB.slice(commonAncestorIndex + 1);
   const newCommonAncestor = removeBetween(subChainA, subChainB, commonAncestor);
   let newModel;
-  if (commonAncestorIndex === 0) {
+  if (commonAncestorIndex === -1) {
     newModel = newCommonAncestor;
   } else {
     newModel = produce(model, (draftModel) => {
-      const commonAncestorParent = traverse(
+      dangerousSetParent(
         draftModel,
-        keychainA.slice(0, commonAncestorIndex - 1),
-        false
-      );
-      const dangerSetParent = DangerousSetContainer.retrieve(
-        commonAncestorParent.type,
-        false
-      );
-      dangerSetParent(
-        commonAncestorParent,
-        keychainA[commonAncestorIndex - 1],
+        keychainA.slice(0, commonAncestorIndex + 1),
         newCommonAncestor
       );
     });

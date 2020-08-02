@@ -68,13 +68,13 @@ function getCaretKeychainVertical(model, keychain, direction) {
  * @return {Array} new caret keychain
  */
 function caretTraverser(model, keyChain, direction) {
-  const { node, finalKey, parentKeyChain, parent } = retrieveModelContext(
+  const { node, finalKey, parentKeyChain, parentModel } = retrieveModelContext(
     model,
     keyChain
   );
-  const boxKey = node.nextItemOnCaretPath(parent, finalKey, direction);
+  const boxKey = node.nextItemOnCaretPath(parentModel, finalKey, direction);
   if (isBound(boxKey)) {
-    if (parent === model) {
+    if (parentModel === model) {
       const safeDirection = oppositeDirection(direction);
       return caretTraverser(model, [boxKey], safeDirection);
     } else {
@@ -99,13 +99,13 @@ function caretTraverser(model, keyChain, direction) {
  * @return {Array} new keychain
  */
 function modelTraverser(keychain, model, direction) {
-  const { parent, parentKeyChain, node, finalKey } = retrieveModelContext(
+  const { parentModel, parentKeyChain, node, finalKey } = retrieveModelContext(
     model,
     keychain
   );
-  const boxKey = node.nextItem(parent, finalKey, direction);
+  const boxKey = node.nextItem(parentModel, finalKey, direction);
   if (isBound(boxKey)) {
-    if (parent === model) return [false];
+    if (parentModel === model) return [false];
     return modelTraverser(parentKeyChain, model, direction);
   } else {
     return [...parentKeyChain, boxKey];
@@ -115,7 +115,7 @@ function modelTraverser(keychain, model, direction) {
 /**
  * @typedef {Object} modelContext
  * @property {Array} parentKeyChain
- * @property {Object} parent
+ * @property {Object} parentModel
  * @property {Object} node
  * @property {Object} finalKey
  */
@@ -127,8 +127,8 @@ function modelTraverser(keychain, model, direction) {
  */
 export function retrieveModelContext(model, keyChain) {
   const parentKeyChain = keyChain.slice(0, -1);
-  const parent = traverse(model, parentKeyChain, false);
-  const node = NodeTable.retrieve(parent.type);
+  const parentModel = traverse(model, parentKeyChain, false);
+  const node = NodeTable.retrieve(parentModel.type);
   const finalKey = keyChain[keyChain.length - 1];
-  return { parentKeyChain, parent, node, finalKey };
+  return { parentKeyChain, parentModel, node, finalKey };
 }
