@@ -29,7 +29,7 @@ export function getNextCaretKeychain(model, keychain, direction) {
   if (isVertical(direction)) {
     return getCaretKeychainVertical(model, keychain, direction);
   } else {
-    return caretTraverser(keychain, model, direction);
+    return caretTraverser(model, keychain, direction);
   }
   /**
    * @param {String} direction
@@ -57,17 +57,17 @@ function getCaretKeychainVertical(model, keychain, direction) {
   const relativePosition = caretPos.subtract(targetViewPoint.position);
   return [
     ...viewChain,
-    ...keychainFromPosition(relativePosition, targetViewPoint.view),
+    ...keychainFromPosition(targetViewPoint.view, relativePosition),
   ];
 }
 
 /**
+ * @param {Object} model
  * @param {Array} keyChain
- * @param {*} model
  * @param {String} direction TYPE DIRECTION
  * @return {Array} new caret keychain
  */
-function caretTraverser(keyChain, model, direction) {
+function caretTraverser(model, keyChain, direction) {
   const { node, finalKey, parentKeyChain, parent } = retrieveModelContext(
     model,
     keyChain
@@ -76,9 +76,9 @@ function caretTraverser(keyChain, model, direction) {
   if (isBound(boxKey)) {
     if (parent === model) {
       const safeDirection = oppositeDirection(direction);
-      return caretTraverser([boxKey], model, safeDirection);
+      return caretTraverser(model, [boxKey], safeDirection);
     } else {
-      return caretTraverser(parentKeyChain, model, direction);
+      return caretTraverser(model, parentKeyChain, direction);
     }
   } else if (direction === DIRECTION.UP || direction === DIRECTION.DOWN) {
     return [...parentKeyChain, boxKey];
@@ -86,7 +86,7 @@ function caretTraverser(keyChain, model, direction) {
     const finalBoxKey =
       direction == DIRECTION.LEFT ? getBoundRight() : getBoundLeft();
     const newKeyChain = [...parentKeyChain, boxKey, finalBoxKey];
-    return caretTraverser(newKeyChain, model, direction);
+    return caretTraverser(model, newKeyChain, direction);
   } else {
     return [...parentKeyChain, boxKey];
   }

@@ -10,7 +10,7 @@ CompoundTable.register(TEXT_BLOCK_TYPE, {
   getModelIndex,
   getSelectionRects,
   splice,
-  retrieve,
+  merge,
   sort,
 });
 
@@ -72,19 +72,24 @@ function getInsertIndex(boxKey) {
  * @return {String}
  */
 function splice(model, leftIndex, deleteCount, ...toInsert) {
-  const contentArray = model.contents.split('');
+  const modelCopy = JSON.parse(JSON.stringify(model));
+  const contentArray = model.content.split('');
   contentArray.splice(leftIndex, deleteCount, ...toInsert);
-  const newContents = contentArray.join('');
-  return newContents;
+  modelCopy.content = contentArray.join('');
+  return modelCopy;
 }
 
 /**
- *
- * @param {Object} model
- * @param {number} leftIndex
- * @param {number} rightIndex
+ * @param {Object} modelA
+ * @param {Object} modelB
+ * @return {Object} combo
  */
-function retrieve(model, leftIndex, rightIndex) {}
+function merge(modelA, modelB) {
+  const commonModel = JSON.parse(JSON.stringify(modelA));
+  const elements = modelA.content.concat(modelB.content);
+  commonModel.elements = elements;
+  return commonModel;
+}
 
 /**
  * @param {Object} boxKeyA

@@ -16,6 +16,7 @@ import {
 } from '../../../Interaction/Access/access';
 import Point from '../../../Abstract/Point';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
+import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
 
 /** @typedef {import("./textBlockViewFactory").TextBlockView} TextBlockView */
 

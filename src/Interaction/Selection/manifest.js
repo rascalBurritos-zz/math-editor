@@ -1,4 +1,4 @@
-import { CompoundTable, NodeTable } from '../Tables/nodeTable';
+import { AtomTable, NodeTable, CompoundTable } from '../Tables/nodeTable';
 import { isBound, boundGenerator } from '../../Text Nodes/Functional/BaseModel';
 import { traverse } from '../Access/access';
 import { DIRECTION } from '../Tables/direction';
@@ -134,8 +134,7 @@ export default function manifest(action, getNewArgs, normalize) {
        * @return {boolean}
        */
       function isAtomic(model) {
-        const compounds = ['Text_Block', 'Vertical_List', 'Formula'];
-        return !compounds.includes(model.type);
+        return AtomTable.isAtom(model.type);
       }
     }
   };

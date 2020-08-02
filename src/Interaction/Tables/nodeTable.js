@@ -27,7 +27,7 @@ export const NodeTable = {
  * @property {Function} setModel
  */
 
-export const ATOMTable = {
+export const AtomTable = {
   _atomPool: {},
   /**
    * @param {String} type
@@ -49,7 +49,7 @@ export const ATOMTable = {
  * @property {Function} getInsertIndex
  * @property {Function} getModelIndex
  * @property {Function} splice
- * @property {Function} retrieve
+ * @property {Function} merge
  * @property {Function} getSelectionRects
  * @property {Function} sort
  */
@@ -66,7 +66,7 @@ export const CompoundTable = {
   retrieve: function (type) {
     return this._compoundPool[type];
   },
-  isCompoun: function (type) {
+  isCompound: function (type) {
     return type in this._compoundPool;
   },
 };

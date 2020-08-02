@@ -18,7 +18,7 @@ export function keychainFromPosition(targetView, startPoint) {
     keychain.push(boxKey);
     if (!boxKey.isCaret) {
       const previousView = currentView;
-      currentView = getSubItem(boxKey, currentView, true);
+      currentView = getSubItem(currentView, boxKey, true);
       const subViewPos = node.getRelativePositionOfBox(previousView, boxKey);
       currentPoint = currentPoint.subtract(subViewPos);
     }
@@ -52,7 +52,7 @@ export default function keychainToViewPoint(view, keychain) {
         }
         return completeViewPoint;
       } else {
-        const subView = getSubItem(boxKey, viewPoint.view, true);
+        const subView = getSubItem(viewPoint.view, boxKey, true);
         const relativePos = node.getRelativePositionOfBox(
           viewPoint.view,
           boxKey

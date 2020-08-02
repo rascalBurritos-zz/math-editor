@@ -30,17 +30,17 @@ export const AccessContainer = {
  */
 export function traverse(item, keychain, isView) {
   const p = keychain.reduce((submodel, boxKey) => {
-    return getSubItem(boxKey, submodel, isView);
+    return getSubItem(submodel, boxKey, isView);
   }, item);
   return p;
 }
 /**
- * @param {Object} boxKey
  * @param {Object} item
+ * @param {Object} boxKey
  * @param {boolean} isView
  * @return {Object}
  */
-export function getSubItem(boxKey, item, isView) {
+export function getSubItem(item, boxKey, isView) {
   const accessFunc = AccessContainer.retrieve(item.type, isView);
   return accessFunc(item, boxKey);
 }

@@ -14,12 +14,20 @@ import {
 } from '../../../Interaction/Access/access';
 import { VERTICAL_LIST_TYPE } from './VerticalListModel';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
+import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 AccessContainer.register(
   VERTICAL_LIST_TYPE,
   (model, boxKey) => {
     return model.elements[boxKey.index];
+  },
+  ACCESS_TYPE.BOTH
+);
+DangerousSetContainer.register(
+  VERTICAL_LIST_TYPE,
+  (model, boxKey, subModel) => {
+    model.elements[boxKey.index] = subModel;
   },
   ACCESS_TYPE.BOTH
 );

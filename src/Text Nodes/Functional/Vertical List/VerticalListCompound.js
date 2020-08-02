@@ -11,7 +11,7 @@ CompoundTable.register(VERTICAL_LIST_TYPE, {
   getInsertIndex,
   getModelIndex,
   splice,
-  retrieve,
+  merge,
   sort,
 });
 
@@ -73,9 +73,13 @@ function splice(model, leftIndex, deleteCount, ...toInsert) {
 }
 
 /**
- *
- * @param {*} model
- * @param {*} leftIndex
- * @param {*} rightIndex
+ * @param {Object} modelA
+ * @param {Object} modelB
+ * @return {Object} combo
  */
-function retrieve(model, leftIndex, rightIndex) {}
+function merge(modelA, modelB) {
+  const commonModel = JSON.parse(JSON.stringify(modelA));
+  const elements = modelA.elements.concat(modelB.elements);
+  commonModel.elements = elements;
+  return commonModel;
+}
