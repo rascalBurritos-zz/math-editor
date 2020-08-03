@@ -2,8 +2,8 @@ import produce from 'immer';
 import textGlyphViewFactory from '../Text Glyph/textGlyphViewFactory';
 import Metrics from '../../../Math Nodes/Types/Metrics';
 import fontMapper from '../../../Factories/Document/fontMapper';
-import { getComponentStyle } from '../BaseView';
 import { TextBlock } from '../../../React-Components/Text/TextBlock';
+import { getViewGenerator } from '../BaseViewFactory';
 
 /** @typedef {import('../BaseView').BaseView} BaseView */
 
@@ -14,6 +14,8 @@ import { TextBlock } from '../../../React-Components/Text/TextBlock';
 /**
  * @typedef {BaseView & _TextBlockView} TextBlockView
  */
+export const TEXT_BLOCK_TYPE = 'Text_Block';
+const getView = getViewGenerator(TEXT_BLOCK_TYPE, TextBlock);
 
 /**
  * @param {Object} documentList
@@ -26,23 +28,6 @@ export default function textBlockViewFactory(documentList) {
   const styledChildViews = addViewStyles(childViews, metrics);
   const view = getView(metrics, styledChildViews);
   return view;
-
-  /**
-   *
-   * @param {Metrics} metrics
-   * @param {Array} childViews
-   * @return {TextBlockView} Complete View
-   */
-  function getView(metrics, childViews) {
-    const componentStyle = getComponentStyle(metrics);
-    return {
-      component: TextBlock,
-      componentStyle,
-      metrics,
-      type: 'Text_Block',
-      elements: childViews,
-    };
-  }
 
   /**
    * @param {*} content
@@ -73,21 +58,21 @@ export default function textBlockViewFactory(documentList) {
 
     return styledViewArray;
   }
-  /**
-   * @param {Array} viewArray
-   * @return {Metrics}
-   */
-  function generateMetrics(viewArray) {
-    const height = viewArray.reduce((acc, curr) => {
-      return Math.max(acc, curr.metrics.height);
-    }, 0);
-    const width = viewArray.reduce((acc, curr) => {
-      return acc + curr.metrics.width;
-    }, 0);
-    const depth = viewArray.reduce((acc, curr) => {
-      return Math.max(acc, curr.metrics.depth);
-    }, 0);
-    const metrics = new Metrics(height, width, depth);
-    return metrics;
-  }
+}
+/**
+ * @param {Array} viewArray
+ * @return {Metrics}
+ */
+export function generateMetrics(viewArray) {
+  const height = viewArray.reduce((acc, curr) => {
+    return Math.max(acc, curr.metrics.height);
+  }, 0);
+  const width = viewArray.reduce((acc, curr) => {
+    return acc + curr.metrics.width;
+  }, 0);
+  const depth = viewArray.reduce((acc, curr) => {
+    return Math.max(acc, curr.metrics.depth);
+  }, 0);
+  const metrics = new Metrics(height, width, depth);
+  return metrics;
 }

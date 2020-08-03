@@ -1,8 +1,9 @@
 import Math_Style from '../Math Nodes/Types/Math_Style';
-import mlOne from './mathListOne.js';
-import mlTwo from './mathListTwo.js';
+// import mlOne from './mathListOne.js';
+// import mlTwo from './mathListTwo.js';
 import { VERTICAL_LIST_TYPE } from '../Text Nodes/Functional/Vertical List/VerticalListViewFactory';
-import { TEXT_BLOCK_TYPE } from '../Text Nodes/Functional/Text Block/TextBlockNode';
+import { TEXT_BLOCK_TYPE } from '../Text Nodes/Functional/Text Block/textBlockViewFactory';
+import { TEXT_ENV_TYPE } from '../Text Nodes/Functional/Text Environment/TextEnvViewFactory';
 
 export default {
   type: VERTICAL_LIST_TYPE,
@@ -16,22 +17,37 @@ export default {
     //   rootFormula: mlOne,
     // },
     {
-      type: TEXT_BLOCK_TYPE,
-      fontSize: 30,
-      fontName: 'Asana',
-      content: "I'm minding my own damn business",
+      type: TEXT_ENV_TYPE,
+      elements: [
+        {
+          type: TEXT_BLOCK_TYPE,
+          fontSize: 30,
+          fontName: 'Asana',
+          content: "I'm minding my own damn business",
+        },
+      ],
     },
     {
-      type: TEXT_BLOCK_TYPE,
-      fontSize: 30,
-      fontName: 'Asana',
-      content: "Don't try to find me",
+      type: TEXT_ENV_TYPE,
+      elements: [
+        {
+          type: TEXT_BLOCK_TYPE,
+          fontSize: 30,
+          fontName: 'Asana',
+          content: "Don't try to find me",
+        },
+      ],
     },
     {
-      type: TEXT_BLOCK_TYPE,
-      fontSize: 30,
-      fontName: 'Asana',
-      content: "I'm better left alone than in this",
+      type: TEXT_ENV_TYPE,
+      elements: [
+        {
+          type: TEXT_BLOCK_TYPE,
+          fontSize: 30,
+          fontName: 'Asana',
+          content: "I'm better left alone than in this",
+        },
+      ],
     },
     // {
     //   type: 'Display',

@@ -1,5 +1,3 @@
-import { traverse } from '../Access/access';
-import { keychainsEqual, keychainFromPosition } from '../Access/keychain';
 import {
   getCommonAncestorIndex,
   getCommonAncestor,
@@ -7,7 +5,7 @@ import {
 } from '../Access/getCommon';
 import { removeBetween } from './removeBetween';
 import produce from 'immer';
-import { DangerousSetContainer } from './dangerousSetContainer';
+import { keychainsEqual } from '../Access/keychain';
 
 /**
  *

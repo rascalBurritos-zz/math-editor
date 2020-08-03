@@ -2,7 +2,7 @@ import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
 import { isBound, isLeftBound, isRightBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_BLOCK_TYPE } from './TextBlockNode';
+import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {
@@ -64,7 +64,7 @@ export function getModelIndex(boxKey) {
  * @param {Object} boxKey
  * @return {number}
  */
-function getInsertIndex(boxKey) {
+export function getInsertIndex(boxKey) {
   if (boxKey.isCaret) {
     return boxKey.index / 2;
   } else {

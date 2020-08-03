@@ -16,24 +16,54 @@ export const removeBetween = manifest(
  * @param {*} parentModel
  * @return {Object} new Model
  */
-function removeAction({ leftIndexInfo }, { rightIndexInfo }, parentModel) {
+function removeAction(
+  { leftIndexInfo, leftKeychain },
+  { rightIndexInfo, rightKeychain },
+  parentModel
+) {
   const compound = CompoundTable.retrieve(parentModel.type);
   let currentModel = addAdditions(parentModel, leftIndexInfo);
   currentModel = addAdditions(currentModel, rightIndexInfo);
+
   if (areMergeable(currentModel, leftIndexInfo.boxKey, rightIndexInfo.boxKey)) {
-    const leftKey = leftIndexInfo.boxKey;
-    const rightKey = rightIndexInfo.boxKey;
-    const leftBoxIndex = compound.getModelIndex(leftKey);
-    const rightBoxIndex = compound.getModelIndex(rightKey);
-    const leftBox = getSubItem(currentModel, leftKey, false);
-    const rightBox = getSubItem(currentModel, rightKey, false);
-    const subCompound = CompoundTable.retrieve(leftBox.type);
-    const comboBox = subCompound.merge(leftBox, rightBox);
-    const deleteCount = rightBoxIndex - leftBoxIndex + 1;
-    return compound.splice(currentModel, leftBoxIndex, deleteCount, comboBox);
+    const minLength = Math.min(leftKeychain.length, rightKeychain.length);
+    for (
+      let index = 0;
+      index < minLength &&
+      areMergeable(currentModel, leftKeychain[index], rightKeychain[index]);
+      index++
+    ) {
+      const compound = CompoundTable.retrieve(currentModel.type);
+      const { box: leftBox, index: leftBoxIndex } = getBox(
+        leftKeychain[index],
+        currentModel,
+        compound
+      );
+      const { box: rightBox, index: rightBoxIndex } = getBox(
+        leftKeychain[index],
+        currentModel,
+        compound
+      );
+      const subCompound = CompoundTable.retrieve(leftBox.type);
+      const comboBox = subCompound.merge(leftBox, rightBox);
+      const deleteCount = rightBoxIndex - leftBoxIndex + 1;
+      return compound.splice(currentModel, leftBoxIndex, deleteCount, comboBox);
+    }
   } else {
     const deleteCount = rightIndexInfo.index - leftIndexInfo.index + 1;
     return compound.splice(currentModel, leftIndexInfo.index, deleteCount);
+  }
+
+  /**
+   * @param {*} key
+   * @param {*} model
+   * @param {*} compound
+   * @return {Object}
+   */
+  function getBox(key, model, compound) {
+    const index = compound.getModelIndex(key);
+    const box = getSubItem(model, key, false);
+    return { box, index };
   }
 
   /**

@@ -36,9 +36,15 @@ export default function manifest(action, getNewArgs, normalize) {
     const leftIndexInfo = getIndex(leftKey, parentModel, DIRECTION.RIGHT);
     const rightIndexInfo = getIndex(rightKey, parentModel, DIRECTION.LEFT);
 
+    const { leftKeychain, rightKeychain } = sortKeychains(
+      leftKey,
+      keychainA,
+      keychainB
+    );
+
     const result = action(
-      { leftIndexInfo, leftKey },
-      { rightIndexInfo, rightKey },
+      { leftIndexInfo, leftKeychain },
+      { rightIndexInfo, rightKeychain },
       parentModel,
       ...args
     );
@@ -57,11 +63,23 @@ export default function manifest(action, getNewArgs, normalize) {
     }
 
     /**
+     * @param {Object} leftKey
+     * @param {Array} keychainA
+     * @param {Array} keychainB
+     * @return {Object}
+     */
+    function sortKeychains(leftKey, keychainA, keychainB) {
+      const aIsLeft = keychainA[0] === leftKey;
+      const leftKeychain = aIsLeft ? keychainA : keychainB;
+      const rightKeychain = aIsLeft ? keychainB : keychainA;
+      return { leftKeychain, rightKeychain };
+    }
+
+    /**
      * @param {Object} boxKey
      * @param {Object} model
      * @param {String} direction
      * @return {String | number}
-     * Requires Caret maps to implement getModelIndex method
      */
     function getModelIndexInDirection(boxKey, model, direction) {
       const node = NodeTable.retrieve(model.type);

@@ -6,11 +6,9 @@ import '../../Test/nodeImports';
 export default function documentStartup() {
   // vertical list -> textblock -> textGlyph
   const starterKeychain = [
-    {
-      isCaret: false,
-      index: 1,
-    },
-    { isCaret: true, index: 0 },
+    { isCaret: false, index: 1 },
+    { isCaret: false, index: 1 },
+    { isCaret: true, index: 4 },
   ];
   const selection = { anchor: starterKeychain, focus: starterKeychain };
   return { model: docListOne, selection };

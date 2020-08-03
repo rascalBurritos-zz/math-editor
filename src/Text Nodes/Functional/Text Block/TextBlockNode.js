@@ -16,13 +16,11 @@ import {
 } from '../../../Interaction/Access/access';
 import Point from '../../../Abstract/Point';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
-import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
+import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
 
 /** @typedef {import("./textBlockViewFactory").TextBlockView} TextBlockView */
 
-export const TEXT_BLOCK_TYPE = 'Text_Block';
-
-const nextItem = nextItemGenerator(getDirection());
+const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
 
 NodeTable.register(TEXT_BLOCK_TYPE, {
   nextItem,
@@ -77,12 +75,12 @@ export function getBoxKeyClosestToPoint(view, point) {
   const elements = view.elements;
   for (let i = 0; i < elements.length; i++) {
     progress += elements[i].metrics.width / 2;
-    if (point.left < progress) {
+    if (point.left < progress && i > 0) {
       return { isCaret: true, index: i * 2 };
     }
     progress += elements[i].metrics.width / 2;
   }
-  return { isCaret: true, index: elements.length * 2 };
+  return { isCaret: true, index: elements.length * 2 - 1 };
 }
 
 /**
@@ -124,9 +122,26 @@ function getRelativePositionWithElementIndex(view, index) {
 }
 
 /**
+ * @return {number}
+ */
+function minIndex() {
+  return 1;
+}
+
+/**
+ * @param {Object} model
+ * @return {number}
+ */
+function maxIndex(model) {
+  return model.content.length * 2 - 1;
+}
+
+/**
+ * @param {Function} minIndex
+ * @param {Function} maxIndex
  * @return {Object}
  */
-function getDirection() {
+export function getDirection(minIndex, maxIndex) {
   /**
    * @param {Object} model
    * @param {Object} boxKey
@@ -185,21 +200,6 @@ function getDirection() {
       newKey.index = boxKey.index;
     }
     return newKey;
-  }
-
-  /**
-   * @return {number}
-   */
-  function minIndex() {
-    return 0;
-  }
-
-  /**
-   * @param {Object} model
-   * @return {number}
-   */
-  function maxIndex(model) {
-    return model.content.length * 2;
   }
 
   /**

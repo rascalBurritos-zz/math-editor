@@ -5,6 +5,7 @@
  * @property {Function} getBoxKeyClosestToPoint
  * @property {Function} getRelativePositionOfBox
  * @property {Function} [getCaretStyle]
+ * @property {Function} [combineRects]
  */
 
 export const NodeTable = {

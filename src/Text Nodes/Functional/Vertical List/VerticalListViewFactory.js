@@ -1,7 +1,7 @@
 import Metrics from '../../../Math Nodes/Types/Metrics';
-import { getComponentStyle } from '../BaseView';
-import VerticalList from '../../../React-Components/Document/VerticalList';
+import { VerticalList } from '../../../React-Components/Document/VerticalList';
 import funcDocumentViewFactory from '../funcDocumentViewFactory';
+import { getViewGenerator } from '../BaseViewFactory';
 
 /** @typedef {import('../BaseView').BaseView} BaseView  */
 
@@ -15,6 +15,7 @@ import funcDocumentViewFactory from '../funcDocumentViewFactory';
  * @typedef {BaseView & _VerticalListView} VerticalListView
  */
 export const VERTICAL_LIST_TYPE = 'Vertical List';
+const getView = getViewGenerator(VERTICAL_LIST_TYPE, VerticalList);
 
 /**
  * @param {Object} documentList
@@ -28,33 +29,6 @@ export default function verticalListFactory(documentList) {
   const { metrics, elementViews } = getSettings(childViews, spec);
   const view = getView(metrics, elementViews);
   return view;
-
-  /**
-   *
-   * @param {Metrics} metrics
-   * @param {Array} elements
-   * @return {VerticalListView}
-   */
-  function getView(metrics, elements) {
-    const componentStyle = getComponentStyle(metrics);
-    return {
-      type: VERTICAL_LIST_TYPE,
-      metrics,
-      elements,
-      componentStyle,
-      component: VerticalList,
-    };
-  }
-
-  /**
-   * @param {Array} elements
-   * @return {Array}
-   */
-  function getChildViews(elements) {
-    return elements.map((element) => {
-      return funcDocumentViewFactory(element);
-    });
-  }
 
   /**
    * @param {Array} elementViews
@@ -164,4 +138,14 @@ export default function verticalListFactory(documentList) {
       }
     }
   }
+}
+
+/**
+ * @param {Array} elements
+ * @return {Array}
+ */
+export function getChildViews(elements) {
+  return elements.map((element) => {
+    return funcDocumentViewFactory(element);
+  });
 }

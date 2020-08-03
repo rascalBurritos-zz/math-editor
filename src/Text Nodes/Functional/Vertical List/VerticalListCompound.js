@@ -74,7 +74,7 @@ function getInsertIndex(boxKey) {
  * @param  {...any} toInsert
  * @return {Object}
  */
-function splice(model, leftIndex, deleteCount, ...toInsert) {
+export function splice(model, leftIndex, deleteCount, ...toInsert) {
   const modelCopy = JSON.parse(JSON.stringify(model));
   modelCopy.elements.splice(leftIndex, deleteCount, ...toInsert);
   return modelCopy;
@@ -85,7 +85,7 @@ function splice(model, leftIndex, deleteCount, ...toInsert) {
  * @param {Object} modelB
  * @return {Object} combo
  */
-function merge(modelA, modelB) {
+export function merge(modelA, modelB) {
   const commonModel = JSON.parse(JSON.stringify(modelA));
   const elements = modelA.elements.concat(modelB.elements);
   commonModel.elements = elements;

@@ -1,16 +1,4 @@
-import React from 'react';
 import './Styles/TextEnvironment.css';
+import compoundFactory from './compoundFactory';
 
-export default class TextEnvironment extends React.Component {
-  /**
-   * @return {JSX.Element}
-   */
-  render() {
-    const childBehavior = this.props.data.childBehavior;
-    return (
-      <div className="TextEnvironment" style={this.props.data.componentStyle}>
-        <childBehavior.component data={childBehavior}></childBehavior.component>
-      </div>
-    );
-  }
-}
+export const TextEnvironment = compoundFactory('TextEnvironment');

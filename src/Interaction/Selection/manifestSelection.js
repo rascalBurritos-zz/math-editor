@@ -23,6 +23,7 @@ function selectionAction(
   parentModel,
   parentView
 ) {
+  console.log(leftIndexInfo, rightIndexInfo);
   if (isNoAction(leftIndexInfo.index) || isNoAction(rightIndexInfo.index)) {
     return [];
   }
@@ -58,6 +59,16 @@ function selectionAction(
 function normalizeRectangles(boxKey, model, direction, results, parentView) {
   const node = NodeTable.retrieve(model.type);
   const relativePos = node.getRelativePositionOfBox(parentView, boxKey);
+  console.log(node, model);
+  if ('combineRects' in node) {
+    const x = node.combineRects(
+      results.map((rect) => {
+        return rect.addToOrigin(relativePos);
+      })
+    );
+    console.log(x);
+    return x;
+  }
   return results.map((rect) => {
     return rect.addToOrigin(relativePos);
   });
