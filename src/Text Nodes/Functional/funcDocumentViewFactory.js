@@ -7,6 +7,10 @@ import textBlockViewFactory, {
 import TextEnvFactory, {
   TEXT_ENV_TYPE,
 } from './Text Environment/TextEnvViewFactory';
+import {
+  TEXT_LINE_TYPE,
+  TextLineViewFactory,
+} from './Text Line/TextLineViewFactory';
 /** @typedef {import('./BaseView').BaseView} BaseView  */
 
 /**
@@ -18,5 +22,6 @@ export default function funcDocumentViewFactory(docList) {
   viewMap[VERTICAL_LIST_TYPE] = verticalListViewFactory;
   viewMap[TEXT_BLOCK_TYPE] = textBlockViewFactory;
   viewMap[TEXT_ENV_TYPE] = TextEnvFactory;
+  viewMap[TEXT_LINE_TYPE] = TextLineViewFactory;
   return viewMap[docList.type](docList);
 }

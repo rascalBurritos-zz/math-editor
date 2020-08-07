@@ -18,7 +18,7 @@ export default class Rectangle {
    * @return {Rectangle}
    */
   addToOrigin(point) {
-    return new Rectangle(this.origin.add(point), this.height, this.width);
+    this.origin = this.origin.add(point);
   }
 
   /**
@@ -27,6 +27,7 @@ export default class Rectangle {
   toStyle() {
     const top = this.origin.top;
     const left = this.origin.left;
-    return { top, left, height: this.height, width: this.width };
+    const transform = ` translate(${left}px,${top}px) scale(${this.width},${this.height})`;
+    return { transform };
   }
 }

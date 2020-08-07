@@ -31,7 +31,7 @@ DangerousSetContainer.register(
   },
   ACCESS_TYPE.BOTH
 );
-const nextItem = nextItemGenerator(getDirection());
+export const nextItem = nextItemGenerator(getDirection());
 NodeTable.register(VERTICAL_LIST_TYPE, {
   nextItem,
   nextItemOnCaretPath,

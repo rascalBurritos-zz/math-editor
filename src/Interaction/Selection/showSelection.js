@@ -3,6 +3,8 @@ import keychainToViewPoint, {
 } from '../../Interaction/Access/keychain';
 import { manifestSelection } from '../../Interaction/Selection/manifestSelection';
 import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
+import { getSubItem } from '../Access/access';
+import { NodeTable } from '../Tables/nodeTable';
 
 /**
  *
@@ -29,19 +31,40 @@ export default function showSelection(model, view, keychainA, keychainB) {
   );
   const subChainA = keychainA.slice(commonAncestorIndex + 1);
   const subChainB = keychainB.slice(commonAncestorIndex + 1);
-  let rectangles = manifestSelection(
+  const rectangles = manifestSelection(
     subChainA,
     subChainB,
     commonModelAncestor,
     commonViewAncestor
   );
-  // let rectangles = showSelectionDirectly(subChainA, subChainB, commonAncestor);
+  expandRectangles(
+    view,
+    keychainA.slice(0, commonAncestorIndex + 1),
+    rectangles
+  );
   const relativePos = keychainToViewPoint(
     view,
     keychainA.slice(0, commonAncestorIndex + 1)
   ).position;
-  rectangles = rectangles.map((rect) => {
-    return rect.addToOrigin(relativePos);
-  });
+  for (const rect of rectangles) {
+    rect.addToOrigin(relativePos);
+  }
   return rectangles;
+}
+
+/**
+ * @param {*} rootView
+ * @param {*} keychain
+ * @param {*} rects
+ */
+function expandRectangles(rootView, keychain, rects) {
+  let subView = rootView;
+  for (const boxKey of keychain) {
+    subView = getSubItem(subView, boxKey, true);
+    const node = NodeTable.retrieve(subView.type);
+    if ('expandSelection' in node) {
+      node.expandSelection(subView, rects);
+      break;
+    }
+  }
 }

@@ -17,7 +17,7 @@ export default class Selection extends React.Component {
         return (
           <div
             className="SelectionBlock"
-            key={rectStyle.width + index}
+            key={rect.width + index}
             style={rectStyle}
           ></div>
         );

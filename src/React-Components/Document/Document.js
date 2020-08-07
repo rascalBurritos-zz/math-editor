@@ -21,15 +21,7 @@ export default class Document extends React.Component {
     this.logMouseMove = this.mouseHandler.bind(this, MOUSE.MOVE);
     this.logMouseUp = this.mouseHandler.bind(this, MOUSE.UP);
     this.isSelecting = false;
-    // this.numMouseMoves = 0;
-    // this.currentMillis = new Date();
-    // this.previousMillis = this.currentMillis;
-    // setInterval(() => {
-    //   this.currentMillis = new Date();
-    //   console.log(this.numMouseMoves, this.currentMillis - this.previousMillis);
-    //   this.numMouseMoves = 0;
-    //   this.previousMillis = this.currentMillis;
-    // }, 1000);
+    this.rootView = false;
     /**
      * @return {String}
      */
@@ -65,7 +57,13 @@ export default class Document extends React.Component {
       return;
     }
     this.setState((prevState) => {
-      return documentMouseEventHandler(event, prevState, this.id, resetAnchor);
+      return documentMouseEventHandler(
+        event,
+        prevState,
+        this.id,
+        resetAnchor,
+        this.rootView
+      );
     });
   }
 
@@ -84,15 +82,16 @@ export default class Document extends React.Component {
    */
   render() {
     const s = this.state;
-    // const rootView = documentViewFactory(s.model);
-    // console.log(s);
-    const rootView = funcDocumentViewFactory(s.model);
-    const selectionData = getSelectionData(s.model, rootView, s.selection);
+    this.rootView = this.rootView
+      ? this.rootView
+      : funcDocumentViewFactory(s.model);
+    const selectionData = getSelectionData(s.model, this.rootView, s.selection);
+    const Root = this.rootView.component;
     const style = { border: '1px solid black' };
     return (
       <div className="Document" style={style}>
         <div id={this.id} className="FittingContainer">
-          <rootView.component data={rootView}></rootView.component>
+          <Root data={this.rootView}></Root>
           <Selection data={selectionData} />
         </div>
       </div>

@@ -20,7 +20,6 @@ export default function getSelectionData(rootModel, rootView, selection) {
       selection.focus,
       selection.anchor
     );
-
     const scv = keychainToViewPoint(rootView, selection.anchor);
     const primary = wrapCaret(pcv, false);
     const secondary = wrapCaret(scv, false);
@@ -34,6 +33,13 @@ export default function getSelectionData(rootModel, rootView, selection) {
    * @return {Object}
    */
   function wrapCaret(caretView, isBlinking) {
-    return { style: { ...caretView.position, ...caretView.style }, isBlinking };
+    const p = caretView.position;
+    return {
+      style: {
+        transform: `translate(${p.left}px,${p.top}px)`,
+        ...caretView.style,
+      },
+      isBlinking,
+    };
   }
 }

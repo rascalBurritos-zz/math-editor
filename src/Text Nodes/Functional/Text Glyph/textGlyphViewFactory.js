@@ -18,6 +18,8 @@ import { Glyph } from '../../../React-Components/Math/Glyph';
  * @typedef {import("../BaseView").BaseView & _TextGlyphView} TextGlyphView
  */
 
+export const TEXT_GLYPH_TYPE = 'Text_Glyph'; // used for submodel access
+
 /**
  * @param {characterInfo} charInfo unicode and fontSize
  * @param {Object} fontData
@@ -49,7 +51,7 @@ export default function textGlyphViewFactory(charInfo, fontData) {
       componentStyle,
       metrics,
       internalCharacterBox,
-      type: 'Text_Glyph',
+      type: TEXT_GLYPH_TYPE,
       component: Glyph,
     };
   }

@@ -14,7 +14,7 @@ import { DIRECTION } from '../Tables/direction';
  * @param {String} direction
  * @return {String} opposite direction
  */
-function oppositeDirection(direction) {
+export function oppositeDirection(direction) {
   return direction === DIRECTION.LEFT ? DIRECTION.RIGHT : DIRECTION.LEFT;
 }
 

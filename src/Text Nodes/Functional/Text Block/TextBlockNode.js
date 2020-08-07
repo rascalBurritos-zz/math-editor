@@ -17,6 +17,7 @@ import {
 import Point from '../../../Abstract/Point';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
 import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
+import { TEXT_GLYPH_TYPE } from '../Text Glyph/textGlyphViewFactory';
 
 /** @typedef {import("./textBlockViewFactory").TextBlockView} TextBlockView */
 
@@ -34,7 +35,7 @@ AccessContainer.register(
   TEXT_BLOCK_TYPE,
   (model, boxKey) => {
     const index = Math.floor(boxKey.index / 2);
-    return model.content.charAt(index);
+    return { type: TEXT_GLYPH_TYPE, character: model.content.charAt(index) };
   },
   ACCESS_TYPE.MODEL
 );
@@ -67,20 +68,25 @@ export function nextItemOnCaretPath(model, boxKey, direction) {
 /**
  * @param {TextBlockView} view
  * @param {Point} point
+ * @param {boolean} forceInBounds
  * @return {Object}
  *  x, y
  */
-export function getBoxKeyClosestToPoint(view, point) {
+export function getBoxKeyClosestToPoint(view, point, forceInBounds) {
   let progress = 0;
   const elements = view.elements;
   for (let i = 0; i < elements.length; i++) {
     progress += elements[i].metrics.width / 2;
-    if (point.left < progress && i > 0) {
-      return { isCaret: true, index: i * 2 };
+    if (point.left < progress) {
+      return i === 0 && !forceInBounds
+        ? getBoundLeft()
+        : { isCaret: true, index: i * 2 };
     }
     progress += elements[i].metrics.width / 2;
   }
-  return { isCaret: true, index: elements.length * 2 - 1 };
+  return forceInBounds
+    ? { isCaret: true, index: view.elements.length * 2 }
+    : getBoundRight();
 }
 
 /**
@@ -110,7 +116,7 @@ export function getCaretStyle(view) {
  * @return {Point}
  *
  */
-function getRelativePositionWithElementIndex(view, index) {
+export function getRelativePositionWithElementIndex(view, index) {
   const top =
     index >= view.elements.length
       ? 0

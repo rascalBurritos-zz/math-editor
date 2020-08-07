@@ -1,4 +1,3 @@
-import produce from 'immer';
 import textGlyphViewFactory from '../Text Glyph/textGlyphViewFactory';
 import Metrics from '../../../Math Nodes/Types/Metrics';
 import fontMapper from '../../../Factories/Document/fontMapper';
@@ -25,8 +24,8 @@ export default function textBlockViewFactory(documentList) {
   const font = fontMapper(documentList.fontName);
   const childViews = getChildViews(documentList.content, font);
   const metrics = generateMetrics(childViews);
-  const styledChildViews = addViewStyles(childViews, metrics);
-  const view = getView(metrics, styledChildViews);
+  addViewStyles(childViews, metrics);
+  const view = getView(metrics, childViews);
   return view;
 
   /**
@@ -42,22 +41,17 @@ export default function textBlockViewFactory(documentList) {
       return glyphView;
     });
   }
+}
 
-  /**
-   * @param {Array} viewArray
-   * @param {Metrics} metrics
-   * @return {Array}
-   */
-  function addViewStyles(viewArray, metrics) {
-    const styledViewArray = viewArray.map((element) => {
-      const marginTop = metrics.height - element.metrics.height;
-      return produce(element, (prevElement) => {
-        prevElement.componentStyle.marginTop = marginTop;
-      });
-    });
-
-    return styledViewArray;
-  }
+/**
+ * @param {Array} viewArray
+ * @param {Metrics} metrics
+ */
+export function addViewStyles(viewArray, metrics) {
+  viewArray.forEach((element) => {
+    const marginTop = metrics.height - element.metrics.height;
+    element.componentStyle.marginTop = marginTop;
+  });
 }
 /**
  * @param {Array} viewArray

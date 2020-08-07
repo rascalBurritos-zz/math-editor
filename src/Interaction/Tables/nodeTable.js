@@ -5,7 +5,7 @@
  * @property {Function} getBoxKeyClosestToPoint
  * @property {Function} getRelativePositionOfBox
  * @property {Function} [getCaretStyle]
- * @property {Function} [combineRects]
+ * @property {Function} [expandSelection]
  */
 
 export const NodeTable = {
@@ -25,7 +25,6 @@ export const NodeTable = {
 
 /**
  * @typedef {Object} ATOMmethods
- * @property {Function} setModel
  */
 
 export const AtomTable = {
@@ -47,12 +46,10 @@ export const AtomTable = {
 
 /**
  * @typedef {Object} COMPOUNDmethods
- * @property {Function} getInsertIndex
  * @property {Function} getModelIndex
  * @property {Function} splice
  * @property {Function} merge
  * @property {Function} getSelectionRects
- * @property {Function} getElements
  * @property {Function} sort
  */
 
@@ -70,5 +67,24 @@ export const CompoundTable = {
   },
   isCompound: function (type) {
     return type in this._compoundPool;
+  },
+};
+
+/**
+ * @typedef {Object} PARSERmethods
+ * @property {Function} wordify
+ */
+
+export const ParserTable = {
+  _parserPool: {},
+  /**
+   * @param {String} type
+   * @param {PARSERmethods} funcObj
+   */
+  register: function (type, funcObj) {
+    this._parserPool[type] = funcObj;
+  },
+  retrieve: function (type) {
+    return this._parserPool[type];
   },
 };

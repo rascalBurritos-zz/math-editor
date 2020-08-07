@@ -1,8 +1,12 @@
 .Caret {
+  will-change: transform;
   background-color: black;
   width: 2px;
   height: 20px;
   position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
 }
 
 /* blink */

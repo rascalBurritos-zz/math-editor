@@ -14,7 +14,11 @@ export function keychainFromPosition(targetView, startPoint) {
   let currentPoint = startPoint;
   while (!done) {
     const node = NodeTable.retrieve(currentView.type);
-    const boxKey = node.getBoxKeyClosestToPoint(currentView, currentPoint);
+    const boxKey = node.getBoxKeyClosestToPoint(
+      currentView,
+      currentPoint,
+      true
+    );
     keychain.push(boxKey);
     if (!boxKey.isCaret) {
       const previousView = currentView;
@@ -47,11 +51,12 @@ export default function keychainToViewPoint(view, keychain) {
           position: caretKeyPos.add(viewPoint.position),
         };
         if ('getCaretStyle' in node) {
-          const style = node.getCaretStyle(viewPoint.view);
+          const style = node.getCaretStyle(viewPoint.view, boxKey);
           completeViewPoint.style = style;
         }
         return completeViewPoint;
       } else {
+        console.l;
         const subView = getSubItem(viewPoint.view, boxKey, true);
         const relativePos = node.getRelativePositionOfBox(
           viewPoint.view,
@@ -88,6 +93,6 @@ export function keychainsEqual(keychainA, keychainB) {
  * @param {*} boxKeyB
  * @return {boolean}
  */
-function boxKeyEquals(boxKeyA, boxKeyB) {
+export function boxKeyEquals(boxKeyA, boxKeyB) {
   return JSON.stringify(boxKeyA) === JSON.stringify(boxKeyB);
 }

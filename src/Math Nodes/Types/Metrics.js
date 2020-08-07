@@ -20,4 +20,15 @@ export default class Metrics {
   copy() {
     return new Metrics(this.height, this.width, this.depth);
   }
+
+  /**
+   *
+   * @param {Metrics} other
+   */
+  equal(other) {
+    const h = this.height === other.height;
+    const w = this.width === other.width;
+    const d = this.depth === other.depth;
+    return h && w && d;
+  }
 }

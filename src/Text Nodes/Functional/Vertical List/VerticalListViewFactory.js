@@ -68,25 +68,6 @@ export default function verticalListFactory(documentList) {
 
     /**
      * @param {Array} elementViews
-     * @param {Array} bottomMargins
-     * @param {number} maxWidth
-     * @return {Metrics}
-     */
-    function calculateMetrics(elementViews, bottomMargins, maxWidth) {
-      const totalHeight =
-        elementViews.reduce((acc, curr) => {
-          return acc + curr.metrics.height + curr.metrics.depth;
-        }, 0) +
-        bottomMargins.reduce((acc, curr) => {
-          return acc + curr;
-        }, 0);
-      const height = totalHeight / 2;
-      const depth = totalHeight / 2;
-      return new Metrics(height, maxWidth, depth);
-    }
-
-    /**
-     * @param {Array} elementViews
      * @param {number} maxWidth
      * @return {Array}
      */
@@ -94,48 +75,6 @@ export default function verticalListFactory(documentList) {
       return elementViews.map((view) => {
         return (maxWidth - view.metrics.width) / 2;
       });
-    }
-
-    /**
-     * @param {Array} elementViews
-     * @return {number} max width
-     */
-    function calculateMaxWidth(elementViews) {
-      return elementViews.reduce((acc, curr) => {
-        return acc > curr.metrics.width ? acc : curr.metrics.width;
-      }, 0);
-    }
-
-    /**
-     * @param {Array} elementViews
-     * @param {Object} spec
-     * @return {number[]}
-     */
-    function calculateBottomMargins(elementViews, spec) {
-      return elementViews.map((element, index) => {
-        const marginBottom =
-          index + 1 < elementViews.length
-            ? determineBottomMargin(element, elementViews[index + 1], spec)
-            : 0;
-        return marginBottom;
-      });
-
-      /**
-       *
-       * @param {Object} topElement
-       * @param {Object} bottomElement
-       * @param {Object} spec
-       * @return {number}
-       */
-      function determineBottomMargin(topElement, bottomElement, spec) {
-        const actualBaselineDistance =
-          topElement.metrics.depth + bottomElement.metrics.height;
-        const marginBottom =
-          actualBaselineDistance > spec.baselineDistance
-            ? spec.baselineBump
-            : spec.baselineDistance - actualBaselineDistance;
-        return marginBottom;
-      }
     }
   }
 }
@@ -148,4 +87,65 @@ export function getChildViews(elements) {
   return elements.map((element) => {
     return funcDocumentViewFactory(element);
   });
+}
+
+/**
+ * @param {Array} elementViews
+ * @return {number} max width
+ */
+export function calculateMaxWidth(elementViews) {
+  return elementViews.reduce((acc, curr) => {
+    return acc > curr.metrics.width ? acc : curr.metrics.width;
+  }, 0);
+}
+
+/**
+ * @param {Array} elementViews
+ * @param {Object} spec
+ * @return {number[]}
+ */
+export function calculateBottomMargins(elementViews, spec) {
+  return elementViews.map((element, index) => {
+    const marginBottom =
+      index + 1 < elementViews.length
+        ? determineBottomMargin(element, elementViews[index + 1], spec)
+        : 0;
+    return marginBottom;
+  });
+
+  /**
+   *
+   * @param {Object} topElement
+   * @param {Object} bottomElement
+   * @param {Object} spec
+   * @return {number}
+   */
+  function determineBottomMargin(topElement, bottomElement, spec) {
+    const actualBaselineDistance =
+      topElement.metrics.depth + bottomElement.metrics.height;
+    const marginBottom =
+      actualBaselineDistance > spec.baselineDistance
+        ? spec.baselineBump
+        : spec.baselineDistance - actualBaselineDistance;
+    return marginBottom;
+  }
+}
+
+/**
+ * @param {Array} elementViews
+ * @param {Array} bottomMargins
+ * @param {number} maxWidth
+ * @return {Metrics}
+ */
+export function calculateMetrics(elementViews, bottomMargins, maxWidth) {
+  const totalHeight =
+    elementViews.reduce((acc, curr) => {
+      return acc + curr.metrics.height + curr.metrics.depth;
+    }, 0) +
+    bottomMargins.reduce((acc, curr) => {
+      return acc + curr;
+    }, 0);
+  const height = totalHeight / 2;
+  const depth = totalHeight / 2;
+  return new Metrics(height, maxWidth, depth);
 }

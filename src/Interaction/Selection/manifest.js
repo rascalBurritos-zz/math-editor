@@ -1,7 +1,10 @@
 import { AtomTable, NodeTable, CompoundTable } from '../Tables/nodeTable';
 import { isBound, boundGenerator } from '../../Text Nodes/Functional/BaseModel';
-import { traverse } from '../Access/access';
+import { traverse, getSubItem } from '../Access/access';
 import { DIRECTION } from '../Tables/direction';
+import { oppositeDirection } from '../Movement/movement';
+import { boxKeyEquals } from '../Access/keychain';
+import { getAdditions } from '../../Text Nodes/Functional/Vertical List/VerticalListCompound';
 
 export const NO_ACTION = 'No Action';
 /**
@@ -14,11 +17,12 @@ export function isNoAction(item) {
 
 /**
  * @param {Function} action
+ * @param {Function} noAction
  * @param {Function} getNewArgs
  * @param {Function} normalize
  * @return {Function}
  */
-export default function manifest(action, getNewArgs, normalize) {
+export default function manifest(action, noAction, getNewArgs, normalize) {
   /**
    *
    * @param {Array} keychainA
@@ -32,10 +36,41 @@ export default function manifest(action, getNewArgs, normalize) {
     const boxKeyA = keychainA[0];
     const boxKeyB = keychainB[0];
     const compound = CompoundTable.retrieve(parentModel.type);
+    if (boxKeyEquals(boxKeyA, boxKeyB)) {
+      if (boxKeyA.isCaret) {
+        return noAction();
+      }
+      const subModel = getSubItem(parentModel, boxKeyA, false);
+      if (isAtomic(subModel)) {
+        const index = compound.getModelIndex(boxKeyA);
+        return action(
+          { index, keychainA },
+          { index, keychainB },
+          parentModel,
+          ...args
+        );
+      }
+      const newArgs = getNewArgs(boxKeyA, parentModel);
+      return getBetween(
+        keychainA.slice(1),
+        keychainB.slice(1),
+        subModel,
+        ...newArgs
+      );
+    }
     const { leftKey, rightKey } = compound.sort(boxKeyA, boxKeyB);
     const leftIndexInfo = getIndex(leftKey, parentModel, DIRECTION.RIGHT);
     const rightIndexInfo = getIndex(rightKey, parentModel, DIRECTION.LEFT);
-
+    if (
+      isNoAction(leftIndexInfo.index) ||
+      isNoAction(rightIndexInfo.index) ||
+      leftIndexInfo.index > rightIndexInfo.index
+    ) {
+      return noAction(
+        getAdditions(leftIndexInfo),
+        getAdditions(rightIndexInfo)
+      );
+    }
     const { leftKeychain, rightKeychain } = sortKeychains(
       leftKey,
       keychainA,
@@ -54,7 +89,7 @@ export default function manifest(action, getNewArgs, normalize) {
      * @param {Object} boxKey
      * @param {Object} model
      * @param {String} direction
-     * @return {number | String}
+     * @return {Object}
      */
     function getIndex(boxKey, model, direction) {
       const indexFunc =
@@ -86,12 +121,20 @@ export default function manifest(action, getNewArgs, normalize) {
       const compound = CompoundTable.retrieve(model.type);
       let newBoxKey = boxKey;
       let done = false;
+      // let done = !newBoxKey.isCaret;
       while (!done) {
         newBoxKey = node.nextItem(model, newBoxKey, direction);
         done = !newBoxKey.isCaret;
       }
       if (isBound(newBoxKey)) {
-        return NO_ACTION;
+        if (!boxKey.isCaret) {
+          // this should only occur when the
+          //  other index is also equal to this box key
+          return NO_ACTION;
+        } else {
+          console.log('model index in direction of outside with caret');
+          return NO_ACTION;
+        }
       } else {
         return compound.getModelIndex(newBoxKey);
       }
@@ -125,9 +168,16 @@ export default function manifest(action, getNewArgs, normalize) {
       } else {
         const isA = boxKey === keychainA[0];
         const newKeychain = isA ? keychainA.slice(1) : keychainB.slice(1);
-        const boundKeychain = [boundGenerator(direction)()];
+        const node = NodeTable.retrieve(submodel.type);
+        const boundKeychain = [
+          node.nextItem(
+            submodel,
+            boundGenerator(direction)(),
+            oppositeDirection(direction)
+          ),
+        ];
         const subModel = traverse(model, [boxKey], false);
-        const newArgs = getNewArgs(boxKey, model, direction, ...args);
+        const newArgs = getNewArgs(boxKey, model, ...args);
         const newResults = getBetween(
           newKeychain,
           boundKeychain,
@@ -147,14 +197,14 @@ export default function manifest(action, getNewArgs, normalize) {
           boxKey,
         };
       }
-
-      /**
-       * @param {Object} model
-       * @return {boolean}
-       */
-      function isAtomic(model) {
-        return AtomTable.isAtom(model.type);
-      }
     }
   };
+}
+
+/**
+ * @param {Object} model
+ * @return {boolean}
+ */
+function isAtomic(model) {
+  return AtomTable.isAtom(model.type);
 }

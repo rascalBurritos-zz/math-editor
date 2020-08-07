@@ -8,29 +8,22 @@ import { VERTICAL_LIST_TYPE } from './VerticalListViewFactory';
 
 CompoundTable.register(VERTICAL_LIST_TYPE, {
   getSelectionRects,
-  getInsertIndex,
   getModelIndex,
   splice,
   merge,
-  getElements,
   sort,
 });
 
 /**
- * @param {Object} item
- * @return {Array}
- */
-function getElements(item) {
-  return item.elements;
-}
-/**
  * @param {VerticalListView} view
- * @param {number} leftIndex
- * @param {number} rightIndex
+ * @param {Object} leftIndexInfo
+ * @param {Object} rightIndexInfo
  * @return {Rectangle[]}
  * NOTE: inclusive, i.e. includes endpoints
  */
-function getSelectionRects(view, leftIndex, rightIndex) {
+function getSelectionRects(view, leftIndexInfo, rightIndexInfo) {
+  const leftIndex = leftIndexInfo.index;
+  const rightIndex = rightIndexInfo.index;
   const top = view.elements.slice(0, leftIndex).reduce((acc, element) => {
     const currentMetric = element.metrics;
     const marginBottom = element.componentStyle.marginBottom;
@@ -44,7 +37,22 @@ function getSelectionRects(view, leftIndex, rightIndex) {
     }, 0);
   const left = 0;
   const width = view.metrics.width;
-  return [new Rectangle(new Point(top, left), height, width)];
+  const leftAdditions = getAdditions(leftIndexInfo);
+  const rightAdditions = getAdditions(rightIndexInfo);
+  return [
+    ...leftAdditions,
+    new Rectangle(new Point(top, left), height, width),
+    ...rightAdditions,
+  ];
+}
+
+/**
+ * @param {Object} indexInfo
+ * @return {Array}
+ */
+export function getAdditions(indexInfo) {
+  const add = indexInfo.additions;
+  return add ? add : [];
 }
 
 /**
@@ -58,13 +66,6 @@ function getModelIndex(boxKey) {
   }
   return boxKey.index;
 }
-/**
- * @param {Object} boxKey
- * @return {number}
- */
-function getInsertIndex(boxKey) {
-  return getModelIndex(boxKey);
-}
 
 /**
  *
@@ -72,22 +73,16 @@ function getInsertIndex(boxKey) {
  * @param {number} leftIndex
  * @param {number} deleteCount
  * @param  {...any} toInsert
- * @return {Object}
  */
 export function splice(model, leftIndex, deleteCount, ...toInsert) {
-  const modelCopy = JSON.parse(JSON.stringify(model));
-  modelCopy.elements.splice(leftIndex, deleteCount, ...toInsert);
-  return modelCopy;
+  model.elements.splice(leftIndex, deleteCount, ...toInsert);
 }
 
 /**
  * @param {Object} modelA
  * @param {Object} modelB
- * @return {Object} combo
  */
 export function merge(modelA, modelB) {
-  const commonModel = JSON.parse(JSON.stringify(modelA));
   const elements = modelA.elements.concat(modelB.elements);
-  commonModel.elements = elements;
-  return commonModel;
+  modelA.elements = elements;
 }

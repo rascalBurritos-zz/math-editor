@@ -1,22 +1,32 @@
 import React from 'react';
 import './Styles/TextBlock.css';
-import { CompoundTable } from '../../Interaction/Tables/nodeTable';
 
 /**
  * @param {String} className
  * @return {Function}
  */
 export default function compoundFactory(className) {
-  return function _Compound(props) {
-    const view = props.data;
-    const compound = CompoundTable.retrieve(view.type);
-    const elements = compound.getElements(view, true).map((ele, index) => {
-      return <ele.component key={index} data={ele} />;
-    });
-    return (
-      <div className={className} style={props.data.componentStyle}>
-        {elements}
-      </div>
-    );
+  return class _Compound extends React.Component {
+    /**
+     * @param {Object} nextProps
+     * @return {boolean}
+     */
+    shouldComponentUpdate(nextProps) {
+      return !this.props.data.metrics.equal(nextProps.data.metrics);
+    }
+    /**
+     *@return {JSX.Element}
+     */
+    render() {
+      const view = this.props.data;
+      const elements = view.elements.map((ele, index) => {
+        return <ele.component key={index} data={ele} />;
+      });
+      return (
+        <div className={className} style={this.props.data.componentStyle}>
+          {elements}
+        </div>
+      );
+    }
   };
 }

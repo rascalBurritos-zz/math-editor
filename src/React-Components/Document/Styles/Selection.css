@@ -1,4 +1,9 @@
 .SelectionBlock {
   background-color: rgba(100, 199, 217, 0.5);
   position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 1px;
+  height: 1px;
+  transform-origin: top left;
 }

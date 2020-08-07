@@ -6,39 +6,28 @@ import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {
-  getInsertIndex,
   getModelIndex,
   getSelectionRects,
   splice,
   merge,
-  getElements,
   sort,
 });
 
 /**
- *
- * @param {Object} item
- * @param {boolean} isView
- * @return {String | Array} isView
- */
-function getElements(item, isView) {
-  return isView ? item.elements : item.content;
-}
-/**
  * @param {TextBlockView} textBlockView
- * @param {number} leftIndex
- * @param {number} rightIndex
+ * @param {Object} leftIndexInfo
+ * @param {Object} rightIndexInfo
  * @return {Rectangle[]}
  * NOTE: inclusive, i.e. includes endpoints
  */
-function getSelectionRects(textBlockView, leftIndex, rightIndex) {
+function getSelectionRects(textBlockView, leftIndexInfo, rightIndexInfo) {
   const left = textBlockView.elements
-    .slice(0, leftIndex)
+    .slice(0, leftIndexInfo.index)
     .reduce((acc, curr) => {
       return acc + curr.metrics.width;
     }, 0);
   const width = textBlockView.elements
-    .slice(leftIndex, rightIndex + 1)
+    .slice(leftIndexInfo.index, rightIndexInfo.index + 1)
     .reduce((acc, curr) => {
       return acc + curr.metrics.width;
     }, 0);
