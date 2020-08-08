@@ -20,11 +20,12 @@ export default function getSelectionData(rootModel, rootView, selection) {
       selection.focus,
       selection.anchor
     );
-    const scv = keychainToViewPoint(rootView, selection.anchor);
-    const primary = wrapCaret(pcv, false);
-    const secondary = wrapCaret(scv, false);
+    // const scv = keychainToViewPoint(rootView, selection.anchor);
+    // const primary = wrapCaret(pcv, false);
+    // const secondary = wrapCaret(scv, false);
     // return { primary, secondary };
-    return { primary, secondary, selectionRects };
+    // return { primary, secondary, selectionRects };
+    return { selectionRects };
   }
 
   /**

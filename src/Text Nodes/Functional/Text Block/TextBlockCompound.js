@@ -68,26 +68,20 @@ export function getInsertIndex(boxKey) {
  * @param {number} leftIndex
  * @param {number} deleteCount
  * @param  {...Object} toInsert
- * @return {String}
  */
 function splice(model, leftIndex, deleteCount, ...toInsert) {
-  const modelCopy = { ...model };
   const contentArray = model.content.split('');
   contentArray.splice(leftIndex, deleteCount, ...toInsert);
-  modelCopy.content = contentArray.join('');
-  return modelCopy;
+  model.content = contentArray.join('');
 }
 
 /**
  * @param {Object} modelA
  * @param {Object} modelB
- * @return {Object} combo
  */
 function merge(modelA, modelB) {
-  const commonModel = JSON.parse(JSON.stringify(modelA));
   const content = modelA.content.concat(modelB.content);
-  commonModel.content = content;
-  return commonModel;
+  modelA.content = content;
 }
 
 /**

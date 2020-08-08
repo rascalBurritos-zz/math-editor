@@ -3,6 +3,16 @@ import './Styles/Glyph.css';
 
 export class Glyph extends React.Component {
   /**
+   * @param {Object} nextProps
+   * @return {boolean}
+   */
+  shouldComponentUpdate(nextProps) {
+    return (
+      nextProps.data.internalCharacterBox.character !==
+      this.props.data.internalCharacterBox.character
+    );
+  }
+  /**
    * @return {JSX.Element}
    */
   render() {

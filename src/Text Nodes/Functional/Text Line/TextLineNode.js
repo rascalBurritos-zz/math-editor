@@ -46,10 +46,13 @@ function expandSelection(view, rectangles) {
 
 /**
  * @param {Object} view
+ * @param {Object} boxKey
  * @return {Object}
  */
-function getCaretStyle(view) {
-  const cs = view.componentStyle;
+function getCaretStyle(view, boxKey) {
+  let index = Math.floor((boxKey.index - 1) / 2);
+  index = index < 0 ? 0 : index;
+  const cs = view.elements[index].componentStyle;
   const height = cs.height;
   return { backgroundColor: 'green', height };
 }
@@ -61,13 +64,12 @@ function getCaretStyle(view) {
  */
 function getRelativePositionOfBox(view, boxKey) {
   const colIndex = Math.floor(boxKey.index / 2);
-  if (colIndex >= view.elements.length) {
-    return new Point(0, view.metrics.width);
-  }
   const colLength = view.elements.slice(0, colIndex).reduce((acc, curr) => {
     return acc + curr.metrics.width;
   }, 0);
-  const top = view.metrics.height - view.elements[colIndex].metrics.height;
+  let topIndex = Math.floor((boxKey.index - 1) / 2);
+  topIndex = topIndex < 0 ? 0 : topIndex;
+  const top = view.metrics.height - view.elements[topIndex].metrics.height;
   return new Point(top, colLength);
 }
 

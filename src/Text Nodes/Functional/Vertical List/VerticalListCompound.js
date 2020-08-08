@@ -4,6 +4,7 @@ import { isBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { sort } from '../Text Block/TextBlockCompound';
 import { VERTICAL_LIST_TYPE } from './VerticalListViewFactory';
+import { getElements } from '../Text Environment/TextEnvCompound';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 CompoundTable.register(VERTICAL_LIST_TYPE, {

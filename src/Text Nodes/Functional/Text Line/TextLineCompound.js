@@ -5,8 +5,10 @@ import { getAdditions } from '../Vertical List/VerticalListCompound';
 import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
 import { getRelativePositionWithElementIndex } from '../Text Block/TextBlockNode';
+import { getElements } from '../Text Environment/TextEnvCompound';
 
 CompoundTable.register(TEXT_LINE_TYPE, {
+  getElements,
   getModelIndex,
   splice,
   merge,

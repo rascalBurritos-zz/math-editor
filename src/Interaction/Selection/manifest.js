@@ -38,7 +38,7 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
     const compound = CompoundTable.retrieve(parentModel.type);
     if (boxKeyEquals(boxKeyA, boxKeyB)) {
       if (boxKeyA.isCaret) {
-        return noAction();
+        return noAction(parentModel);
       }
       const subModel = getSubItem(parentModel, boxKeyA, false);
       if (isAtomic(subModel)) {
@@ -66,10 +66,7 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
       isNoAction(rightIndexInfo.index) ||
       leftIndexInfo.index > rightIndexInfo.index
     ) {
-      return noAction(
-        getAdditions(leftIndexInfo),
-        getAdditions(rightIndexInfo)
-      );
+      return noAction(parentModel, { leftIndexInfo, rightIndexInfo }, ...args);
     }
     const { leftKeychain, rightKeychain } = sortKeychains(
       leftKey,
@@ -159,7 +156,7 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
      * @return {Object}
      */
     function boxIndex(boxKey, model, direction) {
-      const submodel = traverse(model, [boxKey], false);
+      const submodel = getSubItem(model, boxKey, false);
       if (isAtomic(submodel)) {
         const compound = CompoundTable.retrieve(model.type);
         return {

@@ -2,19 +2,37 @@ import { CompoundTable } from '../Tables/nodeTable';
 import { isBound } from '../../Text Nodes/Functional/BaseModel';
 import { getSubItem } from '../Access/access';
 import manifest from '../Selection/manifest';
+import { getAdditions } from '../../Text Nodes/Functional/Vertical List/VerticalListCompound';
 
 export const removeBetween = manifest(
   removeAction,
+  noAction,
   () => [],
   (bk, m, dir, results) => results
 );
+
+/**
+ * @param {*} parentModel
+ * @param {*} additions
+ * @param  {...any} args
+ * @return {Object}
+ */
+function noAction(parentModel, { leftIndexInfo, rightIndexInfo }, ...args) {
+  if (arguments.length < 2) {
+    throw new Error();
+    return [{ parentModel }];
+  }
+  const parents = addAdditions(leftIndexInfo, rightIndexInfo);
+  return [...parents.deep, { parentModel, leftIndexInfo, rightIndexInfo }];
+  // need to merge if neither are bounds
+}
 
 /**
  *
  * @param {*} param0
  * @param {*} param1
  * @param {*} parentModel
- * @return {Object} new Model
+ * @return {*} parentModel
  */
 function removeAction(
   { leftIndexInfo, leftKeychain },
@@ -22,84 +40,84 @@ function removeAction(
   parentModel
 ) {
   const compound = CompoundTable.retrieve(parentModel.type);
-  let currentModel = addAdditions(parentModel, leftIndexInfo);
-  currentModel = addAdditions(currentModel, rightIndexInfo);
-
-  if (areMergeable(currentModel, leftIndexInfo.boxKey, rightIndexInfo.boxKey)) {
-    const minLength = Math.min(leftKeychain.length, rightKeychain.length);
-    for (
-      let index = 0;
-      index < minLength &&
-      areMergeable(currentModel, leftKeychain[index], rightKeychain[index]);
-      index++
-    ) {
-      const compound = CompoundTable.retrieve(currentModel.type);
-      const { box: leftBox, index: leftBoxIndex } = getBox(
-        leftKeychain[index],
-        currentModel,
-        compound
-      );
-      const { box: rightBox, index: rightBoxIndex } = getBox(
-        leftKeychain[index],
-        currentModel,
-        compound
-      );
-      const subCompound = CompoundTable.retrieve(leftBox.type);
-      const comboBox = subCompound.merge(leftBox, rightBox);
-      const deleteCount = rightBoxIndex - leftBoxIndex + 1;
-      return compound.splice(currentModel, leftBoxIndex, deleteCount, comboBox);
+  const parents = addAdditions(leftIndexInfo, rightIndexInfo);
+  if (areMergeable(parents.left, parents.right)) {
+    console.log('merged');
+    for (const [index, leftParentObj] of parents.left.entries()) {
+      const leftParent = leftParentObj.parentModel;
+      const rightParent = parents.right[index].parentModel;
+      const compound = CompoundTable.retrieve(leftParent.type);
+      compound.merge(leftParent, rightParent);
+      if (index + 1 < parents.left.length) {
+        const leftIndex = parents.right[index + 1].leftIndexInfo.index;
+        const gp = parents.right[index + 1].parentModel;
+        const gpCompound = CompoundTable.retrieve(gp.type);
+        gpCompound.splice(gp, leftIndex, 1);
+      }
     }
+    const deleteCount = rightIndexInfo.index - leftIndexInfo.index + 2;
+    compound.splice(parentModel, leftIndexInfo.index, deleteCount);
   } else {
     const deleteCount = rightIndexInfo.index - leftIndexInfo.index + 1;
-    return compound.splice(currentModel, leftIndexInfo.index, deleteCount);
+    compound.splice(parentModel, leftIndexInfo.index, deleteCount);
   }
+  return [...parents.deep, { parentModel, leftIndexInfo, rightIndexInfo }];
 
   /**
-   * @param {*} key
-   * @param {*} model
-   * @param {*} compound
-   * @return {Object}
-   */
-  function getBox(key, model, compound) {
-    const index = compound.getModelIndex(key);
-    const box = getSubItem(model, key, false);
-    return { box, index };
-  }
-
-  /**
-   * @param {Object} model
-   * @param {Object} indexInfo
-   * @return {Object}
-   */
-  function addAdditions(model, indexInfo) {
-    if (indexInfo.additions === undefined) {
-      return model;
-    }
-    const compound = CompoundTable.retrieve(model.type);
-    const index = compound.getModelIndex(indexInfo.boxKey);
-    const x = compound.splice(model, index, 1, indexInfo.additions);
-    return x;
-  }
-
-  /**
-   * @param {Object} model
-   * @param {Object} leftKey
-   * @param {Object} rightKey
+   * @param {Object} parentChainA
+   * @param {Object} parentChainB
    * @return {boolean}
    */
-  function areMergeable(model, leftKey, rightKey) {
-    if (!isCompositeKey(leftKey) || !isCompositeKey(rightKey)) {
+  function areMergeable(parentChainA, parentChainB) {
+    if (
+      parentChainA.length !== parentChainB.length ||
+      parentChainB.length < 1
+    ) {
       return false;
     }
-    const leftBoxModel = getSubItem(model, leftKey, false);
-    const rightBoxModel = getSubItem(model, rightKey, false);
-    return leftBoxModel.type === rightBoxModel.type;
+    for (const [index, parentAObj] of parentChainA.entries()) {
+      const parentA = parentAObj.parentModel;
+      const parentB = parentChainB[index].parentModel;
+      if (parentA.type !== parentB.type) {
+        return false;
+      }
+    }
+    return true;
   }
-  /**
-   * @param {Object} boxKey
-   * @return {boolean}
-   */
-  function isCompositeKey(boxKey) {
-    return boxKey !== undefined && !boxKey.isCaret && !isBound(boxKey);
-  }
+}
+
+/**
+ * @param {*} leftInfo
+ * @param {*} rightInfo
+ * @return {Object}
+ */
+function addAdditions(leftInfo, rightInfo) {
+  const leftAdditions = getAdditions(leftInfo);
+  const rightAdditions = getAdditions(rightInfo);
+  return getParents(leftAdditions, rightAdditions);
+}
+/**
+ *
+ * @param {*} leftAdditions
+ * @param {*} rightAdditions
+ * @return {Object}
+ */
+function getParents(leftAdditions, rightAdditions) {
+  const deep =
+    leftAdditions.length > rightAdditions.length
+      ? leftAdditions
+      : rightAdditions;
+  return {
+    left: leftAdditions,
+    right: rightAdditions,
+    deep,
+  };
+}
+
+/**
+ * @param {Object} boxKey
+ * @return {boolean}
+ */
+function isCompositeKey(boxKey) {
+  return boxKey !== undefined && !boxKey.isCaret && !isBound(boxKey);
 }

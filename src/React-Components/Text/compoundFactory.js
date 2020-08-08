@@ -12,7 +12,8 @@ export default function compoundFactory(className) {
      * @return {boolean}
      */
     shouldComponentUpdate(nextProps) {
-      return !this.props.data.metrics.equal(nextProps.data.metrics);
+      return true;
+      // return !this.props.data.metrics.equal(nextProps.data.metrics);
     }
     /**
      *@return {JSX.Element}
@@ -20,7 +21,7 @@ export default function compoundFactory(className) {
     render() {
       const view = this.props.data;
       const elements = view.elements.map((ele, index) => {
-        return <ele.component key={index} data={ele} />;
+        return <ele.component key={genId(index)} data={ele} />;
       });
       return (
         <div className={className} style={this.props.data.componentStyle}>
@@ -29,4 +30,12 @@ export default function compoundFactory(className) {
       );
     }
   };
+}
+
+/**
+ *
+ * @param {*} num
+ */
+function genId(num) {
+  return Math.random() * 100000 * num;
 }

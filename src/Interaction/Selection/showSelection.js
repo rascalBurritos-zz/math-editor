@@ -5,6 +5,7 @@ import { manifestSelection } from '../../Interaction/Selection/manifestSelection
 import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
 import { getSubItem } from '../Access/access';
 import { NodeTable } from '../Tables/nodeTable';
+import Point from '../../Abstract/Point';
 
 /**
  *
@@ -37,14 +38,14 @@ export default function showSelection(model, view, keychainA, keychainB) {
     commonModelAncestor,
     commonViewAncestor
   );
-  expandRectangles(
+  const targetIndex = expandRectangles(
     view,
     keychainA.slice(0, commonAncestorIndex + 1),
     rectangles
   );
   const relativePos = keychainToViewPoint(
     view,
-    keychainA.slice(0, commonAncestorIndex + 1)
+    keychainA.slice(0, targetIndex + 1)
   ).position;
   for (const rect of rectangles) {
     rect.addToOrigin(relativePos);
@@ -56,15 +57,21 @@ export default function showSelection(model, view, keychainA, keychainB) {
  * @param {*} rootView
  * @param {*} keychain
  * @param {*} rects
+ * @return {number}
  */
 function expandRectangles(rootView, keychain, rects) {
   let subView = rootView;
-  for (const boxKey of keychain) {
+  for (const [index, boxKey] of keychain.entries()) {
     subView = getSubItem(subView, boxKey, true);
     const node = NodeTable.retrieve(subView.type);
     if ('expandSelection' in node) {
       node.expandSelection(subView, rects);
-      break;
+      const relPos = keychainToViewPoint(subView, keychain.slice(index + 1));
+      for (const rect of rects) {
+        rect.addToOrigin(new Point(0, relPos.position.left));
+      }
+      return index;
     }
   }
+  return keychain.length - 1;
 }

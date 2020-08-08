@@ -10,7 +10,7 @@
 }
 
 /* blink */
-.Blink {
+._Blink {
   --decoration: blink;
   --name: blinker;
   --duration: 0.6s;
