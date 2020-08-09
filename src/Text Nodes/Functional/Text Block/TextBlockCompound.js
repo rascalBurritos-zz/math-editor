@@ -3,6 +3,7 @@ import Point from '../../../Abstract/Point';
 import { isBound, isLeftBound, isRightBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { TEXT_BLOCK_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {
@@ -14,25 +15,25 @@ CompoundTable.register(TEXT_BLOCK_TYPE, {
 });
 
 /**
- * @param {TextBlockView} textBlockView
+ * @param {Object} viewCollection
+ * @param {number} id
  * @param {Object} leftIndexInfo
  * @param {Object} rightIndexInfo
  * @return {Rectangle[]}
  * NOTE: inclusive, i.e. includes endpoints
  */
-function getSelectionRects(textBlockView, leftIndexInfo, rightIndexInfo) {
-  const left = textBlockView.elements
-    .slice(0, leftIndexInfo.index)
-    .reduce((acc, curr) => {
-      return acc + curr.metrics.width;
-    }, 0);
-  const width = textBlockView.elements
+function getSelectionRects(viewCollection, id, leftIndexInfo, rightIndexInfo) {
+  const elements = getChildViewsFromId(viewCollection, id);
+  const left = elements.slice(0, leftIndexInfo.index).reduce((acc, curr) => {
+    return acc + curr.metrics.width;
+  }, 0);
+  const width = elements
     .slice(leftIndexInfo.index, rightIndexInfo.index + 1)
     .reduce((acc, curr) => {
       return acc + curr.metrics.width;
     }, 0);
   const top = 0;
-  const height = textBlockView.metrics.height + textBlockView.metrics.depth;
+  const height = viewCollection[id].componentStyle.height;
   return [new Rectangle(new Point(top, left), height, width)];
 }
 

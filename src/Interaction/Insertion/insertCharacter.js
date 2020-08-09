@@ -2,6 +2,8 @@ import { getNextCaretKeychain } from '../Movement/movement';
 import { DIRECTION } from '../Tables/direction';
 import { keychainsEqual } from '../Access/keychain';
 import { insertIntoModel } from './insertIntoModel';
+import { TEXT_GLYPH_TYPE } from '../../Text Nodes/Functional/Text Glyph/textGlyphViewFactory';
+import Identity from '../Util/Identity';
 
 /**
  * @param {Object} prevState
@@ -12,7 +14,12 @@ export default function insertCharacter(prevState, character) {
   const anchor = prevState.selection.anchor;
   const focus = prevState.selection.focus;
   if (keychainsEqual(anchor, focus)) {
-    insertIntoModel(prevState.model, focus, character);
+    const textGlyph = {
+      type: TEXT_GLYPH_TYPE,
+      unicode: character.codePointAt(0),
+      id: Identity.getNextId(),
+    };
+    insertIntoModel(prevState.model, focus, textGlyph);
     const keychain = getNextCaretKeychain(
       prevState.model,
       focus,

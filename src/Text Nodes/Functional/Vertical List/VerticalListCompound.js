@@ -4,6 +4,7 @@ import { isBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
 import { sort } from '../Text Block/TextBlockCompound';
 import { VERTICAL_LIST_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 CompoundTable.register(VERTICAL_LIST_TYPE, {
@@ -15,28 +16,29 @@ CompoundTable.register(VERTICAL_LIST_TYPE, {
 });
 
 /**
- * @param {VerticalListView} view
+ * @param {*} viewCollection
+ * @param {*} id
  * @param {Object} leftIndexInfo
  * @param {Object} rightIndexInfo
  * @return {Rectangle[]}
  * NOTE: inclusive, i.e. includes endpoints
  */
-function getSelectionRects(view, leftIndexInfo, rightIndexInfo) {
+function getSelectionRects(viewCollection, id, leftIndexInfo, rightIndexInfo) {
   const leftIndex = leftIndexInfo.index;
   const rightIndex = rightIndexInfo.index;
-  const top = view.elements.slice(0, leftIndex).reduce((acc, element) => {
-    const currentMetric = element.metrics;
-    const marginBottom = element.componentStyle.marginBottom;
-    return acc + currentMetric.height + currentMetric.depth + marginBottom;
+  const elements = getChildViewsFromId(viewCollection, id);
+  const top = elements.slice(0, leftIndex).reduce((acc, element) => {
+    const cs = element.componentStyle;
+    return acc + cs.heigth + cs.marginBottom;
   }, 0);
-  const height = view.elements
+  const height = elements
     .slice(leftIndex, rightIndex + 1)
     .reduce((acc, element) => {
       const marginBottom = element.componentStyle.marginBottom;
       return acc + element.metrics.height + marginBottom;
     }, 0);
   const left = 0;
-  const width = view.metrics.width;
+  const width = viewCollection[id].metrics.width;
   const leftAdditions = getAdditions(leftIndexInfo);
   const rightAdditions = getAdditions(rightIndexInfo);
   return [

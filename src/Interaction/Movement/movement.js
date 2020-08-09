@@ -1,4 +1,4 @@
-import funcDocumentViewFactory from '../../Text Nodes/Functional/funcDocumentViewFactory';
+import funcDocumentViewFactory from '../../Text Nodes/Functional/ViewMaster';
 import { traverse } from '../Access/access';
 import keychainToViewPoint, { keychainFromPosition } from '../Access/keychain';
 import {

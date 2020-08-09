@@ -4,7 +4,6 @@ import { traverse, getSubItem } from '../Access/access';
 import { DIRECTION } from '../Tables/direction';
 import { oppositeDirection } from '../Movement/movement';
 import { boxKeyEquals } from '../Access/keychain';
-import { getAdditions } from '../../Text Nodes/Functional/Vertical List/VerticalListCompound';
 
 export const NO_ACTION = 'No Action';
 /**
@@ -156,7 +155,7 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
      * @return {Object}
      */
     function boxIndex(boxKey, model, direction) {
-      const submodel = getSubItem(model, boxKey, false);
+      const submodel = getSubItem(model, boxKey);
       if (isAtomic(submodel)) {
         const compound = CompoundTable.retrieve(model.type);
         return {

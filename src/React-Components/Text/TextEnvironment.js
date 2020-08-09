@@ -1,8 +1,8 @@
 import './Styles/TextEnvironment.css';
-import React from 'react';
 import compoundFactory from './compoundFactory';
 
-export const TextEnvironment = compoundFactory('TextEnvironment');
+const te = compoundFactory('TextEnvironment');
+export const TextEnvironment = te;
 // export class TextEnvironment extends React.Component {
 //   /**
 //    * @return {JSX.Element}

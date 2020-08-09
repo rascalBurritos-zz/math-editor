@@ -2,9 +2,11 @@ import Metrics from '../../../Math Nodes/Types/Metrics';
 import { calculatePXPFU, getComponentStyle } from '../BaseView';
 import InternalCharacterBox from '../../../React-Components/Math/InternalCharacterBoxComponent';
 import { Glyph } from '../../../React-Components/Math/Glyph';
+import { ViewMaster } from '../ViewMaster';
 
 /**
  * @typedef {Object} characterInfo
+ * @property {number} id
  * @property {String} unicode
  * @property {number} fontSize
  */
@@ -33,47 +35,46 @@ function genKey(size, uni, family) {
   return family + size + uni;
 }
 
-class GlyphId {
-  static id = 0;
-  /**
-   * @return {number}
-   */
-  static getNextId() {
-    return GlyphId.id++;
-  }
-}
-
 /**
  * @param {characterInfo} charInfo unicode and fontSize
  * @param {Object} fontData
+ * @param {Object} currentView
  * @return {TextGlyphView}
  */
-export default function textGlyphViewFactory(charInfo, fontData) {
+export default function textGlyphViewFactory(charInfo, fontData, currentView) {
   const key = genKey(charInfo.fontSize, charInfo.unicode, fontData.fontFamily);
   if (key in glyphCache) {
-    return Object.create(glyphCache[key], {
-      id: { value: GlyphId.getNextId() },
+    const cs = Object.assign({}, glyphCache[key].componentStyle);
+    const view = Object.create(glyphCache[key], {
+      id: { value: charInfo.id },
+      componentStyle: { value: cs },
     });
-  }
-  const spec = generateSpec(charInfo.unicode, fontData);
-  const fontSize = charInfo.fontSize;
+    currentView[charInfo.id] = view;
+    ViewMaster.viewPool[charInfo.id] = view;
+  } else {
+    const spec = generateSpec(charInfo.unicode, fontData);
+    const fontSize = charInfo.fontSize;
 
-  const pxpfu = calculatePXPFU(fontSize, spec.upm);
-  const metrics = getMetrics(spec.glyphMetric, pxpfu);
-  const internalCharacterBox = getInternalCharacterBox(spec, pxpfu, fontSize);
-  const view = getView(metrics, internalCharacterBox);
-  view.id = GlyphId.getNextId();
-  return view;
+    const pxpfu = calculatePXPFU(fontSize, spec.upm);
+    const metrics = getMetrics(spec.glyphMetric, pxpfu);
+    const internalCharacterBox = getInternalCharacterBox(spec, pxpfu, fontSize);
+    const view = getView(metrics, internalCharacterBox, charInfo.id);
+    glyphCache[key] = view;
+    currentView[charInfo.id] = view;
+    ViewMaster.viewPool[charInfo.id] = view;
+  }
 
   /**
    *
    * @param {Metrics} metrics
    * @param {Object} internalCharacterBox
+   * @param {number} id
    * @return {TextGlyphView}
    */
-  function getView(metrics, internalCharacterBox) {
+  function getView(metrics, internalCharacterBox, id) {
     const componentStyle = getComponentStyle(metrics);
     return {
+      id,
       componentStyle,
       metrics,
       internalCharacterBox,

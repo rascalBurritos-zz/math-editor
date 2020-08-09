@@ -18,28 +18,33 @@ const getView = getViewGenerator(TEXT_BLOCK_TYPE, TextBlock);
 
 /**
  * @param {Object} documentList
+ * @param {Object} currentView
  * @return {TextBlockView}
  */
-export default function textBlockViewFactory(documentList) {
+export default function textBlockViewFactory(documentList, currentView) {
   const font = fontMapper(documentList.fontName);
-  const childViews = getChildViews(documentList.content, font);
+  const childIds = getChildIds(documentList.content, font, currentView);
+  const childViews = childIds.map((id) => currentView[id]);
   const metrics = generateMetrics(childViews);
   addViewStyles(childViews, metrics);
-  const view = getView(metrics, childViews);
+  const view = getView(metrics, childIds);
   return view;
 
   /**
    * @param {*} content
    * @param {*} font
+   * @param {*} Object
    * @return {Array}
    */
-  function getChildViews(content, font) {
-    return content.split('').map((character) => {
-      const unicode = character.codePointAt(0);
+  function getChildIds(content, font, currentView) {
+    const childIds = [];
+    for (let i = 0; i < content.length; i++) {
       const fontSize = documentList.fontSize;
-      const glyphView = textGlyphViewFactory({ unicode, fontSize }, font);
-      return glyphView;
-    });
+      const charInfo = { ...content[i], fontSize };
+      textGlyphViewFactory(charInfo, font, currentView);
+      childIds.push(content[i].id);
+    }
+    return childIds;
   }
 }
 
@@ -48,7 +53,6 @@ export default function textBlockViewFactory(documentList) {
  * @param {Metrics} metrics
  */
 export function addViewStyles(viewArray, metrics) {
-  // console.log(viewArray);
   viewArray.forEach((element) => {
     const marginTop = metrics.height - element.metrics.height;
     element.componentStyle.marginTop = marginTop;

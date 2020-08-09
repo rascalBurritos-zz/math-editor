@@ -2,7 +2,8 @@ import React from 'react';
 import './Styles/TextBlock.css';
 import compoundFactory from './compoundFactory';
 
-export const TextBlock = compoundFactory('TextBlock');
+const tb = compoundFactory('TextBlock');
+export const TextBlock = tb;
 // export default class TextBlock extends React.Component {
 //   /**
 //    * @return {JSX.Element}

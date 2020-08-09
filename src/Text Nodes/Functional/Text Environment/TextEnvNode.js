@@ -11,6 +11,7 @@ import {
 } from '../../../Interaction/Access/access';
 import Point from '../../../Abstract/Point';
 import { TEXT_ENV_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 
 NodeTable.register(TEXT_ENV_TYPE, {
   insertAtBoxKey,
@@ -26,16 +27,27 @@ AccessContainer.register(
     const block = model.elements[boxKey.index];
     return block;
   },
-  ACCESS_TYPE.BOTH
+  ACCESS_TYPE.MODEL
+);
+AccessContainer.register(
+  TEXT_ENV_TYPE,
+  (view, boxKey, viewCollection) => {
+    const elements = getChildViewsFromId(viewCollection, view.id);
+    const block = elements[boxKey.index];
+    return block;
+  },
+  ACCESS_TYPE.VIEW
 );
 /**
  * @param {Object} view
+ * @param {number} id
  * @param {Object} boxKey
  * @return {Point}
  */
-export function getRelativePositionOfBox(view, boxKey) {
+export function getRelativePositionOfBox(view, id, boxKey) {
   let top = 0;
-  for (const [index, element] of view.elements.entries()) {
+  const elements = getChildViewsFromId(view, id);
+  for (const [index, element] of elements.entries()) {
     if (index >= boxKey.index) {
       break;
     }

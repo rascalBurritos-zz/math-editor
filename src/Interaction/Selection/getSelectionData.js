@@ -4,27 +4,29 @@ import keychainToViewPoint, { keychainsEqual } from '../Access/keychain';
 /**
  *
  * @param {Object} rootModel
- * @param {Object} rootView
+ * @param {Object} rootId
+ * @param {Object} viewCollection
  * @param {Object} selection
  * @return {Object}
  */
-export default function getSelectionData(rootModel, rootView, selection) {
-  const pcv = keychainToViewPoint(rootView, selection.focus);
+export default function getSelectionData(
+  rootModel,
+  rootId,
+  viewCollection,
+  selection
+) {
+  const pcv = keychainToViewPoint(rootId, viewCollection, selection.focus);
   if (keychainsEqual(selection.focus, selection.anchor)) {
     const primary = wrapCaret(pcv, true);
     return { primary };
   } else {
     const selectionRects = showSelection(
       rootModel,
-      rootView,
+      viewCollection,
+      rootId,
       selection.focus,
       selection.anchor
     );
-    // const scv = keychainToViewPoint(rootView, selection.anchor);
-    // const primary = wrapCaret(pcv, false);
-    // const secondary = wrapCaret(scv, false);
-    // return { primary, secondary };
-    // return { primary, secondary, selectionRects };
     return { selectionRects };
   }
 

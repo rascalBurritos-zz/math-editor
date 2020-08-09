@@ -16,8 +16,8 @@ import {
 } from '../../../Interaction/Access/access';
 import Point from '../../../Abstract/Point';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_GLYPH_TYPE } from '../Text Glyph/textGlyphViewFactory';
 import { TEXT_BLOCK_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 
 /** @typedef {import("./textBlockViewFactory").TextBlockView} TextBlockView */
 
@@ -36,16 +36,17 @@ AccessContainer.register(
   TEXT_BLOCK_TYPE,
   (model, boxKey) => {
     const index = Math.floor(boxKey.index / 2);
-    return { type: TEXT_GLYPH_TYPE, character: model.content.charAt(index) };
+    return model.content[index];
   },
   ACCESS_TYPE.MODEL
 );
 
 AccessContainer.register(
   TEXT_BLOCK_TYPE,
-  (model, boxKey) => {
+  (view, boxKey, viewCollection) => {
     const index = Math.floor(boxKey.index / 2);
-    return model.elements[index];
+    const elements = getChildViewsFromId(viewCollection, view.id);
+    return elements[index];
   },
   ACCESS_TYPE.VIEW
 );
@@ -58,14 +59,13 @@ AccessContainer.register(
  */
 function insertAtBoxKey(model, key, toInsert) {
   const index = Math.floor(key.index / 2);
-  const elements = model.content.split('');
+  const elements = model.content;
   if (key.index % 2 == 0) {
     elements.splice(index, 0, toInsert);
   } else {
     elements[index] = toInsert;
   }
-  const content = elements.join('');
-  model.content = content;
+  model.content = elements;
 }
 /**
  * @param {Object} model
@@ -84,15 +84,21 @@ export function nextItemOnCaretPath(model, boxKey, direction) {
 }
 
 /**
- * @param {TextBlockView} view
+ * @param {Object} viewCollection
+ * @param {number} id
  * @param {Point} point
  * @param {boolean} forceInBounds
  * @return {Object}
  *  x, y
  */
-export function getBoxKeyClosestToPoint(view, point, forceInBounds) {
+export function getBoxKeyClosestToPoint(
+  viewCollection,
+  id,
+  point,
+  forceInBounds = false
+) {
   let progress = 0;
-  const elements = view.elements;
+  const elements = getChildViewsFromId(viewCollection, id);
   for (let i = 0; i < elements.length; i++) {
     progress += elements[i].metrics.width / 2;
     if (point.left < progress) {
@@ -103,43 +109,51 @@ export function getBoxKeyClosestToPoint(view, point, forceInBounds) {
     progress += elements[i].metrics.width / 2;
   }
   return forceInBounds
-    ? { isCaret: true, index: view.elements.length * 2 }
+    ? { isCaret: true, index: elements.length * 2 }
     : getBoundRight();
 }
 
 /**
- * @param {TextBlockView} view
+ * @param {Object} viewCollection
+ * @param {number} id
  * @param {Object} boxKey
  * @return {Point}
  */
-export function getRelativePositionOfBox(view, boxKey) {
+export function getRelativePositionOfBox(viewCollection, id, boxKey) {
   // all keys are caret keys
   const index = Math.floor(boxKey.index / 2);
-  const exactPos = getRelativePositionWithElementIndex(view, index);
+  const exactPos = getRelativePositionWithElementIndex(
+    viewCollection,
+    id,
+    index
+  );
   return new Point(0, exactPos.left);
 }
 
 /**
+ * @param {Object} viewCollection
  * @param {TextBlockView} view
  * @return {Object}
  */
-export function getCaretStyle(view) {
+export function getCaretStyle(viewCollection, view) {
   const height = view.metrics.height + view.metrics.depth;
   return { backgroundColor: 'black', height };
 }
 
 /**
- * @param {TextBlockView} view
+ * @param {Object} viewCollection
+ * @param {number} id
  * @param {number} index
  * @return {Point}
  *
  */
-export function getRelativePositionWithElementIndex(view, index) {
+export function getRelativePositionWithElementIndex(viewCollection, id, index) {
+  const elements = getChildViewsFromId(viewCollection, id);
   const top =
-    index >= view.elements.length
+    index >= elements.length
       ? 0
-      : view.metrics.height - view.elements[index].metrics.height;
-  const left = view.elements.slice(0, index).reduce((acc, curr) => {
+      : viewCollection[id].metrics.height - elements[index].metrics.height;
+  const left = elements.slice(0, index).reduce((acc, curr) => {
     return acc + curr.metrics.width;
   }, 0);
   return new Point(top, left);

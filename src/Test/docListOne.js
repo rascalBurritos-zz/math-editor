@@ -10,6 +10,7 @@ import {
   TEXT_BLOCK_TYPE,
 } from '../Text Nodes/Functional/Node Types';
 import Identity from '../Interaction/Util/Identity';
+import { stringToContent } from '../Interaction/Util/stringToContent';
 
 export default {
   type: VERTICAL_LIST_TYPE,
@@ -39,7 +40,9 @@ export default {
               id: Identity.getNextId(),
               fontSize: 30,
               fontName: 'Asana',
-              content: 'This quick brown fox jumped over the lazy dog',
+              content: stringToContent(
+                'This quick brown fox jumped over the lazy dog'
+              ),
               // "ILorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'m minding my own damn business",
             },
           ],
@@ -53,7 +56,7 @@ export default {
               id: Identity.getNextId(),
               fontSize: 12,
               fontName: 'Asana',
-              content: 'ILorem ipsum dolor sit amet',
+              content: stringToContent('ILorem ipsum dolor sit amet'),
             },
           ],
         },
@@ -66,7 +69,7 @@ export default {
               id: Identity.getNextId(),
               fontSize: 20,
               fontName: 'Asana',
-              content: "I'm",
+              content: stringToContent("I'm"),
               // "ILorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'m minding my own damn business",
             },
             {
@@ -74,7 +77,7 @@ export default {
               id: Identity.getNextId(),
               fontSize: 45,
               fontName: 'Asana',
-              content: 'UPSET ',
+              content: stringToContent('UPSET '),
               // "ILorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'m minding my own damn business",
             },
             {
@@ -82,7 +85,7 @@ export default {
               id: Identity.getNextId(),
               fontSize: 20,
               fontName: 'Asana',
-              content: '50,000',
+              content: stringToContent('50,000'),
               // "ILorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'m minding my own damn business",
             },
           ],

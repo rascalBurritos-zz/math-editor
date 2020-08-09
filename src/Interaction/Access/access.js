@@ -25,22 +25,23 @@ export const AccessContainer = {
 /**
  * @param {Object} item
  * @param {Array} keychain
- * @param {boolean} isView
+ * @param {Object} viewCollection
  * @return {Object}
  */
-export function traverse(item, keychain, isView) {
+export function traverse(item, keychain, viewCollection = false) {
   const p = keychain.reduce((submodel, boxKey) => {
-    return getSubItem(submodel, boxKey, isView);
+    return getSubItem(submodel, boxKey, viewCollection);
   }, item);
   return p;
 }
 /**
  * @param {Object} item
  * @param {Object} boxKey
- * @param {boolean} isView
+ * @param {Object} viewCollection
  * @return {Object}
  */
-export function getSubItem(item, boxKey, isView) {
+export function getSubItem(item, boxKey, viewCollection = false) {
+  const isView = Boolean(viewCollection);
   const accessFunc = AccessContainer.retrieve(item.type, isView);
-  return accessFunc(item, boxKey);
+  return accessFunc(item, boxKey, viewCollection);
 }

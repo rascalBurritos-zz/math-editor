@@ -14,6 +14,7 @@ import {
 } from '../../../Interaction/Access/access';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
 import { VERTICAL_LIST_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 AccessContainer.register(
@@ -21,7 +22,15 @@ AccessContainer.register(
   (model, boxKey) => {
     return model.elements[boxKey.index];
   },
-  ACCESS_TYPE.BOTH
+  ACCESS_TYPE.MODEL
+);
+AccessContainer.register(
+  VERTICAL_LIST_TYPE,
+  (view, boxKey, viewCollection) => {
+    const elements = getChildViewsFromId(viewCollection, view.id);
+    return elements[boxKey.index];
+  },
+  ACCESS_TYPE.VIEW
 );
 export const nextItem = nextItemGenerator(getDirection());
 NodeTable.register(VERTICAL_LIST_TYPE, {
@@ -51,29 +60,32 @@ export function nextItemOnCaretPath(model, boxKey, direction) {
   return nextItem(model, boxKey, direction);
 }
 /**
- * @param {VerticalListView} view
+ * @param {Object} view
+ * @param {number} id
  * @param {Object} boxKey
  * @return {Object}
  */
-export function getRelativePositionOfBox(view, boxKey) {
-  return getRelativePositionWithElementIndex(view, boxKey.index, true);
+export function getRelativePositionOfBox(view, id, boxKey) {
+  return getRelativePositionWithElementIndex(view, id, boxKey.index, true);
 }
 /**
- * @param {VerticalListView} view
+ * @param {Object} viewCollection
+ * @param {number} id
  * @param {Object} point
  * @return {Object}
  *  x, y
  */
-export function getBoxKeyClosestToPoint(view, point) {
+export function getBoxKeyClosestToPoint(viewCollection, id, point) {
   let progress = 0;
-  for (const [index, element] of view.elements.entries()) {
-    const marginBottom = element.componentStyle.marginBottom;
-    progress += element.metrics.height + element.metrics.depth + marginBottom;
+  const elements = getChildViewsFromId(viewCollection, id);
+  for (const [index, element] of elements.entries()) {
+    const cs = element.componentStyle;
+    progress += cs.height + cs.marginBottom;
     if (point.top < progress) {
       return boxWrap(index);
     }
   }
-  return boxWrap(view.elements.length - 1);
+  return boxWrap(elements.length - 1);
 
   /**
    * @param {number} num
@@ -86,19 +98,21 @@ export function getBoxKeyClosestToPoint(view, point) {
 
 /**
  * @param {VerticalListView} view
+ * @param {number} id
  * @param {number} index
  * @param {boolean} toLeft
  * @return {Object}
  */
-function getRelativePositionWithElementIndex(view, index, toLeft) {
-  const elementWidth = view.elements[index].metrics.width;
-  const totalWidth = view.metrics.width;
+function getRelativePositionWithElementIndex(view, id, index, toLeft) {
+  const elements = getChildViewsFromId(view, id);
+  const elementWidth = elements[index].metrics.width;
+  const totalWidth = view[id].metrics.width;
   const leftMargin = (totalWidth - elementWidth) / 2;
   const left = toLeft ? leftMargin : leftMargin + elementWidth;
-  const elementHeights = view.elements.slice(0, index).reduce((acc, curr) => {
+  const elementHeights = elements.slice(0, index).reduce((acc, curr) => {
     return acc + curr.metrics.height + curr.metrics.depth;
   }, 0);
-  const bottomMargins = view.elements.slice(0, index).reduce((acc, curr) => {
+  const bottomMargins = elements.slice(0, index).reduce((acc, curr) => {
     return acc + curr.componentStyle.marginBottom;
   }, 0);
   const top = elementHeights + bottomMargins;

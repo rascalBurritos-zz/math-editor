@@ -9,15 +9,15 @@ export function getViewGenerator(type, component) {
   /**
    *
    * @param {Metrics} metrics
-   * @param {Array} elements
+   * @param {Array} childIds
    * @return {VerticalListView}
    */
-  return function getView(metrics, elements) {
+  return function getView(metrics, childIds) {
     const componentStyle = getComponentStyle(metrics);
     return {
       type,
       metrics,
-      elements,
+      childIds,
       componentStyle,
       component,
     };

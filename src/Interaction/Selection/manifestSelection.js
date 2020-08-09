@@ -1,6 +1,6 @@
 import manifest from './manifest';
 import { CompoundTable, NodeTable } from '../Tables/nodeTable';
-import { traverse } from '../Access/access';
+import { getSubItem } from '../Access/access';
 import { getAdditions } from '../../Text Nodes/Functional/Vertical List/VerticalListCompound';
 /** @typedef {import('../../Abstract/Rectangle').default} Rectangle  */
 
@@ -17,21 +17,23 @@ export const manifestSelection = manifest(
  * @param {*} param1
  * @param {*} parentModel
  * @param {*} parentView
+ * @param {*} viewCollection
  * @return {Rectangle[]}
  */
 function selectionAction(
   { leftIndexInfo },
   { rightIndexInfo },
   parentModel,
-  parentView
+  parentView,
+  viewCollection
 ) {
   const compound = CompoundTable.retrieve(parentModel.type);
   const rects = compound.getSelectionRects(
-    parentView,
+    viewCollection,
+    parentView.id,
     leftIndexInfo,
     rightIndexInfo
   );
-  // expandRects(parentView, rects);
   return rects;
 }
 
@@ -39,9 +41,15 @@ function selectionAction(
  * @param  {Object} parentModel
  * @param  {Object} Object
  * @param  {Object} parentView
+ * @param  {Object} viewCollection
  * @return {Array}
  */
-function noAction(parentModel, { leftIndexInfo, rightIndexInfo }, parentView) {
+function noAction(
+  parentModel,
+  { leftIndexInfo, rightIndexInfo },
+  parentView,
+  viewCollection
+) {
   const leftAdd = getAdditions(leftIndexInfo);
   const rightAdd = getAdditions(rightIndexInfo);
   return [...leftAdd, ...rightAdd];
@@ -53,11 +61,23 @@ function noAction(parentModel, { leftIndexInfo, rightIndexInfo }, parentView) {
  * @param {*} direction
  * @param {*} results
  * @param {*} parentView
+ * @param {*} viewCollection
  * @return {Rectangle[]}
  */
-function normalizeRectangles(boxKey, model, direction, results, parentView) {
+function normalizeRectangles(
+  boxKey,
+  model,
+  direction,
+  results,
+  parentView,
+  viewCollection
+) {
   const node = NodeTable.retrieve(model.type);
-  const relativePos = node.getRelativePositionOfBox(parentView, boxKey);
+  const relativePos = node.getRelativePositionOfBox(
+    viewCollection,
+    parentView.id,
+    boxKey
+  );
   if (expandRects(parentView, results)) {
     relativePos.top = 0;
   }
@@ -72,11 +92,12 @@ function normalizeRectangles(boxKey, model, direction, results, parentView) {
  * @param {*} boxKey
  * @param {*} parentModel
  * @param {*} parentView
+ * @param {*} viewCollection
  * @return {Object}
  */
-function getNewParentView(boxKey, parentModel, parentView) {
-  const subView = traverse(parentView, [boxKey], true);
-  return [subView];
+function getNewParentView(boxKey, parentModel, parentView, viewCollection) {
+  const subView = getSubItem(parentView, boxKey, viewCollection);
+  return [subView, viewCollection];
 }
 
 /**

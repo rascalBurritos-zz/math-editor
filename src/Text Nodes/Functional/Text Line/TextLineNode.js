@@ -7,6 +7,7 @@ import { nextItemGenerator, isLeftBound, isRightBound } from '../BaseModel';
 import { getDirection } from '../Text Block/TextBlockNode';
 import Point from '../../../Abstract/Point';
 import { TEXT_LINE_TYPE } from '../Node Types';
+import { getChildViewsFromId } from '../getChildViews';
 
 const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
 const nextItemOnCaretPath = nextItem;
@@ -27,7 +28,16 @@ AccessContainer.register(
     const index = Math.floor(boxKey.index / 2);
     return item.elements[index];
   },
-  ACCESS_TYPE.BOTH
+  ACCESS_TYPE.MODEL
+);
+AccessContainer.register(
+  TEXT_LINE_TYPE,
+  (view, boxKey, viewCollection) => {
+    const index = Math.floor(boxKey.index / 2);
+    const elements = getChildViewsFromId(viewCollection, view.id);
+    return elements[index];
+  },
+  ACCESS_TYPE.VIEW
 );
 
 /**
@@ -61,54 +71,66 @@ function expandSelection(view, rectangles) {
 }
 
 /**
+ * @param {Object} viewCollection
  * @param {Object} view
  * @param {Object} boxKey
  * @return {Object}
  */
-function getCaretStyle(view, boxKey) {
+function getCaretStyle(viewCollection, view, boxKey) {
   let index = Math.floor((boxKey.index - 1) / 2);
   index = index < 0 ? 0 : index;
-  const cs = view.elements[index].componentStyle;
+  const elements = getChildViewsFromId(viewCollection, view.id);
+  const cs = elements[index].componentStyle;
   const height = cs.height;
   return { backgroundColor: 'green', height };
 }
 
 /**
  * @param {*} view
+ * @param {*} id
  * @param {*} boxKey
  * @return {Point}
  */
-function getRelativePositionOfBox(view, boxKey) {
+function getRelativePositionOfBox(view, id, boxKey) {
+  const elements = getChildViewsFromId(view, id);
   const colIndex = Math.floor(boxKey.index / 2);
-  const colLength = view.elements.slice(0, colIndex).reduce((acc, curr) => {
+  const colLength = elements.slice(0, colIndex).reduce((acc, curr) => {
     return acc + curr.metrics.width;
   }, 0);
   let topIndex = Math.floor((boxKey.index - 1) / 2);
   topIndex = topIndex < 0 ? 0 : topIndex;
-  const top = view.metrics.height - view.elements[topIndex].metrics.height;
+  const top = view[id].metrics.height - elements[topIndex].metrics.height;
   return new Point(top, colLength);
 }
 
 /**
- * @param {*} view
+ * @param {*} viewCollection
+ * @param {*} id
  * @param {*} point
  * @return {Object}
  */
-function getBoxKeyClosestToPoint(view, point) {
-  const index = findBlock(view.elements, point);
+function getBoxKeyClosestToPoint(viewCollection, id, point) {
+  const elements = getChildViewsFromId(viewCollection, id);
+  const index = findBlock(viewCollection, elements, point);
   const isCaret = index % 2 === 0;
   return { isCaret, index };
 
   /**
+   * @param {Object} viewCollection
    * @param {Object} viewArray
    * @param {*} point
    * @return {number}
    */
-  function findBlock(viewArray, point) {
+  function findBlock(viewCollection, viewArray, point) {
     let currentPoint = point;
     for (const [index, view] of viewArray.entries()) {
       const node = NodeTable.retrieve(view.type);
-      const boxKey = node.getBoxKeyClosestToPoint(view, currentPoint, false);
+      const boxKey = node.getBoxKeyClosestToPoint(
+        viewCollection,
+        view.id,
+        currentPoint,
+        false
+      );
       currentPoint = currentPoint.subtract(new Point(0, view.metrics.width));
       if (isLeftBound(boxKey)) {
         return index * 2;

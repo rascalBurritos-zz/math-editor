@@ -5,12 +5,17 @@ import { DangerousSetContainer } from '../Removal/dangerousSetContainer';
  * @param {Object} item
  * @param {Array} keychain
  * @param {number} index
- * @param {boolean} isView
+ * @param {Object} viewCollection
  * @return {Object} subunit
  */
-export function getCommonAncestor(item, keychain, index, isView) {
+export function getCommonAncestor(
+  item,
+  keychain,
+  index,
+  viewCollection = false
+) {
   const commonKeychain = keychain.slice(0, index + 1);
-  return traverse(item, commonKeychain, isView);
+  return traverse(item, commonKeychain, viewCollection);
 }
 
 /**

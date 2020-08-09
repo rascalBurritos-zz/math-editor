@@ -3,27 +3,33 @@ import Point from '../../Abstract/Point';
 import { NodeTable } from '../Tables/nodeTable';
 
 /**
- * @param {Object} targetView
+ * @param {Object} viewCollection
+ * @param {Object} targetId
  * @param {Point} startPoint relative to targetView
  * @return {Array}
  */
-export function keychainFromPosition(targetView, startPoint) {
+export function keychainFromPosition(viewCollection, targetId, startPoint) {
   let done = false;
   const keychain = [];
-  let currentView = targetView;
+  let currentView = viewCollection[targetId];
   let currentPoint = startPoint;
   while (!done) {
     const node = NodeTable.retrieve(currentView.type);
     const boxKey = node.getBoxKeyClosestToPoint(
-      currentView,
+      viewCollection,
+      currentView.id,
       currentPoint,
       true
     );
     keychain.push(boxKey);
     if (!boxKey.isCaret) {
       const previousView = currentView;
-      currentView = getSubItem(currentView, boxKey, true);
-      const subViewPos = node.getRelativePositionOfBox(previousView, boxKey);
+      currentView = getSubItem(currentView, boxKey, viewCollection);
+      const subViewPos = node.getRelativePositionOfBox(
+        viewCollection,
+        previousView.id,
+        boxKey
+      );
       currentPoint = currentPoint.subtract(subViewPos);
     }
     done = boxKey.isCaret;
@@ -33,17 +39,19 @@ export function keychainFromPosition(targetView, startPoint) {
 
 /**
  *
- * @param {Object} view
+ * @param {Object} rootId
+ * @param {Object} viewCollection
  * @param {Array} keychain
  * @return {Object} Caret Component Style
  */
-export default function keychainToViewPoint(view, keychain) {
+export default function keychainToViewPoint(rootId, viewCollection, keychain) {
   const rootViewPoint = keychain.reduce(
     (viewPoint, boxKey) => {
       const node = NodeTable.retrieve(viewPoint.view.type);
       if (boxKey.isCaret) {
         const caretKeyPos = node.getRelativePositionOfBox(
-          viewPoint.view,
+          viewCollection,
+          viewPoint.view.id,
           boxKey
         );
         const completeViewPoint = {
@@ -51,15 +59,19 @@ export default function keychainToViewPoint(view, keychain) {
           position: caretKeyPos.add(viewPoint.position),
         };
         if ('getCaretStyle' in node) {
-          const style = node.getCaretStyle(viewPoint.view, boxKey);
+          const style = node.getCaretStyle(
+            viewCollection,
+            viewPoint.view,
+            boxKey
+          );
           completeViewPoint.style = style;
         }
         return completeViewPoint;
       } else {
-        console.l;
-        const subView = getSubItem(viewPoint.view, boxKey, true);
+        const subView = getSubItem(viewPoint.view, boxKey, viewCollection);
         const relativePos = node.getRelativePositionOfBox(
-          viewPoint.view,
+          viewCollection,
+          viewPoint.view.id,
           boxKey
         );
         return {
@@ -68,7 +80,7 @@ export default function keychainToViewPoint(view, keychain) {
         };
       }
     },
-    { view: view, position: new Point(0, 0) }
+    { view: viewCollection[rootId], position: new Point(0, 0) }
   );
   return rootViewPoint;
 }

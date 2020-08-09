@@ -4,8 +4,10 @@ import documentKeyEventHandler from '../../Interaction/Events/documentKeyEventHa
 import Selection from './Selection';
 import getSelectionData from '../../Interaction/Selection/getSelectionData';
 import documentMouseEventHandler from '../../Interaction/Events/documentMouseEventHandler';
-import funcDocumentViewFactory from '../../Text Nodes/Functional/funcDocumentViewFactory';
 import './Styles/Document.css';
+import { ViewMaster } from '../../Text Nodes/Functional/ViewMaster';
+import { ViewContext } from './ViewContext';
+import { Perf } from '../../Interaction/Util/perf';
 
 export default class Document extends React.Component {
   /**
@@ -21,7 +23,7 @@ export default class Document extends React.Component {
     this.logMouseMove = this.mouseHandler.bind(this, MOUSE.MOVE);
     this.logMouseUp = this.mouseHandler.bind(this, MOUSE.UP);
     this.isSelecting = false;
-    this.rootView = false;
+    this.viewContainer = {};
     /**
      * @return {String}
      */
@@ -57,13 +59,7 @@ export default class Document extends React.Component {
       return;
     }
     this.setState((prevState) => {
-      return documentMouseEventHandler(
-        event,
-        prevState,
-        this.id,
-        resetAnchor,
-        this.rootView
-      );
+      return documentMouseEventHandler(event, prevState, this.id, resetAnchor);
     });
   }
 
@@ -83,15 +79,25 @@ export default class Document extends React.Component {
   render() {
     const s = this.state;
     // console.log(s);
-    this.rootView = funcDocumentViewFactory(s.model);
-    // console.log(this.rootView, s.model);
-    const selectionData = getSelectionData(s.model, this.rootView, s.selection);
-    const Root = this.rootView.component;
+    // Perf.start();
+    const viewMaster = new ViewMaster(s.model);
+    // Perf.end();
+    this.viewContainer.collection = viewMaster.viewCollection;
+    const rootId = viewMaster.rootId;
+    const selectionData = getSelectionData(
+      s.model,
+      rootId,
+      this.viewContainer.collection,
+      s.selection
+    );
+    const Root = this.viewContainer.collection[rootId].component;
     const style = { border: '1px solid black' };
     return (
       <div className="Document" style={style}>
         <div id={this.id} className="FittingContainer">
-          <Root data={this.rootView}></Root>
+          <ViewContext.Provider value={this.viewContainer}>
+            <Root id={rootId}></Root>
+          </ViewContext.Provider>
           <Selection data={selectionData} />
         </div>
       </div>

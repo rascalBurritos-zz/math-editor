@@ -1,8 +1,8 @@
 import Metrics from '../../../Math Nodes/Types/Metrics';
 import { VerticalList } from '../../../React-Components/Document/VerticalList';
-import funcDocumentViewFactory from '../funcDocumentViewFactory';
 import { getViewGenerator } from '../BaseViewFactory';
 import { VERTICAL_LIST_TYPE } from '../Node Types';
+import { ViewMaster } from '../ViewMaster';
 
 /** @typedef {import('../BaseView').BaseView} BaseView  */
 
@@ -19,51 +19,43 @@ const getView = getViewGenerator(VERTICAL_LIST_TYPE, VerticalList);
 
 /**
  * @param {Object} documentList
+ * @param {Object} currentView
  * @return {VerticalListView}
  */
-export default function verticalListFactory(documentList) {
-  const childViews = getChildViews(documentList.elements);
-  const spec = {};
-  spec.baselineDistance = documentList.baselineDistance;
-  spec.baselineBump = documentList.baselineBump;
-  const { metrics, elementViews } = getSettings(childViews, spec);
-  const view = getView(metrics, elementViews);
+export default function verticalListFactory(documentList, currentView) {
+  const childIds = getChildIds(documentList.elements, currentView);
+  const metrics = getSettings(childIds, documentList);
+  const view = getView(metrics, childIds);
   return view;
 
   /**
-   * @param {Array} elementViews
+   * @param {Array} childIds
    * @param {Object} spec
    * @return {Object}
    * element component Styles
    *  bottom margins, left & right margins
    * metrics
    */
-  function getSettings(elementViews, spec) {
+  function getSettings(childIds, spec) {
+    const elementViews = childIds.map((id) => currentView[id]);
     const bottomMargins = calculateBottomMargins(elementViews, spec);
     const maxWidth = calculateMaxWidth(elementViews);
     const sideMargins = calculateSideMargins(elementViews, maxWidth);
-    const styledElementViews = addElementViewStyles(
-      elementViews,
-      bottomMargins,
-      sideMargins
-    );
-    const metrics = calculateMetrics(elementViews, bottomMargins, maxWidth);
-    return { metrics, elementViews: styledElementViews };
+    addElementViewStyles(elementViews, bottomMargins, sideMargins);
+    return calculateMetrics(elementViews, bottomMargins, maxWidth);
 
     /**
-     *
      * @param {Array} elementViews
      * @param {Array} bottomMargins
      * @param {Array} sideMargins
-     * @return {Array}
      */
     function addElementViewStyles(elementViews, bottomMargins, sideMargins) {
-      return elementViews.map((element, index) => {
-        element.componentStyle.marginBottom = bottomMargins[index];
-        element.componentStyle.marginLeft = sideMargins[index];
-        element.componentStyle.marginRight = sideMargins[index];
-        return element;
-      });
+      for (let i = 0; i < elementViews.length; i++) {
+        const element = elementViews[i];
+        element.componentStyle.marginBottom = bottomMargins[i];
+        element.componentStyle.marginLeft = sideMargins[i];
+        element.componentStyle.marginRight = sideMargins[i];
+      }
     }
 
     /**
@@ -81,12 +73,16 @@ export default function verticalListFactory(documentList) {
 
 /**
  * @param {Array} elements
+ * @param {Object} currentView
  * @return {Array}
  */
-export function getChildViews(elements) {
-  return elements.map((element) => {
-    return funcDocumentViewFactory(element);
-  });
+export function getChildIds(elements, currentView) {
+  const childIds = [];
+  for (let i = 0; i < elements.length; i++) {
+    ViewMaster.generateView(elements[i], currentView);
+    childIds.push(elements[i].id);
+  }
+  return childIds;
 }
 
 /**

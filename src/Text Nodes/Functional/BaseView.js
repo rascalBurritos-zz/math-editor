@@ -3,6 +3,7 @@ import Metrics from '../../Math Nodes/Types/Metrics';
 /**
  * @typedef {Object} BaseView
  * @property {typeof React.Component | Function} component
+ * @property {number} id
  * @property {String} type
  * @property {Object} componentStyle
  * @property {Metrics} metrics
