@@ -1,14 +1,12 @@
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_LINE_TYPE } from './TextLineViewFactory';
 import { getModelIndex, sort } from '../Text Block/TextBlockCompound';
 import { getAdditions } from '../Vertical List/VerticalListCompound';
 import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
 import { getRelativePositionWithElementIndex } from '../Text Block/TextBlockNode';
-import { getElements } from '../Text Environment/TextEnvCompound';
+import { TEXT_LINE_TYPE } from '../Node Types';
 
 CompoundTable.register(TEXT_LINE_TYPE, {
-  getElements,
   getModelIndex,
   splice,
   merge,

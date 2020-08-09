@@ -6,8 +6,7 @@ import {
 import { getViewGenerator } from '../BaseViewFactory';
 import compoundFactory from '../../../React-Components/Text/compoundFactory';
 import '../../../React-Components/Text/Styles/TextLine';
-
-export const TEXT_LINE_TYPE = 'Text Line';
+import { TEXT_LINE_TYPE } from '../Node Types';
 
 const TextLine = compoundFactory('TextLine');
 const getView = getViewGenerator(TEXT_LINE_TYPE, TextLine);

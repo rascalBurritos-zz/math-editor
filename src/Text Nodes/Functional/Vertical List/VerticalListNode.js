@@ -13,8 +13,7 @@ import {
   ACCESS_TYPE,
 } from '../../../Interaction/Access/access';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
-import { DangerousSetContainer } from '../../../Interaction/Removal/dangerousSetContainer';
-import { VERTICAL_LIST_TYPE } from './VerticalListViewFactory';
+import { VERTICAL_LIST_TYPE } from '../Node Types';
 /** @typedef {import('./VerticalListViewFactory').VerticalListView} VerticalListView  */
 
 AccessContainer.register(
@@ -24,20 +23,23 @@ AccessContainer.register(
   },
   ACCESS_TYPE.BOTH
 );
-DangerousSetContainer.register(
-  VERTICAL_LIST_TYPE,
-  (model, boxKey, subModel) => {
-    model.elements[boxKey.index] = subModel;
-  },
-  ACCESS_TYPE.BOTH
-);
 export const nextItem = nextItemGenerator(getDirection());
 NodeTable.register(VERTICAL_LIST_TYPE, {
+  insertAtBoxKey,
   nextItem,
   nextItemOnCaretPath,
   getRelativePositionOfBox,
   getBoxKeyClosestToPoint,
 });
+
+/**
+ * @param {*} model
+ * @param {*} key
+ * @param {*} toInsert
+ */
+export function insertAtBoxKey(model, key, toInsert) {
+  model.elements[key.index] = toInsert;
+}
 
 /**
  * @param {Object} model

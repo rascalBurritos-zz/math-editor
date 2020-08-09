@@ -20,12 +20,41 @@ import { Glyph } from '../../../React-Components/Math/Glyph';
 
 export const TEXT_GLYPH_TYPE = 'Text_Glyph'; // used for submodel access
 
+const glyphCache = {};
+
+/**
+ *
+ * @param {number} size
+ * @param {String} uni
+ * @param {String} family
+ * @return {String}
+ */
+function genKey(size, uni, family) {
+  return family + size + uni;
+}
+
+class GlyphId {
+  static id = 0;
+  /**
+   * @return {number}
+   */
+  static getNextId() {
+    return GlyphId.id++;
+  }
+}
+
 /**
  * @param {characterInfo} charInfo unicode and fontSize
  * @param {Object} fontData
  * @return {TextGlyphView}
  */
 export default function textGlyphViewFactory(charInfo, fontData) {
+  const key = genKey(charInfo.fontSize, charInfo.unicode, fontData.fontFamily);
+  if (key in glyphCache) {
+    return Object.create(glyphCache[key], {
+      id: { value: GlyphId.getNextId() },
+    });
+  }
   const spec = generateSpec(charInfo.unicode, fontData);
   const fontSize = charInfo.fontSize;
 
@@ -33,10 +62,7 @@ export default function textGlyphViewFactory(charInfo, fontData) {
   const metrics = getMetrics(spec.glyphMetric, pxpfu);
   const internalCharacterBox = getInternalCharacterBox(spec, pxpfu, fontSize);
   const view = getView(metrics, internalCharacterBox);
-  // fontsize + upm -> pxpfu -> metricsInfo
-
-  // const typesetter = new Text_Glyph_Setter(spec);
-  // const behavior = new Text_Glyph_Behavior({ typesetter });
+  view.id = GlyphId.getNextId();
   return view;
 
   /**

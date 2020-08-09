@@ -1,6 +1,7 @@
 import { retrieveModelContext } from '../Movement/movement';
-import { CompoundTable } from '../Tables/nodeTable';
-import { dangerousSetParent } from '../Access/getCommon';
+import { NodeTable } from '../Tables/nodeTable';
+import { getSubItem } from '../Access/access';
+import Identity from '../Util/Identity';
 
 /**
  * @param {*} rootModel
@@ -8,12 +9,21 @@ import { dangerousSetParent } from '../Access/getCommon';
  * @param {*} modelToInsert
  */
 export function insertIntoModel(rootModel, keychain, modelToInsert) {
-  const { parentKeyChain, parentModel, finalKey } = retrieveModelContext(
-    rootModel,
-    keychain
-  );
-  const compound = CompoundTable.retrieve(parentModel.type);
-  const leftIndex = compound.getInsertIndex(finalKey);
-  const child = compound.splice(parentModel, leftIndex, 0, modelToInsert);
-  dangerousSetParent(rootModel, parentKeyChain, child);
+  const { parentModel, finalKey } = retrieveModelContext(rootModel, keychain);
+  const node = NodeTable.retrieve(parentModel.type);
+  node.insertAtBoxKey(parentModel, finalKey, modelToInsert);
+  updateAlongKeychain(rootModel, keychain.slice(0, -1));
+}
+
+/**
+ * @param {*} model
+ * @param {*} keychain
+ */
+function updateAlongKeychain(model, keychain) {
+  let currentModel = model;
+  currentModel.id = Identity.getNextId();
+  for (const key of keychain) {
+    currentModel = getSubItem(currentModel, key, false);
+    currentModel.id = Identity.getNextId();
+  }
 }

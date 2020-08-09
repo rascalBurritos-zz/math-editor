@@ -2,6 +2,7 @@ import Metrics from '../../../Math Nodes/Types/Metrics';
 import { VerticalList } from '../../../React-Components/Document/VerticalList';
 import funcDocumentViewFactory from '../funcDocumentViewFactory';
 import { getViewGenerator } from '../BaseViewFactory';
+import { VERTICAL_LIST_TYPE } from '../Node Types';
 
 /** @typedef {import('../BaseView').BaseView} BaseView  */
 
@@ -14,7 +15,6 @@ import { getViewGenerator } from '../BaseViewFactory';
  *
  * @typedef {BaseView & _VerticalListView} VerticalListView
  */
-export const VERTICAL_LIST_TYPE = 'Vertical List';
 const getView = getViewGenerator(VERTICAL_LIST_TYPE, VerticalList);
 
 /**

@@ -7,10 +7,13 @@ export class Glyph extends React.Component {
    * @return {boolean}
    */
   shouldComponentUpdate(nextProps) {
-    return (
-      nextProps.data.internalCharacterBox.character !==
-      this.props.data.internalCharacterBox.character
-    );
+    const nextICB = nextProps.data.internalCharacterBox;
+    const currentICB = this.props.data.internalCharacterBox;
+    const x =
+      nextICB.character !== currentICB.character ||
+      nextICB.style.fontSize !== currentICB.style.fontSize;
+    console.log(x);
+    return x;
   }
   /**
    * @return {JSX.Element}

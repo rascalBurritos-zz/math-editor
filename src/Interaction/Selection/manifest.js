@@ -38,7 +38,7 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
     const compound = CompoundTable.retrieve(parentModel.type);
     if (boxKeyEquals(boxKeyA, boxKeyB)) {
       if (boxKeyA.isCaret) {
-        return noAction(parentModel);
+        return noAction(parentModel, { leftIndexInfo: {}, rightIndexInfo: {} });
       }
       const subModel = getSubItem(parentModel, boxKeyA, false);
       if (isAtomic(subModel)) {

@@ -1,5 +1,4 @@
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_LINE_TYPE } from './TextLineViewFactory';
 import {
   AccessContainer,
   ACCESS_TYPE,
@@ -7,11 +6,13 @@ import {
 import { nextItemGenerator, isLeftBound, isRightBound } from '../BaseModel';
 import { getDirection } from '../Text Block/TextBlockNode';
 import Point from '../../../Abstract/Point';
+import { TEXT_LINE_TYPE } from '../Node Types';
 
 const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
 const nextItemOnCaretPath = nextItem;
 
 NodeTable.register(TEXT_LINE_TYPE, {
+  insertAtBoxKey,
   getCaretStyle,
   nextItem,
   nextItemOnCaretPath,
@@ -28,6 +29,21 @@ AccessContainer.register(
   },
   ACCESS_TYPE.BOTH
 );
+
+/**
+ *
+ * @param {*} model
+ * @param {*} key
+ * @param {*} toInsert
+ */
+function insertAtBoxKey(model, key, toInsert) {
+  const index = Math.floor(key.index / 2);
+  if (key.index % 2 == 0) {
+    model.elements.splice(index, 0, toInsert);
+  } else {
+    model.elements[index] = toInsert;
+  }
+}
 
 /**
  * @param {*} view

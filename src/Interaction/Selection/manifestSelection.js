@@ -42,7 +42,6 @@ function selectionAction(
  * @return {Array}
  */
 function noAction(parentModel, { leftIndexInfo, rightIndexInfo }, parentView) {
-  if (arguments.length < 2) return [];
   const leftAdd = getAdditions(leftIndexInfo);
   const rightAdd = getAdditions(rightIndexInfo);
   return [...leftAdd, ...rightAdd];

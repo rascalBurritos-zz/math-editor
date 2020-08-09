@@ -3,6 +3,7 @@ import Metrics from '../../../Math Nodes/Types/Metrics';
 import fontMapper from '../../../Factories/Document/fontMapper';
 import { TextBlock } from '../../../React-Components/Text/TextBlock';
 import { getViewGenerator } from '../BaseViewFactory';
+import { TEXT_BLOCK_TYPE } from '../Node Types';
 
 /** @typedef {import('../BaseView').BaseView} BaseView */
 
@@ -13,7 +14,6 @@ import { getViewGenerator } from '../BaseViewFactory';
 /**
  * @typedef {BaseView & _TextBlockView} TextBlockView
  */
-export const TEXT_BLOCK_TYPE = 'Text_Block';
 const getView = getViewGenerator(TEXT_BLOCK_TYPE, TextBlock);
 
 /**
@@ -48,6 +48,7 @@ export default function textBlockViewFactory(documentList) {
  * @param {Metrics} metrics
  */
 export function addViewStyles(viewArray, metrics) {
+  // console.log(viewArray);
   viewArray.forEach((element) => {
     const marginTop = metrics.height - element.metrics.height;
     element.componentStyle.marginTop = marginTop;

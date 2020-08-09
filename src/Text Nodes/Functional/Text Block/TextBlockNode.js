@@ -16,14 +16,15 @@ import {
 } from '../../../Interaction/Access/access';
 import Point from '../../../Abstract/Point';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
 import { TEXT_GLYPH_TYPE } from '../Text Glyph/textGlyphViewFactory';
+import { TEXT_BLOCK_TYPE } from '../Node Types';
 
 /** @typedef {import("./textBlockViewFactory").TextBlockView} TextBlockView */
 
 const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
 
 NodeTable.register(TEXT_BLOCK_TYPE, {
+  insertAtBoxKey,
   nextItem,
   nextItemOnCaretPath,
   getBoxKeyClosestToPoint,
@@ -49,6 +50,23 @@ AccessContainer.register(
   ACCESS_TYPE.VIEW
 );
 
+/**
+ *
+ * @param {*} model
+ * @param {*} key
+ * @param {*} toInsert
+ */
+function insertAtBoxKey(model, key, toInsert) {
+  const index = Math.floor(key.index / 2);
+  const elements = model.content.split('');
+  if (key.index % 2 == 0) {
+    elements.splice(index, 0, toInsert);
+  } else {
+    elements[index] = toInsert;
+  }
+  const content = elements.join('');
+  model.content = content;
+}
 /**
  * @param {Object} model
  * @param {Object} boxKey

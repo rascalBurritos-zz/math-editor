@@ -2,7 +2,7 @@ import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
 import { isBound, isLeftBound, isRightBound } from '../BaseModel';
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_BLOCK_TYPE } from './textBlockViewFactory';
+import { TEXT_BLOCK_TYPE } from '../Node Types';
 /** @typedef {import('./textBlockViewFactory').TextBlockView} TextBlockView  */
 
 CompoundTable.register(TEXT_BLOCK_TYPE, {

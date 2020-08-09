@@ -1,5 +1,4 @@
 import { TextEnvironment } from '../../../React-Components/Text/TextEnvironment';
-import Metrics from '../../../Math Nodes/Types/Metrics';
 import { getComponentStyle } from '../BaseView';
 import {
   getChildViews,
@@ -7,8 +6,7 @@ import {
   calculateMaxWidth,
   calculateMetrics,
 } from '../Vertical List/VerticalListViewFactory';
-
-export const TEXT_ENV_TYPE = 'Text_Environment';
+import { TEXT_ENV_TYPE } from '../Node Types';
 
 /**
  * @param {Object} documentList
@@ -62,46 +60,3 @@ export default function TextEnvViewFactory(documentList) {
     };
   }
 }
-
-// /**
-//  *
-//  * @param {Array} lines
-//  * @param {number} baselineDistance
-//  * @return {Array}
-//  */
-// function getLineViews(lines, baselineDistance) {
-//   return lines.map((line, index) => {
-//     const wordViews = line.map((word) => funcDocumentViewFactory(word));
-//     const metrics = generateMetrics(wordViews);
-//     wordViews.forEach((wordView) => {
-//       wordView.componentStyle.marginTop =
-//         metrics.height - wordView.metrics.height;
-//     });
-//     const marginBottom = index === length - 1 ? 0 : baselineDistance;
-//     const componentStyle = { ...getComponentStyle(metrics), marginBottom };
-//     return {
-//       metrics,
-//       elements: wordViews,
-//       componentStyle,
-//     };
-//   });
-// }
-
-// /**
-//  *
-//  * @param {Array} lineArray
-//  * @return {Metrics}
-//  */
-// function getMetrics(lineArray) {
-//   const height = lineArray.reduce((acc, curr, index) => {
-//     return (
-//       acc +
-//       curr.metrics.height +
-//       curr.metrics.depth +
-//       curr.componentStyle.marginBottom
-//     );
-//   }, 0);
-//   const width = Math.max(...lineArray.map((line) => line.metrics.width));
-//   const depth = 0;
-//   return new Metrics(height, width, depth);
-// }

@@ -1,5 +1,4 @@
 import { CompoundTable } from '../../../Interaction/Tables/nodeTable';
-import { TEXT_ENV_TYPE } from './TextEnvViewFactory';
 import { sort } from '../Text Block/TextBlockCompound';
 import {
   merge,
@@ -8,6 +7,7 @@ import {
 } from '../Vertical List/VerticalListCompound';
 import Rectangle from '../../../Abstract/Rectangle';
 import Point from '../../../Abstract/Point';
+import { TEXT_ENV_TYPE } from '../Node Types';
 
 CompoundTable.register(TEXT_ENV_TYPE, {
   getModelIndex,

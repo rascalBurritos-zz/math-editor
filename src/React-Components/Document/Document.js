@@ -82,7 +82,9 @@ export default class Document extends React.Component {
    */
   render() {
     const s = this.state;
+    // console.log(s);
     this.rootView = funcDocumentViewFactory(s.model);
+    // console.log(this.rootView, s.model);
     const selectionData = getSelectionData(s.model, this.rootView, s.selection);
     const Root = this.rootView.component;
     const style = { border: '1px solid black' };

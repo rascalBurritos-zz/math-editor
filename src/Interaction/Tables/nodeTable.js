@@ -4,6 +4,7 @@
  * @property {Function} nextItem
  * @property {Function} getBoxKeyClosestToPoint
  * @property {Function} getRelativePositionOfBox
+ * @property {Function} insertAtBoxKey
  * @property {Function} [getCaretStyle]
  * @property {Function} [expandSelection]
  */
