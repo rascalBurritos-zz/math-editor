@@ -1,9 +1,10 @@
 import textGlyphViewFactory from '../Text Glyph/textGlyphViewFactory';
 import Metrics from '../../../Math Nodes/Types/Metrics';
 import fontMapper from '../../../Factories/Document/fontMapper';
-import { TextBlock } from '../../../React-Components/Text/TextBlock';
 import { getViewGenerator } from '../BaseViewFactory';
 import { TEXT_BLOCK_TYPE } from '../Node Types';
+import { Compound } from '../../../React-Components/Text/Compound';
+import '../../../React-Components/Text/Styles/TextBlock';
 
 /** @typedef {import('../BaseView').BaseView} BaseView */
 
@@ -14,7 +15,7 @@ import { TEXT_BLOCK_TYPE } from '../Node Types';
 /**
  * @typedef {BaseView & _TextBlockView} TextBlockView
  */
-const getView = getViewGenerator(TEXT_BLOCK_TYPE, TextBlock);
+const getView = getViewGenerator(TEXT_BLOCK_TYPE, Compound);
 
 /**
  * @param {Object} documentList
@@ -33,7 +34,7 @@ export default function textBlockViewFactory(documentList, currentView) {
   /**
    * @param {*} content
    * @param {*} font
-   * @param {*} Object
+   * @param {*} currentView
    * @return {Array}
    */
   function getChildIds(content, font, currentView) {

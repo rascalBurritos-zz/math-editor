@@ -4,12 +4,11 @@ import {
   addViewStyles,
 } from '../Text Block/textBlockViewFactory';
 import { getViewGenerator } from '../BaseViewFactory';
-import compoundFactory from '../../../React-Components/Text/compoundFactory';
+import { Compound } from '../../../React-Components/Text/Compound';
 import '../../../React-Components/Text/Styles/TextLine';
 import { TEXT_LINE_TYPE } from '../Node Types';
 
-const tl = compoundFactory('TextLine');
-const TextLine = tl;
+const TextLine = Compound;
 const getView = getViewGenerator(TEXT_LINE_TYPE, TextLine);
 
 /**

@@ -1,8 +1,9 @@
 import Metrics from '../../../Math Nodes/Types/Metrics';
-import { VerticalList } from '../../../React-Components/Document/VerticalList';
 import { getViewGenerator } from '../BaseViewFactory';
 import { VERTICAL_LIST_TYPE } from '../Node Types';
 import { ViewMaster } from '../ViewMaster';
+import { Compound } from '../../../React-Components/Text/Compound';
+import '../../../React-Components/Document/Styles/VerticalList';
 
 /** @typedef {import('../BaseView').BaseView} BaseView  */
 
@@ -12,10 +13,10 @@ import { ViewMaster } from '../ViewMaster';
  */
 
 /**
- *
  * @typedef {BaseView & _VerticalListView} VerticalListView
  */
-const getView = getViewGenerator(VERTICAL_LIST_TYPE, VerticalList);
+
+const getView = getViewGenerator(VERTICAL_LIST_TYPE, Compound);
 
 /**
  * @param {Object} documentList

@@ -90,13 +90,13 @@ export default class Document extends React.Component {
       this.viewContainer.collection,
       s.selection
     );
-    const Root = this.viewContainer.collection[rootId].component;
+    const Root = this.viewContainer.collection[rootId];
     const style = { border: '1px solid black' };
     return (
       <div className="Document" style={style}>
         <div id={this.id} className="FittingContainer">
           <ViewContext.Provider value={this.viewContainer}>
-            <Root id={rootId}></Root>
+            <Root.component id={rootId} type={Root.type}></Root.component>
           </ViewContext.Provider>
           <Selection data={selectionData} />
         </div>
