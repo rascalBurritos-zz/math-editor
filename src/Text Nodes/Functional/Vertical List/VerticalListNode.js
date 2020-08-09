@@ -39,7 +39,16 @@ NodeTable.register(VERTICAL_LIST_TYPE, {
   nextItemOnCaretPath,
   getRelativePositionOfBox,
   getBoxKeyClosestToPoint,
+  getElements,
 });
+
+/**
+ * @param {*} model
+ * @return {Array}
+ */
+export function getElements(model) {
+  return model.elements;
+}
 
 /**
  * @param {*} model

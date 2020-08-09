@@ -8,6 +8,10 @@ import {
   TEXT_LINE_TYPE,
   VERTICAL_LIST_TYPE,
 } from './Node Types';
+import { NodeTable } from '../../Interaction/Tables/nodeTable';
+import textGlyphViewFactory, {
+  TEXT_GLYPH_TYPE,
+} from './Text Glyph/textGlyphViewFactory';
 /** @typedef {import('./BaseView').BaseView} BaseView  */
 
 const viewMap = {};
@@ -68,7 +72,10 @@ export class ViewMaster {
       collectingView[id] = Object.create(viewPool[id], properties);
       if ('childIds' in collectingView[id]) {
         for (let i = 0; i < collectingView[id].childIds.length; i++) {
-          addToCurrentView(collectingView[id].childIds[i], collectingView);
+          ViewMaster.generateView(
+            collectingView[id].childIds[i],
+            collectingView
+          );
         }
       }
     }
@@ -76,14 +83,25 @@ export class ViewMaster {
 
   /**
    * @param {Object} docList
-   * @param {Object} currentView
+   * @param {Object} collectingView
    */
-  static generateView(docList, currentView) {
-    if (!ViewMaster.getCached(docList.id, currentView)) {
-      const view = viewMap[docList.type](docList, currentView);
+  static generateView(docList, collectingView) {
+    const id = docList.id;
+    if (id in ViewMaster.viewPool && docList.type !== TEXT_BLOCK_TYPE) {
+      collectingView[id] = ViewMaster.viewPool[id];
+      const node = NodeTable.retrieve(docList.type);
+      if ('getElements' in node) {
+        const elements = node.getElements(docList);
+        for (let i = 0; i < elements.length; i++) {
+          const childDoc = elements[i];
+          ViewMaster.generateView(childDoc, collectingView);
+        }
+      }
+    } else {
+      const view = viewMap[docList.type](docList, collectingView);
       view.id = docList.id;
       ViewMaster.viewPool[docList.id] = view;
-      currentView[docList.id] = view;
+      collectingView[docList.id] = view;
     }
   }
 }

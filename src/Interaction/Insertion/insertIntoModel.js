@@ -12,7 +12,7 @@ export function insertIntoModel(rootModel, keychain, modelToInsert) {
   const { parentModel, finalKey } = retrieveModelContext(rootModel, keychain);
   const node = NodeTable.retrieve(parentModel.type);
   node.insertAtBoxKey(parentModel, finalKey, modelToInsert);
-  updateAlongKeychain(rootModel, keychain.slice(0, -1));
+  // updateAlongKeychain(rootModel, keychain.slice(0, -1));
 }
 
 /**

@@ -14,7 +14,8 @@ export class Compound extends React.Component {
    * @return {boolean}
    */
   shouldComponentUpdate(nextProps) {
-    return this.props.id !== nextProps.id;
+    return true;
+    // return this.props.id !== nextProps.id;
   }
   /**
    *@return {JSX.Element}

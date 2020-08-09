@@ -7,6 +7,7 @@
  * @property {Function} insertAtBoxKey
  * @property {Function} [getCaretStyle]
  * @property {Function} [expandSelection]
+ * @property {Function} [getElements]
  */
 
 export const NodeTable = {

@@ -30,6 +30,7 @@ NodeTable.register(TEXT_BLOCK_TYPE, {
   getBoxKeyClosestToPoint,
   getRelativePositionOfBox,
   getCaretStyle,
+  getElements,
 });
 
 AccessContainer.register(
@@ -50,6 +51,14 @@ AccessContainer.register(
   },
   ACCESS_TYPE.VIEW
 );
+
+/**
+ * @param {Object} model
+ * @return {Array}
+ */
+function getElements(model) {
+  return model.content;
+}
 
 /**
  *

@@ -8,3 +8,4 @@ import '../Text Nodes/Functional/Text Environment/TextEnvCompound';
 import '../Text Nodes/Functional/Text Line/TextLineNode';
 import '../Text Nodes/Functional/Text Line/TextLineCompound';
 import '../Text Nodes/Functional/Text Glyph/TextGlyphAtom';
+import '../Text Nodes/Functional/Text Glyph/TextGlyphNode';

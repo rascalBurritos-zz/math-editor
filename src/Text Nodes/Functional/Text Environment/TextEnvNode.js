@@ -3,6 +3,7 @@ import {
   nextItem,
   nextItemOnCaretPath,
   getBoxKeyClosestToPoint,
+  getElements,
 } from '../Vertical List/VerticalListNode';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
 import {
@@ -19,6 +20,7 @@ NodeTable.register(TEXT_ENV_TYPE, {
   nextItemOnCaretPath,
   getBoxKeyClosestToPoint,
   getRelativePositionOfBox,
+  getElements,
 });
 
 AccessContainer.register(

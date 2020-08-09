@@ -8,6 +8,7 @@ import { getDirection } from '../Text Block/TextBlockNode';
 import Point from '../../../Abstract/Point';
 import { TEXT_LINE_TYPE } from '../Node Types';
 import { getChildViewsFromId } from '../getChildViews';
+import { getElements } from '../Vertical List/VerticalListNode';
 
 const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
 const nextItemOnCaretPath = nextItem;
@@ -20,6 +21,7 @@ NodeTable.register(TEXT_LINE_TYPE, {
   getBoxKeyClosestToPoint,
   getRelativePositionOfBox,
   expandSelection,
+  getElements,
 });
 
 AccessContainer.register(
