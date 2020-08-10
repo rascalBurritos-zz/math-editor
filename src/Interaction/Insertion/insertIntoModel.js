@@ -1,6 +1,7 @@
 import { retrieveModelContext } from '../Movement/movement';
 import { NodeTable } from '../Tables/nodeTable';
 import { getSubItem } from '../Access/access';
+import { validate } from '../../React-Components/Document/validate';
 
 /**
  * @param {*} prevState
@@ -13,8 +14,9 @@ export function insertIntoModel(prevState, keychain, modelToInsert) {
     keychain
   );
   const node = NodeTable.retrieve(parentModel.type);
-  node.insertAtBoxKey(parentModel, finalKey, modelToInsert);
-  updateAlongKeychain(prevState, keychain.slice(0, -1));
+  const addKeychain = node.insertAtBoxKey(parentModel, finalKey, modelToInsert);
+  updateAlongKeychain(prevState, [...keychain.slice(0, -1), ...addKeychain]);
+  // validate(prevState);
 }
 
 /**

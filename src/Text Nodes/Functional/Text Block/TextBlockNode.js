@@ -65,16 +65,27 @@ function getElements(model) {
  * @param {*} model
  * @param {*} key
  * @param {*} toInsert
+ * @return {*} insertedKeychain
  */
 function insertAtBoxKey(model, key, toInsert) {
+  let insertIndex;
   const index = Math.floor(key.index / 2);
-  const elements = model.content;
-  if (key.index % 2 == 0) {
+  let elements = model.content;
+  if (isLeftBound(key)) {
+    elements = [toInsert, ...model.content];
+    insertIndex = 1;
+  } else if (isRightBound(key)) {
+    elements = [...model.content, toInsert];
+    insertIndex = model.content.length * 2 - 1;
+  } else if (key.index % 2 == 0) {
     elements.splice(index, 0, toInsert);
+    insertIndex = 2 * index + 1;
   } else {
     elements[index] = toInsert;
+    insertIndex = 2 * index + 1;
   }
   model.content = elements;
+  return [{ isCaret: false, index: insertIndex }];
 }
 /**
  * @param {Object} model

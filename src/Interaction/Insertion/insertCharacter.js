@@ -1,10 +1,18 @@
-import { getNextCaretKeychain } from '../Movement/movement';
+import {
+  getNextCaretKeychain,
+  retrieveModelContext,
+} from '../Movement/movement';
 import { DIRECTION } from '../Tables/direction';
 import { keychainsEqual } from '../Access/keychain';
 import { insertIntoModel } from './insertIntoModel';
 import { TEXT_GLYPH_TYPE } from '../../Text Nodes/Functional/Text Glyph/textGlyphViewFactory';
 import Identity from '../Util/Identity';
-import { TEXT_BLOCK_TYPE } from '../../Text Nodes/Functional/Node Types';
+import {
+  TEXT_BLOCK_TYPE,
+  TEXT_LINE_TYPE,
+} from '../../Text Nodes/Functional/Node Types';
+import { original } from 'immer';
+import removeSelection from '../Removal/removeSelection';
 
 /**
  * @param {Object} prevState
@@ -25,6 +33,7 @@ export default function insertCharacter(prevState, character) {
 
     prevState.selection = { anchor: keychain, focus: keychain };
   } else {
+    removeSelection(prevState);
     return;
   }
 }
@@ -32,6 +41,7 @@ export default function insertCharacter(prevState, character) {
 /**
  *
  * @param {*} prevState
+ * @param {*} character
  * @return {object}
  */
 function determineModelToInsert(prevState, character) {
@@ -40,12 +50,5 @@ function determineModelToInsert(prevState, character) {
     unicode: character.codePointAt(0),
     id: Identity.getNextId(),
   };
-  // const textBlock = {
-  //   type: TEXT_BLOCK_TYPE,
-  //   id: Identity.getNextId(),
-  //   fontSize: 45,
-  //   fontName: 'Asana',
-  //   content: textGlyph,
-  // };
   return textGlyph;
 }

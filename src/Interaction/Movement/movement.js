@@ -79,6 +79,7 @@ function getCaretKeychainVertical(model, keychain, direction) {
  * @return {Array} new caret keychain
  */
 function caretTraverser(model, keyChain, direction) {
+  // console.log(...arguments);
   const { node, finalKey, parentKeyChain, parentModel } = retrieveModelContext(
     model,
     keyChain

@@ -14,6 +14,7 @@ export class Compound extends React.Component {
    * @return {boolean}
    */
   shouldComponentUpdate(nextProps) {
+    return true;
     if (nextProps.id in this.context.mutationMap) {
       return true;
     }

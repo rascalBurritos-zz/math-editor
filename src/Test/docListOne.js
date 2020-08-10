@@ -29,7 +29,7 @@ export default {
       id: Identity.getNextId(),
       baselineDistance: 20,
       baselineBump: 10,
-      width: 800,
+      width: 300,
       elements: [
         {
           type: TEXT_LINE_TYPE,

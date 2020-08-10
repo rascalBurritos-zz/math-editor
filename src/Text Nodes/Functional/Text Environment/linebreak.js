@@ -10,13 +10,17 @@ export default function linebreak(words, desiredWidth) {
   let currentLine = [];
   let progress = 0;
   for (let i = 0; i < words.length; i++) {
-    currentLine.push(words[i].model);
     progress += words[i].width;
     if (progress > desiredWidth) {
       lines.push(currentLine);
+      currentLine = [words[i].model];
       progress = 0;
-      currentLine = [];
+    } else {
+      currentLine.push(words[i].model);
     }
+  }
+  if (currentLine.length > 0) {
+    lines.push(currentLine);
   }
   return lines;
 }

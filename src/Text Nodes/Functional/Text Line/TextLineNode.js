@@ -3,7 +3,13 @@ import {
   AccessContainer,
   ACCESS_TYPE,
 } from '../../../Interaction/Access/access';
-import { nextItemGenerator, isLeftBound, isRightBound } from '../BaseModel';
+import {
+  nextItemGenerator,
+  isLeftBound,
+  isRightBound,
+  getBoundLeft,
+  getBoundRight,
+} from '../BaseModel';
 import { getDirection } from '../Text Block/TextBlockNode';
 import Point from '../../../Abstract/Point';
 import { TEXT_LINE_TYPE } from '../Node Types';
@@ -49,11 +55,23 @@ AccessContainer.register(
  * @param {*} toInsert
  */
 function insertAtBoxKey(model, key, toInsert) {
-  const index = Math.floor(key.index / 2);
+  let index = Math.floor(key.index / 2);
   if (key.index % 2 == 0) {
-    model.elements.splice(index, 0, toInsert);
+    if (index - 1 >= 0) {
+      index--;
+      const child = model.elements[index];
+      const node = NodeTable.retrieve(child.type);
+      const keychain = node.insertAtBoxKey(child, getBoundRight(), toInsert);
+      return [{ isCaret: false, index: 2 * index + 1 }, ...keychain];
+    } else {
+      const child = model.elements[0];
+      const node = NodeTable.retrieve(child.type);
+      const keychain = node.insertAtBoxKey(child, getBoundLeft(), toInsert);
+      return [{ isCaret: false, index: 1 }, ...keychain];
+    }
   } else {
     model.elements[index] = toInsert;
+    return [key];
   }
 }
 
@@ -101,6 +119,7 @@ function getRelativePositionOfBox(view, id, boxKey) {
   }, 0);
   let topIndex = Math.floor((boxKey.index - 1) / 2);
   topIndex = topIndex < 0 ? 0 : topIndex;
+
   const top = view[id].metrics.height - elements[topIndex].metrics.height;
   return new Point(top, colLength);
 }

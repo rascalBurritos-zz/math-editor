@@ -79,7 +79,7 @@ export default class Document extends React.Component {
   render() {
     const s = this.state;
     this.viewContainer.mutationMap = s.mutationMap;
-    // console.log(s);
+    console.log(s);
     // Perf.start();
     const viewMaster = new ViewMaster(s.model);
     // Perf.end();
