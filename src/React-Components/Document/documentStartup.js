@@ -12,5 +12,5 @@ export default function documentStartup() {
     { isCaret: true, index: 2 },
   ];
   const selection = { anchor: starterKeychain, focus: starterKeychain };
-  return { model: docListOne, selection };
+  return { model: docListOne, selection, mutationMap: {} };
 }

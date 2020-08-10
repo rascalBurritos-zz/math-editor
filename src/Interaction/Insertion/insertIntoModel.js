@@ -1,29 +1,33 @@
 import { retrieveModelContext } from '../Movement/movement';
 import { NodeTable } from '../Tables/nodeTable';
 import { getSubItem } from '../Access/access';
-import Identity from '../Util/Identity';
 
 /**
- * @param {*} rootModel
+ * @param {*} prevState
  * @param {*} keychain
  * @param {*} modelToInsert
  */
-export function insertIntoModel(rootModel, keychain, modelToInsert) {
-  const { parentModel, finalKey } = retrieveModelContext(rootModel, keychain);
+export function insertIntoModel(prevState, keychain, modelToInsert) {
+  const { parentModel, finalKey } = retrieveModelContext(
+    prevState.model,
+    keychain
+  );
   const node = NodeTable.retrieve(parentModel.type);
   node.insertAtBoxKey(parentModel, finalKey, modelToInsert);
-  // updateAlongKeychain(rootModel, keychain.slice(0, -1));
+  updateAlongKeychain(prevState, keychain.slice(0, -1));
 }
 
 /**
- * @param {*} model
+ * @param {*} prevState
  * @param {*} keychain
  */
-function updateAlongKeychain(model, keychain) {
-  let currentModel = model;
-  currentModel.id = Identity.getNextId();
+export function updateAlongKeychain(prevState, keychain) {
+  let currentModel = prevState.model;
+  const mutationMap = {};
+  mutationMap[currentModel.id] = true;
   for (const key of keychain) {
     currentModel = getSubItem(currentModel, key, false);
-    currentModel.id = Identity.getNextId();
+    mutationMap[currentModel.id] = true;
   }
+  prevState.mutationMap = mutationMap;
 }

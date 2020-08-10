@@ -49,59 +49,28 @@ export class ViewMaster {
   }
 
   /**
-   * @param {number} id
-   * @param {Object} currentView
-   * @return {boolean}
-   */
-  static getCached(id, currentView) {
-    const viewPool = ViewMaster.viewPool;
-    if (viewPool[id] !== undefined) {
-      addToCurrentView(id, currentView);
-      return true;
-    }
-    return false;
-    /**
-     * @param {*} id
-     * @param {*} collectingView
-     */
-    function addToCurrentView(id, collectingView) {
-      const cs = Object.assign({}, viewPool[id].componentStyle);
-      const properties = {
-        componentStyle: { value: cs },
-      };
-      collectingView[id] = Object.create(viewPool[id], properties);
-      if ('childIds' in collectingView[id]) {
-        for (let i = 0; i < collectingView[id].childIds.length; i++) {
-          ViewMaster.generateView(
-            collectingView[id].childIds[i],
-            collectingView
-          );
-        }
-      }
-    }
-  }
-
-  /**
    * @param {Object} docList
    * @param {Object} collectingView
    */
   static generateView(docList, collectingView) {
     const id = docList.id;
-    if (id in ViewMaster.viewPool && docList.type !== TEXT_BLOCK_TYPE) {
-      collectingView[id] = ViewMaster.viewPool[id];
-      const node = NodeTable.retrieve(docList.type);
-      if ('getElements' in node) {
-        const elements = node.getElements(docList);
-        for (let i = 0; i < elements.length; i++) {
-          const childDoc = elements[i];
-          ViewMaster.generateView(childDoc, collectingView);
-        }
-      }
-    } else {
-      const view = viewMap[docList.type](docList, collectingView);
-      view.id = docList.id;
-      ViewMaster.viewPool[docList.id] = view;
-      collectingView[docList.id] = view;
-    }
+    // if (id in ViewMaster.viewPool && docList.type !== TEXT_BLOCK_TYPE) {
+    //   collectingView[id] = ViewMaster.viewPool[id];
+    //   const node = NodeTable.retrieve(docList.type);
+    //   if ('getElements' in node) {
+    //     collectingView[id].childIds = [];
+    //     const elements = node.getElements(docList);
+    //     for (let i = 0; i < elements.length; i++) {
+    //       const childDoc = elements[i];
+    //       collectingView[id].childIds.push(childDoc.id);
+    //       ViewMaster.generateView(childDoc, collectingView);
+    //     }
+    //   }
+    // } else {
+    const view = viewMap[docList.type](docList, collectingView);
+    view.id = id;
+    ViewMaster.viewPool[id] = view;
+    collectingView[id] = view;
+    // }
   }
 }

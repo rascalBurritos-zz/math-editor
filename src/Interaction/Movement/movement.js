@@ -1,4 +1,3 @@
-import funcDocumentViewFactory from '../../Text Nodes/Functional/ViewMaster';
 import { traverse } from '../Access/access';
 import keychainToViewPoint, { keychainFromPosition } from '../Access/keychain';
 import {
@@ -8,6 +7,7 @@ import {
 } from '../../Text Nodes/Functional/BaseModel';
 import { NodeTable } from '../Tables/nodeTable';
 import { DIRECTION } from '../Tables/direction';
+import { ViewMaster } from '../../Text Nodes/Functional/ViewMaster';
 
 /**
  *
@@ -47,17 +47,28 @@ export function getNextCaretKeychain(model, keychain, direction) {
  * @return {Array}
  */
 function getCaretKeychainVertical(model, keychain, direction) {
-  const rootView = funcDocumentViewFactory(model);
+  const viewMaster = new ViewMaster(model);
+  const viewCollection = viewMaster.viewCollection;
+  const rootId = viewMaster.rootId;
   const viewChain = modelTraverser(keychain, model, direction);
   if (!viewChain[0]) {
     return keychain;
   }
-  const targetViewPoint = keychainToViewPoint(rootView, viewChain);
-  const caretPos = keychainToViewPoint(rootView, keychain).position;
+  const targetViewPoint = keychainToViewPoint(
+    rootId,
+    viewCollection,
+    viewChain
+  );
+  const caretPos = keychainToViewPoint(rootId, viewCollection, keychain)
+    .position;
   const relativePosition = caretPos.subtract(targetViewPoint.position);
   return [
     ...viewChain,
-    ...keychainFromPosition(targetViewPoint.view, relativePosition),
+    ...keychainFromPosition(
+      viewCollection,
+      targetViewPoint.view.id,
+      relativePosition
+    ),
   ];
 }
 

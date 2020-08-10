@@ -71,9 +71,9 @@ export function getInsertIndex(boxKey) {
  * @param  {...Object} toInsert
  */
 function splice(model, leftIndex, deleteCount, ...toInsert) {
-  const contentArray = model.content.split('');
+  const contentArray = model.content;
   contentArray.splice(leftIndex, deleteCount, ...toInsert);
-  model.content = contentArray.join('');
+  model.content = contentArray;
 }
 
 /**

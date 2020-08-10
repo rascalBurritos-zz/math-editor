@@ -1,7 +1,5 @@
 import { CompoundTable } from '../Tables/nodeTable';
-import { isBound } from '../../Text Nodes/Functional/BaseModel';
-import { getSubItem } from '../Access/access';
-import manifest from '../Selection/manifest';
+import manifest, { isNoAction } from '../Selection/manifest';
 import { getAdditions } from '../../Text Nodes/Functional/Vertical List/VerticalListCompound';
 
 export const removeBetween = manifest(
@@ -20,9 +18,26 @@ export const removeBetween = manifest(
 function noAction(parentModel, { leftIndexInfo, rightIndexInfo }, ...args) {
   if (arguments.length < 2) {
     throw new Error();
-    return [{ parentModel }];
   }
   const parents = addAdditions(leftIndexInfo, rightIndexInfo);
+  const neitherNoAction =
+    !isNoAction(leftIndexInfo) && !isNoAction(rightIndexInfo);
+  if (areMergeable(parents.left, parents.right) && neitherNoAction) {
+    for (const [index, leftParentObj] of parents.left.entries()) {
+      const leftParent = leftParentObj.parentModel;
+      const rightParent = parents.right[index].parentModel;
+      const compound = CompoundTable.retrieve(leftParent.type);
+      compound.merge(leftParent, rightParent);
+      if (index + 1 < parents.left.length) {
+        const leftIndex = parents.right[index + 1].leftIndexInfo.index;
+        const gp = parents.right[index + 1].parentModel;
+        const gpCompound = CompoundTable.retrieve(gp.type);
+        gpCompound.splice(gp, leftIndex, 1);
+      }
+    }
+    const compound = CompoundTable.retrieve(parentModel.type);
+    compound.splice(parentModel, leftIndexInfo.index, 1);
+  }
   return [...parents.deep, { parentModel, leftIndexInfo, rightIndexInfo }];
   // need to merge if neither are bounds
 }
@@ -62,28 +77,24 @@ function removeAction(
     compound.splice(parentModel, leftIndexInfo.index, deleteCount);
   }
   return [...parents.deep, { parentModel, leftIndexInfo, rightIndexInfo }];
-
-  /**
-   * @param {Object} parentChainA
-   * @param {Object} parentChainB
-   * @return {boolean}
-   */
-  function areMergeable(parentChainA, parentChainB) {
-    if (
-      parentChainA.length !== parentChainB.length ||
-      parentChainB.length < 1
-    ) {
+}
+/**
+ * @param {Object} parentChainA
+ * @param {Object} parentChainB
+ * @return {boolean}
+ */
+function areMergeable(parentChainA, parentChainB) {
+  if (parentChainA.length !== parentChainB.length || parentChainB.length < 1) {
+    return false;
+  }
+  for (const [index, parentAObj] of parentChainA.entries()) {
+    const parentA = parentAObj.parentModel;
+    const parentB = parentChainB[index].parentModel;
+    if (parentA.type !== parentB.type) {
       return false;
     }
-    for (const [index, parentAObj] of parentChainA.entries()) {
-      const parentA = parentAObj.parentModel;
-      const parentB = parentChainB[index].parentModel;
-      if (parentA.type !== parentB.type) {
-        return false;
-      }
-    }
-    return true;
   }
+  return true;
 }
 
 /**
@@ -112,12 +123,4 @@ function getParents(leftAdditions, rightAdditions) {
     right: rightAdditions,
     deep,
   };
-}
-
-/**
- * @param {Object} boxKey
- * @return {boolean}
- */
-function isCompositeKey(boxKey) {
-  return boxKey !== undefined && !boxKey.isCaret && !isBound(boxKey);
 }

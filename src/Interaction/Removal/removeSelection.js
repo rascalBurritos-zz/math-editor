@@ -1,6 +1,8 @@
 import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
 import { removeBetween } from './removeBetween';
 import { keychainsEqual } from '../Access/keychain';
+import { updateAlongKeychain } from '../Insertion/insertIntoModel';
+import { original } from 'immer';
 
 /**
  * @param {Object} prevState
@@ -23,4 +25,6 @@ export default function removeSelection(prevState) {
   removeBetween(subChainA, subChainB, commonAncestor);
   const leftKeychain = subChainA[0].index < subChainB[0].index ? focus : anchor;
   prevState.selection = { anchor: leftKeychain, focus: leftKeychain };
+  // console.log(original(prevState));
+  updateAlongKeychain(prevState, leftKeychain.slice(0, -1));
 }
