@@ -1,4 +1,4 @@
-// import displayEnvironmentFactory from './Document/displayEnvironmentFactory';
+import displayEnvironmentFactory from './Document/displayEnvironmentFactory';
 import verticalListFactory from './Document/verticalListFactory';
 import textBlockFactory from './Document/textBlockFactory';
 /** @typedef {import('../Abstract/Behavior').default} Behavior  */
@@ -9,7 +9,7 @@ import textBlockFactory from './Document/textBlockFactory';
  */
 export default function documentViewFactory(docList) {
   const viewMap = {
-    // Display: displayEnvironmentFactory,
+    Display: displayEnvironmentFactory,
     Vertical_List: verticalListFactory,
     Text_Block: textBlockFactory,
   };

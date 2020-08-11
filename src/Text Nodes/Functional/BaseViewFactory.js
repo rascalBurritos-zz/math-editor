@@ -9,12 +9,14 @@ export function getViewGenerator(type, component) {
   /**
    *
    * @param {Metrics} metrics
+   * @param {number} id
    * @param {Array} childIds
    * @return {VerticalListView}
    */
-  return function getView(metrics, childIds) {
+  return function getView(metrics, id, childIds) {
     const componentStyle = getComponentStyle(metrics);
     return {
+      id,
       type,
       metrics,
       childIds,

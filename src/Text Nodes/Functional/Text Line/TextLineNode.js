@@ -106,7 +106,7 @@ function getCaretStyle(viewCollection, view, boxKey) {
 }
 
 /**
- * @param {*} view
+ * @param {*} view viewCollection
  * @param {*} id
  * @param {*} boxKey
  * @return {Point}
@@ -130,7 +130,7 @@ function getRelativePositionOfBox(view, id, boxKey) {
  * @param {*} point
  * @return {Object}
  */
-function getBoxKeyClosestToPoint(viewCollection, id, point) {
+export function getBoxKeyClosestToPoint(viewCollection, id, point) {
   const elements = getChildViewsFromId(viewCollection, id);
   const index = findBlock(viewCollection, elements, point);
   const isCaret = index % 2 === 0;

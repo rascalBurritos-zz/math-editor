@@ -12,8 +12,7 @@ export default function documentStartup() {
   const starterKeychain = [
     { isCaret: false, index: 0 },
     { isCaret: false, index: 0 },
-    { isCaret: false, index: 1 },
-    { isCaret: true, index: 2 },
+    { isCaret: true, index: 0 },
   ];
   const selection = { anchor: starterKeychain, focus: starterKeychain };
 

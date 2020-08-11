@@ -7,11 +7,14 @@ import {
   TEXT_ENV_TYPE,
   TEXT_LINE_TYPE,
   VERTICAL_LIST_TYPE,
+  DISPLAY_ENV_TYPE,
+  FORMULA_TYPE,
+  MATH_GLYPH_TYPE,
 } from './Node Types';
 import { NodeTable } from '../../Interaction/Tables/nodeTable';
-import textGlyphViewFactory, {
-  TEXT_GLYPH_TYPE,
-} from './Text Glyph/textGlyphViewFactory';
+import displayEnvironmentFactory from '../Math Nodes/Display Environment/displayEnvViewFactory';
+import formulaViewFactory from '../Math Nodes/Formula/formulaViewFactory';
+import mathGlyphViewFactory from '../Math Nodes/Math Glyph/mathGlyphViewFactory';
 /** @typedef {import('./BaseView').BaseView} BaseView  */
 
 const viewMap = {};
@@ -19,6 +22,11 @@ viewMap[TEXT_BLOCK_TYPE] = textBlockViewFactory;
 viewMap[TEXT_ENV_TYPE] = TextEnvFactory;
 viewMap[TEXT_LINE_TYPE] = TextLineViewFactory;
 viewMap[VERTICAL_LIST_TYPE] = verticalListViewFactory;
+viewMap[DISPLAY_ENV_TYPE] = displayEnvironmentFactory;
+
+const mathMap = {};
+mathMap[FORMULA_TYPE] = formulaViewFactory;
+mathMap[MATH_GLYPH_TYPE] = mathGlyphViewFactory;
 
 export class ViewMaster {
   static factoryMap = viewMap;
@@ -49,24 +57,25 @@ export class ViewMaster {
   }
 
   /**
+   * @param {*} mathList
+   * @param {*} font
+   * @param {*} style
+   * @param {*} collectingView
+   * @return {Object}
+   */
+  static generateMath(mathList, font, style, collectingView) {
+    const id = mathList.id;
+    const view = mathMap[mathList.type](mathList, font, style, collectingView);
+    collectingView[id] = view;
+    return view;
+  }
+
+  /**
    * @param {Object} docList
    * @param {Object} collectingView
    */
   static generateView(docList, collectingView) {
     const id = docList.id;
-    // if (id in ViewMaster.viewPool && docList.type !== TEXT_BLOCK_TYPE) {
-    //   collectingView[id] = ViewMaster.viewPool[id];
-    //   const node = NodeTable.retrieve(docList.type);
-    //   if ('getElements' in node) {
-    //     collectingView[id].childIds = [];
-    //     const elements = node.getElements(docList);
-    //     for (let i = 0; i < elements.length; i++) {
-    //       const childDoc = elements[i];
-    //       collectingView[id].childIds.push(childDoc.id);
-    //       ViewMaster.generateView(childDoc, collectingView);
-    //     }
-    //   }
-    // } else {
     const view = viewMap[docList.type](docList, collectingView);
     view.id = id;
     ViewMaster.viewPool[id] = view;

@@ -24,6 +24,7 @@ export default function showSelection(
   keychainB
 ) {
   if (keychainsEqual(keychainA, keychainB)) return {};
+  console.log(model, keychainA, keychainB);
   const commonAncestorIndex = getCommonAncestorIndex(keychainA, keychainB);
   const commonViewAncestor = getCommonAncestor(
     viewCollection[rootId],

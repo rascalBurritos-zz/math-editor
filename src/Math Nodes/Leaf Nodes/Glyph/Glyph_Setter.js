@@ -58,7 +58,6 @@ export default class Glyph_Setter extends Typesetter {
     this._italicsCorrection = spec.italicsCorrection;
     this._accentAttachmentPoint = spec.accentAttachmentPoint;
   }
-
   /**
    * @param {number} pxpfu
    * @param {boolean} isCentered

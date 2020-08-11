@@ -9,3 +9,15 @@ import '../Text Nodes/Functional/Text Line/TextLineNode';
 import '../Text Nodes/Functional/Text Line/TextLineCompound';
 import '../Text Nodes/Functional/Text Glyph/TextGlyphAtom';
 import '../Text Nodes/Functional/Text Glyph/TextGlyphNode';
+
+import '../Text Nodes/Math Nodes/Display Environment/displayEnvAtom';
+import '../Text Nodes/Math Nodes/Display Environment/displayEnvNode';
+import '../Text Nodes/Math Nodes/Display Environment/displayEnvViewFactory';
+
+import '../Text Nodes/Math Nodes/Formula/formulaNode';
+import '../Text Nodes/Math Nodes/Formula/formulaCompound';
+import '../Text Nodes/Math Nodes/Formula/formulaViewFactory';
+
+import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphAtom';
+import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphNode';
+import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphViewFactory';

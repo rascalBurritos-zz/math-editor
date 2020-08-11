@@ -26,7 +26,7 @@ const getView = getViewGenerator(VERTICAL_LIST_TYPE, Compound);
 export default function verticalListFactory(documentList, currentView) {
   const childIds = getChildIds(documentList.elements, currentView);
   const metrics = getSettings(childIds, documentList);
-  const view = getView(metrics, childIds);
+  const view = getView(metrics, documentList.id, childIds);
   return view;
 
   /**

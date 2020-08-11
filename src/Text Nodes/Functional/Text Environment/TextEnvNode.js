@@ -31,6 +31,7 @@ AccessContainer.register(
   },
   ACCESS_TYPE.MODEL
 );
+
 AccessContainer.register(
   TEXT_ENV_TYPE,
   (view, boxKey, viewCollection) => {

@@ -33,6 +33,7 @@ export function getComponentStyle(metrics) {
  * @param {number} fontSize
  * @param {number} upm
  * @return {number}
+ * FOR TEXT ONLY i.e. NO MATH
  */
 export function calculatePXPFU(fontSize, upm) {
   return fontSize / upm;
