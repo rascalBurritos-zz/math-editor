@@ -9,6 +9,7 @@ export class Glyph extends React.Component {
    * @return {boolean}
    */
   shouldComponentUpdate(nextProps) {
+    return true;
     return this.props.id !== nextProps.id;
     // const viewCollection = this.context.collection;
     // const internal = viewCollection[id].internalCharacterBox;

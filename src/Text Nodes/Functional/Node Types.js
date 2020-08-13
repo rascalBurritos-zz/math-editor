@@ -6,3 +6,5 @@ export const TEXT_BLOCK_TYPE = 'TextBlock';
 export const DISPLAY_ENV_TYPE = 'DisplayEnvironment';
 export const FORMULA_TYPE = 'Formula';
 export const MATH_GLYPH_TYPE = 'Math Glyph';
+export const FRACTION_TYPE = 'Fraction';
+export const SCRIPTS_TYPE = 'Scripts';

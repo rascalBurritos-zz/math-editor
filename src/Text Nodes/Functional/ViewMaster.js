@@ -10,11 +10,14 @@ import {
   DISPLAY_ENV_TYPE,
   FORMULA_TYPE,
   MATH_GLYPH_TYPE,
+  FRACTION_TYPE,
+  SCRIPTS_TYPE,
 } from './Node Types';
-import { NodeTable } from '../../Interaction/Tables/nodeTable';
 import displayEnvironmentFactory from '../Math Nodes/Display Environment/displayEnvViewFactory';
 import formulaViewFactory from '../Math Nodes/Formula/formulaViewFactory';
 import mathGlyphViewFactory from '../Math Nodes/Math Glyph/mathGlyphViewFactory';
+import fractionViewFactory from '../Math Nodes/Fraction/FractionViewFactory';
+import scriptsFactory from '../Math Nodes/Scripts/scriptsViewFactory';
 /** @typedef {import('./BaseView').BaseView} BaseView  */
 
 const viewMap = {};
@@ -27,6 +30,8 @@ viewMap[DISPLAY_ENV_TYPE] = displayEnvironmentFactory;
 const mathMap = {};
 mathMap[FORMULA_TYPE] = formulaViewFactory;
 mathMap[MATH_GLYPH_TYPE] = mathGlyphViewFactory;
+mathMap[FRACTION_TYPE] = fractionViewFactory;
+mathMap[SCRIPTS_TYPE] = scriptsFactory;
 
 export class ViewMaster {
   static factoryMap = viewMap;
@@ -61,11 +66,25 @@ export class ViewMaster {
    * @param {*} font
    * @param {*} style
    * @param {*} collectingView
+   * @param {*} dependancyOrganizer
    * @return {Object}
    */
-  static generateMath(mathList, font, style, collectingView) {
+  static generateMath(
+    mathList,
+    font,
+    style,
+    collectingView,
+    dependancyOrganizer
+  ) {
     const id = mathList.id;
-    const view = mathMap[mathList.type](mathList, font, style, collectingView);
+    const view = mathMap[mathList.type](
+      mathList,
+      font,
+      style,
+      collectingView,
+      dependancyOrganizer
+    );
+    view.mathStyle = style;
     collectingView[id] = view;
     return view;
   }
@@ -80,6 +99,5 @@ export class ViewMaster {
     view.id = id;
     ViewMaster.viewPool[id] = view;
     collectingView[id] = view;
-    // }
   }
 }

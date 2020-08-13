@@ -1,17 +1,20 @@
 import {
   AccessContainer,
   ACCESS_TYPE,
+  getSubItem,
 } from '../../../Interaction/Access/access';
-import { FORMULA_TYPE } from '../../Functional/Node Types';
+import { FORMULA_TYPE, MATH_GLYPH_TYPE } from '../../Functional/Node Types';
 import { getChildViewsFromId } from '../../Functional/getChildViews';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';
 import {
   nextItemGenerator,
   isLeftBound,
   isRightBound,
+  isBound,
 } from '../../Functional/BaseModel';
 import { getDirection } from '../../Functional/Text Block/TextBlockNode';
 import Point from '../../../Abstract/Point';
+import { original } from 'immer';
 
 AccessContainer.register(
   FORMULA_TYPE,
@@ -34,9 +37,9 @@ AccessContainer.register(
 );
 
 const nextItem = nextItemGenerator(getDirection(minIndex, maxIndex));
-const nextItemOnCaretPath = nextItem;
 
 NodeTable.register(FORMULA_TYPE, {
+  getCaretStyle,
   nextItem,
   nextItemOnCaretPath,
   insertAtBoxKey,
@@ -45,6 +48,35 @@ NodeTable.register(FORMULA_TYPE, {
   getElements,
 });
 
+/**
+ *
+ * @param {*} viewCollection
+ * @param {*} id
+ * @return {Object}
+ */
+function getCaretStyle(viewCollection, view) {
+  const cs = view.componentStyle;
+  return { backgroundColor: 'rebeccapurple', height: cs.height };
+}
+
+/**
+ *
+ * @param {*} model
+ * @param {*} key
+ * @param {*} direction
+ * @return {*} direction
+ */
+function nextItemOnCaretPath(model, key, direction) {
+  const nextKey = nextItem(model, key, direction);
+  if (!nextKey.isCaret && !isBound(nextKey)) {
+    const subModel = getSubItem(model, nextKey);
+    if (subModel.type === MATH_GLYPH_TYPE) {
+      return nextItemOnCaretPath(model, nextKey, direction);
+    }
+  }
+
+  return nextKey;
+}
 /**
  *
  * @param {*} viewCollection
@@ -62,6 +94,9 @@ function getBoxKeyClosestToPoint(viewCollection, id, point) {
     const cs = childViews[i].componentStyle;
     progress += cs.width;
     if (progress > point.left) {
+      if (childViews[i].type === MATH_GLYPH_TYPE) {
+        return { isCaret: true, index: i * 2 };
+      }
       return { isCaret: false, index: i * 2 + 1 };
     }
     progress += cs.marginRight;
@@ -81,17 +116,17 @@ export function getRelativePositionOfBox(viewCollection, id, key) {
   const numModels = Math.floor(key.index / 2);
   let left = 0;
   for (let i = 0; i < numModels; i++) {
-    const cs = childViews[i];
+    const cs = childViews[i].componentStyle;
     left += cs.width;
   }
   const numMargins = Math.floor(key.index / 2 - 1);
   for (let i = 0; i < numMargins; i++) {
-    const cs = childViews[i];
+    const cs = childViews[i].componentStyle;
     left += cs.marginRight;
   }
-  let index = Math.floor(key.index / 2) - 1;
+  let index = Math.floor(key.index / 2);
   index = index < 0 ? 0 : index;
-  const top = childViews[index].componentStyle.marginTop;
+  const top = key.isCaret ? 0 : childViews[index].componentStyle.marginTop;
   return new Point(top, left);
 }
 

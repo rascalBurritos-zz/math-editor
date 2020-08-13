@@ -45,10 +45,10 @@ function getSelectionRects(viewCollection, id, leftIndex, rightIndex) {
     getModelKeyFromIndex(rightIndex.index)
   );
   const left = leftPos.left;
-  const width =
-    rightPos.left -
-    leftPos.left +
-    childViews[rightIndex.index].componentStyle.width;
+  const cs = childViews[rightIndex.index].componentStyle;
+  const width = rightPos.left - leftPos.left + cs.width; //+ cs.marginRight;
+  console.log(width, cs.marginRight);
+
   const top = 0;
   const height = viewCollection[id].componentStyle.height;
   return [new Rectangle(new Point(top, left), height, width)];

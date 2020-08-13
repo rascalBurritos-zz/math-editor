@@ -1,6 +1,7 @@
 import { getSubItem } from './access';
 import Point from '../../Abstract/Point';
 import { NodeTable } from '../Tables/nodeTable';
+import { current } from 'immer';
 
 /**
  * @param {Object} viewCollection

@@ -3,7 +3,8 @@ import singleSelectionMove from '../Movement/singleSelectionMove';
 import backspace from '../Removal/backspace';
 import insertCharacter from '../Insertion/insertCharacter';
 import { DIRECTION } from '../Tables/direction';
-import produce from 'immer';
+import produce, { original } from 'immer';
+import insertMathGlyph from '../Insertion/insertMathGlyph';
 /**
  * @param {*} event
  * @param {*} prevState
@@ -12,7 +13,8 @@ import produce from 'immer';
 export default function documentKeyEventHandler(event, prevState) {
   let assignee;
   if (/^.$/.test(event.key) || event.code === 'Space') {
-    assignee = { f: insertCharacter, args: [event.key] };
+    assignee = { f: insertMathGlyph, args: [event.key] };
+    // assignee = { f: insertCharacter, args: [event.key] };
   } else if (event.shiftKey) {
     const keyMap = {
       ArrowUp: { f: singleSelectionMove, args: [DIRECTION.UP] },

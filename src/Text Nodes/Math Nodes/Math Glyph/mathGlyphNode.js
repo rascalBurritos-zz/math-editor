@@ -1,6 +1,7 @@
 import {
   AccessContainer,
   ACCESS_TYPE,
+  getSubItem,
 } from '../../../Interaction/Access/access';
 import { MATH_GLYPH_TYPE } from '../../Functional/Node Types';
 import { NodeTable } from '../../../Interaction/Tables/nodeTable';

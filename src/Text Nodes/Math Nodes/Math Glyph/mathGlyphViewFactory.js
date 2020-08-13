@@ -188,6 +188,14 @@ function generateSettings(pxpfu, spec, isCentered = false) {
      * @return {Object} style of Internal Character Box
      */
     function getStyle() {
+      if (!spec.glyphMetric.bbox) {
+        spec.glyphMetric.bbox = {
+          x1: 0,
+          y2: 0,
+          y1: 0,
+          x2: spec.glyphMetric.advanceWidth,
+        };
+      }
       const style = {};
       style.fontFamily = spec.fontFamily;
       const currentFontSize = spec.upm * pxpfu;

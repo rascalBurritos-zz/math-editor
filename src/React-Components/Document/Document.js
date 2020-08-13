@@ -74,16 +74,24 @@ export default class Document extends React.Component {
   }
 
   /**
+   * @param {*} error
+   * @param {*} errorInfo
+   */
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
+  }
+
+  /**
    * @return {JSX.Element}
    */
   render() {
     const s = this.state;
     this.viewContainer.mutationMap = s.mutationMap;
-    console.log(s);
     // Perf.start();
     const viewMaster = new ViewMaster(s.model);
     // Perf.end();
     this.viewContainer.collection = viewMaster.viewCollection;
+    console.log(viewMaster.viewCollection);
     // console.log(s);
     const rootId = viewMaster.rootId;
     const selectionData = getSelectionData(

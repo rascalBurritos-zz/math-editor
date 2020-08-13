@@ -5,6 +5,7 @@ import Metrics from '../../../Math Nodes/Types/Metrics';
 import { getViewGenerator } from '../../Functional/BaseViewFactory';
 import { FORMULA_TYPE } from '../../Functional/Node Types';
 import { Compound } from '../../../React-Components/Text/Compound';
+import '../../../React-Components/Math/Styles/Formula';
 
 const getView = getViewGenerator(FORMULA_TYPE, Compound);
 
@@ -14,10 +15,23 @@ const getView = getViewGenerator(FORMULA_TYPE, Compound);
  * @param {*} font
  * @param {*} style
  * @param {*} collectingView
+ * @param {*} dependancyOrganizer
  * @return {Object}
  */
-export default function formulaFactory(mathList, font, style, collectingView) {
-  const childIds = getChildIds(mathList.elements, font, style, collectingView);
+export default function formulaFactory(
+  mathList,
+  font,
+  style,
+  collectingView,
+  dependancyOrganizer
+) {
+  const childIds = getChildIds(
+    mathList.elements,
+    font,
+    style,
+    collectingView,
+    dependancyOrganizer
+  );
   const pxpfu = calculatePXPFU(style, font);
   const elementViews = getChildViews(childIds, collectingView);
   const spacingTypeArray = getSpacingTypes(elementViews);
@@ -43,10 +57,11 @@ export default function formulaFactory(mathList, font, style, collectingView) {
 function addElementViews(settings, childViews) {
   for (let i = 0; i < childViews.length; i++) {
     const view = childViews[i];
-    const marginTop = settings.metrics.height - view.metrics.height + 'px';
+    const marginTop = settings.metrics.height - view.metrics.height;
     view.componentStyle.marginTop = marginTop;
     const marginRight = settings.spacingArray[i];
-    view.componentStyle.marginRight = marginRight;
+    view.componentStyle.marginRight =
+      childViews.length - 1 === i ? 0 : marginRight;
   }
 }
 
@@ -75,12 +90,25 @@ function getChildViews(childIds, collectingView) {
  * @param {*} font
  * @param {*} style
  * @param {*} collectingView
+ * @param {*} dependancyOrganizer
  * @return {Array};
  */
-function getChildIds(elements, font, style, collectingView) {
+function getChildIds(
+  elements,
+  font,
+  style,
+  collectingView,
+  dependancyOrganizer
+) {
   const childIds = [];
   for (let i = 0; i < elements.length; i++) {
-    ViewMaster.generateMath(elements[i], font, style, collectingView);
+    ViewMaster.generateMath(
+      elements[i],
+      font,
+      style,
+      collectingView,
+      dependancyOrganizer
+    );
     childIds.push(elements[i].id);
   }
   return childIds;

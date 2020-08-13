@@ -21,3 +21,11 @@ import '../Text Nodes/Math Nodes/Formula/formulaViewFactory';
 import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphAtom';
 import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphNode';
 import '../Text Nodes/Math Nodes/Math Glyph/mathGlyphViewFactory';
+
+import '../Text Nodes/Math Nodes/Fraction/FractionAtom';
+import '../Text Nodes/Math Nodes/Fraction/FractionNode';
+import '../Text Nodes/Math Nodes/Fraction/FractionViewFactory';
+
+import '../Text Nodes/Math Nodes/Scripts/ScriptsAtom';
+import '../Text Nodes/Math Nodes/Scripts/ScriptsNode';
+import '../Text Nodes/Math Nodes/Scripts/scriptsViewFactory';

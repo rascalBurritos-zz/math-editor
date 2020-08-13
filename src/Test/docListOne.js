@@ -11,6 +11,8 @@ import {
   DISPLAY_ENV_TYPE,
   FORMULA_TYPE,
   MATH_GLYPH_TYPE,
+  FRACTION_TYPE,
+  SCRIPTS_TYPE,
 } from '../Text Nodes/Functional/Node Types';
 import Identity from '../Interaction/Util/Identity';
 import { stringToContent } from '../Interaction/Util/stringToContent';
@@ -33,9 +35,90 @@ export default {
         elements: [
           {
             type: MATH_GLYPH_TYPE,
+            id: -1,
+            // unicode: '∫'.codePointAt(0).toString(),
+            unicode: '𝑥'.codePointAt(0).toString(),
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: SCRIPTS_TYPE,
+            id: Identity.getNextId(),
+            nucleusId: -1,
+            superscript: {
+              type: MATH_GLYPH_TYPE,
+              id: Identity.getNextId(),
+              unicode: '50',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+            subscript: {
+              type: MATH_GLYPH_TYPE,
+              id: Identity.getNextId(),
+              unicode: '56',
+              spacingStyle: Spacing_Style.Ordinary,
+            },
+          },
+          {
+            type: MATH_GLYPH_TYPE,
             id: Identity.getNextId(),
             unicode: '120',
             spacingStyle: Spacing_Style.Binary,
+          },
+          {
+            type: MATH_GLYPH_TYPE,
+            id: Identity.getNextId(),
+            unicode: '121',
+            spacingStyle: Spacing_Style.Ordinary,
+          },
+          {
+            type: FRACTION_TYPE,
+            id: -2,
+            numerator: {
+              type: FORMULA_TYPE,
+              id: Identity.getNextId(),
+              elements: [
+                {
+                  id: Identity.getNextId(),
+                  type: MATH_GLYPH_TYPE,
+                  spacingStyle: Spacing_Style.Ordinary,
+                  unicode: '98',
+                },
+              ],
+            },
+            denominator: {
+              type: FORMULA_TYPE,
+              id: Identity.getNextId(),
+              elements: [
+                {
+                  id: Identity.getNextId(),
+                  type: MATH_GLYPH_TYPE,
+                  spacingStyle: Spacing_Style.Ordinary,
+                  unicode: '98',
+                },
+              ],
+            },
+          },
+          {
+            type: SCRIPTS_TYPE,
+            id: Identity.getNextId(),
+            nucleusId: '-2',
+            superscript: {
+              type: FORMULA_TYPE,
+              id: Identity.getNextId(),
+              elements: [
+                {
+                  id: Identity.getNextId(),
+                  type: MATH_GLYPH_TYPE,
+                  spacingStyle: Spacing_Style.Ordinary,
+                  unicode: '50',
+                },
+                {
+                  id: Identity.getNextId(),
+                  type: MATH_GLYPH_TYPE,
+                  spacingStyle: Spacing_Style.Ordinary,
+                  unicode: '53',
+                },
+              ],
+            },
           },
         ],
       },

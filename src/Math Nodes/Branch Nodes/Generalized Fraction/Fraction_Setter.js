@@ -29,7 +29,6 @@ export default class Fraction_Setter extends Typesetter {
     this._DenominatorGapMin = spec.DenominatorGapMin;
     this._DenomDisplayStyleGapMin = spec.DenomDisplayStyleGapMin;
   }
-
   /**
    * @param {number} pxpfu
    * @param {Math_Style} currentStyle
