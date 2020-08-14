@@ -29,3 +29,7 @@ import '../Text Nodes/Math Nodes/Fraction/FractionViewFactory';
 import '../Text Nodes/Math Nodes/Scripts/ScriptsAtom';
 import '../Text Nodes/Math Nodes/Scripts/ScriptsNode';
 import '../Text Nodes/Math Nodes/Scripts/scriptsViewFactory';
+
+import '../Text Nodes/Math Nodes/Radical/RadicalAtom';
+import '../Text Nodes/Math Nodes/Radical/RadicalNode';
+import '../Text Nodes/Math Nodes/Radical/radicalViewFactory';

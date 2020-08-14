@@ -12,12 +12,14 @@ import {
   MATH_GLYPH_TYPE,
   FRACTION_TYPE,
   SCRIPTS_TYPE,
+  RADICAL_TYPE,
 } from './Node Types';
 import displayEnvironmentFactory from '../Math Nodes/Display Environment/displayEnvViewFactory';
 import formulaViewFactory from '../Math Nodes/Formula/formulaViewFactory';
 import mathGlyphViewFactory from '../Math Nodes/Math Glyph/mathGlyphViewFactory';
 import fractionViewFactory from '../Math Nodes/Fraction/FractionViewFactory';
 import scriptsFactory from '../Math Nodes/Scripts/scriptsViewFactory';
+import radicalViewFactory from '../Math Nodes/Radical/radicalViewFactory';
 /** @typedef {import('./BaseView').BaseView} BaseView  */
 
 const viewMap = {};
@@ -32,6 +34,7 @@ mathMap[FORMULA_TYPE] = formulaViewFactory;
 mathMap[MATH_GLYPH_TYPE] = mathGlyphViewFactory;
 mathMap[FRACTION_TYPE] = fractionViewFactory;
 mathMap[SCRIPTS_TYPE] = scriptsFactory;
+mathMap[RADICAL_TYPE] = radicalViewFactory;
 
 export class ViewMaster {
   static factoryMap = viewMap;

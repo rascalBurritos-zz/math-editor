@@ -58,7 +58,6 @@ export default function scriptsFactory(
   const pxpfu = calculatePXPFU(style, font);
 
   const spec = getSpec(font);
-  console.log(superView, subView);
   const settings = generateSettings(
     pxpfu,
     spec,

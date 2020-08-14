@@ -91,7 +91,7 @@ export default class Document extends React.Component {
     const viewMaster = new ViewMaster(s.model);
     // Perf.end();
     this.viewContainer.collection = viewMaster.viewCollection;
-    console.log(viewMaster.viewCollection);
+    // console.log(viewMaster.viewCollection);
     // console.log(s);
     const rootId = viewMaster.rootId;
     const selectionData = getSelectionData(

@@ -4,8 +4,9 @@ import keychainToViewPoint, {
 import { manifestSelection } from '../../Interaction/Selection/manifestSelection';
 import { getCommonAncestorIndex, getCommonAncestor } from '../Access/getCommon';
 import { getSubItem } from '../Access/access';
-import { NodeTable } from '../Tables/nodeTable';
+import { NodeTable, AtomTable } from '../Tables/nodeTable';
 import Point from '../../Abstract/Point';
+import { isAtomic } from './manifest';
 
 /**
  *
@@ -37,6 +38,15 @@ export default function showSelection(
     keychainA,
     commonAncestorIndex
   );
+  if (isAtomic(commonModelAncestor)) {
+    const commonChain = keychainA.slice(0, commonAncestorIndex + 1);
+    const relPos = keychainToViewPoint(rootId, viewCollection, commonChain)
+      .position;
+    const commonId = commonModelAncestor.id;
+    const ownRect = AtomTable.getOwnRect(viewCollection, commonId);
+    ownRect.addToOrigin(relPos);
+    return [ownRect];
+  }
   const subChainA = keychainA.slice(commonAncestorIndex + 1);
   const subChainB = keychainB.slice(commonAncestorIndex + 1);
   const rectangles = manifestSelection(

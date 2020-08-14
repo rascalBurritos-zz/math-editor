@@ -92,8 +92,6 @@ export default class Radical_Glyph_Setter extends Typesetter {
         typesetter,
         spacingStyle,
       });
-      behavior.desiredSize =
-        desiredWidth + premadeVariant.viewBox.xTotal * pxpfu;
       return behavior;
       /**
        *@return {extendedGlyphSetterSpec} setterSpec

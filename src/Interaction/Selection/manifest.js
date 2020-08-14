@@ -201,6 +201,6 @@ export default function manifest(action, noAction, getNewArgs, normalize) {
  * @param {Object} model
  * @return {boolean}
  */
-function isAtomic(model) {
+export function isAtomic(model) {
   return AtomTable.isAtom(model.type);
 }

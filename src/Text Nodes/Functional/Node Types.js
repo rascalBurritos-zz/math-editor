@@ -8,3 +8,4 @@ export const FORMULA_TYPE = 'Formula';
 export const MATH_GLYPH_TYPE = 'Math Glyph';
 export const FRACTION_TYPE = 'Fraction';
 export const SCRIPTS_TYPE = 'Scripts';
+export const RADICAL_TYPE = 'Radical';

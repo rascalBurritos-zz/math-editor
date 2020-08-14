@@ -13,6 +13,7 @@ import {
   MATH_GLYPH_TYPE,
   FRACTION_TYPE,
   SCRIPTS_TYPE,
+  RADICAL_TYPE,
 } from '../Text Nodes/Functional/Node Types';
 import Identity from '../Interaction/Util/Identity';
 import { stringToContent } from '../Interaction/Util/stringToContent';
@@ -33,6 +34,142 @@ export default {
         type: FORMULA_TYPE,
         id: Identity.getNextId(),
         elements: [
+          {
+            type: RADICAL_TYPE,
+            id: Identity.getNextId(),
+            degree: {
+              type: FORMULA_TYPE,
+              id: Identity.getNextId(),
+              elements: [
+                {
+                  type: MATH_GLYPH_TYPE,
+                  id: Identity.getNextId(),
+                  unicode: 'd'.codePointAt(0).toString(),
+                  spacingStyle: Spacing_Style.Ordinary,
+                },
+              ],
+            },
+            radicand: {
+              type: FORMULA_TYPE,
+              id: Identity.getNextId(),
+              elements: [
+                {
+                  type: MATH_GLYPH_TYPE,
+                  id: Identity.getNextId(),
+                  unicode: '1'.codePointAt(0).toString(),
+                  spacingStyle: Spacing_Style.Ordinary,
+                },
+                {
+                  type: MATH_GLYPH_TYPE,
+                  id: Identity.getNextId(),
+                  unicode: '+'.codePointAt(0).toString(),
+                  spacingStyle: Spacing_Style.Ordinary,
+                },
+                {
+                  type: RADICAL_TYPE,
+                  id: Identity.getNextId(),
+                  degree: {
+                    type: FORMULA_TYPE,
+                    id: Identity.getNextId(),
+                    elements: [
+                      {
+                        type: MATH_GLYPH_TYPE,
+                        id: Identity.getNextId(),
+                        unicode: 'd'.codePointAt(0).toString(),
+                        spacingStyle: Spacing_Style.Ordinary,
+                      },
+                    ],
+                  },
+                  radicand: {
+                    type: FORMULA_TYPE,
+                    id: Identity.getNextId(),
+                    elements: [
+                      {
+                        type: MATH_GLYPH_TYPE,
+                        id: Identity.getNextId(),
+                        unicode: '1'.codePointAt(0).toString(),
+                        spacingStyle: Spacing_Style.Ordinary,
+                      },
+                      {
+                        type: MATH_GLYPH_TYPE,
+                        id: Identity.getNextId(),
+                        unicode: '+'.codePointAt(0).toString(),
+                        spacingStyle: Spacing_Style.Ordinary,
+                      },
+                      {
+                        type: RADICAL_TYPE,
+                        id: Identity.getNextId(),
+                        degree: {
+                          type: FORMULA_TYPE,
+                          id: Identity.getNextId(),
+                          elements: [
+                            {
+                              type: MATH_GLYPH_TYPE,
+                              id: Identity.getNextId(),
+                              unicode: 'd'.codePointAt(0).toString(),
+                              spacingStyle: Spacing_Style.Ordinary,
+                            },
+                          ],
+                        },
+                        radicand: {
+                          type: FORMULA_TYPE,
+                          id: Identity.getNextId(),
+                          elements: [
+                            {
+                              type: MATH_GLYPH_TYPE,
+                              id: Identity.getNextId(),
+                              unicode: '1'.codePointAt(0).toString(),
+                              spacingStyle: Spacing_Style.Ordinary,
+                            },
+                            {
+                              type: MATH_GLYPH_TYPE,
+                              id: Identity.getNextId(),
+                              unicode: '+'.codePointAt(0).toString(),
+                              spacingStyle: Spacing_Style.Ordinary,
+                            },
+                            {
+                              type: RADICAL_TYPE,
+                              id: Identity.getNextId(),
+                              degree: {
+                                type: FORMULA_TYPE,
+                                id: Identity.getNextId(),
+                                elements: [
+                                  {
+                                    type: MATH_GLYPH_TYPE,
+                                    id: Identity.getNextId(),
+                                    unicode: 'd'.codePointAt(0).toString(),
+                                    spacingStyle: Spacing_Style.Ordinary,
+                                  },
+                                ],
+                              },
+                              radicand: {
+                                type: FORMULA_TYPE,
+                                id: Identity.getNextId(),
+                                elements: [
+                                  {
+                                    type: MATH_GLYPH_TYPE,
+                                    id: Identity.getNextId(),
+                                    unicode: '1'.codePointAt(0).toString(),
+                                    spacingStyle: Spacing_Style.Ordinary,
+                                  },
+                                  {
+                                    type: MATH_GLYPH_TYPE,
+                                    id: Identity.getNextId(),
+                                    unicode: '+'.codePointAt(0).toString(),
+                                    spacingStyle: Spacing_Style.Ordinary,
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
           {
             type: MATH_GLYPH_TYPE,
             id: -1,

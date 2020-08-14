@@ -10,6 +10,9 @@
  * @property {Function} [getElements]
  */
 
+import Rectangle from '../../Abstract/Rectangle';
+import Point from '../../Abstract/Point';
+
 export const NodeTable = {
   _nodePool: {},
   /**
@@ -27,6 +30,7 @@ export const NodeTable = {
 
 /**
  * @typedef {Object} ATOMmethods
+ * @property {Function} [getOwnRect]
  */
 
 export const AtomTable = {
@@ -43,6 +47,10 @@ export const AtomTable = {
   },
   isAtom: function (type) {
     return type in this._atomPool;
+  },
+  getOwnRect: function (viewCollection, id) {
+    const { height, width } = viewCollection[id].componentStyle;
+    return new Rectangle(new Point(0, 0), height, width);
   },
 };
 
